@@ -1,0 +1,167 @@
+/* ============================================================
+   DiaspoInvest — Design system
+   Branding : vert #0D3B2E · or #C9A84C · fond clair #FFF8E7
+   ============================================================ */
+
+:root {
+  /* Couleurs branding */
+  --vert: #0d3b2e;
+  --vert-clair: #1a5c45;
+  --or: #c9a84c;
+  --or-clair: #e8c46a;
+  --fond-clair: #fff8e7;
+  --blanc: #ffffff;
+  --texte: #1c2620;
+  --texte-doux: #4a5a52;
+  --bordure: rgba(13, 59, 46, 0.12);
+
+  /* Typo */
+  --display: 'Playfair Display', Georgia, serif;
+  --body: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+  /* Layout */
+  --max: 1140px;
+  --radius: 16px;
+  --shadow: 0 18px 50px -22px rgba(13, 59, 46, 0.4);
+  --shadow-soft: 0 8px 30px -18px rgba(13, 59, 46, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--body);
+  color: var(--texte);
+  background: var(--fond-clair);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  line-height: 1.12;
+  font-weight: 700;
+  color: var(--vert);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 96px 0;
+}
+
+.section-head {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 56px;
+}
+
+.section-head h2 {
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  margin-bottom: 16px;
+}
+
+.section-head p {
+  color: var(--texte-doux);
+  font-size: 1.08rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--body);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--or);
+  margin-bottom: 14px;
+}
+
+/* Boutons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 14px 28px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-or {
+  background: var(--or);
+  color: var(--vert);
+  box-shadow: 0 10px 28px -12px rgba(201, 168, 76, 0.9);
+}
+
+.btn-or:hover {
+  background: var(--or-clair);
+}
+
+.btn-vert {
+  background: var(--vert);
+  color: var(--fond-clair);
+}
+
+.btn-vert:hover {
+  background: var(--vert-clair);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--vert);
+  border-color: var(--bordure);
+}
+
+.btn-ghost:hover {
+  border-color: var(--vert);
+  background: rgba(13, 59, 46, 0.04);
+}
+
+/* Carte générique */
+.card {
+  background: var(--blanc);
+  border: 1px solid var(--bordure);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 64px 0;
+  }
+}
