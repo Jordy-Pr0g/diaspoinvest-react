@@ -12,10 +12,13 @@ import FAQ from './components/FAQ.jsx'
 import Footer from './components/Footer.jsx'
 import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
+import Cockpit from './Cockpit.jsx'
 
 export default function App() {
-  // null | 'mentions' | 'confidentialite'
   const [modal, setModal] = useState(null)
+  const isCockpit = window.location.hash === '#cockpit'
+
+  if (isCockpit) return <Cockpit />
 
   return (
     <>
