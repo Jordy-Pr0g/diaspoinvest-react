@@ -6,26 +6,53 @@ const RECAPTCHA_SITE_KEY = '6LenTBstAAAAAPEuIwKRWCur735YSZk2WZ1_Qk4W'
 
 export default function LeadMagnet() {
   const [email, setEmail] = useState('')
-  const [statut, setStatut] = useState('idle') // idle | loading | succes | erreur
+  const [statut, setStatut] = useState('idle') // idle | loading | succes | erreur | captcha
   const captchaRef = useRef(null)
   const widgetIdRef = useRef(null)
-  const emailRef = useRef('')
 
   useEffect(() => {
-    // Charge le script reCAPTCHA une seule fois
-    if (document.getElementById('recaptcha-script')) return
-    const s = document.createElement('script')
-    s.id = 'recaptcha-script'
-    s.src = 'https://www.google.com/recaptcha/api.js?render=explicit&hl=fr'
-    s.async = true
-    s.defer = true
-    document.body.appendChild(s)
+    // Charge le script reCAPTCHA puis affiche la case "Je ne suis pas un robot"
+    function renderCaptcha() {
+      if (widgetIdRef.current !== null || !captchaRef.current) return
+      widgetIdRef.current = window.grecaptcha.render(captchaRef.current, {
+        sitekey: RECAPTCHA_SITE_KEY,
+        hl: 'fr',
+      })
+    }
+
+    if (window.grecaptcha && window.grecaptcha.render) {
+      renderCaptcha()
+      return
+    }
+
+    window.onRecaptchaLoad = renderCaptcha
+    if (!document.getElementById('recaptcha-script')) {
+      const s = document.createElement('script')
+      s.id = 'recaptcha-script'
+      s.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit&hl=fr'
+      s.async = true
+      s.defer = true
+      document.body.appendChild(s)
+    }
   }, [])
 
-  async function envoyerVersBrevo(token) {
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (!email) return
+
+    const token =
+      window.grecaptcha && widgetIdRef.current !== null
+        ? window.grecaptcha.getResponse(widgetIdRef.current)
+        : ''
+    if (!token) {
+      setStatut('captcha')
+      return
+    }
+
+    setStatut('loading')
     try {
       const data = new FormData()
-      data.append('EMAIL', emailRef.current)
+      data.append('EMAIL', email)
       data.append('email_address_check', '') // anti-spam Brevo : doit rester vide
       data.append('locale', 'fr')
       data.append('g-recaptcha-response', token)
@@ -35,34 +62,16 @@ export default function LeadMagnet() {
         body: data,
       })
 
-      setStatut(res.ok ? 'succes' : 'erreur')
+      if (res.ok) {
+        setStatut('succes')
+      } else {
+        window.grecaptcha.reset(widgetIdRef.current)
+        setStatut('erreur')
+      }
     } catch {
-      setStatut('erreur')
-    }
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    if (!email) return
-    if (!window.grecaptcha || !window.grecaptcha.render) {
-      setStatut('erreur')
-      return
-    }
-    setStatut('loading')
-    emailRef.current = email
-
-    // Captcha invisible : rendu au premier envoi, puis réutilisé
-    if (widgetIdRef.current === null) {
-      widgetIdRef.current = window.grecaptcha.render(captchaRef.current, {
-        sitekey: RECAPTCHA_SITE_KEY,
-        size: 'invisible',
-        callback: envoyerVersBrevo,
-        'error-callback': () => setStatut('erreur'),
-      })
-    } else {
       window.grecaptcha.reset(widgetIdRef.current)
+      setStatut('erreur')
     }
-    window.grecaptcha.execute(widgetIdRef.current)
   }
 
   return (
@@ -110,6 +119,7 @@ export default function LeadMagnet() {
                   className="lm-input"
                   disabled={statut === 'loading'}
                 />
+                <div ref={captchaRef} style={{ margin: '12px 0' }} />
                 <button
                   type="submit"
                   className="btn btn-or lm-btn"
@@ -117,24 +127,17 @@ export default function LeadMagnet() {
                 >
                   {statut === 'loading' ? 'Inscription...' : 'Recevoir gratuitement'}
                 </button>
+                {statut === 'captcha' && (
+                  <p className="lm-disclaimer" role="alert">
+                    Coche d'abord la case « Je ne suis pas un robot » ci-dessus.
+                  </p>
+                )}
                 {statut === 'erreur' && (
                   <p className="lm-disclaimer" role="alert">
                     Oups, l'inscription a échoué. Réessaie dans un instant ou écris-nous :
                     contact.diaspoinvest@gmail.com
                   </p>
                 )}
-                <div ref={captchaRef} />
-                <p className="lm-disclaimer">
-                  Protégé par reCAPTCHA —{' '}
-                  <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">
-                    Confidentialité
-                  </a>{' '}
-                  ·{' '}
-                  <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">
-                    Conditions
-                  </a>{' '}
-                  Google
-                </p>
               </form>
             )}
           </div>
