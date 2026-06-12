@@ -5,13 +5,16 @@ import Hero from './components/Hero.jsx'
 import Stats from './components/Stats.jsx'
 import Probleme from './components/Probleme.jsx'
 import Solution from './components/Solution.jsx'
+import Histoire from './components/Histoire.jsx'
 import Calculateur from './components/Calculateur.jsx'
+import LeadMagnet from './components/LeadMagnet.jsx'
 import Avertissement from './components/Avertissement.jsx'
 import Pricing from './components/Pricing.jsx'
 import FAQ from './components/FAQ.jsx'
 import Footer from './components/Footer.jsx'
 import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
+import CookieBanner from './components/CookieBanner.jsx'
 import Cockpit from './Cockpit.jsx'
 
 export default function App() {
@@ -28,7 +31,9 @@ export default function App() {
         <Stats />
         <Probleme />
         <Solution />
+        <Histoire />
         <Calculateur />
+        <LeadMagnet />
         <Avertissement />
         <Pricing />
         <FAQ />
@@ -36,6 +41,7 @@ export default function App() {
       <Footer onOpenModal={setModal} />
       <StickyCTA />
       <Modal type={modal} onClose={() => setModal(null)} />
+      <CookieBanner />
     </>
   )
 }

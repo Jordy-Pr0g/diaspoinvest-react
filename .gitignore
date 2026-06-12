@@ -19,5 +19,11 @@ dist-ssr
 *.sln
 *.sw?
 
-# Contexte projet privé (données personnelles)
+# Contexte projet privï¿½ (donnï¿½es personnelles)
 claude.md
+.vercel
+
+# Produits payants et outils internes - NE JAMAIS PUBLIER
+produits/
+scripts/
+.claude/

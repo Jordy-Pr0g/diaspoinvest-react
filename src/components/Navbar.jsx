@@ -32,7 +32,8 @@ export default function Navbar() {
         <nav className="nav-menu-links">
           <div className="nav-links">
             <a href="#probleme">Le constat</a>
-            <a href="#solution">Solution</a>
+            <a href="#solution">La méthode</a>
+            <a href="#histoire">Notre histoire</a>
             <a href="#calculateur">Simulateur</a>
             <a href="#pricing">Tarifs</a>
             <a href="#faq">FAQ</a>

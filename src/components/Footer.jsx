@@ -21,7 +21,7 @@ export default function Footer({ onOpenModal }) {
                 </a>
               </li>
               <li>
-                <a href="#pricing">Calculateur Excel V12</a>
+                <a href="#pricing">Calculateur Excel</a>
               </li>
               <li>
                 <a href="#pricing">Pack Complet</a>
@@ -51,7 +51,7 @@ export default function Footer({ onOpenModal }) {
                 <a href="#faq">FAQ</a>
               </li>
               <li>
-                <a href="mailto:contact@diaspoinvest.com">Contact</a>
+                <a href="mailto:contact.diaspoinvest@gmail.com">Contact</a>
               </li>
             </ul>
           </div>

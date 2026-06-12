@@ -77,7 +77,7 @@ export default function Pricing() {
                     <button className="btn btn-ghost" disabled style={{ opacity: 0.6, cursor: 'not-allowed' }}>
                       Bientôt disponible
                     </button>
-                    <div className="plan-soon">🔄 Création en cours sur Gumroad</div>
+                    <div className="plan-soon">Disponible prochainement</div>
                   </>
                 ) : (
                   <a

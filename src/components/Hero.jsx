@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section className="hero" id="top">
       <div className="container">
-        <span className="badge">🌍 Diaspora africaine · Zone UEMOA</span>
+        <span className="badge">Diaspora africaine · Zone UEMOA</span>
 
         <h1>
           Fais travailler ton épargne sur la{' '}
