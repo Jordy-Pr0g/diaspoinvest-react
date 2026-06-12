@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 
-const BREVO_FORM_URL =
-  'https://6b93f7f2.sibforms.com/serve/MUIFAHddEUjyhDDhSdInrqsK-DyBcBnjiaSZgRV88hSUGPtgghZYcvU-2d773DtyJF1Nj09HsUh35Ios198TiwUjUOxkEYkt4QfH14wwzQDwejJ_hnWX4mDhuor5tJGZMffBKF_sbZLtDVfQykzYPifkh-HRpvzwAqdcXjH1C5QYBx7Mr1pJM2SzwnwBE5pQiArlhZaHLoKtWy9H_A=='
 const RECAPTCHA_SITE_KEY = '6LenTBstAAAAAPEuIwKRWCur735YSZk2WZ1_Qk4W'
 
 export default function LeadMagnet() {
@@ -51,15 +49,12 @@ export default function LeadMagnet() {
 
     setStatut('loading')
     try {
-      const data = new FormData()
-      data.append('EMAIL', email)
-      data.append('email_address_check', '') // anti-spam Brevo : doit rester vide
-      data.append('locale', 'fr')
-      data.append('g-recaptcha-response', token)
-
-      const res = await fetch(`${BREVO_FORM_URL}?isAjax=1`, {
+      // Passe par notre propre domaine (/api/newsletter) : les bloqueurs de pub
+      // qui filtrent sibforms.com ne voient jamais la requête
+      const res = await fetch('/api/newsletter', {
         method: 'POST',
-        body: data,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, captchaToken: token }),
       })
 
       if (res.ok) {
