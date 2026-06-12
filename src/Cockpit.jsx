@@ -8,6 +8,14 @@ const BRVM_DATA = `Données BRVM Juin 2026 (source : sikafinance.com) :
 - Ecobank CI : 16 300 FCFA · Div net 799 FCFA · Rendement 4,90%
 - Taux fixe : 1€ = 655,957 FCFA · Flat Tax France : 31,4%`
 
+const LEGAL_RULES = `
+COUVERTURE JURIDIQUE (OBLIGATOIRE dans tout contenu public — newsletter, TikTok, page de vente, analyse) :
+1. Terminer chaque contenu par ce disclaimer (adapter le format au support, ne jamais l'omettre) :
+"DiaspoInvest est un projet éducatif indépendant, non affilié à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Tout investissement en bourse comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures."
+2. Formulations toujours GÉNÉRALES et éducatives : jamais "tu devrais acheter X", jamais de recommandation personnalisée, jamais de rendement promis ou garanti.
+3. Parler au passé ou au présent vérifiable ("Sonatel a versé", "le rendement actuel est de") — jamais au futur prédictif ("va rapporter", "tu gagneras").
+4. Sur TikTok/format court : au minimum la mention "Contenu éducatif — pas un conseil en investissement" à l'écran ou en légende.`
+
 const HISTORY_KEY = (id) => `di_history_${id}`
 const CONTEXT_KEY = 'di_projet_context'
 const NOTION_KEY_STORE = 'di_notion_key'
@@ -96,7 +104,7 @@ const AGENTS = [
     placeholder: 'Ex : comparaison Livret A vs Vivo Energy 7,30%, DCA Sonatel, ouvrir un compte BRVM...',
     systemPrompt: (s, ctx) => `Tu es Imani, Créatrice de Contenu TikTok de DiaspoInvest — éducation financière BRVM pour la diaspora africaine en France.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Produis 3 scripts TikTok complets sur : "${s}"
-${BRVM_DATA}
+${BRVM_DATA}${LEGAL_RULES}
 Règles : chiffres réels · hook ≤ 8 mots · jamais "conseil en investissement" · 2 variantes hook · framework AIDA/PAS/BAB.
 Format pour chaque script :
 ---
@@ -132,7 +140,7 @@ HASHTAGS : #...  |  CTA : ...
     placeholder: 'Ex : résumé semaine BRVM, signal fort ce mois, actualité UEMOA...',
     systemPrompt: (s, ctx) => `Tu es Malik, Rédacteur Newsletter de DiaspoInvest.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige une newsletter hebdomadaire sur : "${s}"
-${BRVM_DATA}
+${BRVM_DATA}${LEGAL_RULES}
 Structure : OBJET (≤50 car.) · INTRO (chiffre BRVM) · CHIFFRE DE LA SEMAINE · CONSEIL ACTIONNABLE · CTA Gumroad.
 Ton sobre, fraternel. Jamais "conseil en investissement". Toujours sourcer.`,
   },
@@ -161,7 +169,7 @@ Ton sobre, fraternel. Jamais "conseil en investissement". Toujours sourcer.`,
     systemPrompt: (s, ctx) => `Tu es Marcus, Expert Conversion de DiaspoInvest.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige : "${s}"
 Produits : Guide PDF 14,99€ · Calculateur Excel 17,99€ · Pack 24,99€
-${BRVM_DATA}
+${BRVM_DATA}${LEGAL_RULES}
 Règles : jamais rendement garanti · "guide éducatif indépendant" · upsell doux · ton fraternel · non affilié BRVM/CREPMF.`,
   },
   {
@@ -188,7 +196,7 @@ Règles : jamais rendement garanti · "guide éducatif indépendant" · upsell d
     placeholder: 'Ex : analyse Sonatel ce mois, quelles actions surveiller, signal Vivo Energy...',
     systemPrompt: (s, ctx) => `Tu es Zara, Analyste BRVM de DiaspoInvest.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Analyse : "${s}"
-${BRVM_DATA}
+${BRVM_DATA}${LEGAL_RULES}
 Structure : CONTEXTE MARCHÉ · ANALYSE DÉTAILLÉE · TOP OPPORTUNITÉS · SIGNAL ALERTE · RECOMMANDATION CONTENU.
 Règles : JAMAIS inventer de chiffres · sourcer sikafinance.com · mentionner Flat Tax 31,4% et formulaire 3916 si pertinent.`,
   },
@@ -218,6 +226,7 @@ Règles : JAMAIS inventer de chiffres · sourcer sikafinance.com · mentionner F
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Réponds : "${s}"
 Références : Flat Tax 31,4% (12,8% IR + 18,6% PS) · F3916 compte étranger amende 1500€/an · F2047 revenus étrangers · F2074 plus-values · Convention CI/Sénégal retenue imputable · 1€=655,957 FCFA.
 Structure : règle applicable + formulaires + exemple chiffré + disclaimer.
+${LEGAL_RULES}
 Terminer TOUJOURS par : "Ceci est une information éducative, pas un conseil fiscal. Consultez un expert-comptable pour votre situation personnelle."`,
   },
   {
@@ -245,7 +254,7 @@ Terminer TOUJOURS par : "Ceci est une information éducative, pas un conseil fis
     systemPrompt: (s, ctx) => `Tu es Jade, Stratège de DiaspoInvest.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Produis un brief campagne complet pour : "${s}"
 Produits : Guide 14,99€ · Calculateur 17,99€ · Pack 24,99€ · Canaux : TikTok · Newsletter · Gumroad.
-${BRVM_DATA}
+${BRVM_DATA}${LEGAL_RULES}
 Structure : CONTEXTE MARCHÉ · ICP (persona + douleurs + gains) · POSITIONNEMENT · MESSAGES CLÉS par canal · CALENDRIER · KPIs.
 Frameworks : StoryBrand · PAS · JTBD · Value Proposition Canvas.`,
   },
