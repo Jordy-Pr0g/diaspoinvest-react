@@ -31,7 +31,7 @@ export const PRODUITS = [
     id: "guide",
     nom: "Guide PDF",
     sousTitre: "Investir en bourse africaine",
-    prix: "9,99 €",
+    prix: "14,99 €",
     lien: LIENS.guide,
     populaire: false,
     points: [

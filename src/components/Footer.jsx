@@ -17,7 +17,7 @@ export default function Footer({ onOpenModal }) {
             <ul>
               <li>
                 <a href={LIENS.guide} target="_blank" rel="noreferrer">
-                  Guide PDF — 9,99 €
+                  Guide PDF — 14,99 €
                 </a>
               </li>
               <li>

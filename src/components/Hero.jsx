@@ -19,7 +19,7 @@ export default function Hero() {
 
         <div className="hero-cta">
           <a className="btn btn-or" href={LIENS.guide} target="_blank" rel="noreferrer">
-            Obtenir le guide — 9,99 €
+            Obtenir le guide — 14,99 €
           </a>
           <a className="btn btn-ghost" href="#calculateur" style={{ color: '#FFF8E7', borderColor: 'rgba(255,248,231,0.35)' }}>
             Simuler mon rendement
@@ -29,7 +29,7 @@ export default function Hero() {
         <div className="hero-price-cards">
           <div className="price-pill">
             <div className="p-name">Guide PDF</div>
-            <div className="p-value">9,99 €</div>
+            <div className="p-value">14,99 €</div>
           </div>
           <div className="price-pill">
             <div className="p-name">Calculateur V12</div>
