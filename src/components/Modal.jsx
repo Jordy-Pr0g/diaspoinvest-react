@@ -55,7 +55,7 @@ const CONTENU = {
         <h4>Vos droits</h4>
         <p>
           Conformément au RGPD, vous disposez d’un droit d’accès, de rectification et de
-          suppression de vos données : contact.diaspoinvest@gmail.com.
+          suppression de vos données : contact@diaspoinvest.fr.
         </p>
       </>
     ),

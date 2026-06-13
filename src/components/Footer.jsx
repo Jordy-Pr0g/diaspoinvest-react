@@ -51,7 +51,7 @@ export default function Footer({ onOpenModal }) {
                 <a href="#faq">FAQ</a>
               </li>
               <li>
-                <a href="mailto:contact.diaspoinvest@gmail.com">Contact</a>
+                <a href="mailto:contact@diaspoinvest.fr">Contact</a>
               </li>
             </ul>
           </div>

@@ -130,7 +130,7 @@ export default function LeadMagnet() {
                 {statut === 'erreur' && (
                   <p className="lm-disclaimer" role="alert">
                     Oups, l'inscription a échoué. Réessaie dans un instant ou écris-nous :
-                    contact.diaspoinvest@gmail.com
+                    contact@diaspoinvest.fr
                   </p>
                 )}
               </form>
