@@ -1,11 +1,10 @@
 // Vercel serverless function — proxy d'inscription newsletter.
-// 1) Vérifie le reCAPTCHA avec NOTRE clé secrète (côté serveur, sûr).
-// 2) Si humain confirmé → ajoute l'email à Brevo.
-// Le navigateur ne parle qu'à notre domaine : les bloqueurs de pub qui
-// filtrent sibforms.com ne voient jamais passer la requête.
+// 1) Vérifie le reCAPTCHA avec NOTRE clé secrète (côté serveur).
+// 2) Si humain confirmé → ajoute le contact via l'API Brevo (pas le formulaire).
+// Avantages : fiable, documenté, et le navigateur ne parle qu'à notre domaine
+// (les bloqueurs de pub ne voient jamais Brevo).
 
-const BREVO_FORM_URL =
-  'https://6b93f7f2.sibforms.com/serve/MUIFAHddEUjyhDDhSdInrqsK-DyBcBnjiaSZgRV88hSUGPtgghZYcvU-2d773DtyJF1Nj09HsUh35Ios198TiwUjUOxkEYkt4QfH14wwzQDwejJ_hnWX4mDhuor5tJGZMffBKF_sbZLtDVfQykzYPifkh-HRpvzwAqdcXjH1C5QYBx7Mr1pJM2SzwnwBE5pQiArlhZaHLoKtWy9H_A=='
+const LISTE_NEWSLETTER = 3 // "Newsletter DiaspoInvest"
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
@@ -34,20 +33,33 @@ export default async function handler(req, res) {
     return res.status(502).json({ success: false, error: 'Vérification captcha indisponible.' })
   }
 
-  // 2) Humain confirmé → ajout à Brevo (le formulaire Brevo n'a plus son propre captcha)
-  const form = new URLSearchParams()
-  form.append('EMAIL', email)
-  form.append('email_address_check', '') // piège anti-bot Brevo : doit rester vide
-  form.append('locale', 'fr')
-
+  // 2) Humain confirmé → ajout du contact via l'API Brevo
   try {
-    const brevoRes = await fetch(`${BREVO_FORM_URL}?isAjax=1`, {
+    const brevoRes = await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: form.toString(),
+      headers: {
+        'api-key': process.env.BREVO_API_KEY || '',
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        listIds: [LISTE_NEWSLETTER],
+        updateEnabled: true, // si déjà inscrit, ne bloque pas
+      }),
     })
+
+    // 201 = créé, 204 = mis à jour : succès dans les deux cas
+    if (brevoRes.status === 201 || brevoRes.status === 204) {
+      return res.status(200).json({ success: true })
+    }
+
     const data = await brevoRes.json().catch(() => ({}))
-    return res.status(brevoRes.ok ? 200 : 400).json({ success: brevoRes.ok, ...data })
+    // "Contact already exist" → on considère que c'est OK (déjà abonné)
+    if (data.code === 'duplicate_parameter') {
+      return res.status(200).json({ success: true, already: true })
+    }
+    return res.status(400).json({ success: false, error: data.message || 'Erreur Brevo' })
   } catch {
     return res.status(502).json({ success: false, error: 'Brevo injoignable.' })
   }
