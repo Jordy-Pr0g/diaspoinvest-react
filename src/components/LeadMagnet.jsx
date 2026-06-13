@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-const RECAPTCHA_SITE_KEY = '6LenTBstAAAAAPEuIwKRWCur735YSZk2WZ1_Qk4W'
+const RECAPTCHA_SITE_KEY = '6Le7Dx0tAAAAACRiDmsAqfZgUkSq_OKJnflk1DsR'
 
 export default function LeadMagnet() {
   const [email, setEmail] = useState('')
