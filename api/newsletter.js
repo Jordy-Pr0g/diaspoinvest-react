@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   // 1) Vérification du captcha avec Google (notre clé secrète)
   try {
     const params = new URLSearchParams({
-      secret: process.env.RECAPTCHA_SECRET || '',
+      secret: (process.env.RECAPTCHA_SECRET || '').trim(),
       response: captchaToken,
     })
     const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const brevoRes = await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
       headers: {
-        'api-key': process.env.BREVO_API_KEY || '',
+        'api-key': (process.env.BREVO_API_KEY || '').trim(),
         'Content-Type': 'application/json',
         accept: 'application/json',
       },
