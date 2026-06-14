@@ -77,15 +77,10 @@ async function saveToNotion({ agentNom, agentId, sujet, result }) {
 }
 
 /* ── APPEL CLAUDE ────────────────────────────────────────────── */
-async function callClaude(prompt, apiKey, maxTokens = 4000) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+async function callClaude(prompt, _apiKey, maxTokens = 4000) {
+  const res = await fetch('/api/claude', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: maxTokens,
