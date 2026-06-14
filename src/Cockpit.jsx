@@ -317,7 +317,6 @@ function AgentWorkspace({ agent, context, onBack }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
-  const [showKey, setShowKey] = useState(false)
   const [visible, setVisible] = useState(false)
   const [history, setHistory] = useState(() => loadHistory(agent.id))
   const [showHistory, setShowHistory] = useState(false)
@@ -329,7 +328,7 @@ function AgentWorkspace({ agent, context, onBack }) {
     if (!sujet.trim()) { setError('Saisis un sujet avant de générer.'); return }
     setError(''); setResult(''); setLoading(true)
     try {
-      const text = await callClaude(agent.systemPrompt(sujet, context), apiKey)
+      const text = await callClaude(agent.systemPrompt(sujet, context))
       setResult(text)
 
       // Sauvegarde dans l'historique
@@ -531,7 +530,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
     setError(''); setResult(''); setRouting(null); setPhase('routing')
     try {
       // Appel 1 — Jordan route
-      const raw = await callClaude(JORDAN_ROUTING_PROMPT(demande, context), apiKey, 300)
+      const raw = await callClaude(JORDAN_ROUTING_PROMPT(demande, context), null, 300)
       let decision
       try { decision = JSON.parse(raw.trim()) }
       catch { throw new Error("Jordan n'a pas pu analyser la demande. Reformule et réessaie.") }
@@ -543,7 +542,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
 
       // Appel 2 — agent génère
-      const text = await callClaude(agent.systemPrompt(decision.refinedPrompt, context), apiKey)
+      const text = await callClaude(agent.systemPrompt(decision.refinedPrompt, context))
       setResult(text)
 
       // Sauvegarde historique
@@ -554,7 +553,6 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
       const url = await saveToNotion({ agentNom: agent.nom, agentId: agent.id, sujet: decision.refinedPrompt, result: text })
       if (url) setNotionUrl(url)
 
-      localStorage.setItem('di_api_key', apiKey)
       setPhase('done')
     } catch(e) { setError(e.message); setPhase('error') }
   }
@@ -578,14 +576,6 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
           onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submit() }}
         />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14, gap: 12, flexWrap: 'wrap' }}>
-          {/* Clé API */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 200 }}>
-            <input type="password" value={apiKey}
-              onChange={e => { setApiKey(e.target.value); localStorage.setItem('di_api_key', e.target.value) }}
-              placeholder="Clé API Claude (sk-ant-...)"
-              style={{ flex: 1, padding: '9px 12px', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'white', fontSize: 12, fontFamily: 'monospace', outline: 'none' }}
-            />
-          </div>
           <div style={{ display: 'flex', gap: 8 }}>
             {(phase === 'done' || phase === 'error') && (
               <button onClick={reset} style={{ padding: '11px 20px', borderRadius: 14, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.4)', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
