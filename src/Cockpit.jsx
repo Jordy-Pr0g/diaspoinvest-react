@@ -1,12 +1,50 @@
 import { useState, useEffect, useRef } from 'react'
 
-const BRVM_DATA = `Données BRVM Juin 2026 (source : sikafinance.com) :
+// Données BRVM statiques (fallback si API indisponible)
+const BRVM_DATA_FALLBACK = `Données BRVM (fallback statique — source : sikafinance.com) :
 - Sonatel (SNTS) : 28 500 FCFA · Div net 1 740 FCFA · Rendement 6,11%
 - Orange CI (ORAC) : 15 570 FCFA · Div net 720 FCFA · Rendement 4,62%
 - Vivo Energy CI : 3 700 FCFA · Div net 270 FCFA · Rendement 7,30%
 - SGBCI : 36 015 FCFA · Div net 2 064 FCFA · Rendement 5,73%
 - Ecobank CI : 16 300 FCFA · Div net 799 FCFA · Rendement 4,90%
 - Taux fixe : 1€ = 655,957 FCFA · Flat Tax France : 31,4%`
+
+function buildBrvmData(json) {
+  if (!json) return BRVM_DATA_FALLBACK
+  try {
+    const date = new Date(json.genere_le).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })
+    const lines = [`Données BRVM du ${date} (source : brvm.org + sikafinance.com) :`]
+    const idx = json.indices || {}
+    const composite = idx['BRVM - COMPOSITE']
+    if (composite) lines.push(`- BRVM Composite : ${composite.fermeture} pts (${composite.variation_pct > 0 ? '+' : ''}${composite.variation_pct}%)`)
+    const brvm30 = idx['BRVM-30']
+    if (brvm30) lines.push(`- BRVM 30 : ${brvm30.fermeture} pts (${brvm30.variation_pct > 0 ? '+' : ''}${brvm30.variation_pct}%)`)
+    const secteurs = Object.entries(idx)
+      .filter(([k]) => k.startsWith('BRVM - ') && !['BRVM - COMPOSITE','BRVM – COMPOSITE TOTAL RETURN','BRVM - PRESTIGE','BRVM - PRINCIPAL'].includes(k))
+      .sort((a, b) => Math.abs(b[1].variation_pct) - Math.abs(a[1].variation_pct))
+      .slice(0, 3)
+    if (secteurs.length) {
+      lines.push('Secteurs marquants :')
+      secteurs.forEach(([n, v]) => lines.push(`  ${n.replace('BRVM - ','')} : ${v.variation_pct > 0 ? '+' : ''}${v.variation_pct}%`))
+    }
+    const actions = (json.actions || []).filter(a => a.variation_pct != null)
+    const top3 = [...actions].sort((a, b) => b.variation_pct - a.variation_pct).slice(0, 3)
+    const bot3 = [...actions].sort((a, b) => a.variation_pct - b.variation_pct).slice(0, 3)
+    lines.push('Top hausses :')
+    top3.forEach(a => lines.push(`  ${a.symbole} (${a.nom}) : ${a.cours_cloture.toLocaleString('fr-FR')} FCFA (${a.variation_pct > 0 ? '+' : ''}${a.variation_pct}%)`))
+    lines.push('Top baisses :')
+    bot3.forEach(a => lines.push(`  ${a.symbole} (${a.nom}) : ${a.cours_cloture.toLocaleString('fr-FR')} FCFA (${a.variation_pct}%)`))
+    const divs = json.dividendes_a_venir || []
+    if (divs.length) {
+      lines.push('Dividendes à venir (détachements confirmés) :')
+      divs.forEach(d => lines.push(`  ${d.nom} : le ${d.date_detachement}, ${d.montant_fcfa} FCFA${d.rendement_pct ? ` (rdt ${d.rendement_pct}%)` : ''}`))
+    }
+    lines.push('Taux fixe : 1€ = 655,957 FCFA · Flat Tax France : 31,4%')
+    return lines.join('\n')
+  } catch {
+    return BRVM_DATA_FALLBACK
+  }
+}
 
 const LEGAL_RULES = `
 COUVERTURE JURIDIQUE (OBLIGATOIRE dans tout contenu public — newsletter, TikTok, page de vente, analyse) :
@@ -59,18 +97,15 @@ async function callClaude(prompt, apiKey, maxTokens = 4000) {
 }
 
 /* ── PROMPT ROUTAGE JORDAN ───────────────────────────────────── */
-const JORDAN_ROUTING_PROMPT = (demande, ctx) => `Tu es Jordan, Orchestrateur de DiaspoInvest. Tu diriges une équipe de 6 agents IA spécialisés.
+const JORDAN_ROUTING_PROMPT = (demande, ctx) => `Tu es Jordan, Orchestrateur de DiaspoInvest. Tu diriges une équipe de 3 agents IA spécialisés.
 ${ctx ? `Contexte projet actuel : ${ctx}\n` : ''}
 Analyse cette demande et décide à quel agent la confier :
 "${demande}"
 
 Agents disponibles :
-- tiktok (Imani) : scripts TikTok, hooks, contenu vidéo, réseaux sociaux
-- newsletter (Malik) : newsletters hebdo, emails marketing, contenu Brevo
-- vente (Marcus) : pages de vente Gumroad, séquences post-achat, objections, upsell
-- brvm (Zara) : analyse BRVM, signaux marché, données financières, rapports
-- fiscal (Naomi) : fiscalité France/UEMOA, formulaire 3916, flat tax, déclarations
-- brief (Jade) : stratégie campagne, ICP diaspora, positionnement, briefs complets
+- tiktok (Imani) : scripts TikTok, hooks, Reels, contenu vidéo, posts LinkedIn, idées de contenu, réseaux sociaux
+- newsletter (Malik) : newsletters hebdo, emails marketing, séquences email, contenu Brevo, copywriting
+- community (Sofia) : réponses DM Instagram/TikTok, emails communauté entrants, FAQ, messages de bienvenue, objections acheteurs
 
 Réponds UNIQUEMENT en JSON valide sans markdown ni backticks :
 {"agentId":"...","reason":"...","refinedPrompt":"..."}
@@ -79,184 +114,104 @@ Réponds UNIQUEMENT en JSON valide sans markdown ni backticks :
 - reason : 1 phrase courte expliquant ton choix (ex: "Demande de script vidéo → Imani")
 - refinedPrompt : la demande reformulée et enrichie pour que l'agent produise le meilleur résultat possible`
 
-const AGENTS = [
+const AGENTS = (brvmData) => [
   {
     id: 'tiktok',
     nom: 'Imani',
     genre: 'F',
     titre: 'Créatrice de Contenu',
-    tag: 'TikTok · Réseaux',
+    tag: 'TikTok · LinkedIn',
     avatar: '/avatars/beanie-notebook.png',
     color: '#00C896',
     colorDark: '#007A5A',
     gradient: 'linear-gradient(135deg, #003D2E 0%, #00C89622 100%)',
     glow: 'rgba(0,200,150,0.4)',
     emoji: '🎬',
-    tagline: '"Je transforme chaque chiffre BRVM en contenu viral."',
-    description: 'Imani crée des scripts TikTok percutants avec les vraies données BRVM. Hook en 3 secondes, script 60s, légende, hashtags — tout prêt à filmer.',
+    tagline: '"Je transforme chaque chiffre BRVM en contenu qui accroche."',
+    description: 'Imani crée des scripts TikTok et posts LinkedIn avec les vraies données BRVM du jour. Hook en 3 secondes, script 60s, légende, hashtags — tout prêt à filmer ou publier.',
     capacites: [
       { icon: '✦', txt: '3 scripts TikTok 60s complets' },
       { icon: '✦', txt: 'Hook percutant en ≤ 8 mots' },
-      { icon: '✦', txt: 'Chiffres BRVM réels intégrés' },
+      { icon: '✦', txt: 'Données BRVM live du jour' },
       { icon: '✦', txt: '2 variantes de hook par script' },
-      { icon: '✦', txt: 'Hashtags + CTA optimisés' },
+      { icon: '✦', txt: 'Post LinkedIn adapté' },
     ],
-    placeholder: 'Ex : comparaison Livret A vs Vivo Energy 7,30%, DCA Sonatel, ouvrir un compte BRVM...',
-    systemPrompt: (s, ctx) => `Tu es Imani, Créatrice de Contenu TikTok de DiaspoInvest — éducation financière BRVM pour la diaspora africaine en France.
-${ctx ? `Contexte projet : ${ctx}\n` : ''}Produis 3 scripts TikTok complets sur : "${s}"
-${BRVM_DATA}${LEGAL_RULES}
-Règles : chiffres réels · hook ≤ 8 mots · jamais "conseil en investissement" · 2 variantes hook · framework AIDA/PAS/BAB.
-Format pour chaque script :
+    placeholder: 'Ex : script sur les dividendes Coris Bank, comparaison Livret A vs BRVM, comment ouvrir un compte...',
+    systemPrompt: (s, ctx) => `Tu es Imani, Créatrice de Contenu de DiaspoInvest — TikTok, Reels et LinkedIn pour éduquer la diaspora africaine à investir sur la BRVM.
+${ctx ? `Contexte projet : ${ctx}\n` : ''}Produis du contenu sur : "${s}"
+${brvmData}${LEGAL_RULES}
+AUDIENCE : diaspora africaine partout (Europe, Amérique du Nord, Golfe) ET résidents UEMOA/Afrique. Ne sur-centre jamais la France. Fil rouge : "investir au pays, faire fructifier en Afrique".
+Règles : chiffres réels uniquement · hook ≤ 8 mots · jamais "conseil en investissement" · 2 variantes hook · jamais de tiret long (—) · virgule décimale française.
+Format :
 ---
-SCRIPT [N] — [Framework]
+SCRIPT [N] — [Framework : AIDA / PAS / BAB]
 HOOK A : ...  |  HOOK B : ...
 SCRIPT 60s : [texte à dire caméra]
-TEXTE ÉCRAN : [3–5 lignes]
-LÉGENDE : [2–3 phrases]
-HASHTAGS : #...  |  CTA : ...
----`,
+TEXTE ÉCRAN : [3-5 lignes]
+LÉGENDE : [2-3 phrases]
+HASHTAGS : #...  |  CTA : [lien en bio → diaspoinvest.fr]
+---
+POST LINKEDIN : [même sujet, ton plus pro, 3-5 paragraphes courts, question ouverte à la fin]`,
   },
   {
     id: 'newsletter',
     nom: 'Malik',
     genre: 'M',
     titre: 'Rédacteur Newsletter',
-    tag: 'Brevo · Email',
+    tag: 'Email · Brevo',
     avatar: '/avatars/glasses-pen.png',
     color: '#B06FFF',
     colorDark: '#6A2FA0',
     gradient: 'linear-gradient(135deg, #1A0030 0%, #B06FFF22 100%)',
     glow: 'rgba(176,111,255,0.4)',
     emoji: '✉️',
-    tagline: '"Je rédige les mots qui font ouvrir et lire."',
-    description: 'Malik rédige des newsletters hebdo qui fidélisent ta communauté diaspora. Objet accrocheur, chiffre BRVM du moment, conseil actionnable, CTA naturel.',
+    tagline: '"Je rédige les mots qui font ouvrir, lire et acheter."',
+    description: 'Malik rédige newsletters, séquences email et copy avec les données BRVM live. Objet accrocheur, chiffre du moment, conseil actionnable, CTA naturel.',
     capacites: [
       { icon: '✦', txt: 'Newsletter complète clé en main' },
       { icon: '✦', txt: "Objet optimisé taux d'ouverture" },
-      { icon: '✦', txt: 'Chiffre BRVM du moment intégré' },
-      { icon: '✦', txt: 'Conseil actionnable diaspora' },
-      { icon: '✦', txt: 'CTA Gumroad naturel' },
+      { icon: '✦', txt: 'Données BRVM live intégrées' },
+      { icon: '✦', txt: 'Séquences email nurturing' },
+      { icon: '✦', txt: 'Copy emails post-achat' },
     ],
-    placeholder: 'Ex : résumé semaine BRVM, signal fort ce mois, actualité UEMOA...',
-    systemPrompt: (s, ctx) => `Tu es Malik, Rédacteur Newsletter de DiaspoInvest.
-${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige une newsletter hebdomadaire sur : "${s}"
-${BRVM_DATA}${LEGAL_RULES}
-Structure : OBJET (≤50 car.) · INTRO (chiffre BRVM) · CHIFFRE DE LA SEMAINE · CONSEIL ACTIONNABLE · CTA Gumroad.
-Ton sobre, fraternel. Jamais "conseil en investissement". Toujours sourcer.`,
-  },
-  {
-    id: 'vente',
-    nom: 'Marcus',
-    genre: 'M',
-    titre: 'Expert Conversion',
-    tag: 'Gumroad · Vente',
-    avatar: '/avatars/clean-headset.png',
-    color: '#FFB830',
-    colorDark: '#9A6800',
-    gradient: 'linear-gradient(135deg, #1A1000 0%, #FFB83022 100%)',
-    glow: 'rgba(255,184,48,0.4)',
-    emoji: '💼',
-    tagline: '"Je convertis les visiteurs en acheteurs convaincus."',
-    description: 'Marcus crée les pages de vente et séquences emails qui génèrent des conversions. Ton fraternel, upsell doux, jamais agressif.',
-    capacites: [
-      { icon: '✦', txt: 'Séquences post-achat J+0 à J+30' },
-      { icon: '✦', txt: 'Pages de vente Gumroad' },
-      { icon: '✦', txt: 'Réponses aux objections' },
-      { icon: '✦', txt: 'Upsell Guide → Pack (doux)' },
-      { icon: '✦', txt: 'Copy chaleureux et communautaire' },
-    ],
-    placeholder: "Ex : email bienvenue après achat, upsell calculateur J+7, objection \"trop cher\"...",
-    systemPrompt: (s, ctx) => `Tu es Marcus, Expert Conversion de DiaspoInvest.
+    placeholder: 'Ex : newsletter lundi sur les dividendes, email bienvenue J+2, séquence post-achat Guide...',
+    systemPrompt: (s, ctx) => `Tu es Malik, Rédacteur Newsletter de DiaspoInvest. Tu écris à la première personne comme Jordan (fondateur, M2 Finance) qui s'adresse à sa communauté en "tu".
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige : "${s}"
-Produits : Guide PDF 14,99€ · Calculateur Excel 17,99€ · Pack 24,99€
-${BRVM_DATA}${LEGAL_RULES}
-Règles : jamais rendement garanti · "guide éducatif indépendant" · upsell doux · ton fraternel · non affilié BRVM/CREPMF.`,
+${brvmData}${LEGAL_RULES}
+AUDIENCE : diaspora africaine partout ET résidents UEMOA. Jamais sur-centré sur la France.
+Produits : Guide PDF 14,99€ · DiaspoInvest Tracker Dashboard 24,99€ · Pack 29,99€ (Lemon Squeezy).
+Règles : jamais de tiret long (—) · virgule décimale française · jamais "conseil en investissement" · toujours sourcer les chiffres · ton sobre, fraternel, direct.
+Structure newsletter : OBJET (≤55 car.) · PREHEADER · INTRO chiffre BRVM · CE QUI A BOUGÉ · SIGNAL · CONSEIL · CTA Tracker Dashboard · QUESTION engagement A/B/C · SIGNATURE Jordan.`,
   },
   {
-    id: 'brvm',
-    nom: 'Zara',
+    id: 'community',
+    nom: 'Sofia',
     genre: 'F',
-    titre: 'Analyste BRVM',
-    tag: 'BRVM · Marchés',
-    avatar: '/avatars/glasses-tablet.png',
-    color: '#4FC3F7',
-    colorDark: '#0277BD',
-    gradient: 'linear-gradient(135deg, #001A2E 0%, #4FC3F722 100%)',
-    glow: 'rgba(79,195,247,0.4)',
-    emoji: '📊',
-    tagline: '"Je lis les marchés africains là où personne ne regarde."',
-    description: 'Zara décrypte les marchés BRVM et identifie les signaux forts. Elle ne produit que des chiffres réels, jamais de données inventées.',
-    capacites: [
-      { icon: '✦', txt: 'Analyse actions BRVM détaillée' },
-      { icon: '✦', txt: 'Top opportunités rendement' },
-      { icon: '✦', txt: 'Signaux forts > 7% identifiés' },
-      { icon: '✦', txt: 'Contexte marché UEMOA' },
-      { icon: '✦', txt: 'Angles contenu à exploiter' },
-    ],
-    placeholder: 'Ex : analyse Sonatel ce mois, quelles actions surveiller, signal Vivo Energy...',
-    systemPrompt: (s, ctx) => `Tu es Zara, Analyste BRVM de DiaspoInvest.
-${ctx ? `Contexte projet : ${ctx}\n` : ''}Analyse : "${s}"
-${BRVM_DATA}${LEGAL_RULES}
-Structure : CONTEXTE MARCHÉ · ANALYSE DÉTAILLÉE · TOP OPPORTUNITÉS · SIGNAL ALERTE · RECOMMANDATION CONTENU.
-Règles : JAMAIS inventer de chiffres · sourcer sikafinance.com · mentionner Flat Tax 31,4% et formulaire 3916 si pertinent.`,
-  },
-  {
-    id: 'fiscal',
-    nom: 'Naomi',
-    genre: 'F',
-    titre: 'Conseillère Fiscale',
-    tag: 'France · Fiscalité',
+    titre: 'Responsable Communauté',
+    tag: 'DM · Réponses',
     avatar: '/avatars/suit-headset.png',
-    color: '#FF6B6B',
-    colorDark: '#B71C1C',
-    gradient: 'linear-gradient(135deg, #1A0000 0%, #FF6B6B22 100%)',
-    glow: 'rgba(255,107,107,0.4)',
-    emoji: '⚖️',
-    tagline: '"Je protège tes acheteurs des erreurs fiscales coûteuses."',
-    description: "Naomi répond aux questions fiscales de tes acheteurs résidents France. Flat Tax, formulaire 3916, conventions bilatérales — avec exemples chiffrés.",
+    color: '#FF9A3C',
+    colorDark: '#C46200',
+    gradient: 'linear-gradient(135deg, #1A0A00 0%, #FF9A3C22 100%)',
+    glow: 'rgba(255,154,60,0.4)',
+    emoji: '💬',
+    tagline: '"Je transforme chaque message en opportunité de confiance."',
+    description: 'Sofia rédige les réponses aux DM Instagram/TikTok, emails entrants et objections. Ton chaleureux, communautaire, jamais commercial. Jordan relit et envoie.',
     capacites: [
-      { icon: '✦', txt: 'Flat Tax 31,4% expliquée simplement' },
-      { icon: '✦', txt: 'Formulaire 3916 (amende 1500€)' },
-      { icon: '✦', txt: 'Formulaires 2047 et 2074' },
-      { icon: '✦', txt: 'Convention fiscale CI / Sénégal' },
-      { icon: '✦', txt: 'Exemples chiffrés concrets' },
+      { icon: '✦', txt: 'Réponses DM Instagram / TikTok' },
+      { icon: '✦', txt: 'Emails entrants communauté' },
+      { icon: '✦', txt: 'Réponses aux objections' },
+      { icon: '✦', txt: 'Messages de bienvenue' },
+      { icon: '✦', txt: 'FAQ DiaspoInvest complète' },
     ],
-    placeholder: "Ex : déclarer dividendes BRVM en France, formulaire 3916, convention Côte d'Ivoire...",
-    systemPrompt: (s, ctx) => `Tu es Naomi, Conseillère Fiscale de DiaspoInvest.
-${ctx ? `Contexte projet : ${ctx}\n` : ''}Réponds : "${s}"
-Références : Flat Tax 31,4% (12,8% IR + 18,6% PS) · F3916 compte étranger amende 1500€/an · F2047 revenus étrangers · F2074 plus-values · Convention CI/Sénégal retenue imputable · 1€=655,957 FCFA.
-Structure : règle applicable + formulaires + exemple chiffré + disclaimer.
-${LEGAL_RULES}
-Terminer TOUJOURS par : "Ceci est une information éducative, pas un conseil fiscal. Consultez un expert-comptable pour votre situation personnelle."`,
-  },
-  {
-    id: 'brief',
-    nom: 'Jade',
-    genre: 'F',
-    titre: 'Stratège en Chef',
-    tag: 'Stratégie · Lancement',
-    avatar: '/avatars/glasses-pen.png',
-    color: '#69F0AE',
-    colorDark: '#1B5E20',
-    gradient: 'linear-gradient(135deg, #001A00 0%, #69F0AE22 100%)',
-    glow: 'rgba(105,240,174,0.4)',
-    emoji: '👑',
-    tagline: '"Je conçois les stratégies qui font vendre."',
-    description: "Jade orchestre les campagnes DiaspoInvest de A à Z. Brief, ICP diaspora, messages clés, calendrier, KPIs — rien n'est laissé au hasard.",
-    capacites: [
-      { icon: '✦', txt: 'Brief campagne complet' },
-      { icon: '✦', txt: 'ICP diaspora et persona détaillé' },
-      { icon: '✦', txt: 'Messages clés par canal' },
-      { icon: '✦', txt: 'Calendrier semaine par semaine' },
-      { icon: '✦', txt: 'KPIs et métriques de succès' },
-    ],
-    placeholder: 'Ex : stratégie lancement calculateur Gumroad, campagne TikTok juin 2026...',
-    systemPrompt: (s, ctx) => `Tu es Jade, Stratège de DiaspoInvest.
-${ctx ? `Contexte projet : ${ctx}\n` : ''}Produis un brief campagne complet pour : "${s}"
-Produits : Guide 14,99€ · Calculateur 17,99€ · Pack 24,99€ · Canaux : TikTok · Newsletter · Gumroad.
-${BRVM_DATA}${LEGAL_RULES}
-Structure : CONTEXTE MARCHÉ · ICP (persona + douleurs + gains) · POSITIONNEMENT · MESSAGES CLÉS par canal · CALENDRIER · KPIs.
-Frameworks : StoryBrand · PAS · JTBD · Value Proposition Canvas.`,
+    placeholder: 'Ex : répondre à "c\'est trop cher", DM "comment investir depuis Paris", email "je suis au Sénégal c\'est pour moi ?"...',
+    systemPrompt: (s, ctx) => `Tu es Sofia, Responsable Communauté de DiaspoInvest. Tu rédiges des réponses pour Jordan — il relit et envoie lui-même, il ne faut JAMAIS répondre automatiquement.
+${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige une réponse à : "${s}"
+${brvmData}${LEGAL_RULES}
+Produits : Guide PDF 14,99€ · DiaspoInvest Tracker Dashboard 24,99€ · Pack 29,99€ · Site : diaspoinvest.fr.
+AUDIENCE : diaspora africaine partout ET résidents zone UEMOA/Afrique.
+Règles : ton chaleureux, fraternel, humain — jamais commercial ni agressif · jamais de promesse de gain · toujours inviter à poser d'autres questions · si question fiscale complexe → recommander un expert-comptable · jamais de tiret long (—).
+Format : rédige la réponse directement, prête à copier-coller. Si plusieurs variantes utiles, propose 2 versions (courte / détaillée).`,
   },
 ]
 
@@ -578,7 +533,7 @@ function AgentWorkspace({ agent, context, onBack }) {
 }
 
 /* ── PANNEAU SUPERVISEUR ─────────────────────────────────────── */
-function SupervisorPanel({ context, onOpenAgent, onRouted }) {
+function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
   const [demande, setDemande] = useState('')
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('di_api_key') || '')
   const [phase, setPhase] = useState('idle') // idle | routing | generating | done | error
@@ -589,7 +544,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted }) {
   const [notionUrl, setNotionUrl] = useState('')
   const resultRef = useRef(null)
 
-  const selectedAgent = routing ? AGENTS.find(a => a.id === routing.agentId) : null
+  const selectedAgent = routing ? agents.find(a => a.id === routing.agentId) : null
 
   const submit = async () => {
     if (!demande.trim()) return
@@ -601,7 +556,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted }) {
       let decision
       try { decision = JSON.parse(raw.trim()) }
       catch { throw new Error("Jordan n'a pas pu analyser la demande. Reformule et réessaie.") }
-      const agent = AGENTS.find(a => a.id === decision.agentId)
+      const agent = agents.find(a => a.id === decision.agentId)
       if (!agent) throw new Error(`Agent inconnu : ${decision.agentId}`)
       setRouting(decision)
       setPhase('generating')
@@ -750,7 +705,20 @@ export default function Cockpit() {
   const [showNotionSettings, setShowNotionSettings] = useState(false)
   const [notionKey, setNotionKey] = useState(() => localStorage.getItem(NOTION_KEY_STORE) || '')
   const [notionDb, setNotionDb] = useState(() => localStorage.getItem(NOTION_DB_STORE) || '')
+  const [brvmJson, setBrvmJson] = useState(null)
+  const [brvmStatus, setBrvmStatus] = useState('loading') // loading | ok | fallback
   const notionConfigured = notionKey && notionDb
+
+  // Données BRVM live — chargées depuis l'API Vercel au démarrage
+  useEffect(() => {
+    fetch('/api/brvm-data')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => { setBrvmJson(data); setBrvmStatus('ok') })
+      .catch(() => setBrvmStatus('fallback'))
+  }, [])
+
+  const brvmData = buildBrvmData(brvmJson)
+  const agents = AGENTS(brvmData)
 
   const handleRouted = (agentId) => {
     setHighlightedId(agentId)
@@ -758,7 +726,7 @@ export default function Cockpit() {
   }
 
   useEffect(() => {
-    const allAvatars = ['/avatars/bearded-headset.png', '/avatars/beanie-notebook.png', '/avatars/glasses-pen.png', '/avatars/clean-headset.png', '/avatars/glasses-tablet.png', '/avatars/suit-headset.png']
+    const allAvatars = ['/avatars/bearded-headset.png', '/avatars/beanie-notebook.png', '/avatars/glasses-pen.png', '/avatars/suit-headset.png']
     allAvatars.forEach(src => { const img = new Image(); img.src = src })
     setTimeout(() => setEntered(true), 100)
   }, [])
@@ -768,7 +736,7 @@ export default function Cockpit() {
     localStorage.setItem(CONTEXT_KEY, val)
   }
 
-  if (activeAgent) return <AgentWorkspace agent={activeAgent} context={projetContext} onBack={() => setActiveAgent(null)} />
+  if (activeAgent) return <AgentWorkspace agent={activeAgent} context={projetContext} onBack={() => setActiveAgent(null)} brvmStatus={brvmStatus} />
 
   return (
     <div style={{ minHeight: '100vh', background: '#080C10', fontFamily: 'DM Sans, sans-serif', color: 'white', overflowX: 'hidden' }}>
@@ -785,6 +753,15 @@ export default function Cockpit() {
           <span style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: 22, background: 'linear-gradient(90deg, #C9A84C, #E8C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>DiaspoInvest</span>
           <span style={{ color: 'rgba(255,255,255,0.1)', fontSize: 20 }}>|</span>
           <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cockpit Agents IA</span>
+          {brvmStatus === 'ok' && brvmJson && (
+            <span style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.25)', borderRadius: 20, padding: '3px 10px', fontSize: 11, color: '#00C896', fontWeight: 700 }}>
+              <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#00C896', boxShadow: '0 0 6px #00C896' }}/>
+              BRVM live · {new Date(brvmJson.genere_le).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' })}
+            </span>
+          )}
+          {brvmStatus === 'fallback' && (
+            <span style={{ fontSize: 11, color: 'rgba(255,200,0,0.5)', fontWeight: 600 }}>BRVM · données statiques</span>
+          )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {/* Bouton Notion settings */}
@@ -833,7 +810,7 @@ export default function Cockpit() {
             )}
           </div>
 
-          {AGENTS.map(a => (
+          {agents.map(a => (
             <button key={a.id} onClick={() => setActiveAgent(a)} title={`${a.nom} — ${a.titre}`}
               style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${a.color}44`, background: 'rgba(255,255,255,0.05)', cursor: 'pointer', padding: 0, transition: 'all 0.2s', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = a.color; e.currentTarget.style.transform = 'scale(1.15)'; e.currentTarget.style.boxShadow = `0 4px 14px ${a.glow}` }}
@@ -864,10 +841,10 @@ export default function Cockpit() {
                 <span style={{ background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.4)', borderRadius: 20, padding: '4px 16px', fontSize: 11, color: '#C9A84C', fontWeight: 800, letterSpacing: 1.2 }}>ORCHESTRATEUR</span>
               </div>
               <p style={{ margin: '0 0 16px', color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.7, maxWidth: 560 }}>
-                Dirige l'équipe de 6 agents IA spécialisés. Sélectionne l'agent adapté et récupère du contenu prêt à publier.
+                Dirige l'équipe de 3 agents IA spécialisés. Sélectionne l'agent adapté et récupère du contenu prêt à publier.
               </p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {AGENTS.map(a => (
+                {agents.map(a => (
                   <span key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '4px 12px' }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: a.color }}/>
                     <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{a.nom}</span>
@@ -879,7 +856,7 @@ export default function Cockpit() {
         </div>
 
         {/* Superviseur */}
-        <SupervisorPanel context={projetContext} onOpenAgent={setActiveAgent} onRouted={handleRouted} />
+        <SupervisorPanel context={projetContext} onOpenAgent={setActiveAgent} onRouted={handleRouted} agents={agents} />
 
         {/* Contexte projet partagé */}
         <div style={{ padding: '0 48px 28px', maxWidth: 1200, margin: '0 auto' }}>
@@ -917,7 +894,7 @@ export default function Cockpit() {
             <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: 2.5, textTransform: 'uppercase' }}>Ton équipe</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
-            {AGENTS.map((agent, i) => (
+            {agents.map((agent, i) => (
               <AgentCard key={agent.id} agent={agent} index={i} onSelect={setActiveAgent} highlighted={highlightedId === agent.id} />
             ))}
           </div>
