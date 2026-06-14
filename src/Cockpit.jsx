@@ -313,7 +313,6 @@ function AgentCard({ agent, index, onSelect, highlighted }) {
 /* ── VUE AGENT ACTIF ─────────────────────────────────────────── */
 function AgentWorkspace({ agent, context, onBack }) {
   const [sujet, setSujet] = useState('')
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('di_api_key') || '')
   const [result, setResult] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -328,7 +327,6 @@ function AgentWorkspace({ agent, context, onBack }) {
 
   const generate = async () => {
     if (!sujet.trim()) { setError('Saisis un sujet avant de générer.'); return }
-    if (!apiKey.trim()) { setError('Clé API Claude manquante.'); return }
     setError(''); setResult(''); setLoading(true)
     try {
       const text = await callClaude(agent.systemPrompt(sujet, context), apiKey)
@@ -465,18 +463,6 @@ function AgentWorkspace({ agent, context, onBack }) {
                 </button>
               </div>
 
-              <div style={{ marginTop: 18, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', marginBottom: 6, fontWeight: 700, letterSpacing: 1.2, textTransform: 'uppercase' }}>Clé API Claude</div>
-                <div style={{ position: 'relative' }}>
-                  <input type={showKey ? 'text' : 'password'} value={apiKey}
-                    onChange={e => { setApiKey(e.target.value); localStorage.setItem('di_api_key', e.target.value) }}
-                    placeholder="sk-ant-api03-..."
-                    style={{ width: '100%', padding: '9px 55px 9px 12px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'white', fontSize: 12, fontFamily: 'monospace', boxSizing: 'border-box', outline: 'none' }}
-                  />
-                  <button onClick={() => setShowKey(!showKey)} style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.25)', fontSize: 11, fontWeight: 600, fontFamily: 'DM Sans, sans-serif' }}>{showKey ? 'Cacher' : 'Voir'}</button>
-                </div>
-                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.15)', marginTop: 4 }}>Stockée dans ton navigateur uniquement</div>
-              </div>
             </div>
 
             {error && <div style={{ padding: '14px 18px', background: 'rgba(220,53,69,0.1)', border: '1px solid rgba(220,53,69,0.25)', borderRadius: 14, color: '#ff6b7a', fontSize: 13, marginBottom: 16 }}>{error}</div>}
@@ -530,7 +516,6 @@ function AgentWorkspace({ agent, context, onBack }) {
 /* ── PANNEAU SUPERVISEUR ─────────────────────────────────────── */
 function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
   const [demande, setDemande] = useState('')
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('di_api_key') || '')
   const [phase, setPhase] = useState('idle') // idle | routing | generating | done | error
   const [routing, setRouting] = useState(null) // { agentId, reason, refinedPrompt }
   const [result, setResult] = useState('')
@@ -543,7 +528,6 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
 
   const submit = async () => {
     if (!demande.trim()) return
-    if (!apiKey.trim()) { setError('Clé API Claude manquante.'); return }
     setError(''); setResult(''); setRouting(null); setPhase('routing')
     try {
       // Appel 1 — Jordan route
