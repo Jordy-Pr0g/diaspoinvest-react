@@ -5,8 +5,8 @@
 // Liens Gumroad — TODO Jordan : compléter les 2 liens manquants.
 export const LIENS = {
   guide: "https://diaspoinvest.gumroad.com/l/oxxzda",
-  calculateur: "#", // À créer sur Gumroad (17,99€)
-  pack: "#", // À créer sur Gumroad (24,99€)
+  calculateur: "#", // À créer sur Gumroad (24,99€)
+  pack: "#", // À créer sur Gumroad (29,99€)
   mobileMoney: "https://www.mychariow.com/diaspoInvest-pack",
 }
 
@@ -44,13 +44,13 @@ export const PRODUITS = [
   {
     id: "pack",
     nom: "Pack Complet",
-    sousTitre: "Guide + Calculateur Excel Excel",
-    prix: "24,99 €",
+    sousTitre: "Guide + Tracker Dashboard",
+    prix: "29,99 €",
     lien: LIENS.pack,
     populaire: true,
     points: [
       "Le Guide PDF complet",
-      "Le Calculateur Excel Excel (10 onglets)",
+      "Le Tracker Dashboard (10 onglets)",
       "Simulateur DCA sur 30 ans",
       "Module fiscalité France / UEMOA",
       "Meilleur rapport qualité-prix",
@@ -58,9 +58,9 @@ export const PRODUITS = [
   },
   {
     id: "calculateur",
-    nom: "Calculateur Excel Excel",
+    nom: "DiaspoInvest Tracker Dashboard",
     sousTitre: "10 onglets · Excel & Google Sheets",
-    prix: "17,99 €",
+    prix: "24,99 €",
     lien: LIENS.calculateur,
     populaire: false,
     points: [

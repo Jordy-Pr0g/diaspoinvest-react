@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reponse enregistree - DiaspoInvest</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #060E09;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.card {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+.brand {
+  font-size: 11px;
+  font-weight: 900;
+  color: #C9A84C;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(46,204,139,0.12);
+  border: 2px solid #2ECC8B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 28px;
+}
+.titre {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.sous {
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.sous b { color: #C9A84C; }
+.badge {
+  display: inline-block;
+  background: rgba(13,59,46,0.6);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #C9A84C;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+.lien {
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+}
+.lien a { color: #C9A84C; text-decoration: none; }
+.sep {
+  width: 40px;
+  height: 2px;
+  background: #C9A84C;
+  margin: 28px auto;
+  opacity: 0.4;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">DiaspoInvest</div>
+
+  <div class="check">&#10003;</div>
+
+  <div class="titre" id="titre">Reponse enregistree</div>
+  <div class="sous" id="sous">Je vais t'envoyer du contenu adapte a ta situation.</div>
+  <div class="badge" id="badge">...</div>
+
+  <div class="sep"></div>
+
+  <div class="lien">
+    En attendant, tu peux simuler ton plan sur<br>
+    <a href="https://diaspoinvest.fr/calculateur.html">diaspoinvest.fr/calculateur.html</a>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const s = params.get('s') || '';
+
+const configs = {
+  diaspora: {
+    titre: "Compris, tu es dans la diaspora.",
+    sous: "Je vais te donner du contenu adapte a l'investissement depuis l'Europe ou l'exterieur de l'Afrique : SGI a distance, virement Wise, formulaire 3916, fiscalite flat tax.",
+    badge: "Profil : Diaspora Europe / Monde",
+  },
+  uemoa: {
+    titre: "Compris, tu es en Afrique.",
+    sous: "Je vais te donner du contenu adapte a ta situation : SGI locales, procedure en presentiel, fiscalite UEMOA, avantage plus-values exonerees.",
+    badge: "Profil : Zone UEMOA / Afrique",
+  },
+  investisseur: {
+    titre: "Compris, tu investis deja.",
+    sous: "Je vais te partager du contenu plus avance : lecture des resultats IFRS, diversification portefeuille, optimisation dividendes.",
+    badge: "Profil : Investisseur actif BRVM",
+  },
+};
+
+const cfg = configs[s] || {
+  titre: "Reponse enregistree.",
+  sous: "Je vais t'envoyer du contenu adapte a ta situation. A tres vite.",
+  badge: "Reponse prise en compte",
+};
+
+document.getElementById('titre').textContent = cfg.titre;
+document.getElementById('sous').innerHTML = cfg.sous;
+document.getElementById('badge').textContent = cfg.badge;
+</script>
+</body>
+</html>

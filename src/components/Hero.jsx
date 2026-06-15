@@ -32,12 +32,12 @@ export default function Hero() {
             <div className="p-value">14,99 €</div>
           </div>
           <div className="price-pill">
-            <div className="p-name">Calculateur V12</div>
-            <div className="p-value">17,99 €</div>
+            <div className="p-name">Tracker Dashboard</div>
+            <div className="p-value">24,99 €</div>
           </div>
           <div className="price-pill">
             <div className="p-name">Pack Complet</div>
-            <div className="p-value">24,99 €</div>
+            <div className="p-value">29,99 €</div>
           </div>
         </div>
 

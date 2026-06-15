@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Calculateur BRVM — DiaspoInvest</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=DM+Mono:wght@500;700;900&display=swap');
+
+:root {
+  --or:    #C9A84C;
+  --vert:  #0D3B2E;
+  --vert3: #2ECC8B;
+  --bg:    #060E09;
+  --card:  #0F1A12;
+  --border:#1E2E21;
+  --gris:  rgba(255,255,255,0.4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  background: var(--bg);
+  font-family: 'Space Grotesk', sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  padding: 24px 18px 40px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.header { text-align: center; margin-bottom: 28px; }
+.brand { font-size: 11px; font-weight: 900; color: var(--or); letter-spacing: 5px; text-transform: uppercase; margin-bottom: 6px; }
+.title { font-size: 24px; font-weight: 900; }
+.subtitle { font-size: 13px; color: var(--gris); margin-top: 4px; }
+
+.trio {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.trio-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  user-select: none;
+}
+
+.trio-card.locked { border-color: var(--or); background: rgba(201,168,76,0.08); }
+.trio-card.locked::before { content: '▶'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 13px; color: var(--or); }
+.trio-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--gris); margin-bottom: 6px; font-weight: 600; }
+.trio-val { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 900; color: #fff; transition: all 0.3s; line-height: 1; }
+.trio-card.locked .trio-val { color: var(--or); }
+.trio-card.locked .trio-label { color: var(--or); }
+.trio-unit { font-size: 9px; color: var(--gris); margin-top: 4px; font-family: 'DM Mono', monospace; }
+
+.sliders-wrap { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+
+.slider-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.slider-name { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; }
+.slider-cur { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 900; color: var(--or); }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%; height: 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.08);
+  outline: none; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--or);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(201,168,76,0.2);
+}
+.slider-range { display: flex; justify-content: space-between; font-size: 10px; color: rgba(255,255,255,0.25); font-family: 'DM Mono', monospace; margin-top: 6px; }
+
+.result-main {
+  background: linear-gradient(135deg, #0D3B2E, #061A10);
+  border: 1.5px solid rgba(201,168,76,0.3);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.result-main::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--or), transparent);
+}
+.result-question { font-size: 12px; color: var(--gris); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.result-number { font-family: 'DM Mono', monospace; font-size: 64px; font-weight: 900; color: var(--or); line-height: 1; letter-spacing: -2px; text-shadow: 0 0 30px rgba(201,168,76,0.4); }
+.result-unit { font-size: 16px; color: rgba(201,168,76,0.6); font-family: 'DM Mono', monospace; font-weight: 700; margin-top: 6px; letter-spacing: 2px; }
+.result-context { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 16px; line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
+.result-context b { color: rgba(255,255,255,0.7); }
+
+.kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; text-align: center; }
+.kpi-val { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 900; color: var(--vert3); display: block; line-height: 1; }
+.kpi-lab { font-size: 10px; color: var(--gris); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; display: block; }
+
+.compare { display: flex; gap: 10px; margin-bottom: 20px; }
+.cmp { flex: 1; border-radius: 14px; padding: 16px 12px; text-align: center; }
+.cmp.bad  { background: rgba(229,62,62,0.08); border: 1px solid rgba(229,62,62,0.25); }
+.cmp.good { background: rgba(46,204,139,0.08); border: 1px solid rgba(46,204,139,0.4); }
+.cmp-name { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px; }
+.cmp.bad  .cmp-name { color: #FF7676; }
+.cmp.good .cmp-name { color: var(--vert3); }
+.cmp-val { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 900; display: block; }
+.cmp.bad  .cmp-val { color: #FF7676; }
+.cmp.good .cmp-val { color: var(--vert3); }
+.cmp-sub { font-size: 10px; color: var(--gris); margin-top: 4px; display: block; }
+
+.titre-select {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 44px 14px 16px;
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  outline: none;
+  margin-bottom: 20px;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+.titre-select option { background: #0D3B2E; }
+
+.taux-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 20px; }
+
+@keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.04)} 100%{transform:scale(1)} }
+.pulse { animation: pulse 0.35s ease; }
+
+.cta-wrap {
+  background: var(--vert);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 16px;
+  padding: 20px 18px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.cta-wrap p { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 14px; line-height: 1.6; }
+.cta-btn {
+  display: inline-block;
+  background: var(--or);
+  color: #0D3B2E;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.footer { text-align: center; font-size: 10px; color: rgba(255,255,255,0.18); line-height: 1.7; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">DiaspoInvest</div>
+  <div class="title">Calculateur BRVM</div>
+  <div class="subtitle">Clique sur la case que tu veux calculer</div>
+</div>
+
+<!-- Données scraper 14/06/2026 -->
+<select class="titre-select" id="sel-titre" onchange="onTitreChange()">
+  <option value="28400|6.13|Sonatel">Sonatel (SNTS) — 28 400 FCFA · 6,13%</option>
+  <option value="15650|4.60|Orange CI">Orange CI (ORAC) — 15 650 FCFA · 4,60%</option>
+  <option value="38995|5.29|SGBCI">SGBCI (SGBC) — 38 995 FCFA · 5,29%</option>
+  <option value="8780|5.99|BOA Benin">BOA Benin (BOAB) — 8 780 FCFA · 5,99%</option>
+  <option value="custom|custom|Personnalise">Personnalise...</option>
+</select>
+
+<div class="taux-wrap" style="margin-bottom:12px">
+  <div class="slider-header">
+    <span class="slider-name">Cours de l'action</span>
+    <span class="slider-cur" id="v-cours">28 400 FCFA</span>
+  </div>
+  <input type="number" id="inp-cours" value="28400" min="1" step="50"
+         style="width:100%;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:12px 14px;color:#fff;font-family:'DM Mono',monospace;font-size:20px;font-weight:700;outline:none;margin-top:8px;"
+         oninput="onCoursChange(this.value)">
+</div>
+
+<div class="taux-wrap">
+  <div class="slider-header">
+    <span class="slider-name">Rendement brut</span>
+    <span class="slider-cur" id="v-taux">6,13 %</span>
+  </div>
+  <input type="range" id="sl-taux" min="0.5" max="20" step="0.01" value="6.13"
+         oninput="onTauxChange(this.value)">
+  <div class="slider-range"><span>0,5%</span><span>20%</span></div>
+</div>
+
+<div class="trio">
+  <div class="trio-card" id="card-apport" onclick="setLock('apport')">
+    <div class="trio-label">Apport/mois</div>
+    <div class="trio-val" id="tv-apport">30 000</div>
+    <div class="trio-unit">FCFA</div>
+  </div>
+  <div class="trio-card" id="card-duree" onclick="setLock('duree')">
+    <div class="trio-label">Duree</div>
+    <div class="trio-val" id="tv-duree">10</div>
+    <div class="trio-unit">ans</div>
+  </div>
+  <div class="trio-card locked" id="card-divann" onclick="setLock('divann')">
+    <div class="trio-label">Div. annuel</div>
+    <div class="trio-val" id="tv-divann">—</div>
+    <div class="trio-unit">FCFA/an</div>
+  </div>
+</div>
+
+<div class="sliders-wrap" id="sliders-wrap"></div>
+
+<div class="result-main">
+  <div class="result-question" id="res-question">Tu recevras chaque annee</div>
+  <div class="result-number" id="res-number">—</div>
+  <div class="result-unit"   id="res-unit">FCFA / AN</div>
+  <div class="result-context" id="res-context"></div>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><span class="kpi-val" id="k-actions">—</span><span class="kpi-lab">Actions</span></div>
+  <div class="kpi"><span class="kpi-val" id="k-portef">—</span><span class="kpi-lab">Valeur portef.</span></div>
+  <div class="kpi"><span class="kpi-val" id="k-capital">—</span><span class="kpi-lab">Capital investi</span></div>
+  <div class="kpi"><span class="kpi-val" id="k-divcum">—</span><span class="kpi-lab">Div. cumules</span></div>
+</div>
+
+<div class="compare">
+  <div class="cmp bad">
+    <span class="cmp-name">Livret A 1,5%</span>
+    <span class="cmp-val" id="c-livreta">—</span>
+    <span class="cmp-sub">interets cumules</span>
+  </div>
+  <div class="cmp good">
+    <span class="cmp-name" id="c-brvm-name">BRVM</span>
+    <span class="cmp-val" id="c-brvm">—</span>
+    <span class="cmp-sub">dividendes cumules</span>
+  </div>
+</div>
+
+<div class="cta-wrap">
+  <p>Le Tracker Dashboard suit ton portefeuille mois par mois et calcule tes dividendes nets selon ta fiscalite reelle.</p>
+  <a href="https://diaspoinvest.fr/#pricing" class="cta-btn">Voir le Tracker Dashboard</a>
+</div>
+
+<div class="footer">
+  DiaspoInvest · Simulation mathematique illustrative · Ne constitue pas un conseil en investissement<br>
+  Donnees BRVM : scraper DiaspoInvest du 14/06/2026 · Sources : BRVM.org + sikafinance.com<br>
+  DiaspoInvest n'est affilie ni a la BRVM ni au CREPMF
+</div>
+
+<script>
+let locked = 'divann';
+let cours  = 28400;
+let taux   = 6.13;
+
+const SLIDERS = {
+  apport: { min:5000,   max:500000, step:5000,  def:30000,  label:'Apport mensuel',         unit:'FCFA'    },
+  duree:  { min:1,      max:30,     step:1,      def:10,     label:'Duree',                  unit:'ans'     },
+  divann: { min:10000,  max:2000000,step:5000,   def:219356, label:'Dividende annuel cible', unit:'FCFA/an' },
+};
+
+let vals = { apport:30000, duree:10, divann:219356 };
+
+const fmt = v => {
+  if(v>=1000000) return (v/1000000).toFixed(2).replace('.',',') + ' M';
+  if(v>=1000)    return Math.round(v/1000) + ' K';
+  return Math.round(v).toLocaleString('fr-FR');
+};
+const fmtFull = v => Math.round(v).toLocaleString('fr-FR');
+
+function simForward(apport, duree, tauxPct, coursTitre) {
+  const divBrut = coursTitre * tauxPct / 100;
+  const frais   = 0.005;
+  let actions=0, reste=0, divCumul=0;
+  for(let m=1; m<=duree*12; m++){
+    const dispo = reste + apport*(1-frais);
+    const n = Math.floor(dispo/coursTitre);
+    reste = dispo - n*coursTitre;
+    actions += n;
+    divCumul += actions*divBrut/12;
+  }
+  return { actions, portef:actions*coursTitre, capital:apport*duree*12, divAnn:actions*divBrut, divCumul };
+}
+
+function simInverse_apport(divCible, duree, tauxPct, coursTitre) {
+  const divBrut = coursTitre * tauxPct / 100;
+  if(divBrut <= 0) return 0;
+  let lo=1000, hi=1000000;
+  for(let i=0;i<40;i++){
+    const mid=(lo+hi)/2;
+    if(simForward(mid,duree,tauxPct,coursTitre).actions>=Math.ceil(divCible/divBrut)) hi=mid; else lo=mid;
+  }
+  return Math.ceil((lo+hi)/2/1000)*1000;
+}
+
+function simInverse_duree(divCible, apport, tauxPct, coursTitre) {
+  for(let d=1;d<=50;d++) if(simForward(apport,d,tauxPct,coursTitre).divAnn>=divCible) return d;
+  return 50;
+}
+
+function livretA(apport, duree) {
+  let cap=0, int=0;
+  for(let m=0;m<duree*12;m++){ cap+=apport; int+=cap*0.015/12; }
+  return int;
+}
+
+function compute() {
+  const a=vals.apport, d=vals.duree, dv=vals.divann;
+  const titre=document.getElementById('sel-titre').value.split('|')[2];
+  let result, resLabel, resUnit, resContext;
+
+  if(locked==='divann'){
+    result=simForward(a,d,taux,cours);
+    vals.divann=result.divAnn;
+    setTrio('divann',fmt(result.divAnn));
+    setTrio('apport',fmt(a));
+    setTrio('duree',d+' ans');
+    resLabel='Tu recevras chaque annee';
+    resUnit='FCFA / AN';
+    resContext=`<b>${fmtFull(a)} FCFA/mois</b> pendant <b>${d} ans</b> sur ${titre} (${taux}% brut)`;
+    showResult(result.divAnn,resLabel,resUnit,resContext,result);
+  } else if(locked==='apport'){
+    const ap=simInverse_apport(dv,d,taux,cours);
+    vals.apport=ap;
+    result=simForward(ap,d,taux,cours);
+    setTrio('apport',fmt(ap));
+    setTrio('duree',d+' ans');
+    setTrio('divann',fmt(dv));
+    resLabel='Il te faut investir chaque mois';
+    resUnit='FCFA / MOIS';
+    resContext=`Pour obtenir <b>${fmtFull(dv)} FCFA/an</b> de dividendes en <b>${d} ans</b> sur ${titre}`;
+    showResult(ap,resLabel,resUnit,resContext,result);
+  } else {
+    const dr=simInverse_duree(dv,a,taux,cours);
+    vals.duree=dr;
+    result=simForward(a,dr,taux,cours);
+    setTrio('duree',dr+' ans');
+    setTrio('apport',fmt(a));
+    setTrio('divann',fmt(dv));
+    resLabel='Il te faudra';
+    resUnit='ANS';
+    resContext=`<b>${fmtFull(a)} FCFA/mois</b> pour atteindre <b>${fmtFull(dv)} FCFA/an</b> sur ${titre}`;
+    showResult(dr,resLabel,resUnit,resContext,result);
+  }
+
+  if(result){
+    animVal('k-actions',result.actions);
+    animVal('k-portef',result.portef,true);
+    animVal('k-capital',result.capital,true);
+    animVal('k-divcum',result.divCumul,true);
+    const apU=locked==='apport'?vals.apport:a;
+    const dU=locked==='duree'?vals.duree:d;
+    document.getElementById('c-livreta').textContent=fmt(livretA(apU,dU));
+    document.getElementById('c-brvm').textContent=fmt(result.divCumul);
+    document.getElementById('c-brvm-name').textContent=titre;
+  }
+}
+
+function showResult(val,label,unit,context,result){
+  document.getElementById('res-question').textContent=label;
+  document.getElementById('res-unit').textContent=unit;
+  document.getElementById('res-context').innerHTML=context;
+  const el=document.getElementById('res-number');
+  const target=Math.round(val), start=Date.now(), dur=600;
+  el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
+  function tick(){
+    const p=Math.min((Date.now()-start)/dur,1);
+    el.textContent=Math.round(target*(1-Math.pow(1-p,3))).toLocaleString('fr-FR');
+    if(p<1) requestAnimationFrame(tick); else el.textContent=target.toLocaleString('fr-FR');
+  }
+  requestAnimationFrame(tick);
+}
+
+function animVal(id,val,isFmt=false){
+  document.getElementById(id).textContent=isFmt?fmt(val):val.toLocaleString('fr-FR');
+}
+function setTrio(key,txt){ document.getElementById('tv-'+key).textContent=txt; }
+
+function setLock(key){
+  locked=key;
+  ['apport','duree','divann'].forEach(k=>document.getElementById('card-'+k).classList.toggle('locked',k===key));
+  buildSliders(); compute();
+}
+
+function buildSliders(){
+  const wrap=document.getElementById('sliders-wrap');
+  wrap.innerHTML='';
+  ['apport','duree','divann'].filter(k=>k!==locked).forEach(key=>{
+    const s=SLIDERS[key], v=vals[key];
+    const div=document.createElement('div');
+    div.className='slider-card';
+    div.innerHTML=`
+      <div class="slider-header">
+        <span class="slider-name">${s.label}</span>
+        <span class="slider-cur" id="sc-${key}">${fmtFull(v)} ${s.unit}</span>
+      </div>
+      <input type="range" id="sl-${key}" min="${s.min}" max="${s.max}" step="${s.step}" value="${v}"
+             oninput="onSlider('${key}',this.value)">
+      <div class="slider-range"><span>${fmt(s.min)}</span><span>${fmt(s.max)}</span></div>`;
+    wrap.appendChild(div);
+  });
+}
+
+function onSlider(key,val){
+  vals[key]=parseFloat(val);
+  document.getElementById('sc-'+key).textContent=fmtFull(parseFloat(val))+' '+SLIDERS[key].unit;
+  compute();
+}
+
+function onTitreChange(){
+  const parts=document.getElementById('sel-titre').value.split('|');
+  if(parts[0]!=='custom'){
+    cours=parseFloat(parts[0]); taux=parseFloat(parts[1]);
+    document.getElementById('sl-taux').value=taux;
+    document.getElementById('v-taux').textContent=taux.toFixed(2).replace('.',',')+' %';
+    document.getElementById('inp-cours').value=cours;
+    document.getElementById('v-cours').textContent=fmtFull(cours)+' FCFA';
+  }
+  compute();
+}
+function onCoursChange(val){ cours=parseFloat(val)||1; document.getElementById('v-cours').textContent=fmtFull(cours)+' FCFA'; compute(); }
+function onTauxChange(val){ taux=parseFloat(val); document.getElementById('v-taux').textContent=parseFloat(val).toFixed(2).replace('.',',')+' %'; compute(); }
+
+window.addEventListener('load',()=>{ buildSliders(); compute(); });
+</script>
+</body>
+</html>
