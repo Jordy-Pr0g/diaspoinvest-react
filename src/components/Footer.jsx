@@ -21,15 +21,10 @@ export default function Footer({ onOpenModal }) {
                 </a>
               </li>
               <li>
-                <a href="#pricing">Calculateur Excel</a>
+                <a href="#pricing">Tracker Dashboard</a>
               </li>
               <li>
                 <a href="#pricing">Pack Complet</a>
-              </li>
-              <li>
-                <a href={LIENS.mobileMoney} target="_blank" rel="noreferrer">
-                  Paiement Mobile Money
-                </a>
               </li>
             </ul>
           </div>
