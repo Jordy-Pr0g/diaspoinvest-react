@@ -51,8 +51,8 @@ export const PRODUITS = [
     points: [
       "Le Guide PDF complet",
       "Le Tracker Dashboard (10 onglets)",
-      "Simulateur DCA sur 30 ans",
-      "Module fiscalité France / UEMOA",
+      "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
+      "6 mois de mises à jour cours incluses",
       "Meilleur rapport qualité-prix",
     ],
   },
@@ -65,9 +65,9 @@ export const PRODUITS = [
     populaire: false,
     points: [
       "47 actions BRVM par secteur",
-      "Simulateur DCA + 4 scénarios",
-      "Analyse fondamentale (DCF Gordon-Shapiro)",
+      "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
       "Suivi de portefeuille personnel",
+      "6 mois de mises à jour cours incluses",
     ],
   },
 ]
