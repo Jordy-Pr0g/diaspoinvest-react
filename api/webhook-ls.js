@@ -20,7 +20,7 @@ const PRODUCT_ID_GUIDE   = 'XXXXXXXX'  // 14,99€ Guide PDF
 const PRODUCT_ID_TRACKER = 'XXXXXXXX'  // 24,99€ Tracker Dashboard
 const PRODUCT_ID_PACK    = 'XXXXXXXX'  // 29,99€ Pack Guide + Tracker
 
-const BREVO_LIST_ACHETEURS = 4         // Liste "Acheteurs" dans Brevo (à créer)
+const BREVO_LIST_ACHETEURS = 6         // Liste "Acheteurs DiaspoInvest" — créée le 15/06/2026
 
 // Template Brevo livraison immédiate — à créer dans Brevo avec brevo-template-livraison.html
 const BREVO_TEMPLATE_LIVRAISON = 23
