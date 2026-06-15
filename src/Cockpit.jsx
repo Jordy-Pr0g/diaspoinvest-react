@@ -532,8 +532,11 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
       // Appel 1 — Jordan route
       const raw = await callClaude(JORDAN_ROUTING_PROMPT(demande, context), null, 300)
       let decision
-      try { decision = JSON.parse(raw.trim()) }
-      catch { throw new Error("Jordan n'a pas pu analyser la demande. Reformule et réessaie.") }
+      try {
+        const clean = raw.replace(/```json|```/g, '').trim()
+        const match = clean.match(/\{[\s\S]*\}/)
+        decision = JSON.parse(match ? match[0] : clean)
+      } catch { throw new Error("Jordan n'a pas pu analyser la demande. Reformule et réessaie.") }
       const agent = agents.find(a => a.id === decision.agentId)
       if (!agent) throw new Error(`Agent inconnu : ${decision.agentId}`)
       setRouting(decision)
