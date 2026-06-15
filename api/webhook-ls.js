@@ -16,11 +16,11 @@
  * REMPLIR après création des produits Lemon Squeezy :
  */
 
-const PRODUCT_ID_GUIDE_EUROPE = 'XXXXXXXX'  // 14,99€ Guide Diaspora Europe
-const PRODUCT_ID_GUIDE_UEMOA  = 'XXXXXXXX'  // 14,99€ Guide UEMOA
-const PRODUCT_ID_TRACKER      = 'XXXXXXXX'  // 24,99€ Tracker Dashboard
-const PRODUCT_ID_PACK_EUROPE  = 'XXXXXXXX'  // 29,99€ Pack Europe (Guide Europe + Tracker)
-const PRODUCT_ID_PACK_UEMOA   = 'XXXXXXXX'  // 29,99€ Pack UEMOA (Guide UEMOA + Tracker)
+const PRODUCT_ID_GUIDE_EUROPE = '1146479'   // 14,99€ Guide Diaspora Europe
+const PRODUCT_ID_GUIDE_UEMOA  = '1146891'   // 14,99€ Guide UEMOA
+const PRODUCT_ID_TRACKER      = '1146919'   // 24,99€ Tracker Dashboard
+const PRODUCT_ID_PACK_EUROPE  = '1147207'   // 29,99€ Pack Europe (Guide Europe + Tracker)
+const PRODUCT_ID_PACK_UEMOA   = '1147176'   // 29,99€ Pack UEMOA (Guide UEMOA + Tracker)
 
 const BREVO_LIST_ACHETEURS = 6         // Liste "Acheteurs DiaspoInvest" — créée le 15/06/2026
 
