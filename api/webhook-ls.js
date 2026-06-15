@@ -16,19 +16,23 @@
  * REMPLIR après création des produits Lemon Squeezy :
  */
 
-const PRODUCT_ID_GUIDE   = 'XXXXXXXX'  // 14,99€ Guide PDF
-const PRODUCT_ID_TRACKER = 'XXXXXXXX'  // 24,99€ Tracker Dashboard
-const PRODUCT_ID_PACK    = 'XXXXXXXX'  // 29,99€ Pack Guide + Tracker
+const PRODUCT_ID_GUIDE_EUROPE = 'XXXXXXXX'  // 14,99€ Guide Diaspora Europe
+const PRODUCT_ID_GUIDE_UEMOA  = 'XXXXXXXX'  // 14,99€ Guide UEMOA
+const PRODUCT_ID_TRACKER      = 'XXXXXXXX'  // 24,99€ Tracker Dashboard
+const PRODUCT_ID_PACK_EUROPE  = 'XXXXXXXX'  // 29,99€ Pack Europe (Guide Europe + Tracker)
+const PRODUCT_ID_PACK_UEMOA   = 'XXXXXXXX'  // 29,99€ Pack UEMOA (Guide UEMOA + Tracker)
 
 const BREVO_LIST_ACHETEURS = 6         // Liste "Acheteurs DiaspoInvest" — créée le 15/06/2026
 
-// Template Brevo livraison immédiate — à créer dans Brevo avec brevo-template-livraison.html
-const BREVO_TEMPLATE_LIVRAISON = 23
+// Templates Brevo livraison par produit (créés dans Brevo)
+// #25 Guide Europe · #26 Guide UEMOA · #27 Tracker · #28 Pack Europe · #29 Pack UEMOA
 
 const PRODUCT_TAGS = {
-  [PRODUCT_ID_GUIDE]:   { tag: 'ACHETEUR_GUIDE',   nom: 'Guide PDF DiaspoInvest' },
-  [PRODUCT_ID_TRACKER]: { tag: 'ACHETEUR_TRACKER',  nom: 'Tracker Dashboard DiaspoInvest' },
-  [PRODUCT_ID_PACK]:    { tag: 'ACHETEUR_PACK',     nom: 'Pack Guide + Tracker DiaspoInvest' },
+  [PRODUCT_ID_GUIDE_EUROPE]: { tag: 'ACHETEUR_GUIDE',   nom: 'Guide Diaspora Europe', template: 25 },
+  [PRODUCT_ID_GUIDE_UEMOA]:  { tag: 'ACHETEUR_GUIDE',   nom: 'Guide UEMOA',           template: 26 },
+  [PRODUCT_ID_TRACKER]:      { tag: 'ACHETEUR_TRACKER',  nom: 'Tracker Dashboard',     template: 27 },
+  [PRODUCT_ID_PACK_EUROPE]:  { tag: 'ACHETEUR_PACK',     nom: 'Pack Europe',           template: 28 },
+  [PRODUCT_ID_PACK_UEMOA]:   { tag: 'ACHETEUR_PACK',     nom: 'Pack UEMOA',            template: 29 },
 }
 
 // ─── Vérification signature HMAC-SHA256 ───────────────────────────────────────
@@ -75,12 +79,13 @@ async function upsertContactBrevo(email, prenom, nom, productId) {
 
 // ─── Email de livraison immédiate ─────────────────────────────────────────────
 async function sendDeliveryEmail(email, prenom, productId, downloadUrl) {
-  const tagInfo = PRODUCT_TAGS[productId] || { nom: 'votre produit' }
-  const apiKey  = process.env.BREVO_API_KEY
+  const tagInfo    = PRODUCT_TAGS[productId] || { nom: 'votre produit', template: 25 }
+  const templateId = tagInfo.template
+  const apiKey     = process.env.BREVO_API_KEY
 
   const body = JSON.stringify({
     to: [{ email, name: prenom }],
-    templateId: BREVO_TEMPLATE_LIVRAISON,
+    templateId,
     params: {
       PRENOM: prenom,
       PRODUIT: tagInfo.nom,
