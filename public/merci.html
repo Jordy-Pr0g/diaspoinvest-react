@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reponse enregistree - DiaspoInvest</title>
+<title>Réponse enregistrée - DiaspoInvest</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -86,8 +86,8 @@ body {
 
   <div class="check">&#10003;</div>
 
-  <div class="titre" id="titre">Reponse enregistree</div>
-  <div class="sous" id="sous">Je vais t'envoyer du contenu adapte a ta situation.</div>
+  <div class="titre" id="titre">Réponse enregistrée</div>
+  <div class="sous" id="sous">Je vais t'envoyer du contenu adapté à ta situation.</div>
   <div class="badge" id="badge">...</div>
 
   <div class="sep"></div>
@@ -101,29 +101,39 @@ body {
 <script>
 const params = new URLSearchParams(window.location.search);
 const s = params.get('s') || '';
+const email = params.get('email') || '';
+
+// Appel API segmentation si email présent (vient du lien dans l'email J+16)
+if (email && s) {
+  fetch('/api/segment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, segment: s }),
+  }).catch(() => {});
+}
 
 const configs = {
   diaspora: {
     titre: "Compris, tu es dans la diaspora.",
-    sous: "Je vais te donner du contenu adapte a l'investissement depuis l'Europe ou l'exterieur de l'Afrique : SGI a distance, virement Wise, formulaire 3916, fiscalite flat tax.",
+    sous: "Je vais te donner du contenu adapté à l'investissement depuis l'Europe ou l'extérieur de l'Afrique : SGI à distance, virement Wise, formulaire 3916, fiscalité flat tax.",
     badge: "Profil : Diaspora Europe / Monde",
   },
   uemoa: {
     titre: "Compris, tu es en Afrique.",
-    sous: "Je vais te donner du contenu adapte a ta situation : SGI locales, procedure en presentiel, fiscalite UEMOA, avantage plus-values exonerees.",
+    sous: "Je vais te donner du contenu adapté à ta situation : SGI locales, procédure en présentiel, fiscalité UEMOA, avantage plus-values exonérées.",
     badge: "Profil : Zone UEMOA / Afrique",
   },
   investisseur: {
-    titre: "Compris, tu investis deja.",
-    sous: "Je vais te partager du contenu plus avance : lecture des resultats IFRS, diversification portefeuille, optimisation dividendes.",
+    titre: "Compris, tu investis déjà.",
+    sous: "Je vais te partager du contenu plus avancé : lecture des résultats IFRS, diversification portefeuille, optimisation dividendes.",
     badge: "Profil : Investisseur actif BRVM",
   },
 };
 
 const cfg = configs[s] || {
-  titre: "Reponse enregistree.",
-  sous: "Je vais t'envoyer du contenu adapte a ta situation. A tres vite.",
-  badge: "Reponse prise en compte",
+  titre: "Réponse enregistrée.",
+  sous: "Je vais t'envoyer du contenu adapté à ta situation. À très vite.",
+  badge: "Réponse prise en compte",
 };
 
 document.getElementById('titre').textContent = cfg.titre;

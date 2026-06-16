@@ -11,13 +11,13 @@ export const LIENS = {
   packUemoa:  "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7d7196b5-9afa-4932-aa20-abd83c979223",
 }
 
-// Données BRVM — Juin 2026 · Source : sikafinance.com (mise à jour manuelle)
+// Données BRVM — 16/06/2026 · Source : scraper brvm_scraper.py (brvm.org + sikafinance.com)
 export const ACTIONS_BRVM = [
   { nom: "Sonatel (SNTS)", cours: "28 400 FCFA", dividende: "1 740 FCFA", rendement: "6,13 %" },
-  { nom: "Orange CI", cours: "15 570 FCFA", dividende: "720 FCFA", rendement: "4,62 %" },
+  { nom: "Orange CI", cours: "15 800 FCFA", dividende: "720 FCFA", rendement: "4,56 %" },
   { nom: "Vivo Energy CI", cours: "3 700 FCFA", dividende: "270 FCFA", rendement: "7,30 %" },
   { nom: "SGBCI", cours: "36 015 FCFA", dividende: "2 064 FCFA", rendement: "5,73 %" },
-  { nom: "Ecobank CI", cours: "16 300 FCFA", dividende: "799 FCFA", rendement: "4,90 %" },
+  { nom: "Ecobank CI", cours: "16 770 FCFA", dividende: "799 FCFA", rendement: "4,76 %" },
 ]
 
 export const STATS = [
@@ -179,7 +179,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "Les chiffres sont-ils à jour ?",
-    r: "Les données affichées datent de juin 2026 (source : sikafinance.com). Les cours et rendements évoluent : vérifie toujours les informations à jour auprès de ta SGI avant toute décision.",
+    r: "Les données affichées datent du 16/06/2026 (source : brvm.org via scraper automatique). Les cours et rendements évoluent : vérifie toujours les informations à jour auprès de ta SGI avant toute décision.",
   },
 ]
 
