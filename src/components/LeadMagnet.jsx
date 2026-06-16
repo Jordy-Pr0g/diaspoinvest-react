@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 const RECAPTCHA_SITE_KEY = '6Le7Dx0tAAAAACRiDmsAqfZgUkSq_OKJnflk1DsR'
 
 export default function LeadMagnet() {
+  const [prenom, setPrenom] = useState('')
   const [email, setEmail] = useState('')
   const [statut, setStatut] = useState('idle') // idle | loading | succes | erreur | captcha
   const captchaRef = useRef(null)
@@ -54,7 +55,7 @@ export default function LeadMagnet() {
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, captchaToken: token }),
+        body: JSON.stringify({ email, prenom, captchaToken: token }),
       })
 
       if (res.ok) {
@@ -101,14 +102,27 @@ export default function LeadMagnet() {
               </div>
             ) : (
               <form className="lm-form" onSubmit={handleSubmit}>
-                <label htmlFor="lm-email" className="lm-label">
+                <label htmlFor="lm-prenom" className="lm-label">
+                  Ton prénom
+                </label>
+                <input
+                  id="lm-prenom"
+                  type="text"
+                  required
+                  placeholder="Prénom"
+                  value={prenom}
+                  onChange={(e) => setPrenom(e.target.value)}
+                  className="lm-input"
+                  disabled={statut === 'loading'}
+                />
+                <label htmlFor="lm-email" className="lm-label" style={{ marginTop: '10px' }}>
                   Ton adresse email
                 </label>
                 <input
                   id="lm-email"
                   type="email"
                   required
-                  placeholder="prenom@email.com"
+                  placeholder="email@exemple.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="lm-input"

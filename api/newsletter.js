@@ -9,7 +9,7 @@ const LISTE_NEWSLETTER = 3 // "Newsletter DiaspoInvest"
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { email, captchaToken } = req.body || {}
+  const { email, prenom, captchaToken } = req.body || {}
   if (!email || !captchaToken) {
     return res.status(400).json({ success: false, error: 'email et captchaToken requis' })
   }
@@ -44,6 +44,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         email,
+        attributes: prenom ? { PRENOM: prenom } : undefined,
         listIds: [LISTE_NEWSLETTER],
         updateEnabled: true, // si déjà inscrit, ne bloque pas
       }),
