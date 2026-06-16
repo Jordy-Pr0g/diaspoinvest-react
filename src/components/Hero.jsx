@@ -27,18 +27,18 @@ export default function Hero() {
         </div>
 
         <div className="hero-price-cards">
-          <div className="price-pill">
+          <a className="price-pill" href={LIENS.guide} target="_blank" rel="noreferrer">
             <div className="p-name">Guide PDF</div>
             <div className="p-value">14,99 €</div>
-          </div>
-          <div className="price-pill">
+          </a>
+          <a className="price-pill" href={LIENS.calculateur} target="_blank" rel="noreferrer">
             <div className="p-name">Tracker Dashboard</div>
             <div className="p-value">24,99 €</div>
-          </div>
-          <div className="price-pill">
+          </a>
+          <a className="price-pill" href={LIENS.pack} target="_blank" rel="noreferrer">
             <div className="p-name">Pack Complet</div>
             <div className="p-value">29,99 €</div>
-          </div>
+          </a>
         </div>
 
         <div className="social-proof">

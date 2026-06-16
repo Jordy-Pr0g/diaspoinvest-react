@@ -4,17 +4,16 @@
 
 // Liens Lemon Squeezy — checkout direct par produit.
 export const LIENS = {
-  guide: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/c908db0b-b753-4196-9bf5-ed01ddd4e42b",
+  guide:      "https://diaspoinvest.lemonsqueezy.com/checkout/buy/c908db0b-b753-4196-9bf5-ed01ddd4e42b",
   guideUemoa: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7855c4ed-54da-4a25-95e4-59dec1989e65",
-  calculateur: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/a57a680d-8503-4ca1-8e80-44906ae9a3c2",
-  pack: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/3c7690d1-d8ca-426b-8745-f88bfd81e556",
-  packUemoa: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7d7196b5-9afa-4932-aa20-abd83c979223",
-  mobileMoney: "https://www.mychariow.com/diaspoInvest-pack",
+  calculateur:"https://diaspoinvest.lemonsqueezy.com/checkout/buy/a57a680d-8503-4ca1-8e80-44906ae9a3c2",
+  pack:       "https://diaspoinvest.lemonsqueezy.com/checkout/buy/3c7690d1-d8ca-426b-8745-f88bfd81e556",
+  packUemoa:  "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7d7196b5-9afa-4932-aa20-abd83c979223",
 }
 
 // Données BRVM — Juin 2026 · Source : sikafinance.com (mise à jour manuelle)
 export const ACTIONS_BRVM = [
-  { nom: "Sonatel (SNTS)", cours: "28 500 FCFA", dividende: "1 740 FCFA", rendement: "6,11 %" },
+  { nom: "Sonatel (SNTS)", cours: "28 400 FCFA", dividende: "1 740 FCFA", rendement: "6,13 %" },
   { nom: "Orange CI", cours: "15 570 FCFA", dividende: "720 FCFA", rendement: "4,62 %" },
   { nom: "Vivo Energy CI", cours: "3 700 FCFA", dividende: "270 FCFA", rendement: "7,30 %" },
   { nom: "SGBCI", cours: "36 015 FCFA", dividende: "2 064 FCFA", rendement: "5,73 %" },
@@ -28,30 +27,32 @@ export const STATS = [
   { chiffre: "30 ans", label: "de simulation DCA" },
 ]
 
+// Segment France / Europe
 export const PRODUITS = [
   {
     id: "guide",
-    nom: "Guide PDF",
-    sousTitre: "Investir en bourse africaine",
+    nom: "Guide PDF — Diaspora Europe",
+    sousTitre: "Investir depuis la France",
     prix: "14,99 €",
     lien: LIENS.guide,
     populaire: false,
     points: [
       "Comprendre la BRVM pas à pas",
-      "Ouvrir un compte chez une SGI",
+      "Ouvrir un compte chez une SGI à distance",
       "Déclarer son compte en France (formulaire 3916)",
+      "Fiscalité France expliquée (Flat Tax 31,4 %)",
       "Format PDF · accès immédiat",
     ],
   },
   {
     id: "pack",
-    nom: "Pack Complet",
+    nom: "Pack Complet — Diaspora Europe",
     sousTitre: "Guide + Tracker Dashboard",
     prix: "29,99 €",
     lien: LIENS.pack,
     populaire: true,
     points: [
-      "Le Guide PDF complet",
+      "Le Guide PDF Diaspora Europe complet",
       "Le Tracker Dashboard (10 onglets)",
       "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
       "6 mois de mises à jour cours incluses",
@@ -60,7 +61,7 @@ export const PRODUITS = [
   },
   {
     id: "calculateur",
-    nom: "DiaspoInvest Tracker Dashboard",
+    nom: "Tracker Dashboard",
     sousTitre: "10 onglets · Excel & Google Sheets",
     prix: "24,99 €",
     lien: LIENS.calculateur,
@@ -70,6 +71,40 @@ export const PRODUITS = [
       "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
       "Suivi de portefeuille personnel",
       "6 mois de mises à jour cours incluses",
+    ],
+  },
+]
+
+// Segment UEMOA / Afrique
+export const PRODUITS_UEMOA = [
+  {
+    id: "guideUemoa",
+    nom: "Guide PDF — Résident UEMOA",
+    sousTitre: "Investir depuis la zone UEMOA",
+    prix: "14,99 €",
+    lien: LIENS.guideUemoa,
+    populaire: false,
+    points: [
+      "Comprendre la BRVM et ses 47 actions",
+      "Ouvrir un compte SGI dans ton pays",
+      "Fiscalité UEMOA (plus-values exonérées)",
+      "Stratégie DCA adaptée aux résidents",
+      "Format PDF · accès immédiat",
+    ],
+  },
+  {
+    id: "packUemoa",
+    nom: "Pack Complet — Résident UEMOA",
+    sousTitre: "Guide UEMOA + Tracker Dashboard",
+    prix: "29,99 €",
+    lien: LIENS.packUemoa,
+    populaire: true,
+    points: [
+      "Le Guide PDF Résident UEMOA complet",
+      "Le Tracker Dashboard (10 onglets)",
+      "Fiscalité UEMOA pays par pays",
+      "6 mois de mises à jour cours incluses",
+      "Meilleur rapport qualité-prix",
     ],
   },
 ]

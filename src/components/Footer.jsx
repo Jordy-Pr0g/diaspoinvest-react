@@ -15,17 +15,11 @@ export default function Footer({ onOpenModal }) {
           <div>
             <h4>Produits</h4>
             <ul>
-              <li>
-                <a href={LIENS.guide} target="_blank" rel="noreferrer">
-                  Guide PDF — 14,99 €
-                </a>
-              </li>
-              <li>
-                <a href="#pricing">Tracker Dashboard</a>
-              </li>
-              <li>
-                <a href="#pricing">Pack Complet</a>
-              </li>
+              <li><a href={LIENS.guide} target="_blank" rel="noreferrer">Guide PDF Europe — 14,99 €</a></li>
+              <li><a href={LIENS.guideUemoa} target="_blank" rel="noreferrer">Guide PDF UEMOA — 14,99 €</a></li>
+              <li><a href={LIENS.calculateur} target="_blank" rel="noreferrer">Tracker Dashboard — 24,99 €</a></li>
+              <li><a href={LIENS.pack} target="_blank" rel="noreferrer">Pack Complet Europe — 29,99 €</a></li>
+              <li><a href={LIENS.packUemoa} target="_blank" rel="noreferrer">Pack Complet UEMOA — 29,99 €</a></li>
             </ul>
           </div>
 
