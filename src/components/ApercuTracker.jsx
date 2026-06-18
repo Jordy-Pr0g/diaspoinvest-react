@@ -2,6 +2,12 @@ import { useState } from 'react'
 
 const ONGLETS = [
   {
+    id: 'guide',
+    label: 'Vue d\'ensemble',
+    img: '/tracker-guide.png',
+    desc: '10 onglets, chacun avec un rôle précis. Du simulateur 30 ans à la fiscalité par pays — tout est là, structuré, prêt à l\'emploi.',
+  },
+  {
     id: 'calculateur',
     label: 'Simulateur DCA',
     img: '/tracker-calculateur.png',
