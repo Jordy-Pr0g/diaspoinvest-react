@@ -41,19 +41,6 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="social-proof">
-          <div className="avatars">
-            <span>A</span>
-            <span>K</span>
-            <span>M</span>
-            <span>S</span>
-          </div>
-          <div>
-            <span className="stars">★★★★★</span>
-            <br />
-            Rejoins la diaspora qui passe à l’action
-          </div>
-        </div>
       </div>
     </section>
   )
