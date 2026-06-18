@@ -19,7 +19,7 @@ export default function Hero() {
 
         <div className="hero-cta">
           <a className="btn btn-or" href={LIENS.guide} target="_blank" rel="noreferrer">
-            Obtenir le guide — 14,99 €
+            Obtenir le guide · 14,99 €
           </a>
           <a className="btn btn-ghost" href="#calculateur" style={{ color: '#FFF8E7', borderColor: 'rgba(255,248,231,0.35)' }}>
             Simuler mon rendement

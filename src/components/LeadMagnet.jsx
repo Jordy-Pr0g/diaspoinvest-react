@@ -76,16 +76,14 @@ export default function LeadMagnet() {
         <div className="leadmagnet-inner">
           <div className="lm-left">
             <span className="eyebrow">Newsletter gratuite</span>
-            <h2>Les meilleures actions BRVM, chaque semaine dans ta boîte mail</h2>
+            <h2>Chaque lundi, les cours BRVM dans ta boite mail</h2>
             <p>
-              Chaque lundi, reçois une sélection des actions BRVM à dividende les plus
-              intéressantes — avec les cours mis à jour, les rendements calculés et les
-              signaux à surveiller.
+              Un résumé hebdomadaire de la BRVM : cours de clôture, évolutions des actions et rappels pratiques pour les investisseurs de la diaspora.
             </p>
             <ul className="lm-points">
-              <li>Rendements dividende actualisés après chaque clôture</li>
-              <li>Analyse claire, sans jargon, accessible à tous les niveaux</li>
-              <li>Rappels fiscaux pour les résidents en France et en zone UEMOA</li>
+              <li>Cours de clôture mis à jour après chaque séance</li>
+              <li>Résumé clair, sans jargon ni conseil en investissement</li>
+              <li>Infos pratiques sur la fiscalité et les démarches</li>
             </ul>
             <p className="lm-disclaimer">
               Contenu éducatif · Non affilié à la BRVM ni au CREPMF · Désinscription à tout moment
@@ -99,7 +97,7 @@ export default function LeadMagnet() {
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="32" height="32"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 <h3>Tu es inscrit.</h3>
-                <p>Vérifie ta boîte mail — la sélection de la semaine t'attend.</p>
+                <p>Vérifie ta boîte mail. La sélection de la semaine t'attend.</p>
               </div>
             ) : (
               <form className="lm-form" onSubmit={handleSubmit}>

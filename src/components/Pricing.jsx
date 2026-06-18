@@ -11,8 +11,8 @@ export default function Pricing() {
       <div className="container">
         <div className="section-head">
           <span className="eyebrow">Tarifs de lancement</span>
-          <h2>Choisis ta formule</h2>
-          <p>Prix de lancement · Satisfait ou remboursé 7 jours.</p>
+          <h2>Nos produits</h2>
+          <p>Satisfait ou remboursé 7 jours.</p>
         </div>
 
         {/* Toggle segment */}
@@ -37,12 +37,20 @@ export default function Pricing() {
               guide:    '/produit-guide.jpg',
               guideUemoa: '/produit-guide.jpg',
               calculateur: '/produit-tracker.jpg',
+              trackerUemoa: '/produit-tracker.jpg',
               pack:     '/produit-pack.jpg',
               packUemoa: '/produit-pack.jpg',
             }
             const img = IMG[p.id]
             return (
-            <div className={`plan${p.populaire ? ' featured' : ''}`} key={p.id}>
+            <div
+              className={`plan${p.populaire ? ' featured' : ''}`}
+              key={p.id}
+              style={p.populaire
+                ? { background: 'linear-gradient(160deg, #0D3B2E, #0A2219)', border: '2px solid rgba(201,168,76,0.5)', borderRadius: 20 }
+                : { background: '#111C13', border: '1.5px solid #2A3E2D', borderRadius: 16 }
+              }
+            >
               {p.populaire && <div className="plan-tag">Le plus complet</div>}
               {img && (
                 <div className="plan-img-wrap">
@@ -68,7 +76,7 @@ export default function Pricing() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Obtenir — {p.prix}
+                Obtenir · {p.prix}
               </a>
               <p className="plan-garantie">🔒 Satisfait ou remboursé 7 jours</p>
             </div>

@@ -117,7 +117,7 @@ export default function Calculateur() {
               )}
               {loadState === 'error' && (
                 <div style={{ color: '#FF7676', fontSize: 13, padding: '10px 0' }}>
-                  Données non disponibles — réessaie dans un instant.
+                  Données non disponibles. Réessaie dans un instant.
                 </div>
               )}
 
@@ -155,7 +155,7 @@ export default function Calculateur() {
                       <optgroup label="── Avec dividende connu ─────────────">
                         {filtered.filter(t => t.taux).map((t, i) => (
                           <option key={t.symbole} value={filtered.indexOf(t)}>
-                            {t.symbole} — {t.nom.slice(0,28)} · {t.taux.toFixed(2).replace('.',',')}%
+                            {t.symbole} · {t.nom.slice(0,28)} · {t.taux.toFixed(2).replace('.',',')}%
                           </option>
                         ))}
                       </optgroup>
@@ -164,7 +164,7 @@ export default function Calculateur() {
                       <optgroup label="── Autres titres ───────────────────">
                         {filtered.filter(t => !t.taux).map((t) => (
                           <option key={t.symbole} value={filtered.indexOf(t)}>
-                            {t.symbole} — {t.nom.slice(0,30)}
+                            {t.symbole} · {t.nom.slice(0,30)}
                           </option>
                         ))}
                       </optgroup>
@@ -240,7 +240,7 @@ export default function Calculateur() {
                 </div>
 
                 <p className="calc-note">
-                  ⚠️ Simulation pédagogique simplifiée — hors variation de cours, réinvestissement
+                  ⚠️ Simulation pédagogique simplifiée, hors variation de cours, réinvestissement
                   et frais de courtage. Dividendes perçus depuis la France soumis au PFU 30 %.
                   Compte à déclarer (formulaire 3916).
                 </p>
@@ -259,7 +259,7 @@ export default function Calculateur() {
                     textDecoration:'none',
                   }}
                 >
-                  Simulateur avancé — apport / durée / dividende cible →
+                  Simulateur avancé : apport, durée et dividende cible
                 </a>
               </>
             ) : (

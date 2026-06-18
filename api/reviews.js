@@ -73,10 +73,10 @@ export default async function handler(req, res) {
 
   // POST — soumettre un avis
   if (req.method === 'POST') {
-    const { prenom, email, ville, produit, texte, etoiles } = req.body || {}
+    const { prenom, email, ville, pays, produit, texte, etoiles } = req.body || {}
 
-    if (!prenom || !email || !texte || !etoiles) {
-      return res.status(400).json({ error: 'Champs obligatoires : prenom, email, texte, etoiles' })
+    if (!email || !texte || !etoiles) {
+      return res.status(400).json({ error: 'Champs obligatoires : email, texte, etoiles' })
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({ error: 'Email invalide' })
@@ -97,9 +97,9 @@ export default async function handler(req, res) {
       const reviews = await getReviews()
       const nouvelAvis = {
         id:      Date.now(),
-        prenom:  prenom.trim().slice(0, 40),
+        prenom:  (prenom || '').trim().slice(0, 40),
         email:   email.trim().slice(0, 100), // stocké, jamais retourné en GET
-        ville:   (ville || '').trim().slice(0, 50),
+        ville:   (pays || ville || '').trim().slice(0, 50),
         produit: (produit || '').trim().slice(0, 60),
         texte:   texte.trim().slice(0, 800),
         etoiles: Math.min(5, Math.max(1, parseInt(etoiles))),

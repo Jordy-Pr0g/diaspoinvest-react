@@ -77,6 +77,7 @@ function CardTitle({ children }) {
     <div style={{
       fontSize: 10, textTransform: 'uppercase', letterSpacing: 2,
       color: 'rgba(255,255,255,0.3)', fontWeight: 700, marginBottom: 14,
+      fontFamily: 'Space Grotesk, sans-serif',
     }}>{children}</div>
   )
 }
@@ -240,7 +241,7 @@ export default function BrvmLive() {
             { val: stats.stable,    label: 'Stables',         color: 'rgba(255,255,255,0.4)' },
           ].map(s => (
             <Card key={s.label} style={{ textAlign:'center', padding:'14px 10px' }}>
-              <div style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:s.color }}>{s.val || '—'}</div>
+              <div style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:s.color }}>{s.val || 0}</div>
               <div style={{ fontSize:10, color:'rgba(255,255,255,0.3)', textTransform:'uppercase', letterSpacing:0.5, marginTop:4 }}>{s.label}</div>
             </Card>
           ))}
@@ -320,10 +321,7 @@ export default function BrvmLive() {
 
         {/* Rendements dividende — tableau complet */}
         <Card style={{ marginBottom:20 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16, flexWrap:'wrap', gap:8 }}>
-            <CardTitle style={{ marginBottom:0 }}>Rendements dividende — données vérifiées</CardTitle>
-            <Badge color={VERT3}>Dernier exercice fiscal</Badge>
-          </div>
+          <CardTitle>Rendements dividende</CardTitle>
 
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))', gap:10 }}>
             {topDiv.map(t => (
@@ -371,7 +369,7 @@ export default function BrvmLive() {
             padding:'12px 20px', borderRadius:10, textDecoration:'none',
             whiteSpace:'nowrap', flexShrink:0,
           }}>
-            Voir le Tracker — 24,99 €
+            Voir le Tracker · 24,99 €
           </a>
         </div>
 

@@ -31,7 +31,7 @@ export const STATS = [
 export const PRODUITS = [
   {
     id: "guide",
-    nom: "Guide PDF — Diaspora Europe",
+    nom: "Guide PDF Europe",
     sousTitre: "Investir depuis la France",
     prix: "14,99 €",
     lien: LIENS.guide,
@@ -46,7 +46,7 @@ export const PRODUITS = [
   },
   {
     id: "pack",
-    nom: "Pack Complet — Diaspora Europe",
+    nom: "Pack Complet Europe",
     sousTitre: "Guide + Tracker Dashboard",
     prix: "29,99 €",
     lien: LIENS.pack,
@@ -62,7 +62,7 @@ export const PRODUITS = [
   {
     id: "calculateur",
     nom: "Tracker Dashboard",
-    sousTitre: "10 onglets · Excel & Google Sheets",
+    sousTitre: "10 onglets · Excel et Google Sheets",
     prix: "24,99 €",
     lien: LIENS.calculateur,
     populaire: false,
@@ -79,7 +79,7 @@ export const PRODUITS = [
 export const PRODUITS_UEMOA = [
   {
     id: "guideUemoa",
-    nom: "Guide PDF — Résident UEMOA",
+    nom: "Guide PDF UEMOA",
     sousTitre: "Investir depuis la zone UEMOA",
     prix: "14,99 €",
     lien: LIENS.guideUemoa,
@@ -93,8 +93,22 @@ export const PRODUITS_UEMOA = [
     ],
   },
   {
+    id: "trackerUemoa",
+    nom: "Tracker Dashboard",
+    sousTitre: "10 onglets · Excel et Google Sheets",
+    prix: "24,99 €",
+    lien: LIENS.calculateur,
+    populaire: false,
+    points: [
+      "47 actions BRVM par secteur",
+      "Simulateur DCA sur 30 ans avec fiscalité UEMOA",
+      "Suivi de portefeuille personnel",
+      "6 mois de mises à jour cours incluses",
+    ],
+  },
+  {
     id: "packUemoa",
-    nom: "Pack Complet — Résident UEMOA",
+    nom: "Pack Complet UEMOA",
     sousTitre: "Guide UEMOA + Tracker Dashboard",
     prix: "29,99 €",
     lien: LIENS.packUemoa,
@@ -123,7 +137,7 @@ export const PROBLEMES = [
   {
     titre: "La fiscalité fait peur",
     texte:
-      "Beaucoup ignorent le formulaire 3916 — pourtant obligatoire, avec une amende de 1 500 € par an en cas d'oubli.",
+      "Beaucoup ignorent le formulaire 3916, pourtant obligatoire, avec une amende de 1 500 € par an en cas d'oubli.",
   },
   {
     titre: "Trop d'informations contradictoires",
@@ -166,7 +180,7 @@ export const FAQ_ITEMS = [
     r: "Satisfait ou remboursé, sans condition, pendant 7 jours. Tu envoies un email à contact@diaspoinvest.fr et tu es remboursé dans les 48 h. Aucune question posée.",
   },
   {
-    q: "Je ne connais rien à la bourse — c'est fait pour moi ?",
+    q: "Je ne connais rien à la bourse, c'est fait pour moi ?",
     r: "Oui, c'est exactement pour toi. Le guide part de zéro : qu'est-ce que la BRVM, comment ouvrir un compte depuis la diaspora, quelles actions regarder en premier. Tout est expliqué en langage simple, sans jargon financier.",
   },
   {
@@ -191,4 +205,4 @@ export const SLOGAN =
   "Ces chiffres ne vont pas changer parce que tu n'as pas encore ouvert ton compte."
 
 export const DISCLAIMER =
-  "Guide éducatif indépendant — non affilié à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital."
+  "Guide éducatif indépendant, non affilié à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital."

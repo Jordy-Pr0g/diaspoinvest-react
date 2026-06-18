@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { LIENS } from '../data.js'
 
 const NAV_LINKS = [
-  { href: '#marche',      label: 'Cours du jour' },
+  { href: '#marche',      label: 'La BRVM' },
   { href: '#calculateur', label: 'Simulateur' },
+  { href: '#leadmagnet',  label: 'Newsletter' },
   { href: '#avis',        label: 'Avis' },
   { href: '#pricing',     label: 'Tarifs' },
-  { href: '#faq',         label: 'FAQ' },
 ]
 
 export default function Navbar() {

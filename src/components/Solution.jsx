@@ -16,7 +16,7 @@ export default function Solution() {
           <span className="eyebrow">La méthode DiaspoInvest</span>
           <h2>De zéro à ton premier investissement</h2>
           <p>
-            Un parcours clair et concret, pensé pour les débutants — sans jargon, avec des
+            Un parcours clair et concret, pensé pour les débutants, sans jargon, avec des
             chiffres réels de la BRVM.
           </p>
         </div>

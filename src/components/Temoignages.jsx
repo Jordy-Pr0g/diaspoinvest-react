@@ -3,23 +3,24 @@ import { useEffect, useRef, useState } from 'react'
 const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
 
-const PAYS_OPTIONS = [
-  // Diaspora Europe
-  { group: 'Diaspora — Europe', pays: ['France', 'Belgique', 'Suisse', 'Luxembourg', 'Canada (Québec)', 'Royaume-Uni', 'Allemagne', 'Italie', 'Espagne', 'Portugal', 'Pays-Bas', 'Suède', 'Norvège', 'Danemark', 'Autriche'] },
-  // Diaspora Amériques & reste du monde
-  { group: 'Diaspora — Amériques & Monde', pays: ['États-Unis', 'Canada', 'Brésil', 'Émirats Arabes Unis', 'Qatar', 'Arabie Saoudite', 'Australie'] },
-  // Zone UEMOA
-  { group: 'Zone UEMOA', pays: ["Côte d'Ivoire", 'Sénégal', 'Burkina Faso', 'Mali', 'Bénin', 'Togo', 'Niger', 'Guinée-Bissau'] },
-  // Autres pays africains
-  { group: 'Afrique (hors UEMOA)', pays: ['Cameroun', 'Congo-Brazzaville', 'RD Congo', 'Gabon', 'Guinée Équatoriale', 'Maroc', 'Algérie', 'Tunisie', 'Égypte', 'Ghana', 'Nigeria', 'Côte d\'Ivoire (résident)', 'Madagascar', 'Rwanda', 'Kenya', 'Ethiopie'] },
+const PAYS_LIST = [
+  "Algérie","Allemagne","Arabie Saoudite","Australie","Autriche",
+  "Belgique","Bénin","Brésil","Burkina Faso",
+  "Cameroun","Canada","Congo-Brazzaville","Côte d'Ivoire",
+  "Danemark","Égypte","Émirats Arabes Unis","Espagne","États-Unis","Éthiopie",
+  "France","Gabon","Ghana","Guinée-Bissau","Guinée Équatoriale",
+  "Italie","Kenya","Luxembourg","Madagascar","Mali","Maroc",
+  "Niger","Nigeria","Norvège","Pays-Bas","Portugal",
+  "Qatar","RD Congo","Royaume-Uni","Rwanda",
+  "Sénégal","Suède","Suisse","Togo","Tunisie",
 ]
 
 const PRODUITS_OPTIONS = [
-  'Guide PDF — Diaspora Europe',
-  'Guide PDF — Résident UEMOA',
+  'Guide PDF Europe',
+  'Guide PDF UEMOA',
   'Tracker Dashboard',
-  'Pack Complet — Diaspora Europe',
-  'Pack Complet — Résident UEMOA',
+  'Pack Complet Europe',
+  'Pack Complet UEMOA',
 ]
 
 function Etoiles({ n, onClick, interactive = false }) {
@@ -43,7 +44,6 @@ function Etoiles({ n, onClick, interactive = false }) {
 }
 
 function AvisCard({ avis }) {
-  const initiale = avis.prenom ? avis.prenom[0].toUpperCase() : '?'
   return (
     <div style={{
       background: '#0F1A12',
@@ -79,27 +79,17 @@ function AvisCard({ avis }) {
       </div>
 
       {/* Texte */}
-      <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.72)', fontStyle: 'italic', margin: 0 }}>
+      <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', fontStyle: 'italic', margin: 0 }}>
         « {avis.texte} »
       </p>
 
-      {/* Auteur */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 4 }}>
-        <div style={{
-          width: 36, height: 36, borderRadius: '50%',
-          background: 'linear-gradient(135deg, #0D3B2E, #1a5c42)',
-          border: '1.5px solid rgba(201,168,76,0.3)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontWeight: 900, fontSize: 14, color: OR,
-          fontFamily: 'DM Mono, monospace', flexShrink: 0,
-        }}>{initiale}</div>
-        <div>
-          <div style={{ fontWeight: 800, fontSize: 14, color: '#fff' }}>{avis.prenom}</div>
-          {avis.ville && <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 1 }}>{avis.ville}</div>}
-        </div>
-        <div style={{ marginLeft: 'auto', fontSize: 10, color: 'rgba(255,255,255,0.2)', fontFamily: 'DM Mono, monospace' }}>
-          {avis.date}
-        </div>
+      {/* Footer */}
+      <div className="temo-footer" style={{ marginTop: 12 }}>
+        {(avis.ville || avis.pays) && (
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', letterSpacing: 0.5 }}>
+            {avis.ville || avis.pays}
+          </span>
+        )}
       </div>
 
       {/* Réponse Jordan */}
@@ -122,9 +112,8 @@ function AvisCard({ avis }) {
 }
 
 function FormulaireAvis({ onSuccess }) {
-  const [prenom,  setPrenom]  = useState('')
   const [email,   setEmail]   = useState('')
-  const [ville,   setVille]   = useState('')
+  const [pays,    setPays]    = useState('')
   const [produit, setProduit] = useState('')
   const [texte,   setTexte]   = useState('')
   const [etoiles, setEtoiles] = useState(0)
@@ -140,7 +129,7 @@ function FormulaireAvis({ onSuccess }) {
       const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prenom, ville, produit, texte, etoiles, email }),
+        body: JSON.stringify({ email, pays, produit, texte, etoiles }),
       })
       if (res.ok) { setStatut('succes'); onSuccess && onSuccess() }
       else { setStatut('erreur') }
@@ -183,27 +172,16 @@ function FormulaireAvis({ onSuccess }) {
       </div>
 
       {/* Champs */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-        <div>
-          <label style={lblStyle}>Prénom *</label>
-          <input style={inputStyle} value={prenom} onChange={e => setPrenom(e.target.value)}
-            placeholder="Ton prénom" required maxLength={40} />
-        </div>
-        <div>
-          <label style={lblStyle}>Pays</label>
-          <select style={{ ...inputStyle, backgroundImage: 'none' }} value={ville} onChange={e => setVille(e.target.value)}>
-            <option value="">-- Sélectionne --</option>
-            {PAYS_OPTIONS.map(g => (
-              <optgroup key={g.group} label={g.group}>
-                {g.pays.map(p => <option key={p} value={p}>{p}</option>)}
-              </optgroup>
-            ))}
-          </select>
-        </div>
+      <div>
+        <label style={lblStyle}>Pays</label>
+        <select style={{...inputStyle, backgroundImage:'none'}} value={pays} onChange={e=>setPays(e.target.value)}>
+          <option value="">Pays (optionnel)</option>
+          {PAYS_LIST.map(p=><option key={p} value={p}>{p}</option>)}
+        </select>
       </div>
 
       <div>
-        <label style={lblStyle}>Email * <span style={{ color:'rgba(255,255,255,0.25)', fontWeight:400 }}>(non publié — pour vérification)</span></label>
+        <label style={lblStyle}>Email * <span style={{ color:'rgba(255,255,255,0.25)', fontWeight:400 }}>(non publié, pour vérification)</span></label>
         <input style={inputStyle} type="email" value={email} onChange={e => setEmail(e.target.value)}
           placeholder="ton@email.com" required />
       </div>
@@ -431,7 +409,7 @@ function AvisBande({ avis }) {
               « {a.texte.slice(0, 80)}{a.texte.length > 80 ? '…' : ''} »
             </span>
             <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.4)' }}>
-              — {a.prenom}{a.ville ? `, ${a.ville}` : ''}
+              — {a.ville || a.pays || ''}
             </span>
           </div>
         ))}
