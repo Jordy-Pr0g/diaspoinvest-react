@@ -247,8 +247,8 @@ export default function BrvmLive() {
           ))}
         </div>
 
-        {/* 3 colonnes : hausses / baisses / dividendes à venir */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:14, marginBottom:20 }}>
+        {/* 2 colonnes : hausses / baisses */}
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:20 }}>
 
           {/* Hausses */}
           <Card>
@@ -288,36 +288,6 @@ export default function BrvmLive() {
             }
           </Card>
 
-          {/* Dividendes à venir */}
-          <Card>
-            <CardTitle>Prochains détachements</CardTitle>
-            {divNext.length === 0
-              ? <div style={{ color:'rgba(255,255,255,0.2)', fontSize:13 }}>Aucun détachement prévu</div>
-              : divNext.slice(0, 5).map((d, i) => {
-                const sym  = d.symbole || d.titre || '?'
-                const nom  = NOM_SOCIETE[sym] || sym
-                const dateRaw = d.date_detachement || d.date || ''
-                const dateAff = dateRaw ? (() => {
-                  try {
-                    return new Date(dateRaw).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' })
-                  } catch { return dateRaw }
-                })() : null
-                return (
-                  <div className="mv-row" key={i}>
-                    <div>
-                      <div style={{ fontSize:13, fontWeight:700, color:'#fff' }}>{nom}</div>
-                      <div style={{ fontFamily:'DM Mono,monospace', fontSize:10, color:'rgba(255,255,255,0.3)', marginTop:1 }}>{sym}</div>
-                    </div>
-                    {dateAff && (
-                      <span style={{ fontFamily:'DM Mono,monospace', fontSize:12, fontWeight:700, color:OR }}>
-                        {dateAff}
-                      </span>
-                    )}
-                  </div>
-                )
-              })
-            }
-          </Card>
         </div>
 
         {/* Rendements dividende — tableau complet */}
