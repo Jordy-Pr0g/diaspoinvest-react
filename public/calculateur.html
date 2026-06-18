@@ -129,23 +129,54 @@ input[type="range"]::-webkit-slider-thumb {
 .cmp.good .cmp-val { color: var(--vert3); }
 .cmp-sub { font-size: 10px; color: var(--gris); margin-top: 4px; display: block; }
 
+/* Recherche + sélection titre */
+.titre-wrap { margin-bottom: 20px; position: relative; }
+.search-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px 12px 0 0;
+  padding: 12px 16px 12px 40px;
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  outline: none;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.search-input::placeholder { color: rgba(255,255,255,0.3); }
+.search-icon {
+  position: absolute;
+  left: 14px; top: 13px;
+  color: rgba(255,255,255,0.3);
+  font-size: 15px;
+  pointer-events: none;
+}
 .titre-select {
   width: 100%;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
   padding: 14px 44px 14px 16px;
   color: #fff;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 15px;
   outline: none;
-  margin-bottom: 20px;
   -webkit-appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
 }
 .titre-select option { background: #0D3B2E; }
+
+.data-status {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  text-align: right;
+  margin-top: 6px;
+  font-family: 'DM Mono', monospace;
+}
+.data-status.live { color: var(--vert3); }
 
 .taux-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 20px; }
 
@@ -175,6 +206,13 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .footer { text-align: center; font-size: 10px; color: rgba(255,255,255,0.18); line-height: 1.7; margin-top: 8px; }
+
+.taux-hint {
+  font-size: 11px;
+  color: rgba(201,168,76,0.6);
+  margin-top: 6px;
+  display: none;
+}
 </style>
 </head>
 <body>
@@ -185,19 +223,20 @@ input[type="range"]::-webkit-slider-thumb {
   <div class="subtitle">Clique sur la case que tu veux calculer</div>
 </div>
 
-<!-- Données scraper 14/06/2026 -->
-<select class="titre-select" id="sel-titre" onchange="onTitreChange()">
-  <option value="28400|6.13|Sonatel">Sonatel (SNTS) — 28 400 FCFA · 6,13%</option>
-  <option value="15650|4.60|Orange CI">Orange CI (ORAC) — 15 650 FCFA · 4,60%</option>
-  <option value="38995|5.29|SGBCI">SGBCI (SGBC) — 38 995 FCFA · 5,29%</option>
-  <option value="8780|5.99|BOA Benin">BOA Benin (BOAB) — 8 780 FCFA · 5,99%</option>
-  <option value="custom|custom|Personnalise">Personnalise...</option>
-</select>
+<!-- Sélection titre avec recherche -->
+<div class="titre-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="text" class="search-input" id="search-input" placeholder="Rechercher une action (nom ou code)..." oninput="filterTitres(this.value)">
+  <select class="titre-select" id="sel-titre" onchange="onTitreChange()" size="1">
+    <option value="loading">Chargement des cours BRVM...</option>
+  </select>
+  <div class="data-status" id="data-status">Chargement...</div>
+</div>
 
 <div class="taux-wrap" style="margin-bottom:12px">
   <div class="slider-header">
     <span class="slider-name">Cours de l'action</span>
-    <span class="slider-cur" id="v-cours">28 400 FCFA</span>
+    <span class="slider-cur" id="v-cours">— FCFA</span>
   </div>
   <input type="number" id="inp-cours" value="28400" min="1" step="50"
          style="width:100%;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:12px 14px;color:#fff;font-family:'DM Mono',monospace;font-size:20px;font-weight:700;outline:none;margin-top:8px;"
@@ -207,11 +246,12 @@ input[type="range"]::-webkit-slider-thumb {
 <div class="taux-wrap">
   <div class="slider-header">
     <span class="slider-name">Rendement brut</span>
-    <span class="slider-cur" id="v-taux">6,13 %</span>
+    <span class="slider-cur" id="v-taux">— %</span>
   </div>
   <input type="range" id="sl-taux" min="0.5" max="20" step="0.01" value="6.13"
          oninput="onTauxChange(this.value)">
   <div class="slider-range"><span>0,5%</span><span>20%</span></div>
+  <div class="taux-hint" id="taux-hint">Aucun dividende connu pour ce titre — ajuste le taux manuellement.</div>
 </div>
 
 <div class="trio">
@@ -266,16 +306,51 @@ input[type="range"]::-webkit-slider-thumb {
   <a href="https://diaspoinvest.fr/#pricing" class="cta-btn">Voir le Tracker Dashboard</a>
 </div>
 
-<div class="footer">
+<div class="footer" id="footer-txt">
   DiaspoInvest · Simulation mathematique illustrative · Ne constitue pas un conseil en investissement<br>
-  Donnees BRVM : scraper DiaspoInvest du 14/06/2026 · Sources : BRVM.org + sikafinance.com<br>
+  Donnees BRVM en temps reel · Sources : BRVM.org + sikafinance.com<br>
   DiaspoInvest n'est affilie ni a la BRVM ni au CREPMF
 </div>
 
 <script>
+// ─── Dividendes annuels connus (FCFA/action, dernier exercice fiscal)
+// Sources : brvm.org, sikafinance.com
+const DIVIDENDES = {
+  'SNTS':  { div: 1740, nom: 'Sonatel' },
+  'ORAC':  { div: 720,  nom: 'Orange CI' },
+  'SGBC':  { div: 2062, nom: 'SGBCI' },
+  'BOAB':  { div: 526,  nom: 'BOA Benin' },
+  'CBIBF': { div: 900,  nom: 'Coris Bank BF' },
+  'PALC':  { div: 502,  nom: 'PALMCI' },
+  'SLBC':  { div: 2000, nom: 'Solibra CI' },
+  'STBC':  { div: 4800, nom: 'SITAB CI' },
+  'BICC':  { div: 1500, nom: 'BICI CI' },
+  'ECOC':  { div: 600,  nom: 'Ecobank CI' },
+  'NTLC':  { div: 700,  nom: 'Nestle CI' },
+  'TTLC':  { div: 200,  nom: 'TotalEnergies CI' },
+  'TTLS':  { div: 180,  nom: 'TotalEnergies SN' },
+  'BOABF': { div: 200,  nom: 'BOA Burkina' },
+  'BOAC':  { div: 340,  nom: 'BOA CI' },
+  'BOAM':  { div: 200,  nom: 'BOA Mali' },
+  'BOAN':  { div: 300,  nom: 'BOA Niger' },
+  'BOAS':  { div: 250,  nom: 'BOA Senegal' },
+  'NSBC':  { div: 550,  nom: 'NSIA Banque CI' },
+  'SPHC':  { div: 500,  nom: 'SAPH CI' },
+  'SIBC':  { div: 400,  nom: 'SIB CI' },
+  'ONTBF': { div: 150,  nom: 'ONATEL BF' },
+  'CIEC':  { div: 200,  nom: 'CIE CI' },
+  'SDCC':  { div: 400,  nom: 'SODE CI' },
+  'ORGT':  { div: 120,  nom: 'Oragroup TG' },
+  'BICB':  { div: 300,  nom: 'BICIB Benin' },
+  'CABC':  { div: 200,  nom: 'SICABLE CI' },
+};
+
+// ─── État
 let locked = 'divann';
 let cours  = 28400;
 let taux   = 6.13;
+let allTitres = []; // [{symbole, nom, cours_cloture, dividende?, taux?}]
+let filteredTitres = [];
 
 const SLIDERS = {
   apport: { min:5000,   max:500000, step:5000,  def:30000,  label:'Apport mensuel',         unit:'FCFA'    },
@@ -292,6 +367,138 @@ const fmt = v => {
 };
 const fmtFull = v => Math.round(v).toLocaleString('fr-FR');
 
+// ─── Fetch données BRVM live
+async function loadBRVMData() {
+  try {
+    const r = await fetch('https://diaspoinvest.fr/api/brvm-data');
+    if (!r.ok) throw new Error('API indisponible');
+    const data = await r.json();
+
+    // Construire la liste des titres avec dividendes
+    const actions = data.actions || [];
+    const dateStr = data.genere_le ? new Date(data.genere_le).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'}) : '';
+
+    allTitres = [];
+
+    // 1. D'abord les titres avec dividendes connus, triés par rendement décroissant
+    const avecDiv = [];
+    const sansDiv = [];
+
+    actions.forEach(a => {
+      const s = a.symbole;
+      const c = a.cours_cloture;
+      if (DIVIDENDES[s] && c > 0) {
+        const div = DIVIDENDES[s].div;
+        const t = (div / c) * 100;
+        avecDiv.push({ symbole: s, nom: a.nom, cours: c, dividende: div, taux: t, hasDividende: true });
+      } else {
+        sansDiv.push({ symbole: s, nom: a.nom, cours: c, dividende: null, taux: null, hasDividende: false });
+      }
+    });
+
+    avecDiv.sort((a, b) => b.taux - a.taux);
+    sansDiv.sort((a, b) => a.symbole.localeCompare(b.symbole));
+
+    allTitres = [...avecDiv, ...sansDiv];
+    filteredTitres = [...allTitres];
+
+    updateSelect(filteredTitres);
+
+    const statusEl = document.getElementById('data-status');
+    statusEl.textContent = dateStr ? `Cours du ${dateStr} · ${avecDiv.length} titres à dividende` : `${avecDiv.length} titres à dividende`;
+    statusEl.classList.add('live');
+
+    document.getElementById('footer-txt').innerHTML =
+      `DiaspoInvest · Simulation mathematique illustrative · Ne constitue pas un conseil en investissement<br>
+      Cours BRVM du ${dateStr} · Sources : BRVM.org + sikafinance.com<br>
+      Dividendes : dernier exercice fiscal connu · DiaspoInvest n'est affilie ni a la BRVM ni au CREPMF`;
+
+    // Sélectionner Sonatel par défaut
+    const sel = document.getElementById('sel-titre');
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value.startsWith('SNTS|')) { sel.selectedIndex = i; break; }
+    }
+    onTitreChange();
+
+  } catch(e) {
+    document.getElementById('data-status').textContent = 'Données non disponibles — cours statiques';
+    // Fallback statique
+    allTitres = Object.entries(DIVIDENDES).map(([s, d]) => ({
+      symbole: s, nom: d.nom, cours: 0, dividende: d.div, taux: null, hasDividende: true
+    }));
+    filteredTitres = [...allTitres];
+    updateSelect(filteredTitres);
+    document.getElementById('inp-cours').value = 28400;
+    cours = 28400; taux = 6.13;
+    updateTauxDisplay(taux);
+    buildSliders(); compute();
+  }
+}
+
+function updateSelect(titres) {
+  const sel = document.getElementById('sel-titre');
+  const prev = sel.value;
+  sel.innerHTML = '';
+
+  // Option personnalisé en premier
+  const optCustom = document.createElement('option');
+  optCustom.value = 'custom|custom|Personnalise';
+  optCustom.textContent = '✏️  Personnalise (entrer manuellement)';
+  sel.appendChild(optCustom);
+
+  // Séparateur dividendes connus
+  if (titres.some(t => t.hasDividende)) {
+    const grp1 = document.createElement('optgroup');
+    grp1.label = '── Titres à dividende ──────────────────';
+    titres.filter(t => t.hasDividende).forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = `${t.symbole}|${t.cours}|${t.dividende}`;
+      const rendLabel = t.taux > 0 ? ` · ${t.taux.toFixed(2).replace('.',',')}%` : '';
+      opt.textContent = `${t.symbole} — ${shortNom(t.nom)}${rendLabel}`;
+      grp1.appendChild(opt);
+    });
+    sel.appendChild(grp1);
+  }
+
+  // Autres titres
+  const autresSansDivFiltered = titres.filter(t => !t.hasDividende);
+  if (autresSansDivFiltered.length > 0) {
+    const grp2 = document.createElement('optgroup');
+    grp2.label = '── Autres titres ───────────────────────';
+    autresSansDivFiltered.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = `${t.symbole}|${t.cours}|null`;
+      opt.textContent = `${t.symbole} — ${shortNom(t.nom)} · cours ${fmtFull(t.cours)} FCFA`;
+      grp2.appendChild(opt);
+    });
+    sel.appendChild(grp2);
+  }
+
+  // Rétablir la sélection si possible
+  for (let i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value === prev) { sel.selectedIndex = i; break; }
+  }
+}
+
+function shortNom(nom) {
+  const s = nom.replace(/COTE D.IVOIRE/gi, 'CI').replace(/BURKINA FASO/gi, 'BF');
+  return s.length > 28 ? s.substring(0, 26) + '…' : s;
+}
+
+function filterTitres(q) {
+  const qLow = q.toLowerCase().trim();
+  if (!qLow) {
+    filteredTitres = [...allTitres];
+  } else {
+    filteredTitres = allTitres.filter(t =>
+      t.symbole.toLowerCase().includes(qLow) ||
+      t.nom.toLowerCase().includes(qLow)
+    );
+  }
+  updateSelect(filteredTitres);
+}
+
+// ─── Calculs
 function simForward(apport, duree, tauxPct, coursTitre) {
   const divBrut = coursTitre * tauxPct / 100;
   const frais   = 0.005;
@@ -330,7 +537,9 @@ function livretA(apport, duree) {
 
 function compute() {
   const a=vals.apport, d=vals.duree, dv=vals.divann;
-  const titre=document.getElementById('sel-titre').value.split('|')[2];
+  const selVal = document.getElementById('sel-titre').value;
+  const parts = selVal.split('|');
+  const titre = parts[0] !== 'custom' ? parts[0] : 'Personnalise';
   let result, resLabel, resUnit, resContext;
 
   if(locked==='divann'){
@@ -341,7 +550,7 @@ function compute() {
     setTrio('duree',d+' ans');
     resLabel='Tu recevras chaque annee';
     resUnit='FCFA / AN';
-    resContext=`<b>${fmtFull(a)} FCFA/mois</b> pendant <b>${d} ans</b> sur ${titre} (${taux}% brut)`;
+    resContext=`<b>${fmtFull(a)} FCFA/mois</b> pendant <b>${d} ans</b> sur ${titre} (${taux.toFixed(2)}% brut)`;
     showResult(result.divAnn,resLabel,resUnit,resContext,result);
   } else if(locked==='apport'){
     const ap=simInverse_apport(dv,d,taux,cours);
@@ -431,21 +640,70 @@ function onSlider(key,val){
   compute();
 }
 
+function updateTauxDisplay(t) {
+  document.getElementById('sl-taux').value = t;
+  document.getElementById('v-taux').textContent = t.toFixed(2).replace('.',',') + ' %';
+}
+
 function onTitreChange(){
-  const parts=document.getElementById('sel-titre').value.split('|');
-  if(parts[0]!=='custom'){
-    cours=parseFloat(parts[0]); taux=parseFloat(parts[1]);
-    document.getElementById('sl-taux').value=taux;
-    document.getElementById('v-taux').textContent=taux.toFixed(2).replace('.',',')+' %';
-    document.getElementById('inp-cours').value=cours;
-    document.getElementById('v-cours').textContent=fmtFull(cours)+' FCFA';
+  const parts = document.getElementById('sel-titre').value.split('|');
+  const symbole = parts[0];
+  const hint = document.getElementById('taux-hint');
+
+  if(symbole === 'custom') {
+    hint.style.display = 'none';
+    document.getElementById('v-cours').textContent = fmtFull(cours) + ' FCFA';
+    compute();
+    return;
+  }
+
+  const coursVal = parseFloat(parts[1]);
+  const divVal = parts[2];
+
+  if(coursVal > 0) {
+    cours = coursVal;
+    document.getElementById('inp-cours').value = cours;
+    document.getElementById('v-cours').textContent = fmtFull(cours) + ' FCFA';
+  }
+
+  if(divVal !== 'null' && divVal !== 'custom') {
+    // Dividende connu : calculer le taux dynamiquement depuis le cours actuel
+    const div = parseFloat(divVal);
+    taux = (div / cours) * 100;
+    updateTauxDisplay(taux);
+    hint.style.display = 'none';
+  } else {
+    // Pas de dividende connu
+    hint.style.display = 'block';
+    // Taux reste tel quel (slider manuel)
+  }
+
+  compute();
+}
+
+function onCoursChange(val){
+  cours = parseFloat(val) || 1;
+  document.getElementById('v-cours').textContent = fmtFull(cours) + ' FCFA';
+  // Si un titre avec dividende est sélectionné, recalculer le taux
+  const parts = document.getElementById('sel-titre').value.split('|');
+  if(parts[2] !== 'null' && parts[2] !== 'custom' && parts[0] !== 'custom') {
+    const div = parseFloat(parts[2]);
+    taux = (div / cours) * 100;
+    updateTauxDisplay(taux);
   }
   compute();
 }
-function onCoursChange(val){ cours=parseFloat(val)||1; document.getElementById('v-cours').textContent=fmtFull(cours)+' FCFA'; compute(); }
-function onTauxChange(val){ taux=parseFloat(val); document.getElementById('v-taux').textContent=parseFloat(val).toFixed(2).replace('.',',')+' %'; compute(); }
 
-window.addEventListener('load',()=>{ buildSliders(); compute(); });
+function onTauxChange(val){
+  taux = parseFloat(val);
+  document.getElementById('v-taux').textContent = parseFloat(val).toFixed(2).replace('.',',') + ' %';
+  compute();
+}
+
+window.addEventListener('load', () => {
+  buildSliders();
+  loadBRVMData();
+});
 </script>
 </body>
 </html>
