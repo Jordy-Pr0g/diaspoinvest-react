@@ -246,7 +246,7 @@ export default function Calculateur() {
                 </p>
 
                 <a
-                  href="/calculateur.html"
+                  href="https://diaspoinvest.lemonsqueezy.com/checkout/buy/a57a680d-8503-4ca1-8e80-44906ae9a3c2"
                   target="_blank"
                   rel="noreferrer"
                   style={{
@@ -259,7 +259,7 @@ export default function Calculateur() {
                     textDecoration:'none',
                   }}
                 >
-                  Simulateur avancé : apport, durée et dividende cible
+                  Obtenir le Tracker Dashboard · 24,99 €
                 </a>
               </>
             ) : (
