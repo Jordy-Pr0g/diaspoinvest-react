@@ -10,7 +10,7 @@ const CONTENU = {
           DiaspoInvest est un projet éducatif indépendant édité par Jordan Djiokap,
           étudiant en Finance d'Entreprise et Ingénierie Financière, Paris (France).
         </p>
-        <p>Contact : contact.diaspoinvest@gmail.com</p>
+        <p>Contact : contact@diaspoinvest.fr</p>
 
         <h4>Objet</h4>
         <p>
@@ -89,7 +89,7 @@ const CONTENU = {
         <p>
           Conformément au Règlement (UE) 2016/679, vous disposez d'un droit d'accès,
           de rectification, de suppression et de portabilité de vos données. Pour exercer
-          ces droits : contact.diaspoinvest@gmail.com
+          ces droits : contact@diaspoinvest.fr
         </p>
       </>
     ),
@@ -102,7 +102,7 @@ const CONTENU = {
         <h4>Vendeur</h4>
         <p>
           Jordan Djiokap — DiaspoInvest, Paris (France).
-          Contact : contact.diaspoinvest@gmail.com
+          Contact : contact@diaspoinvest.fr
         </p>
 
         <h4>Produits</h4>
@@ -135,7 +135,7 @@ const CONTENU = {
         <p>
           Cependant, DiaspoInvest offre une garantie commerciale "satisfait ou remboursé"
           de 14 jours à compter de la date d'achat. Pour en bénéficier, contactez
-          contact.diaspoinvest@gmail.com avec votre preuve d'achat.
+          contact@diaspoinvest.fr avec votre preuve d'achat.
         </p>
 
         <h4>Propriété intellectuelle</h4>

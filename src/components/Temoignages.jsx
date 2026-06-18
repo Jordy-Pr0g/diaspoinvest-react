@@ -141,21 +141,32 @@ function FormulaireAvis({ onSuccess }) {
   const [etoiles, setEtoiles] = useState(0)
   const [survol,  setSurvol]  = useState(0)
   const [statut,  setStatut]  = useState('idle') // idle | loading | succes | erreur
+  const [errMsg,  setErrMsg]  = useState('')
 
   async function soumettre(e) {
     e.preventDefault()
     if (etoiles === 0) { alert('Merci de choisir une note.'); return }
     if (texte.trim().length < 10) { alert('Écris au moins 10 caractères.'); return }
     setStatut('loading')
+    setErrMsg('')
     try {
       const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, pays: pays || '', produit, texte, etoiles }),
       })
-      if (res.ok) { setStatut('succes'); onSuccess && onSuccess() }
-      else { setStatut('erreur') }
-    } catch { setStatut('erreur') }
+      if (res.ok) {
+        setStatut('succes')
+        onSuccess && onSuccess()
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setErrMsg(data.error || `Erreur ${res.status}`)
+        setStatut('erreur')
+      }
+    } catch (err) {
+      setErrMsg(err.message || 'Connexion impossible')
+      setStatut('erreur')
+    }
   }
 
   if (statut === 'succes') return (
@@ -245,7 +256,7 @@ function FormulaireAvis({ onSuccess }) {
 
       {statut === 'erreur' && (
         <p style={{ fontSize: 12, color: '#FF7676', textAlign: 'center' }}>
-          Une erreur est survenue. Réessaie ou écris à contact@diaspoinvest.fr
+          Erreur : {errMsg || 'Inconnue'}. Réessaie ou écris à contact@diaspoinvest.fr
         </p>
       )}
     </form>
