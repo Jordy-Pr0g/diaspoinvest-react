@@ -8,7 +8,6 @@ import Solution from './components/Solution.jsx'
 import Histoire from './components/Histoire.jsx'
 import Calculateur from './components/Calculateur.jsx'
 import LeadMagnet from './components/LeadMagnet.jsx'
-import Avertissement from './components/Avertissement.jsx'
 import Pricing from './components/Pricing.jsx'
 import FAQ from './components/FAQ.jsx'
 import Footer from './components/Footer.jsx'
@@ -34,7 +33,6 @@ export default function App() {
 <Histoire />
         <Calculateur />
         <LeadMagnet />
-        <Avertissement />
         <Pricing />
         <FAQ />
       </main>

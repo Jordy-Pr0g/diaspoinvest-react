@@ -1,4 +1,4 @@
-import { LIENS, SLOGAN } from '../data.js'
+import { LIENS, SLOGAN, DISCLAIMER } from '../data.js'
 
 export default function Footer({ onOpenModal }) {
   return (
@@ -44,6 +44,11 @@ export default function Footer({ onOpenModal }) {
               </li>
             </ul>
           </div>
+        </div>
+
+        <div className="footer-disclaimer">
+          <span>⚖️</span>
+          <p>{DISCLAIMER}</p>
         </div>
 
         <div className="footer-bottom">
