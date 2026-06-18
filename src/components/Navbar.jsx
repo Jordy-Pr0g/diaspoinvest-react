@@ -32,18 +32,7 @@ export default function Navbar() {
     <header className={`navbar${scrolled ? ' scrolled' : ''}${open ? ' menu-open' : ''}`}>
       <div className="container">
         <a href="#top" className="brand" aria-label="DiaspoInvest — accueil">
-          <svg className="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
-            <rect width="64" height="64" rx="14" fill="#0D3B2E" />
-            <path
-              d="M16 44 L26 30 L34 38 L48 20"
-              fill="none"
-              stroke="#C9A84C"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="48" cy="20" r="4" fill="#E8C46A" />
-          </svg>
+          <img src="/logo-512.png" alt="" className="brand-mark" aria-hidden="true" />
           Diaspo<span className="dot">Invest</span>
         </a>
 
