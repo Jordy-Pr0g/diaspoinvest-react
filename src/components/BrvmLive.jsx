@@ -90,6 +90,8 @@ export default function BrvmLive() {
   const [stats,    setStats]    = useState({ total:0, enHausse:0, enBaisse:0, stable:0 })
   const [divNext,  setDivNext]  = useState([])
   const [ticker,   setTicker]   = useState([])
+  const [indices,  setIndices]  = useState([])
+  const [secteurs, setSecteurs] = useState([])
   const tickerRef = useRef(null)
 
   useEffect(() => {
@@ -103,23 +105,50 @@ export default function BrvmLive() {
           setDate(d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }))
         }
 
+        // Indices principaux et sectoriels
+        const raw = json.indices || {}
+        const PRINCIPAUX = ['BRVM - COMPOSITE', 'BRVM - PRESTIGE', 'BRVM - PRINCIPAL', 'BRVM-30']
+        const LABELS = {
+          'BRVM - COMPOSITE': 'Composite',
+          'BRVM - PRESTIGE':  'Prestige',
+          'BRVM - PRINCIPAL': 'Principal',
+          'BRVM-30':          'BRVM-30',
+        }
+        setIndices(PRINCIPAUX.filter(k => raw[k]).map(k => ({
+          label: LABELS[k],
+          valeur: raw[k].fermeture,
+          variation: raw[k].variation_pct,
+        })))
+
+        const SECTEUR_LABELS = {
+          'BRVM - SERVICES FINANCIERS':         'Finances',
+          'BRVM - TELECOMMUNICATIONS':          'Télécoms',
+          'BRVM - ENERGIE':                     'Énergie',
+          'BRVM - INDUSTRIELS':                 'Industriels',
+          'BRVM - CONSOMMATION DE BASE':        'Conso. base',
+          'BRVM - CONSOMMATION DISCRETIONNAIRE':'Conso. disc.',
+          'BRVM - SERVICES PUBLICS':            'Services pub.',
+        }
+        setSecteurs(Object.keys(SECTEUR_LABELS).filter(k => raw[k]).map(k => ({
+          label: SECTEUR_LABELS[k],
+          valeur: raw[k].fermeture,
+          variation: raw[k].variation_pct,
+        })))
+
         const actions = json.actions || []
         const avecVariation = actions.filter(a => a.variation_pct !== undefined && a.variation_pct !== null)
 
-        // Stats marché
         const enH  = avecVariation.filter(a => a.variation_pct > 0).length
         const enB  = avecVariation.filter(a => a.variation_pct < 0).length
         const stab = avecVariation.filter(a => a.variation_pct === 0).length
         setStats({ total: actions.length, enHausse: enH, enBaisse: enB, stable: stab })
 
-        // Top 5 hausses
         setHausse(
           avecVariation
             .filter(a => a.variation_pct > 0 && a.cours_cloture > 0)
             .sort((a,b) => b.variation_pct - a.variation_pct)
             .slice(0, 5)
         )
-        // Top 5 baisses
         setBaisse(
           avecVariation
             .filter(a => a.variation_pct < 0 && a.cours_cloture > 0)
@@ -127,7 +156,6 @@ export default function BrvmLive() {
             .slice(0, 5)
         )
 
-        // Top dividendes
         const td = actions
           .filter(a => DIV_CONNUS[a.symbole] && a.cours_cloture > 0)
           .map(a => ({
@@ -141,10 +169,8 @@ export default function BrvmLive() {
           .slice(0, 8)
         setTopDiv(td)
 
-        // Dividendes à venir
         setDivNext(json.dividendes_a_venir || [])
 
-        // Ticker
         const tkr = avecVariation
           .filter(a => a.cours_cloture > 0)
           .map(a => ({ symbole: a.symbole, cours: a.cours_cloture, variation: a.variation_pct }))
@@ -247,8 +273,47 @@ export default function BrvmLive() {
           ))}
         </div>
 
-        {/* 2 colonnes : hausses / baisses */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:20 }}>
+        {/* Indices principaux */}
+        {indices.length > 0 && (
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10, marginBottom:20 }}>
+            {indices.map(idx => (
+              <Card key={idx.label} style={{ padding:'14px 16px' }}>
+                <div style={{ fontSize:10, textTransform:'uppercase', letterSpacing:1.5, color:'rgba(255,255,255,0.3)', fontWeight:700, marginBottom:8, fontFamily:'Space Grotesk,sans-serif' }}>
+                  {idx.label}
+                </div>
+                <div style={{ fontFamily:'DM Mono,monospace', fontSize:20, fontWeight:900, color:'#fff', marginBottom:4 }}>
+                  {idx.valeur.toFixed(2).replace('.',',')}
+                </div>
+                <div style={{ fontFamily:'DM Mono,monospace', fontSize:12, fontWeight:700, color: idx.variation >= 0 ? VERT3 : RED }}>
+                  {idx.variation >= 0 ? '▲' : '▼'} {Math.abs(idx.variation).toFixed(2).replace('.',',')} %
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        {/* Indices sectoriels */}
+        {secteurs.length > 0 && (
+          <Card style={{ marginBottom:20 }}>
+            <CardTitle>Indices sectoriels</CardTitle>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(180px,1fr))', gap:8 }}>
+              {secteurs.map(s => (
+                <div key={s.label} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'8px 10px', background:'rgba(255,255,255,0.025)', borderRadius:8 }}>
+                  <span style={{ fontSize:12, color:'rgba(255,255,255,0.55)', fontFamily:'Space Grotesk,sans-serif' }}>{s.label}</span>
+                  <div style={{ textAlign:'right' }}>
+                    <div style={{ fontFamily:'DM Mono,monospace', fontSize:12, fontWeight:700, color:'#fff' }}>{s.valeur.toFixed(2).replace('.',',')}</div>
+                    <div style={{ fontFamily:'DM Mono,monospace', fontSize:10, color: s.variation >= 0 ? VERT3 : RED }}>
+                      {s.variation >= 0 ? '▲' : '▼'} {Math.abs(s.variation).toFixed(2).replace('.',',')}%
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        {/* 3 colonnes : hausses / baisses / détachements */}
+        <div style={{ display:'grid', gridTemplateColumns: divNext.length > 0 ? '1fr 1fr 1fr' : '1fr 1fr', gap:14, marginBottom:20 }}>
 
           {/* Hausses */}
           <Card>
@@ -287,6 +352,32 @@ export default function BrvmLive() {
               ))
             }
           </Card>
+
+          {/* Détachements à venir */}
+          {divNext.length > 0 && (
+            <Card>
+              <CardTitle>Prochains détachements</CardTitle>
+              {divNext.map((d, i) => {
+                const dateAff = (() => {
+                  try {
+                    const parts = d.date_detachement.split('/')
+                    return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`).toLocaleDateString('fr-FR', { day:'numeric', month:'short' })
+                  } catch { return d.date_detachement }
+                })()
+                return (
+                  <div className="mv-row" key={i}>
+                    <div>
+                      <div style={{ fontSize:13, fontWeight:700, color:'#fff' }}>{d.nom}</div>
+                      <div style={{ fontFamily:'DM Mono,monospace', fontSize:10, color:'rgba(255,255,255,0.3)', marginTop:1 }}>
+                        {fmt(d.montant_fcfa)} FCFA/action
+                      </div>
+                    </div>
+                    <span style={{ fontFamily:'DM Mono,monospace', fontSize:12, fontWeight:700, color:OR }}>{dateAff}</span>
+                  </div>
+                )
+              })}
+            </Card>
+          )}
 
         </div>
 
