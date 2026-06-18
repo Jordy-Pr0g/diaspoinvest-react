@@ -15,22 +15,25 @@ export default async function handler(req, res) {
   }
 
   // 1) Vérification du captcha avec Google (notre clé secrète)
-  try {
-    const params = new URLSearchParams({
-      secret: (process.env.RECAPTCHA_SECRET || '').trim(),
-      response: captchaToken,
-    })
-    const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString(),
-    })
-    const verify = await verifyRes.json()
-    if (!verify.success) {
-      return res.status(400).json({ success: false, error: 'Captcha invalide, réessaie.' })
+  // Exception : inscriptions depuis le calculateur (token = 'calculateur') — pas de reCAPTCHA widget là-bas
+  if (captchaToken !== 'calculateur') {
+    try {
+      const params = new URLSearchParams({
+        secret: (process.env.RECAPTCHA_SECRET || '').trim(),
+        response: captchaToken,
+      })
+      const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      })
+      const verify = await verifyRes.json()
+      if (!verify.success) {
+        return res.status(400).json({ success: false, error: 'Captcha invalide, réessaie.' })
+      }
+    } catch {
+      return res.status(502).json({ success: false, error: 'Vérification captcha indisponible.' })
     }
-  } catch {
-    return res.status(502).json({ success: false, error: 'Vérification captcha indisponible.' })
   }
 
   // 2) Humain confirmé → ajout du contact via l'API Brevo

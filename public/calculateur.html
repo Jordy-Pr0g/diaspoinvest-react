@@ -213,6 +213,48 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: 6px;
   display: none;
 }
+
+/* Capture email */
+.email-capture {
+  background: linear-gradient(135deg, #0D3B2E, #061A10);
+  border: 1.5px solid rgba(201,168,76,0.35);
+  border-radius: 20px;
+  padding: 28px 22px;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.5s ease;
+}
+.email-capture::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--or), transparent);
+}
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.ec-icon { font-size: 28px; margin-bottom: 8px; }
+.ec-title { font-size: 18px; font-weight: 900; margin-bottom: 6px; }
+.ec-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 16px; line-height: 1.5; }
+.ec-input {
+  display: block; width: 100%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 13px 16px;
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  outline: none;
+  margin-bottom: 10px;
+}
+.ec-input::placeholder { color: rgba(255,255,255,0.3); }
+.ec-disclaimer {
+  font-size: 10px; color: rgba(255,255,255,0.2);
+  margin-top: 10px; line-height: 1.5;
+}
 </style>
 </head>
 <body>
@@ -299,6 +341,24 @@ input[type="range"]::-webkit-slider-thumb {
     <span class="cmp-val" id="c-brvm">—</span>
     <span class="cmp-sub">dividendes cumules</span>
   </div>
+</div>
+
+<!-- Capture email post-simulation -->
+<div class="email-capture" id="email-capture" style="display:none">
+  <div class="ec-icon">📬</div>
+  <h3 class="ec-title">Reçois cette simulation par email</h3>
+  <p class="ec-sub">+ la sélection des meilleures actions BRVM chaque semaine — gratuitement.</p>
+  <div id="ec-form-wrap">
+    <input type="text" id="ec-prenom" placeholder="Ton prénom" class="ec-input">
+    <input type="email" id="ec-email" placeholder="email@exemple.com" class="ec-input" required>
+    <button class="cta-btn" id="ec-btn" onclick="submitCapture()">Recevoir gratuitement</button>
+  </div>
+  <div id="ec-succes" style="display:none;text-align:center;padding:12px 0">
+    <div style="font-size:32px;margin-bottom:8px">✅</div>
+    <div style="font-weight:800;font-size:16px;margin-bottom:4px">Tu es inscrit.</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.5)">Vérifie ta boîte mail — la sélection t'attend.</div>
+  </div>
+  <p class="ec-disclaimer">Contenu éducatif · Non affilié à la BRVM · Désinscription à tout moment</p>
 </div>
 
 <div class="cta-wrap">
@@ -576,6 +636,7 @@ function compute() {
     showResult(dr,resLabel,resUnit,resContext,result);
   }
 
+  maybeShowCapture();
   if(result){
     animVal('k-actions',result.actions);
     animVal('k-portef',result.portef,true);
@@ -698,6 +759,40 @@ function onTauxChange(val){
   taux = parseFloat(val);
   document.getElementById('v-taux').textContent = parseFloat(val).toFixed(2).replace('.',',') + ' %';
   compute();
+}
+
+// ─── Capture email : apparaît après 2 simulations
+let computeCount = 0;
+let captureShown = false;
+
+function maybeShowCapture() {
+  computeCount++;
+  if (!captureShown && computeCount >= 2) {
+    captureShown = true;
+    const el = document.getElementById('email-capture');
+    if (el) el.style.display = 'block';
+  }
+}
+
+async function submitCapture() {
+  const prenom = document.getElementById('ec-prenom').value.trim();
+  const email  = document.getElementById('ec-email').value.trim();
+  if (!email) return;
+  const btn = document.getElementById('ec-btn');
+  btn.textContent = 'Inscription...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, prenom, captchaToken: 'calculateur' }),
+    });
+    document.getElementById('ec-form-wrap').style.display = 'none';
+    document.getElementById('ec-succes').style.display = 'block';
+  } catch {
+    btn.textContent = 'Recevoir gratuitement';
+    btn.disabled = false;
+  }
 }
 
 window.addEventListener('load', () => {

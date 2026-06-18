@@ -6,8 +6,10 @@ import Stats from './components/Stats.jsx'
 import Probleme from './components/Probleme.jsx'
 import Solution from './components/Solution.jsx'
 import Histoire from './components/Histoire.jsx'
+import BrvmLive from './components/BrvmLive.jsx'
 import Calculateur from './components/Calculateur.jsx'
 import LeadMagnet from './components/LeadMagnet.jsx'
+import Temoignages from './components/Temoignages.jsx'
 import Pricing from './components/Pricing.jsx'
 import FAQ from './components/FAQ.jsx'
 import Footer from './components/Footer.jsx'
@@ -30,9 +32,11 @@ export default function App() {
         <Stats />
         <Probleme />
         <Solution />
-<Histoire />
+        <Histoire />
+        <BrvmLive />
         <Calculateur />
         <LeadMagnet />
+        <Temoignages />
         <Pricing />
         <FAQ />
       </main>
