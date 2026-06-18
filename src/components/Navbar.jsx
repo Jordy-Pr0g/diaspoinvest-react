@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react'
 import { LIENS } from '../data.js'
 
+const NAV_LINKS = [
+  { href: '#probleme',   label: 'Le constat' },
+  { href: '#solution',   label: 'La méthode' },
+  { href: '#histoire',   label: 'Notre histoire' },
+  { href: '#calculateur', label: 'Simulateur' },
+  { href: '#pricing',    label: 'Tarifs' },
+  { href: '#faq',        label: 'FAQ' },
+]
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30)
@@ -10,8 +20,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Ferme le menu si on clique en dehors
+  useEffect(() => {
+    if (!open) return
+    const close = () => setOpen(false)
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [open])
+
   return (
-    <header className={`navbar${scrolled ? ' scrolled' : ''}`}>
+    <header className={`navbar${scrolled ? ' scrolled' : ''}${open ? ' menu-open' : ''}`}>
       <div className="container">
         <a href="#top" className="brand" aria-label="DiaspoInvest — accueil">
           <svg className="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
@@ -31,12 +49,9 @@ export default function Navbar() {
 
         <nav className="nav-menu-links">
           <div className="nav-links">
-            <a href="#probleme">Le constat</a>
-            <a href="#solution">La méthode</a>
-            <a href="#histoire">Notre histoire</a>
-            <a href="#calculateur">Simulateur</a>
-            <a href="#pricing">Tarifs</a>
-            <a href="#faq">FAQ</a>
+            {NAV_LINKS.map((l) => (
+              <a key={l.href} href={l.href}>{l.label}</a>
+            ))}
           </div>
         </nav>
 
@@ -45,6 +60,34 @@ export default function Navbar() {
             Obtenir le guide
           </a>
         </div>
+
+        {/* Hamburger — mobile uniquement */}
+        <button
+          className="hamburger"
+          aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-expanded={open}
+          onClick={(e) => { e.stopPropagation(); setOpen((v) => !v) }}
+        >
+          <span /><span /><span />
+        </button>
+      </div>
+
+      {/* Drawer mobile */}
+      <div className={`mobile-drawer${open ? ' open' : ''}`} onClick={(e) => e.stopPropagation()}>
+        <nav>
+          {NAV_LINKS.map((l) => (
+            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
+          ))}
+          <a
+            className="btn btn-or mobile-drawer-cta"
+            href={LIENS.guide}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setOpen(false)}
+          >
+            Obtenir le guide
+          </a>
+        </nav>
       </div>
     </header>
   )

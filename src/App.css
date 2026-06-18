@@ -75,6 +75,98 @@
   }
 }
 
+/* ── Hamburger ──────────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--vert);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.navbar.scrolled .hamburger span {
+  background: var(--vert);
+}
+
+/* État ouvert — croix */
+.navbar.menu-open .hamburger span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar.menu-open .hamburger span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navbar.menu-open .hamburger span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 860px) {
+  .hamburger { display: flex; }
+  .nav-cta   { display: none; }
+}
+
+/* ── Drawer mobile ──────────────────────────────────────────── */
+.mobile-drawer {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: rgba(255, 248, 231, 0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(13,43,30,0.15);
+  z-index: 49;
+  padding: 0 24px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.mobile-drawer.open {
+  max-height: 420px;
+  padding: 16px 24px 24px;
+}
+
+.mobile-drawer nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-drawer nav a {
+  display: block;
+  padding: 12px 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--vert);
+  border-bottom: 1px solid rgba(13,43,30,0.08);
+  transition: color 0.15s;
+}
+
+.mobile-drawer nav a:hover {
+  color: var(--or);
+}
+
+.mobile-drawer-cta {
+  margin-top: 12px;
+  text-align: center;
+  border-bottom: none !important;
+}
+
 /* ---------- Hero ---------- */
 /* Bug mobile corrigé : height auto + padding-bottom adaptatif
    (auparavant min-height: 100vh débordait en zone noire) */
@@ -575,6 +667,14 @@ input[type='range']::-moz-range-thumb {
   object-fit: cover;
   object-position: top;
   display: block;
+}
+
+.plan-garantie {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: rgba(255,248,231,0.6);
+  letter-spacing: 0.01em;
 }
 
 .plan h3 {

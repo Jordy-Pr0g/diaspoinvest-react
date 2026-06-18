@@ -76,7 +76,7 @@ export default function LeadMagnet() {
         <div className="leadmagnet-inner">
           <div className="lm-left">
             <span className="eyebrow">Ressource gratuite</span>
-            <h2>Top 5 actions BRVM — juin 2026</h2>
+            <h2>Top 5 actions BRVM — {new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}</h2>
             <p>
               Reçois chaque semaine notre sélection des meilleures actions BRVM par rendement
               dividende, avec les signaux de marché clés — directement dans ta boîte mail.

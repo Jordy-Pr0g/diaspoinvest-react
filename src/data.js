@@ -162,24 +162,28 @@ export const SOLUTIONS = [
 
 export const FAQ_ITEMS = [
   {
-    q: "C'est quoi la BRVM ?",
-    r: "La BRVM (Bourse Régionale des Valeurs Mobilières) est la bourse commune aux 8 pays de la zone UEMOA. Nous la citons comme référence factuelle uniquement : DiaspoInvest est un projet éducatif indépendant, non affilié à la BRVM ni au CREPMF.",
+    q: "Et si ça ne me convient pas ?",
+    r: "Satisfait ou remboursé, sans condition, pendant 7 jours. Tu envoies un email à contact@diaspoinvest.fr et tu es remboursé dans les 48 h. Aucune question posée.",
   },
   {
-    q: "Puis-je investir depuis la France ?",
-    r: "Oui. Certaines SGI (sociétés de gestion et d'intermédiation) proposent un accès digital adapté à la diaspora. Le guide explique les étapes d'ouverture de compte et, surtout, comment déclarer ce compte en France.",
+    q: "Je ne connais rien à la bourse — c'est fait pour moi ?",
+    r: "Oui, c'est exactement pour toi. Le guide part de zéro : qu'est-ce que la BRVM, comment ouvrir un compte depuis la diaspora, quelles actions regarder en premier. Tout est expliqué en langage simple, sans jargon financier.",
+  },
+  {
+    q: "Puis-je investir depuis la France (ou l'étranger) ?",
+    r: "Oui. Certaines SGI proposent un accès 100 % digital adapté à la diaspora. Le guide t'explique les étapes d'ouverture de compte et, surtout, comment déclarer ce compte en France pour être en règle.",
   },
   {
     q: "Faut-il déclarer mon compte aux impôts français ?",
-    r: "Oui. Un compte détenu à l'étranger doit être déclaré via le formulaire 3916, sous peine d'une amende de 1 500 € par an. Les dividendes sont imposés au PFU (Flat Tax) de 31,4 % (12,8 % IR + 18,6 % prélèvements sociaux). Le guide détaille la marche à suivre.",
+    r: "Oui, c'est obligatoire. Un compte détenu à l'étranger se déclare via le formulaire 3916, sous peine d'une amende de 1 500 € par an. Les dividendes sont imposés au PFU (Flat Tax) de 31,4 %. Le guide détaille toute la démarche.",
+  },
+  {
+    q: "Les chiffres sont-ils à jour ?",
+    r: "Les données BRVM sont récupérées automatiquement chaque jour de bourse depuis brvm.org. Les cours et rendements évoluent : vérifie toujours les informations à jour auprès de ta SGI avant toute décision.",
   },
   {
     q: "C'est un conseil en investissement ?",
     r: "Non. DiaspoInvest fournit du contenu éducatif uniquement. Rien sur ce site ne constitue un conseil en investissement personnalisé. Investir comporte un risque de perte en capital.",
-  },
-  {
-    q: "Les chiffres sont-ils à jour ?",
-    r: "Les données affichées datent du 16/06/2026 (source : brvm.org via scraper automatique). Les cours et rendements évoluent : vérifie toujours les informations à jour auprès de ta SGI avant toute décision.",
   },
 ]
 
