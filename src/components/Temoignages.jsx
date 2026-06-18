@@ -4,15 +4,37 @@ const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
 
 const PAYS_LIST = [
-  "Algérie","Allemagne","Arabie Saoudite","Australie","Autriche",
-  "Belgique","Bénin","Brésil","Burkina Faso",
-  "Cameroun","Canada","Congo-Brazzaville","Côte d'Ivoire",
-  "Danemark","Égypte","Émirats Arabes Unis","Espagne","États-Unis","Éthiopie",
-  "France","Gabon","Ghana","Guinée-Bissau","Guinée Équatoriale",
-  "Italie","Kenya","Luxembourg","Madagascar","Mali","Maroc",
-  "Niger","Nigeria","Norvège","Pays-Bas","Portugal",
-  "Qatar","RD Congo","Royaume-Uni","Rwanda",
-  "Sénégal","Suède","Suisse","Togo","Tunisie",
+  "Afghanistan","Afrique du Sud","Albanie","Algérie","Allemagne","Andorre","Angola",
+  "Antigua-et-Barbuda","Arabie Saoudite","Argentine","Arménie","Australie","Autriche","Azerbaïdjan",
+  "Bahamas","Bahreïn","Bangladesh","Barbade","Bélarus","Belgique","Belize","Bénin",
+  "Bhoutan","Bolivie","Bosnie-Herzégovine","Botswana","Brésil","Brunéi","Bulgarie","Burkina Faso","Burundi",
+  "Cabo Verde","Cambodge","Cameroun","Canada","Centrafrique","Chili","Chine","Chypre",
+  "Colombie","Comores","Congo-Brazzaville","Corée du Nord","Corée du Sud","Costa Rica","Croatie","Cuba",
+  "Danemark","Djibouti","Dominique",
+  "Égypte","Émirats Arabes Unis","Équateur","Érythrée","Espagne","Estonie","Eswatini","États-Unis","Éthiopie",
+  "Fidji","Finlande","France",
+  "Gabon","Gambie","Géorgie","Ghana","Grèce","Grenade","Guatemala","Guinée","Guinée-Bissau","Guinée Équatoriale","Guyana",
+  "Haïti","Honduras","Hongrie",
+  "Îles Marshall","Îles Salomon","Inde","Indonésie","Irak","Iran","Irlande","Islande","Israël","Italie",
+  "Jamaïque","Japon","Jordanie",
+  "Kazakhstan","Kenya","Kirghizistan","Kiribati","Kosovo","Koweït",
+  "Laos","Lesotho","Lettonie","Liban","Libéria","Libye","Liechtenstein","Lituanie","Luxembourg",
+  "Macédoine du Nord","Madagascar","Malaisie","Malawi","Maldives","Mali","Malte","Maroc",
+  "Maurice","Mauritanie","Mexique","Micronésie","Moldavie","Monaco","Mongolie","Monténégro","Mozambique","Myanmar",
+  "Namibie","Nauru","Népal","Nicaragua","Niger","Nigeria","Norvège","Nouvelle-Zélande",
+  "Oman","Ouganda","Ouzbékistan",
+  "Pakistan","Palaos","Palestine","Panama","Papouasie-Nouvelle-Guinée","Paraguay","Pays-Bas","Pérou",
+  "Philippines","Pologne","Portugal",
+  "Qatar",
+  "RD Congo","Roumanie","Royaume-Uni","Russie","Rwanda",
+  "Saint-Kitts-et-Nevis","Saint-Marin","Saint-Vincent-et-les-Grenadines","Sainte-Lucie",
+  "Samoa","São Tomé-et-Príncipe","Sénégal","Serbie","Seychelles","Sierra Leone",
+  "Singapour","Slovaquie","Slovénie","Somalie","Soudan","Soudan du Sud","Sri Lanka","Suède","Suisse","Suriname","Syrie",
+  "Tadjikistan","Tanzanie","Tchad","Thaïlande","Timor oriental","Togo","Tonga","Trinité-et-Tobago","Tunisie","Turkménistan","Turquie","Tuvalu",
+  "Ukraine","Uruguay",
+  "Vanuatu","Vatican","Venezuela","Vietnam",
+  "Yémen",
+  "Zambie","Zimbabwe",
 ]
 
 const PRODUITS_OPTIONS = [
@@ -138,7 +160,6 @@ function FormulaireAvis({ onSuccess }) {
 
   if (statut === 'succes') return (
     <div style={{ textAlign: 'center', padding: '32px 0' }}>
-      <div style={{ fontSize: 40, marginBottom: 12 }}>🙏</div>
       <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 6 }}>Merci pour ton avis !</div>
       <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>
         Il est maintenant visible pour toute la communauté.
@@ -344,7 +365,6 @@ export default function Temoignages() {
             background: '#0F1A12', border: '1px dashed rgba(255,255,255,0.1)',
             borderRadius: 16,
           }}>
-            <div style={{ fontSize: 32, marginBottom: 12 }}>💬</div>
             <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Sois le premier à laisser un avis</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', marginBottom: 20 }}>
               Ta communauté compte sur toi pour les aider à franchir le pas.

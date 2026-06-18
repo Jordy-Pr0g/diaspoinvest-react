@@ -44,7 +44,6 @@ export default function Footer({ onOpenModal }) {
         </div>
 
         <div className="footer-disclaimer">
-          <span>⚖️</span>
           <p>{DISCLAIMER}</p>
         </div>
 

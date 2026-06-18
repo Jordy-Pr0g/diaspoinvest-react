@@ -21,13 +21,13 @@ export default function Pricing() {
             className={`seg-btn${segment === 'europe' ? ' active' : ''}`}
             onClick={() => setSegment('europe')}
           >
-            🌍 Diaspora Europe
+            Diaspora Europe
           </button>
           <button
             className={`seg-btn${segment === 'uemoa' ? ' active' : ''}`}
             onClick={() => setSegment('uemoa')}
           >
-            🌱 Résident UEMOA
+            Résident UEMOA
           </button>
         </div>
 
@@ -78,7 +78,7 @@ export default function Pricing() {
               >
                 Obtenir · {p.prix}
               </a>
-              <p className="plan-garantie">🔒 Satisfait ou remboursé 7 jours</p>
+              <p className="plan-garantie">Satisfait ou remboursé 7 jours</p>
             </div>
           )})}
         </div>

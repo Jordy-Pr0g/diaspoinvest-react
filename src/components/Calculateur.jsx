@@ -240,7 +240,7 @@ export default function Calculateur() {
                 </div>
 
                 <p className="calc-note">
-                  ⚠️ Simulation pédagogique simplifiée, hors variation de cours, réinvestissement
+                  Simulation pédagogique simplifiée, hors variation de cours, réinvestissement
                   et frais de courtage. Dividendes perçus depuis la France soumis au PFU 30 %.
                   Compte à déclarer (formulaire 3916).
                 </p>
