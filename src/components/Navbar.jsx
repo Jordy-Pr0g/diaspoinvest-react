@@ -3,8 +3,6 @@ import { LIENS } from '../data.js'
 
 const NAV_LINKS = [
   { href: '#probleme',    label: 'Constat' },
-  { href: '#solution',    label: 'La méthode' },
-  { href: '#histoire',    label: 'Notre histoire' },
   { href: '#marche',      label: 'La BRVM' },
   { href: '#calculateur', label: 'Simulateur' },
   { href: '#leadmagnet',  label: 'Newsletter' },

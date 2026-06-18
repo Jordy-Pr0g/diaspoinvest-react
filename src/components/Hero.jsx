@@ -13,7 +13,7 @@ export default function Hero() {
 
         <p className="lead">
           DiaspoInvest t’apprend, pas à pas, à investir sur la BRVM depuis la France ou le
-          continent — choisir tes actions, simuler ton rendement et déclarer ton compte en
+          continent : choisir tes actions, simuler ton rendement et déclarer ton compte en
           toute légalité.
         </p>
 

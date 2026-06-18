@@ -302,16 +302,20 @@ export default function BrvmLive() {
                     <span style={{ fontFamily:'DM Mono,monospace', fontSize:13, fontWeight:700, color:'#fff' }}>{t.symbole}</span>
                     <span style={{ fontSize:11, color:'rgba(255,255,255,0.35)', marginLeft:8 }}>{t.nom}</span>
                   </div>
-                  <span style={{ fontFamily:'DM Mono,monospace', fontWeight:900, fontSize:15, color:OR }}>
-                    {t.taux.toFixed(2).replace('.',',')} %
-                  </span>
+                  <div style={{ textAlign:'right' }}>
+                    <div style={{ fontFamily:'DM Mono,monospace', fontWeight:900, fontSize:15, color:OR }}>
+                      {fmt(t.div)} FCFA
+                    </div>
+                    <div style={{ fontSize:10, color:'rgba(255,255,255,0.3)', marginTop:1 }}>
+                      par action · {t.taux.toFixed(2).replace('.',',')} %
+                    </div>
+                  </div>
                 </div>
                 <div style={{ height:4, background:'rgba(255,255,255,0.06)', borderRadius:2, overflow:'hidden' }}>
-                  <div style={{ width:`${(t.taux/maxTaux)*100}%`, height:'100%', background:`linear-gradient(90deg,${OR},#F0D080)`, borderRadius:2, transition:'width 1s ease' }} />
+                  <div style={{ width:`${(t.div/Math.max(...topDiv.map(x=>x.div)))*100}%`, height:'100%', background:`linear-gradient(90deg,${OR},#F0D080)`, borderRadius:2, transition:'width 1s ease' }} />
                 </div>
-                <div style={{ display:'flex', justifyContent:'space-between', fontSize:10, color:'rgba(255,255,255,0.25)', marginTop:4 }}>
-                  <span>Cours : {fmt(t.cours)} FCFA</span>
-                  <span>Div. : {fmt(t.div)} FCFA</span>
+                <div style={{ fontSize:10, color:'rgba(255,255,255,0.2)', marginTop:4 }}>
+                  Cours : {fmt(t.cours)} FCFA
                 </div>
               </div>
             ))}

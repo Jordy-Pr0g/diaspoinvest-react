@@ -429,7 +429,7 @@ function AvisBande({ avis }) {
               « {a.texte.slice(0, 80)}{a.texte.length > 80 ? '…' : ''} »
             </span>
             <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.4)' }}>
-              — {a.ville || a.pays || ''}
+              · {a.ville || a.pays || ''}
             </span>
           </div>
         ))}

@@ -579,7 +579,21 @@ input[type='range']::-moz-range-thumb {
 
 /* ---------- Pricing ---------- */
 .pricing {
-  background: var(--blanc);
+  background: #060E09;
+}
+
+.pricing .section-head h2,
+.pricing .section-head p {
+  color: var(--fond-clair);
+}
+
+.pricing .eyebrow {
+  color: var(--or);
+  border-color: rgba(201,168,76,0.3);
+}
+
+.pricing .plan-garantie {
+  color: rgba(255,248,231,0.45);
 }
 
 .countdown {
