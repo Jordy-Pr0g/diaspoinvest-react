@@ -5,7 +5,6 @@ import Hero from './components/Hero.jsx'
 import Stats from './components/Stats.jsx'
 import Probleme from './components/Probleme.jsx'
 import Solution from './components/Solution.jsx'
-import ApercuTracker from './components/ApercuTracker.jsx'
 import Histoire from './components/Histoire.jsx'
 import Calculateur from './components/Calculateur.jsx'
 import LeadMagnet from './components/LeadMagnet.jsx'
@@ -32,8 +31,7 @@ export default function App() {
         <Stats />
         <Probleme />
         <Solution />
-        <ApercuTracker />
-        <Histoire />
+<Histoire />
         <Calculateur />
         <LeadMagnet />
         <Avertissement />

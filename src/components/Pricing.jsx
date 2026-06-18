@@ -72,9 +72,23 @@ export default function Pricing() {
         </div>
 
         <div className="pricing-grid">
-          {produits.map((p) => (
+          {produits.map((p) => {
+            const IMG = {
+              guide:    '/produit-guide.jpg',
+              guideUemoa: '/produit-guide.jpg',
+              calculateur: '/produit-tracker.jpg',
+              pack:     '/produit-pack.jpg',
+              packUemoa: '/produit-pack.jpg',
+            }
+            const img = IMG[p.id]
+            return (
             <div className={`plan${p.populaire ? ' featured' : ''}`} key={p.id}>
               {p.populaire && <div className="plan-tag">Le plus complet</div>}
+              {img && (
+                <div className="plan-img-wrap">
+                  <img src={img} alt={p.nom} className="plan-img" loading="lazy" />
+                </div>
+              )}
               <h3>{p.nom}</h3>
               <div className="plan-sub">{p.sousTitre}</div>
               <div className="plan-price">{p.prix}</div>
@@ -97,7 +111,7 @@ export default function Pricing() {
                 Obtenir — {p.prix}
               </a>
             </div>
-          ))}
+          )})}
         </div>
       </div>
     </section>
