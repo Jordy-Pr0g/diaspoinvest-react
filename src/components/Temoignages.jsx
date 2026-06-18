@@ -151,7 +151,7 @@ function FormulaireAvis({ onSuccess }) {
       const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, pays, produit, texte, etoiles }),
+        body: JSON.stringify({ email, pays: pays || '', produit, texte, etoiles }),
       })
       if (res.ok) { setStatut('succes'); onSuccess && onSuccess() }
       else { setStatut('erreur') }
@@ -194,24 +194,24 @@ function FormulaireAvis({ onSuccess }) {
 
       {/* Champs */}
       <div>
-        <label style={lblStyle}>Pays</label>
-        <select style={{...inputStyle, backgroundImage:'none'}} value={pays} onChange={e=>setPays(e.target.value)}>
-          <option value="">Pays (optionnel)</option>
-          {PAYS_LIST.map(p=><option key={p} value={p}>{p}</option>)}
+        <label style={lblStyle}>Pays *</label>
+        <select style={{...inputStyle, backgroundImage:'none', color: pays ? '#fff' : 'rgba(255,255,255,0.4)'}} value={pays} onChange={e=>setPays(e.target.value)} required>
+          <option value="" style={{background:'#1A2E1D', color:'rgba(255,255,255,0.5)'}}>Sélectionne ton pays</option>
+          {PAYS_LIST.map(p=><option key={p} value={p} style={{background:'#1A2E1D', color:'#fff'}}>{p}</option>)}
         </select>
       </div>
 
       <div>
-        <label style={lblStyle}>Email * <span style={{ color:'rgba(255,255,255,0.25)', fontWeight:400 }}>(non publié, pour vérification)</span></label>
+        <label style={lblStyle}>Email *</label>
         <input style={inputStyle} type="email" value={email} onChange={e => setEmail(e.target.value)}
           placeholder="ton@email.com" required />
       </div>
 
       <div>
         <label style={lblStyle}>Produit acheté</label>
-        <select style={{...inputStyle, backgroundImage: 'none'}} value={produit} onChange={e => setProduit(e.target.value)}>
-          <option value="">-- Sélectionne --</option>
-          {PRODUITS_OPTIONS.map(p => <option key={p} value={p}>{p}</option>)}
+        <select style={{...inputStyle, backgroundImage: 'none', color: produit ? '#fff' : 'rgba(255,255,255,0.4)'}} value={produit} onChange={e => setProduit(e.target.value)}>
+          <option value="" style={{background:'#1A2E1D', color:'rgba(255,255,255,0.5)'}}>Sélectionne un produit</option>
+          {PRODUITS_OPTIONS.map(p => <option key={p} value={p} style={{background:'#1A2E1D', color:'#fff'}}>{p}</option>)}
         </select>
       </div>
 
