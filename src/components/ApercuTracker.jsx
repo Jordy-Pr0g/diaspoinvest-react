@@ -2,8 +2,14 @@ import { useState } from 'react'
 
 const ONGLETS = [
   {
+    id: 'accueil',
+    label: 'Page d\'accueil',
+    img: '/tracker-accueil.png',
+    desc: 'La page centrale du Tracker : chaque onglet, son rôle, son accès direct. Simulateur, Portefeuille, Fiscalité, Cours Live — tout s\'ouvre depuis ici.',
+  },
+  {
     id: 'guide',
-    label: 'Vue d\'ensemble',
+    label: 'Guide d\'utilisation',
     img: '/tracker-guide.png',
     desc: '10 onglets, chacun avec un rôle précis. Du simulateur 30 ans à la fiscalité par pays — tout est là, structuré, prêt à l\'emploi.',
   },
