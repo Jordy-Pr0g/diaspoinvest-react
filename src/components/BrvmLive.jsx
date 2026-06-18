@@ -259,7 +259,7 @@ export default function BrvmLive() {
         )}
 
         {/* 4 stats rapides */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10, marginBottom:20 }}>
+        <div className="brvm-stat-grid">
           {[
             { val: stats.total,     label: 'Actions cotées',  color: OR },
             { val: stats.enHausse,  label: 'En hausse',       color: VERT3 },
@@ -275,7 +275,7 @@ export default function BrvmLive() {
 
         {/* Indices principaux */}
         {indices.length > 0 && (
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10, marginBottom:20 }}>
+          <div className="brvm-indices-grid">
             {indices.map(idx => (
               <Card key={idx.label} style={{ padding:'14px 16px' }}>
                 <div style={{ fontSize:10, textTransform:'uppercase', letterSpacing:1.5, color:'rgba(255,255,255,0.3)', fontWeight:700, marginBottom:8, fontFamily:'Space Grotesk,sans-serif' }}>
@@ -313,7 +313,7 @@ export default function BrvmLive() {
         )}
 
         {/* 3 colonnes : hausses / baisses / détachements */}
-        <div style={{ display:'grid', gridTemplateColumns: divNext.length > 0 ? '1fr 1fr 1fr' : '1fr 1fr', gap:14, marginBottom:20 }}>
+        <div className={`brvm-cols-grid ${divNext.length > 0 ? 'brvm-cols-3' : 'brvm-cols-2'}`}>
 
           {/* Hausses */}
           <Card>

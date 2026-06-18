@@ -52,8 +52,13 @@ async function saveReviews(reviews, token) {
   return res.ok
 }
 
+const ALLOWED_ORIGINS = ['https://diaspoinvest.fr', 'http://localhost:5173', 'http://localhost:4173']
+
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
+  const origin = req.headers.origin || ''
+  const allowOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : 'https://diaspoinvest.fr'
+  res.setHeader('Access-Control-Allow-Origin', allowOrigin)
+  res.setHeader('Vary', 'Origin')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
 

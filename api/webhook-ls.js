@@ -118,16 +118,22 @@ export default async function handler(req, res) {
   for await (const chunk of req) chunks.push(chunk)
   const rawBody = Buffer.concat(chunks).toString('utf-8')
 
-  // Vérification signature
+  // Vérification signature — OBLIGATOIRE (refus si secret absent ou signature invalide)
   const secret    = process.env.LEMONSQUEEZY_WEBHOOK_SECRET
   const signature = req.headers['x-signature'] || ''
 
-  if (secret && signature) {
-    const valid = await verifySignature(rawBody, signature, secret)
-    if (!valid) {
-      console.error('[Webhook] Signature invalide')
-      return res.status(401).json({ error: 'Invalid signature' })
-    }
+  if (!secret) {
+    console.error('[Webhook] LEMONSQUEEZY_WEBHOOK_SECRET non configuré')
+    return res.status(500).json({ error: 'Webhook secret manquant côté serveur' })
+  }
+  if (!signature) {
+    console.error('[Webhook] Signature absente dans les headers')
+    return res.status(401).json({ error: 'Signature manquante' })
+  }
+  const valid = await verifySignature(rawBody, signature, secret)
+  if (!valid) {
+    console.error('[Webhook] Signature invalide')
+    return res.status(401).json({ error: 'Invalid signature' })
   }
 
   let payload

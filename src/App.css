@@ -754,6 +754,43 @@ input[type='range']::-moz-range-thumb {
   }
 }
 
+/* ---------- BrvmLive — grids responsive ---------- */
+.brvm-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.brvm-indices-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.brvm-cols-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.brvm-cols-2 { grid-template-columns: 1fr 1fr; }
+.brvm-cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+@media (max-width: 700px) {
+  .brvm-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .brvm-indices-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .brvm-cols-2,
+  .brvm-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- FAQ ---------- */
 .faq {
   background: var(--fond-clair);

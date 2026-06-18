@@ -36,8 +36,13 @@ export default function Footer({ onOpenModal }) {
                   Confidentialité
                 </button>
               </li>
+              <li>
+                <button className="linklike" onClick={() => onOpenModal('cgv')}>
+                  CGV
+                </button>
+              </li>
               <li><a href="#faq">FAQ</a></li>
-              <li><a href="mailto:contact@diaspoinvest.fr">Contact</a></li>
+              <li><a href="mailto:contact.diaspoinvest@gmail.com">Contact</a></li>
             </ul>
 
           </div>
