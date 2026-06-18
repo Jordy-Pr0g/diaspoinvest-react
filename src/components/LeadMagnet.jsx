@@ -75,16 +75,17 @@ export default function LeadMagnet() {
       <div className="container">
         <div className="leadmagnet-inner">
           <div className="lm-left">
-            <span className="eyebrow">Ressource gratuite</span>
-            <h2>Top 5 actions BRVM — {new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}</h2>
+            <span className="eyebrow">Newsletter gratuite</span>
+            <h2>Les meilleures actions BRVM, chaque semaine dans ta boîte mail</h2>
             <p>
-              Reçois chaque semaine notre sélection des meilleures actions BRVM par rendement
-              dividende, avec les signaux de marché clés — directement dans ta boîte mail.
+              Chaque lundi, reçois une sélection des actions BRVM à dividende les plus
+              intéressantes — avec les cours mis à jour, les rendements calculés et les
+              signaux à surveiller.
             </p>
             <ul className="lm-points">
-              <li>Cours et rendements actualisés chaque lundi</li>
-              <li>Analyse en langage accessible, zéro jargon</li>
-              <li>Rappels fiscaux pour les résidents en France</li>
+              <li>Rendements dividende actualisés après chaque clôture</li>
+              <li>Analyse claire, sans jargon, accessible à tous les niveaux</li>
+              <li>Rappels fiscaux pour les résidents en France et en zone UEMOA</li>
             </ul>
             <p className="lm-disclaimer">
               Contenu éducatif · Non affilié à la BRVM ni au CREPMF · Désinscription à tout moment

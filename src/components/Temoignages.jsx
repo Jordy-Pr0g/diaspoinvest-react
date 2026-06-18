@@ -3,6 +3,17 @@ import { useEffect, useRef, useState } from 'react'
 const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
 
+const PAYS_OPTIONS = [
+  // Diaspora Europe
+  { group: 'Diaspora — Europe', pays: ['France', 'Belgique', 'Suisse', 'Luxembourg', 'Canada (Québec)', 'Royaume-Uni', 'Allemagne', 'Italie', 'Espagne', 'Portugal', 'Pays-Bas', 'Suède', 'Norvège', 'Danemark', 'Autriche'] },
+  // Diaspora Amériques & reste du monde
+  { group: 'Diaspora — Amériques & Monde', pays: ['États-Unis', 'Canada', 'Brésil', 'Émirats Arabes Unis', 'Qatar', 'Arabie Saoudite', 'Australie'] },
+  // Zone UEMOA
+  { group: 'Zone UEMOA', pays: ["Côte d'Ivoire", 'Sénégal', 'Burkina Faso', 'Mali', 'Bénin', 'Togo', 'Niger', 'Guinée-Bissau'] },
+  // Autres pays africains
+  { group: 'Afrique (hors UEMOA)', pays: ['Cameroun', 'Congo-Brazzaville', 'RD Congo', 'Gabon', 'Guinée Équatoriale', 'Maroc', 'Algérie', 'Tunisie', 'Égypte', 'Ghana', 'Nigeria', 'Côte d\'Ivoire (résident)', 'Madagascar', 'Rwanda', 'Kenya', 'Ethiopie'] },
+]
+
 const PRODUITS_OPTIONS = [
   'Guide PDF — Diaspora Europe',
   'Guide PDF — Résident UEMOA',
@@ -179,9 +190,15 @@ function FormulaireAvis({ onSuccess }) {
             placeholder="Ton prénom" required maxLength={40} />
         </div>
         <div>
-          <label style={lblStyle}>Ville / Pays</label>
-          <input style={inputStyle} value={ville} onChange={e => setVille(e.target.value)}
-            placeholder="Paris, Abidjan…" maxLength={50} />
+          <label style={lblStyle}>Pays</label>
+          <select style={{ ...inputStyle, backgroundImage: 'none' }} value={ville} onChange={e => setVille(e.target.value)}>
+            <option value="">-- Sélectionne --</option>
+            {PAYS_OPTIONS.map(g => (
+              <optgroup key={g.group} label={g.group}>
+                {g.pays.map(p => <option key={p} value={p}>{p}</option>)}
+              </optgroup>
+            ))}
+          </select>
         </div>
       </div>
 

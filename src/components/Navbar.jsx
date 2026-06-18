@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react'
 import { LIENS } from '../data.js'
 
 const NAV_LINKS = [
-  { href: '#probleme',   label: 'Le constat' },
-  { href: '#solution',   label: 'La méthode' },
-  { href: '#histoire',   label: 'Notre histoire' },
+  { href: '#marche',      label: 'Cours du jour' },
   { href: '#calculateur', label: 'Simulateur' },
-  { href: '#pricing',    label: 'Tarifs' },
-  { href: '#faq',        label: 'FAQ' },
+  { href: '#avis',        label: 'Avis' },
+  { href: '#pricing',     label: 'Tarifs' },
+  { href: '#faq',         label: 'FAQ' },
 ]
 
 export default function Navbar() {
@@ -20,7 +19,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Ferme le menu si on clique en dehors
   useEffect(() => {
     if (!open) return
     const close = () => setOpen(false)
@@ -45,8 +43,8 @@ export default function Navbar() {
         </nav>
 
         <div className="nav-cta">
-          <a className="btn btn-or" href={LIENS.guide} target="_blank" rel="noreferrer">
-            Obtenir le guide
+          <a className="btn btn-or" href={LIENS.pack} target="_blank" rel="noreferrer">
+            Commencer
           </a>
         </div>
 
@@ -69,12 +67,12 @@ export default function Navbar() {
           ))}
           <a
             className="btn btn-or mobile-drawer-cta"
-            href={LIENS.guide}
+            href={LIENS.pack}
             target="_blank"
             rel="noreferrer"
             onClick={() => setOpen(false)}
           >
-            Obtenir le guide
+            Commencer
           </a>
         </nav>
       </div>
