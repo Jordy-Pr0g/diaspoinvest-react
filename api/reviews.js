@@ -59,12 +59,13 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end()
 
-  // GET — retourner les avis
+  // GET — retourner les avis (sans les emails)
   if (req.method === 'GET') {
     try {
       const reviews = await getReviews()
+      const safe = reviews.map(({ email: _email, ...rest }) => rest) // email non exposé
       res.setHeader('Cache-Control', 'no-store')
-      return res.json(reviews)
+      return res.json(safe)
     } catch {
       return res.json([])
     }
@@ -72,10 +73,13 @@ export default async function handler(req, res) {
 
   // POST — soumettre un avis
   if (req.method === 'POST') {
-    const { prenom, ville, produit, texte, etoiles } = req.body || {}
+    const { prenom, email, ville, produit, texte, etoiles } = req.body || {}
 
-    if (!prenom || !texte || !etoiles) {
-      return res.status(400).json({ error: 'Champs obligatoires : prenom, texte, etoiles' })
+    if (!prenom || !email || !texte || !etoiles) {
+      return res.status(400).json({ error: 'Champs obligatoires : prenom, email, texte, etoiles' })
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Email invalide' })
     }
     if (etoiles < 1 || etoiles > 5) {
       return res.status(400).json({ error: 'etoiles doit être entre 1 et 5' })
@@ -94,6 +98,7 @@ export default async function handler(req, res) {
       const nouvelAvis = {
         id:      Date.now(),
         prenom:  prenom.trim().slice(0, 40),
+        email:   email.trim().slice(0, 100), // stocké, jamais retourné en GET
         ville:   (ville || '').trim().slice(0, 50),
         produit: (produit || '').trim().slice(0, 60),
         texte:   texte.trim().slice(0, 800),

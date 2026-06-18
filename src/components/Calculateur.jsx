@@ -13,8 +13,9 @@ const DIV_CONNUS = {
   ORGT:  120,  BICB: 300,  CABC: 200,
 }
 
-const fmt    = n => Math.round(n).toLocaleString('fr-FR')
-const fmtEUR = n => Math.round(n / TAUX_FCFA).toLocaleString('fr-FR') + ' €'
+const NF     = new Intl.NumberFormat('fr-FR')
+const fmt    = n => NF.format(Math.round(n))          // 1 000 000
+const fmtEUR = n => NF.format(Math.round(n / TAUX_FCFA)) + ' €'
 
 export default function Calculateur() {
   const [apport,    setApport]    = useState(100000)

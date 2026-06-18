@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
@@ -112,6 +112,7 @@ function AvisCard({ avis }) {
 
 function FormulaireAvis({ onSuccess }) {
   const [prenom,  setPrenom]  = useState('')
+  const [email,   setEmail]   = useState('')
   const [ville,   setVille]   = useState('')
   const [produit, setProduit] = useState('')
   const [texte,   setTexte]   = useState('')
@@ -128,7 +129,7 @@ function FormulaireAvis({ onSuccess }) {
       const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prenom, ville, produit, texte, etoiles }),
+        body: JSON.stringify({ prenom, ville, produit, texte, etoiles, email }),
       })
       if (res.ok) { setStatut('succes'); onSuccess && onSuccess() }
       else { setStatut('erreur') }
@@ -182,6 +183,12 @@ function FormulaireAvis({ onSuccess }) {
           <input style={inputStyle} value={ville} onChange={e => setVille(e.target.value)}
             placeholder="Paris, Abidjan…" maxLength={50} />
         </div>
+      </div>
+
+      <div>
+        <label style={lblStyle}>Email * <span style={{ color:'rgba(255,255,255,0.25)', fontWeight:400 }}>(non publié — pour vérification)</span></label>
+        <input style={inputStyle} type="email" value={email} onChange={e => setEmail(e.target.value)}
+          placeholder="ton@email.com" required />
       </div>
 
       <div>
@@ -277,6 +284,16 @@ export default function Temoignages() {
         }
         @media (max-width: 900px) { .avis-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .avis-grid { grid-template-columns: 1fr; } }
+        @keyframes avis-scroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(calc(-1 * var(--aw, 3000px))); }
+        }
+        .avis-band-track {
+          display: inline-flex;
+          animation: avis-scroll 30s linear infinite;
+          align-items: center;
+        }
+        .avis-band-track:hover { animation-play-state: paused; }
       `}</style>
 
       <div className="container">
@@ -354,6 +371,54 @@ export default function Temoignages() {
           </div>
         )}
       </div>
+
+      {/* Bande défilante — s'affiche uniquement quand il y a des avis */}
+      {nb > 0 && (
+        <AvisBande avis={avis} />
+      )}
     </section>
+  )
+}
+
+function AvisBande({ avis }) {
+  const bandRef = useRef(null)
+  // Dupliquer pour boucle infinie
+  const items = [...avis, ...avis]
+
+  useEffect(() => {
+    if (!bandRef.current) return
+    bandRef.current.style.setProperty('--aw', `${bandRef.current.scrollWidth / 2}px`)
+  }, [avis])
+
+  return (
+    <div style={{
+      overflow: 'hidden',
+      background: 'rgba(13,59,46,0.25)',
+      borderTop: '1px solid #1E2E21',
+      borderBottom: '1px solid #1E2E21',
+      padding: '14px 0',
+      marginTop: 40,
+    }}>
+      <div ref={bandRef} className="avis-band-track">
+        {items.map((a, i) => (
+          <div key={i} style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            padding: '0 32px',
+            borderRight: '1px solid rgba(255,255,255,0.06)',
+            whiteSpace: 'nowrap', flexShrink: 0,
+          }}>
+            <span style={{ color: '#C9A84C', fontSize: 13, letterSpacing: 1 }}>
+              {'★'.repeat(a.etoiles)}
+            </span>
+            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontStyle: 'italic', maxWidth: 340, overflow:'hidden', textOverflow:'ellipsis' }}>
+              « {a.texte.slice(0, 80)}{a.texte.length > 80 ? '…' : ''} »
+            </span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.4)' }}>
+              — {a.prenom}{a.ville ? `, ${a.ville}` : ''}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }

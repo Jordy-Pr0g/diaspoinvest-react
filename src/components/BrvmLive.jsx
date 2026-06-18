@@ -16,6 +16,31 @@ const DIV_CONNUS = {
   TTLC:  { div: 200,  nom: 'TotalEnergies CI' },
 }
 
+// BRVM : Abidjan = UTC+0, séance 9h00–15h30 lun-ven
+function isMarketOpen() {
+  const now = new Date()
+  const day = now.getUTCDay() // 0=dim, 6=sam
+  if (day === 0 || day === 6) return false
+  const min = now.getUTCHours() * 60 + now.getUTCMinutes()
+  return min >= 540 && min < 930 // 9h00–15h30
+}
+
+// Noms des entreprises pour les dividendes à venir
+const NOM_SOCIETE = {
+  SNTS:'Sonatel', ORAC:'Orange CI', SGBC:'SGBCI', PALC:'PALMCI',
+  CBIBF:'Coris Bank BF', SLBC:'Solibra CI', STBC:'SITAB CI', BOAB:'BOA Bénin',
+  BICC:'BICI CI', ECOC:'Ecobank CI', NTLC:'Nestlé CI', TTLC:'TotalEnergies CI',
+  TTLS:'TotalEnergies SN', BOABF:'BOA Burkina', BOAC:'BOA CI', BOAM:'BOA Mali',
+  BOAN:'BOA Niger', BOAS:'BOA Sénégal', NSBC:'NSIA Banque CI', SPHC:'SAPH CI',
+  SIBC:'SIB CI', ONTBF:'ONATEL BF', CIEC:'CIE CI', ORGT:'Oragroup TG',
+  SDCC:'SODE CI', ETIT:'Ecobank TG', BICB:'BICIB Bénin', CABC:'SICABLE CI',
+  PRSC:'PRESTIGE CI', SEMC:'SETAO CI', SDSC:'SOLIDE CI', SICC:'SICOGI CI',
+  SIVC:'SIVOP CI', SMBC:'SMB CI', SOGC:'SOGB CI', STAC:'SETRAM CI',
+  UNLC:'UNILEVER CI', UNXC:'UNIXX CI', ABJC:'ABIDJAN EXP', BNBC:'BNI CI',
+  BOAM:'BOA Mali', BOAS:'BOA SN', CFAC:'CFAO CI', FTSC:'FILTISAC CI',
+  LNBB:'LNB BF', NEIC:'NEI CI', NTLC:'Nestlé CI', SCRC:'SUCRIVOIRE CI',
+}
+
 const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
 const RED   = '#FF6B6B'
@@ -158,9 +183,34 @@ export default function BrvmLive() {
               {date && <span> · Clôture du {date}</span>}
             </p>
           </div>
-          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-            <div className="pulse-dot" />
-            <span style={{ fontSize:11, fontWeight:700, color:VERT3, textTransform:'uppercase', letterSpacing:1 }}>Données live</span>
+          <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:8 }}>
+            {/* Statut marché */}
+            {(() => {
+              const ouvert = isMarketOpen()
+              return (
+                <div style={{
+                  display:'inline-flex', alignItems:'center', gap:6,
+                  background: ouvert ? 'rgba(46,204,139,0.1)' : 'rgba(255,107,107,0.1)',
+                  border: `1px solid ${ouvert ? 'rgba(46,204,139,0.3)' : 'rgba(255,107,107,0.3)'}`,
+                  borderRadius:20, padding:'5px 14px',
+                  fontSize:11, fontWeight:700,
+                  color: ouvert ? VERT3 : RED,
+                  letterSpacing:0.5,
+                }}>
+                  <span style={{
+                    width:7, height:7, borderRadius:'50%',
+                    background: ouvert ? VERT3 : RED,
+                    animation: ouvert ? 'pulseAnim 1.5s ease-in-out infinite' : 'none',
+                    flexShrink:0,
+                  }} />
+                  {ouvert ? 'Marché ouvert' : 'Marché fermé'}
+                </div>
+              )
+            })()}
+            <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+              <div className="pulse-dot" />
+              <span style={{ fontSize:11, fontWeight:700, color:VERT3, textTransform:'uppercase', letterSpacing:1 }}>Données live</span>
+            </div>
           </div>
         </div>
 
@@ -242,17 +292,28 @@ export default function BrvmLive() {
             <CardTitle>Prochains détachements</CardTitle>
             {divNext.length === 0
               ? <div style={{ color:'rgba(255,255,255,0.2)', fontSize:13 }}>Aucun détachement prévu</div>
-              : divNext.slice(0, 5).map((d, i) => (
-                <div className="mv-row" key={i}>
-                  <div>
-                    <div style={{ fontFamily:'DM Mono,monospace', fontSize:13, fontWeight:700, color:'#fff' }}>{d.symbole || d.titre}</div>
-                    <div style={{ fontSize:10, color:'rgba(255,255,255,0.3)', marginTop:1 }}>{d.date_detachement || d.date}</div>
+              : divNext.slice(0, 5).map((d, i) => {
+                const sym  = d.symbole || d.titre || '?'
+                const nom  = NOM_SOCIETE[sym] || sym
+                const date = d.date_detachement || d.date || ''
+                // Formatage de la date si ISO
+                const dateAff = date ? (() => {
+                  try {
+                    return new Date(date).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' })
+                  } catch { return date }
+                })() : ''
+                return (
+                  <div className="mv-row" key={i}>
+                    <div>
+                      <div style={{ fontSize:13, fontWeight:700, color:'#fff' }}>{nom}</div>
+                      <div style={{ fontFamily:'DM Mono,monospace', fontSize:10, color:'rgba(255,255,255,0.3)', marginTop:1 }}>{sym}</div>
+                    </div>
+                    <span style={{ fontFamily:'DM Mono,monospace', fontSize:12, fontWeight:700, color:OR }}>
+                      {dateAff}
+                    </span>
                   </div>
-                  <span style={{ fontFamily:'DM Mono,monospace', fontSize:12, fontWeight:700, color:OR }}>
-                    {fmt(d.dividende_brut || d.montant)} FCFA
-                  </span>
-                </div>
-              ))
+                )
+              })
             }
           </Card>
         </div>
