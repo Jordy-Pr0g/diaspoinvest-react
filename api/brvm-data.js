@@ -13,7 +13,22 @@
 const RAW_URL =
   'https://raw.githubusercontent.com/Jordy-Pr0g/diaspoinvest-automation/main/scripts/data/brvm_latest.json'
 
+const ALLOWED_ORIGINS = [
+  'https://diaspoinvest.fr',
+  'https://www.diaspoinvest.fr',
+]
+
 export default async function handler(req, res) {
+  const origin = req.headers.origin || ''
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin)
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS')
+  res.setHeader('Vary', 'Origin')
+
+  if (req.method === 'OPTIONS') return res.status(200).end()
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
+
   try {
     const token = process.env.GITHUB_TOKEN
     const headers = { 'User-Agent': 'DiaspoInvest-Cockpit/1.0' }
@@ -27,7 +42,6 @@ export default async function handler(req, res) {
 
     // Cache 30 min CDN, revalidation silencieuse 1h
     res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate=3600')
-    res.setHeader('Access-Control-Allow-Origin', '*')
     res.json(data)
   } catch (e) {
     res.status(502).json({ error: e.message })

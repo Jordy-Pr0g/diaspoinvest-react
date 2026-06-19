@@ -2,13 +2,32 @@
 const BREVO_API_KEY = process.env.BREVO_API_KEY
 const LIST_INTERESSES = 7
 
+const ALLOWED_ORIGINS = [
+  'https://diaspoinvest.fr',
+  'https://www.diaspoinvest.fr',
+]
+
+function isAllowedOrigin(req) {
+  const origin = req.headers.origin || ''
+  const referer = req.headers.referer || ''
+  return ALLOWED_ORIGINS.includes(origin) || ALLOWED_ORIGINS.some(o => referer.startsWith(o))
+}
+
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
+  const origin = req.headers.origin || ''
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin)
+  }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Vary', 'Origin')
 
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+
+  if (!isAllowedOrigin(req)) {
+    return res.status(403).json({ error: 'Forbidden' })
+  }
 
   const { email, segment } = req.body
 
