@@ -413,8 +413,14 @@ export default function BrvmLive() {
           </div>
         </Card>
 
-        <div style={{ textAlign:'center', marginTop:12, fontSize:10, color:'rgba(255,255,255,0.18)', lineHeight:1.7 }}>
-          Sources : brvm.org · sikafinance.com · Non affilié à la BRVM ni au CREPMF
+        <div style={{ marginTop:20, padding:'14px 18px', background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:10 }}>
+          <p style={{ fontSize:10, color:'rgba(255,255,255,0.28)', lineHeight:1.8, margin:0, textAlign:'center' }}>
+            <strong style={{ color:'rgba(255,255,255,0.35)', fontSize:10 }}>AVERTISSEMENT</strong> — Les cours et données affichés sont fournis à titre informatif uniquement et ne constituent pas un conseil en investissement.
+            Les informations proviennent de sources tierces (brvm.org, sikafinance.com) et peuvent comporter des délais ou inexactitudes.
+            Les performances passées ne préjugent pas des performances futures. Investir en bourse comporte un risque de perte en capital.
+            DiaspoInvest n'est pas un prestataire de services d'investissement agréé. Avant tout investissement, consultez un conseiller financier qualifié.
+            DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF.
+          </p>
         </div>
       </div>
     </section>
