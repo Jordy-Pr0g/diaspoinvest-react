@@ -70,15 +70,27 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <a
-                className={`btn ${p.populaire ? 'btn-or' : 'btn-vert'}`}
-                href={p.lien}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Obtenir · {p.prix}
-              </a>
-              <p className="plan-garantie">Satisfait ou remboursé 7 jours</p>
+              {p.bientot ? (
+                <button
+                  className="btn btn-ghost"
+                  disabled
+                  style={{ opacity: 0.45, cursor: 'not-allowed', color: 'rgba(255,248,231,0.5)', borderColor: 'rgba(255,248,231,0.15)' }}
+                >
+                  Bientôt disponible
+                </button>
+              ) : (
+                <a
+                  className={`btn ${p.populaire ? 'btn-or' : 'btn-vert'}`}
+                  href={p.lien}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Obtenir · {p.prix}
+                </a>
+              )}
+              <p className="plan-garantie">
+                {p.bientot ? 'Disponible prochainement' : 'Satisfait ou remboursé 14 jours'}
+              </p>
             </div>
           )})}
         </div>

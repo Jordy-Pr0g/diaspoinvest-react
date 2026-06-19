@@ -413,32 +413,6 @@ export default function BrvmLive() {
           </div>
         </Card>
 
-        {/* CTA subtil */}
-        <div style={{
-          background:'linear-gradient(135deg,rgba(13,59,46,0.7),rgba(6,21,10,0.9))',
-          border:`1px solid rgba(201,168,76,0.18)`,
-          borderRadius:14, padding:'20px 22px',
-          display:'flex', justifyContent:'space-between', alignItems:'center',
-          flexWrap:'wrap', gap:14,
-        }}>
-          <div>
-            <div style={{ fontWeight:800, fontSize:15, marginBottom:4 }}>
-              Suis ces 47 actions mois par mois
-            </div>
-            <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)', lineHeight:1.6 }}>
-              Le Tracker Dashboard calcule tes dividendes nets, suit ton portefeuille et t'alerte sur les détachements.
-            </div>
-          </div>
-          <a href={LIENS.calculateur} target="_blank" rel="noreferrer" style={{
-            display:'inline-block', background:OR, color:'#0D2B1E',
-            fontFamily:'Space Grotesk,sans-serif', fontWeight:900, fontSize:13,
-            padding:'12px 20px', borderRadius:10, textDecoration:'none',
-            whiteSpace:'nowrap', flexShrink:0,
-          }}>
-            Voir le Tracker · 24,99 €
-          </a>
-        </div>
-
         <div style={{ textAlign:'center', marginTop:12, fontSize:10, color:'rgba(255,255,255,0.18)', lineHeight:1.7 }}>
           Sources : brvm.org · sikafinance.com · Non affilié à la BRVM ni au CREPMF
         </div>

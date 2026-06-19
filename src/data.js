@@ -51,6 +51,7 @@ export const PRODUITS = [
     prix: "29,99 €",
     lien: LIENS.pack,
     populaire: true,
+    bientot: true,
     points: [
       "Le Guide PDF Diaspora Europe complet",
       "Le Tracker Dashboard (10 onglets)",
@@ -66,6 +67,7 @@ export const PRODUITS = [
     prix: "24,99 €",
     lien: LIENS.calculateur,
     populaire: false,
+    bientot: true,
     points: [
       "47 actions BRVM par secteur",
       "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
@@ -99,6 +101,7 @@ export const PRODUITS_UEMOA = [
     prix: "24,99 €",
     lien: LIENS.calculateur,
     populaire: false,
+    bientot: true,
     points: [
       "47 actions BRVM par secteur",
       "Simulateur DCA sur 30 ans avec fiscalité UEMOA",
@@ -113,6 +116,7 @@ export const PRODUITS_UEMOA = [
     prix: "29,99 €",
     lien: LIENS.packUemoa,
     populaire: true,
+    bientot: true,
     points: [
       "Le Guide PDF Résident UEMOA complet",
       "Le Tracker Dashboard (10 onglets)",

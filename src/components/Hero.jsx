@@ -22,7 +22,7 @@ export default function Hero() {
             Obtenir le guide · 14,99 €
           </a>
           <a className="btn btn-ghost" href="#calculateur" style={{ color: '#FFF8E7', borderColor: 'rgba(255,248,231,0.35)' }}>
-            Simuler mon rendement
+            Simuler mon épargne
           </a>
         </div>
 
@@ -31,14 +31,14 @@ export default function Hero() {
             <div className="p-name">Guide PDF</div>
             <div className="p-value">14,99 €</div>
           </a>
-          <a className="price-pill" href={LIENS.calculateur} target="_blank" rel="noreferrer">
+          <div className="price-pill" style={{ opacity: 0.4, cursor: 'default' }}>
             <div className="p-name">Tracker Dashboard</div>
-            <div className="p-value">24,99 €</div>
-          </a>
-          <a className="price-pill" href={LIENS.pack} target="_blank" rel="noreferrer">
+            <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
+          </div>
+          <div className="price-pill" style={{ opacity: 0.4, cursor: 'default' }}>
             <div className="p-name">Pack Complet</div>
-            <div className="p-value">29,99 €</div>
-          </a>
+            <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
+          </div>
         </div>
 
       </div>
