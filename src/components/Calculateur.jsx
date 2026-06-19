@@ -21,12 +21,12 @@ export default function Calculateur() {
             title="Simulateur DCA BRVM"
             style={{
               width: '100%',
-              height: 820,
+              height: 1100,
               border: 'none',
               display: 'block',
               background: '#060E09',
             }}
-            loading="lazy"
+            scrolling="no"
           />
         </div>
       </div>
