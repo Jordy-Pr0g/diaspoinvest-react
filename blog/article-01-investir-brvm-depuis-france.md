@@ -1,0 +1,191 @@
+# Comment investir sur la BRVM depuis la France en 2026 (guide complet)
+
+**Temps de lecture : 10 minutes**
+**Dernière mise à jour : juin 2026**
+**Source des données : brvm.org (officiel), sikafinance.com**
+
+---
+
+Réponse rapide : Oui, tu peux investir sur la BRVM depuis la France sans te déplacer. Tu passes par une SGI agréée (courtier officiel), tu ouvres un compte en ligne en 5 à 10 jours, et tu commences avec aussi peu que 43 EUR. Les dividendes arrivent chaque année directement sur ton compte.
+
+---
+
+Il y a une question que beaucoup de membres de la diaspora africaine en France n'osent pas poser à voix haute.
+
+Pas à leur banquier. Pas à leur entourage. Parfois même pas à eux-mêmes.
+
+"Est-ce que je peux vraiment investir dans des entreprises africaines depuis Paris ?"
+
+Et tu sais ce qui est frustrant ? Ce n'est pas une question stupide. C'est une question légitime que personne n'a jamais pris le temps de répondre correctement.
+
+Pas de ta faute. L'information ne circule pas dans nos réseaux.
+
+Voilà ce que tu vas savoir d'ici la fin de cet article : si c'est légalement possible, comment ça fonctionne concrètement, ce que ça rapporte en chiffres réels, et ce qu'il faut déclarer en France pour ne pas avoir de mauvaise surprise.
+
+Rien d'autre. Pas de promesse de rendement miraculeux. Des faits.
+
+---
+
+Sommaire
+1. Ce qu'est vraiment la BRVM
+2. Est-ce une arnaque ? La question que tout le monde se pose
+3. Les chiffres que personne ne te montre
+4. Comment ça fonctionne concrètement
+5. Ce que tu dois déclarer en France
+6. Ce que cet article ne te donne pas
+7. Questions fréquentes
+
+---
+
+## Ce qu'est vraiment la BRVM
+
+La BRVM, Bourse Régionale des Valeurs Mobilières, a été créée en 1998. C'est la bourse commune de 8 pays d'Afrique de l'Ouest membres de l'UEMOA : Côte d'Ivoire, Sénégal, Burkina Faso, Mali, Bénin, Guinée-Bissau, Niger et Togo.
+
+Elle fonctionne exactement comme les bourses européennes. Des entreprises y sont cotées. Des investisseurs achètent leurs actions. Et ces entreprises reversent une partie de leurs bénéfices aux actionnaires sous forme de dividendes, chaque année.
+
+Ce qui change tout, c'est quelles entreprises sont cotées.
+
+Pas des noms inconnus. Pas des paris spéculatifs. Des groupes que tu utilises, que ta famille utilise, que tu croises dans la rue quand tu rentres au pays.
+
+Sonatel est la filiale Orange au Sénégal. Ce sont eux qui gèrent les antennes, les cartes SIM, Orange Money. Leur logo est partout à Dakar. Orange Côte d'Ivoire, c'est la même histoire à Abidjan. Ecobank est l'une des plus grandes banques panafricaines, présente dans plus de 30 pays. TotalEnergies CI, ce sont les stations-service que tu connais en Côte d'Ivoire. SGBCI est la Société Générale de Côte d'Ivoire, solide depuis des décennies. BOA Bénin, c'est Bank of Africa, avec des dividendes réguliers et une forte liquidité.
+
+47 entreprises au total. Des groupes avec des bilans vérifiables, des comptes audités, supervisés par un régulateur officiel. Pour beaucoup d'entre eux, des dividendes versés sans interruption depuis plus de 15 ans.
+
+Tu peux en devenir actionnaire depuis Paris, Lyon, Bordeaux ou Strasbourg, sans te déplacer.
+
+---
+
+## Est-ce une arnaque ? La question que tout le monde se pose
+
+Soyons directs.
+
+La diaspora africaine a été brûlée trop souvent. Des investissements WhatsApp qui promettent 30 % par mois. Des traders fantômes sur Telegram. Des pyramides de Ponzi habillées en opportunités africaines.
+
+Tu as le droit d'être méfiant. C'est même une bonne réaction.
+
+La BRVM est régulée par le CREPMF depuis 1996. Le CREPMF est l'équivalent exact de l'AMF française pour la zone UEMOA. Il surveille les sociétés cotées, agrée les intermédiaires, et les investisseurs ont un recours juridique en cas de problème.
+
+Les cours sont publiés en temps réel sur brvm.org. Pas de prix secret. Pas de "ton agent te donnera le cours". Le cours de chaque action est public, vérifiable à la seconde.
+
+Les SGI sont agréées avec un fonds de garantie. Si une SGI fait faillite, tes actions sont inscrites au dépositaire central de la BRVM. Elles ne font pas partie de l'actif de la SGI. Tu ne perds pas tes titres.
+
+Le FCFA est indexé sur l'euro à taux fixe depuis 1945. 1 EUR = 655,957 FCFA. Garanti par accord monétaire entre la zone UEMOA et la Banque de France. Ce n'est pas un risque de change caché.
+
+La vraie question n'est pas "est-ce que la BRVM est risquée ?" parce que toute bourse comporte des risques. La question est "est-ce que c'est réglementé ?" Et la réponse est oui, depuis 1996.
+
+---
+
+## Les chiffres que personne ne te montre
+
+Voici ce qui se passe pendant que ton Livret A rapporte 3 %.
+
+La BRVM Composite en 2024 a progressé de +28,89 %. Le CAC 40 sur la même période : +0,92 %. L'immobilier locatif en France : 4 à 5 % brut, avant charges, avant fiscalité, avant les nuits blanches avec les locataires.
+
+Et en parallèle de cette performance, les actionnaires ont aussi encaissé leurs dividendes.
+
+Concrètement, au 19 juin 2026 :
+
+| Action | Cours | Dividende 2025 | Rendement brut | Net France (-30 %) |
+|--------|-------|----------------|----------------|-------------------|
+| Sonatel (SNTS) | 28 150 FCFA | 1 740 FCFA | 6,18 % | 4,33 % |
+| BOA Bénin (BOAB) | 8 780 FCFA | 526 FCFA | 5,99 % | 4,19 % |
+| SGBCI (SGBC) | 38 995 FCFA | 2 064 FCFA | 5,29 % | 3,70 % |
+| Orange CI (ORAC) | 15 650 FCFA | 720 FCFA | 4,60 % | 3,22 % |
+
+Source : brvm.org, 19 juin 2026
+
+Avec 100 actions Sonatel (4 291 EUR investis), tu reçois 174 000 FCFA de dividendes bruts par an, soit 121 800 FCFA nets après flat tax 30 % en France. C'est 186 EUR par an, chaque année, sans vendre une seule action.
+
+Tu veux calculer avec ton propre montant ? Le simulateur gratuit DiaspoInvest le fait en 3 minutes : [diaspoinvest.fr/#calculateur](https://diaspoinvest.fr/#calculateur)
+
+---
+
+## Comment investir sur la BRVM depuis la France concrètement
+
+Voici les étapes réelles. Pas de jargon. Pas d'étape cachée.
+
+### Étape 1 : choisir une SGI
+
+Une SGI (Société de Gestion et d'Intermédiation) est ton courtier agréé sur la BRVM. C'est l'intermédiaire obligatoire entre toi et le marché. Sans SGI agréée CREPMF, tu ne peux pas acheter une seule action.
+
+Plusieurs SGI acceptent les non-résidents UEMOA et permettent une ouverture entièrement à distance. Parmi celles qui fonctionnent pour la diaspora en Europe : BOA Capital Securities, BNI Securities, Bridge Securities, BSIC Capital.
+
+### Étape 2 : ouvrir ton compte
+
+Tout se fait par email ou formulaire en ligne. Les documents demandés : pièce d'identité en cours de validité (CNI ou passeport, recto-verso, scan couleur lisible), justificatif de domicile de moins de 3 mois, RIB d'un compte bancaire européen, et le formulaire d'ouverture fourni par la SGI.
+
+Délai moyen : 5 à 10 jours ouvrables pour un dossier complet. Un document flou ou manquant peut allonger ça à plusieurs semaines.
+
+### Étape 3 : alimenter ton compte
+
+Tu vires des euros depuis ta banque française. La SGI convertit en FCFA au taux fixe.
+
+Un détail important sur les frais : les banques classiques prennent 2 à 3 % sur les virements internationaux. Wise ou Revolut font la même chose pour 0,3 à 0,5 %. Sur un DCA mensuel sur 10 ans, la différence représente plusieurs centaines d'euros gaspillés.
+
+### Étape 4 : passer ton premier ordre
+
+Tu choisis une action, une quantité, un prix maximum. L'ordre à cours limité est recommandé : tu fixes le prix que tu acceptes de payer et l'ordre ne s'exécute pas au-dessus.
+
+La BRVM est ouverte du lundi au vendredi, de 9h à 15h30 heure d'Abidjan (10h-16h30 heure de Paris). Les actions sont créditées sur ton compte le jour même ou le lendemain.
+
+---
+
+## Ce que tu dois déclarer en France
+
+C'est l'étape que la majorité des investisseurs de la diaspora découvrent trop tard.
+
+Le formulaire 3916 est obligatoire. Dès que ton compte SGI est ouvert, tu dois le déclarer chaque année sur impots.gouv.fr dans la rubrique "Comptes ouverts à l'étranger".
+
+Amende en cas d'oubli : 1 500 euros par compte, par an. Même si le compte est vide. Même si tu n'as fait aucune transaction.
+
+Les dividendes sont soumis à la flat tax de 30 % (12,8 % IR + 17,2 % prélèvements sociaux) et se déclarent en case 2DC du formulaire 2042.
+
+La BRVM n'est pas éligible au PEA. Ton investissement passe par un compte-titres ordinaire.
+
+La SGI ne s'occupe de rien côté France. La déclaration est entièrement de ta responsabilité.
+
+---
+
+## Ce que cet article ne te donne pas
+
+Tu comprends maintenant ce qu'est la BRVM, pourquoi ça intéresse la diaspora, et que c'est légal et réglementé. Mais beaucoup de membres de la communauté ont passé des semaines à tâtonner après cette étape : mauvaise SGI choisie, dossier refusé plusieurs fois, premier ordre passé sans comprendre les frais, déclaration fiscale ratée la première année.
+
+Le Guide DiaspoInvest (14,99 EUR) a été construit pour que tu n'aies pas à répéter ces erreurs. Il compare en détail les 4 SGI qui acceptent la diaspora (frais exacts, délais réels, documents acceptés), analyse les principales actions à dividende une par une, donne un plan d'action de 30 jours avec les étapes dans l'ordre, et inclut une fiche fiscale complète avec les cases exactes à remplir selon ton pays de résidence.
+
+Ce n'est pas un article plus long. C'est un plan d'action.
+
+[J'accède au Guide DiaspoInvest à 14,99 EUR →](https://diaspoinvest.fr/#produits)
+
+---
+
+## Questions fréquentes
+
+**Peut-on investir sur la BRVM sans être africain ou sans avoir de famille en Afrique ?**
+Oui. N'importe quel résident fiscal français peut investir sur la BRVM, quelle que soit sa nationalité. La seule condition est d'avoir une pièce d'identité valide et un compte bancaire européen.
+
+**Faut-il se déplacer en Afrique pour ouvrir un compte SGI ?**
+Non. Les SGI qui acceptent les non-résidents proposent une ouverture entièrement à distance par email. Tu envoies tes documents scannés, tu signes le formulaire en ligne, et tu vires tes premiers fonds via Wise. Tout depuis Paris.
+
+**Combien faut-il pour commencer à investir sur la BRVM ?**
+Une action Sonatel coûte environ 43 EUR. Il n'y a pas de minimum légal. En pratique, la fourchette réaliste pour commencer est de 30 à 75 EUR par mois.
+
+**Quand reçoit-on les dividendes et comment ?**
+Une fois par an, généralement entre avril et juin. Ils sont crédités automatiquement en FCFA sur ton compte SGI. Tu peux ensuite les virer vers ton compte français ou les réinvestir. Si tu achètes en juillet 2026, ton premier dividende arrive vers avril-juin 2027.
+
+**La BRVM peut-elle fermer du jour au lendemain ?**
+Non. La BRVM est une institution réglementée par le CREPMF depuis 1996, fonctionnant sous accord entre 8 États souverains. Ce n'est pas une plateforme privée qui peut disparaître.
+
+**Peut-on perdre tout son capital sur la BRVM ?**
+Investir en bourse comporte un risque de perte en capital. Entre 2022 et 2023, Sonatel a perdu environ 18 % de sa valeur. Les investisseurs qui ont continué leur DCA ont acheté moins cher et sont aujourd'hui à profit. Ceux qui ont vendu en panique ont cristallisé une perte. L'horizon minimum recommandé est 5 ans.
+
+**Le FCFA peut-il se dévaluer et faire perdre de la valeur à mon investissement ?**
+Le FCFA est ancré à l'euro à taux fixe (1 EUR = 655,957 FCFA) depuis 1945, garanti par accord monétaire. Il n'y a pas de risque de change EUR/FCFA dans le cadre actuel.
+
+**Dois-je déclarer mon compte même si je n'ai fait aucune transaction dans l'année ?**
+Oui. L'obligation du formulaire 3916 s'applique dès que le compte existe, actif ou non. Amende : 1 500 euros par compte non déclaré, par an.
+
+---
+
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
+
+Données de marché : brvm.org, sikafinance.com, 19 juin 2026.

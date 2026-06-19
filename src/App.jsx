@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
@@ -17,8 +18,10 @@ import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
 import CookieBanner from './components/CookieBanner.jsx'
 import Cockpit from './Cockpit.jsx'
+import BlogIndex from './pages/BlogIndex.jsx'
+import BlogPost from './pages/BlogPost.jsx'
 
-export default function App() {
+function LandingPage() {
   const [modal, setModal] = useState(null)
   const isCockpit = window.location.hash === '#cockpit'
 
@@ -45,5 +48,15 @@ export default function App() {
       <Modal type={modal} onClose={() => setModal(null)} />
       <CookieBanner />
     </>
+  )
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/blog" element={<BlogIndex />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+    </Routes>
   )
 }

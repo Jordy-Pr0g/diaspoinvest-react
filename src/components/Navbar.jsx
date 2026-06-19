@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { LIENS } from '../data.js'
 
 const NAV_LINKS = [
@@ -13,6 +14,8 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const location = useLocation()
+  const isBlog = location.pathname.startsWith('/blog')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30)
@@ -37,9 +40,13 @@ export default function Navbar() {
 
         <nav className="nav-menu-links">
           <div className="nav-links">
-            {NAV_LINKS.map((l) => (
+            {!isBlog && NAV_LINKS.map((l) => (
               <a key={l.href} href={l.href}>{l.label}</a>
             ))}
+            {isBlog && (
+              <Link to="/">Accueil</Link>
+            )}
+            <Link to="/blog" style={{ fontWeight: isBlog ? 700 : 500 }}>Blog</Link>
           </div>
         </nav>
 
@@ -63,9 +70,11 @@ export default function Navbar() {
       {/* Drawer mobile */}
       <div className={`mobile-drawer${open ? ' open' : ''}`} onClick={(e) => e.stopPropagation()}>
         <nav>
-          {NAV_LINKS.map((l) => (
+          {!isBlog && NAV_LINKS.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
           ))}
+          {isBlog && <Link to="/" onClick={() => setOpen(false)}>Accueil</Link>}
+          <Link to="/blog" onClick={() => setOpen(false)}>Blog</Link>
           <a
             className="btn btn-or mobile-drawer-cta"
             href={LIENS.pack}
