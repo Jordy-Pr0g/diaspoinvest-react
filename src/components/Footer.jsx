@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { LIENS, SLOGAN, DISCLAIMER } from '../data.js'
 
 export default function Footer({ onOpenModal }) {
@@ -23,6 +24,18 @@ export default function Footer({ onOpenModal }) {
           </div>
 
           <div>
+            <h4>Ressources</h4>
+            <ul>
+              <li><Link to="/blog">Blog</Link></li>
+              <li><Link to="/blog/investir-brvm-depuis-france">Investir sur la BRVM depuis la France</Link></li>
+              <li><Link to="/blog/dividendes-sonatel-2025">Dividendes Sonatel 2025</Link></li>
+              <li><Link to="/blog/brvm-vs-livret-a">BRVM vs Livret A</Link></li>
+              <li><Link to="/blog/ouvrir-compte-sgi-depuis-etranger">Ouvrir un compte SGI</Link></li>
+              <li><Link to="/blog/declarer-compte-brvm-impots-france">Déclarer son compte aux impôts</Link></li>
+            </ul>
+          </div>
+
+          <div>
             <h4>Informations</h4>
             <ul>
               <li>
@@ -43,7 +56,6 @@ export default function Footer({ onOpenModal }) {
               <li><a href="#faq">FAQ</a></li>
               <li><a href="mailto:contact@diaspoinvest.fr">Contact</a></li>
             </ul>
-
           </div>
         </div>
 
