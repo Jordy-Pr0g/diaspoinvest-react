@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 /* ── Données dividendes (FCFA/action, dernier exercice fiscal) ── */
 const DIVIDENDES = {
@@ -97,11 +97,6 @@ export default function Calculateur() {
   const [taux,        setTaux]        = useState(6.13)
   const [locked,      setLocked]      = useState('divann')
   const [vals,        setVals]        = useState({ apport:30000, duree:10, divann:219356 })
-  const [showCapture, setShowCapture] = useState(false)
-  const [captureEmail,setCaptureEmail]= useState('')
-  const [capturePrenom,setCapturePrenom]=useState('')
-  const [captureOk,   setCaptureOk]  = useState(false)
-  const computeCount = useRef(0)
 
   /* ── Fetch données BRVM ── */
   useEffect(() => {
@@ -146,9 +141,6 @@ export default function Calculateur() {
   /* ── Calcul ── */
   const { result, resLabel, resUnit, resContext, resVal, kpis, livret } = (() => {
     if (!cours || cours<=0) return {}
-    computeCount.current++
-    if (!showCapture && computeCount.current >= 2) setShowCapture(true)
-
     const a=vals.apport, d=vals.duree, dv=vals.divann
     const nom = selTitre?.symbole || 'Personnalisé'
     let r, label, unit, context, mainVal, apDisplay=a, dDisplay=d, dvDisplay=dv
@@ -191,18 +183,6 @@ export default function Calculateur() {
   function setLock(key) { setLocked(key) }
 
   function updateVal(key, v) { setVals(prev=>({...prev,[key]:parseFloat(v)})) }
-
-  async function submitCapture() {
-    if (!captureEmail) return
-    try {
-      await fetch('/api/newsletter', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email:captureEmail,prenom:capturePrenom,captchaToken:'calculateur'}),
-      })
-      setCaptureOk(true)
-    } catch {}
-  }
 
   const SLIDERS = {
     apport: { min:5000,  max:500000, step:5000, label:'Apport mensuel',         unit:'FCFA' },
@@ -408,45 +388,6 @@ export default function Calculateur() {
               <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:VERT3, display:'block' }}>{fmtShort(kpis.divCumul)}</span>
               <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>dividendes cumulés</span>
             </div>
-          </div>
-        )}
-
-        {/* Capture email */}
-        {showCapture && (
-          <div style={{ background:'linear-gradient(135deg,#0D3B2E,#061A10)', border:'1.5px solid rgba(201,168,76,0.35)',
-            borderRadius:20, padding:'28px 22px', textAlign:'center', marginBottom:16, position:'relative', overflow:'hidden' }}>
-            <div style={{ position:'absolute', top:0, left:0, right:0, height:2,
-              background:'linear-gradient(90deg,transparent,#C9A84C,transparent)' }} />
-            {captureOk ? (
-              <>
-                <div style={{ fontSize:32, marginBottom:8 }}>✅</div>
-                <div style={{ fontWeight:800, fontSize:16, marginBottom:4 }}>Tu es inscrit.</div>
-                <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>Vérifie ta boîte mail — la sélection t'attend.</div>
-              </>
-            ) : (
-              <>
-                <div style={{ fontSize:18, fontWeight:900, marginBottom:6 }}>Reçois cette simulation par email</div>
-                <p style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginBottom:16, lineHeight:1.5 }}>
-                  + la sélection des meilleures actions BRVM chaque semaine — gratuitement.
-                </p>
-                <input type="text" placeholder="Ton prénom" value={capturePrenom}
-                  onChange={e=>setCapturePrenom(e.target.value)}
-                  style={{ display:'block', width:'100%', background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.12)',
-                    borderRadius:10, padding:'13px 16px', color:'#fff', fontFamily:'Space Grotesk,sans-serif', fontSize:15, outline:'none', marginBottom:10, boxSizing:'border-box' }} />
-                <input type="email" placeholder="email@exemple.com" value={captureEmail}
-                  onChange={e=>setCaptureEmail(e.target.value)}
-                  style={{ display:'block', width:'100%', background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.12)',
-                    borderRadius:10, padding:'13px 16px', color:'#fff', fontFamily:'Space Grotesk,sans-serif', fontSize:15, outline:'none', marginBottom:10, boxSizing:'border-box' }} />
-                <button onClick={submitCapture}
-                  style={{ background:OR, color:VERT, fontFamily:'Space Grotesk,sans-serif', fontWeight:900, fontSize:14,
-                    padding:'14px 24px', borderRadius:10, border:'none', cursor:'pointer', letterSpacing:0.5 }}>
-                  Recevoir gratuitement
-                </button>
-                <p style={{ fontSize:10, color:'rgba(255,255,255,0.2)', marginTop:10, lineHeight:1.5 }}>
-                  Contenu éducatif · Non affilié à la BRVM · Désinscription à tout moment
-                </p>
-              </>
-            )}
           </div>
         )}
 
