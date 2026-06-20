@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": 1781985138189,
+    "prenom": "",
+    "email": "kevin.test@gmail.com",
+    "ville": "Cameroun",
+    "produit": "Guide PDF Europe",
+    "texte": "Franchement je savais pas par où commencer depuis le Cameroun. J'ai pris le guide et ça m'a vraiment aidé à comprendre comment ça marche. Je passerai bientôt à l'action avec 100 000 FCFA.",
+    "etoiles": 5,
+    "date": "2026-06-20",
+    "reponse": null
+  }
+]
