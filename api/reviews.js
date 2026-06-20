@@ -22,33 +22,21 @@ async function getReviews() {
 }
 
 async function saveReviews(reviews, token) {
-  // Lire le SHA actuel du fichier (requis par l'API GitHub pour les updates)
-  const metaRes = await fetch(
-    `https://api.github.com/repos/${REPO}/contents/${FILE}`,
-    { headers: { Authorization: `token ${token}`, 'User-Agent': 'DiaspoInvest' } }
-  )
-  const meta = await metaRes.json()
-  const sha  = meta.sha
-
+  const headers = { Authorization: `token ${token}`, 'Content-Type': 'application/json', 'User-Agent': 'DiaspoInvest' }
   const content = Buffer.from(JSON.stringify(reviews, null, 2)).toString('base64')
+  const message = `avis: nouvel avis de ${new Date().toISOString().slice(0,10)}`
 
-  const res = await fetch(
-    `https://api.github.com/repos/${REPO}/contents/${FILE}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `token ${token}`,
-        'Content-Type': 'application/json',
-        'User-Agent': 'DiaspoInvest',
-      },
-      body: JSON.stringify({
-        message: `avis: nouvel avis de ${new Date().toISOString().slice(0,10)}`,
-        content,
-        sha,
-        branch: BRANCH,
-      }),
-    }
-  )
+  // Récupérer le SHA si le fichier existe déjà
+  const metaRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, { headers })
+  const body = { message, content, branch: BRANCH }
+  if (metaRes.ok) {
+    const meta = await metaRes.json()
+    if (meta.sha) body.sha = meta.sha
+  }
+
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
+    method: 'PUT', headers, body: JSON.stringify(body),
+  })
   return res.ok
 }
 
