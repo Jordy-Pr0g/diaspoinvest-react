@@ -188,12 +188,28 @@ export const FAQ_ITEMS = [
     r: "Oui, c'est exactement pour toi. Le guide part de zéro : qu'est-ce que la BRVM, comment ouvrir un compte depuis la diaspora, quelles actions regarder en premier. Tout est expliqué en langage simple, sans jargon financier.",
   },
   {
+    q: "Combien faut-il minimum pour commencer à investir sur la BRVM ?",
+    r: "Il n'y a pas de minimum légal. En pratique, avec 50 000 à 100 000 FCFA (75 à 150 €) tu peux acheter ta première action. Les frais de courtage sont d'environ 0,5 % par ordre. Il vaut mieux commencer petit et régulier plutôt qu'attendre d'avoir une grosse somme.",
+  },
+  {
+    q: "Comment envoyer de l'argent depuis la France pour investir ?",
+    r: "Tu passes par un virement bancaire international SWIFT vers le compte de ta SGI, ou via des services comme Wave, Orange Money ou Wise selon la SGI choisie. Le guide détaille les options les moins chères et les plus rapides pour la diaspora.",
+  },
+  {
+    q: "Quelle SGI recommandes-tu pour la diaspora ?",
+    r: "Je ne recommande pas de SGI en particulier car ce n'est pas un conseil en investissement. Le guide compare les critères à vérifier (accès digital, frais, support diaspora) pour que tu fasses ton propre choix en connaissance de cause.",
+  },
+  {
     q: "Puis-je investir depuis la France (ou l'étranger) ?",
     r: "Oui. Certaines SGI proposent un accès 100 % digital adapté à la diaspora. Le guide t'explique les étapes d'ouverture de compte et, surtout, comment déclarer ce compte en France pour être en règle.",
   },
   {
     q: "Faut-il déclarer mon compte aux impôts français ?",
     r: "Oui, c'est obligatoire. Un compte détenu à l'étranger se déclare via le formulaire 3916, sous peine d'une amende de 1 500 € par an. Les dividendes sont imposés au PFU (Flat Tax) de 31,4 %. Le guide détaille toute la démarche.",
+  },
+  {
+    q: "Les plus-values sont-elles imposées en France ?",
+    r: "Oui, les plus-values réalisées à la vente d'actions BRVM sont imposables en France au taux de 30 % (Flat Tax). En revanche, elles sont exonérées d'impôt dans la zone UEMOA. Le guide explique comment les déclarer correctement via le formulaire 2074.",
   },
   {
     q: "Les chiffres sont-ils à jour ?",

@@ -2,6 +2,7 @@
    DiaspoInvest — Styles des composants
    ============================================================ */
 
+
 /* ---------- Navbar ---------- */
 .navbar {
   position: fixed;
@@ -224,11 +225,29 @@
   margin-bottom: 30px;
 }
 
+.hero-stat-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 28px 0 20px;
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  width: fit-content;
+}
+.hsb-item { text-align: center; }
+.hsb-val { display: block; font-family: var(--mono); font-size: 1.5rem; font-weight: 900; }
+.hsb-green { color: #2ECC8B; }
+.hsb-red { color: #FF6B6B; }
+.hsb-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 2px; display: block; }
+.hsb-sep { font-size: 0.8rem; color: rgba(255,255,255,0.3); font-weight: 600; }
+
 .hero-price-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin: 34px 0 28px;
+  margin: 20px 0 28px;
 }
 
 .price-pill {

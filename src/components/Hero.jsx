@@ -18,24 +18,33 @@ export default function Hero() {
         </p>
 
         <div className="hero-cta">
-          <a className="btn btn-or" href={LIENS.guide} target="_blank" rel="noreferrer">
-            Obtenir le guide · 14,99 €
-          </a>
           <a className="btn btn-ghost" href="#calculateur" style={{ color: '#FFF8E7', borderColor: 'rgba(255,248,231,0.35)' }}>
             Simuler mon épargne
           </a>
         </div>
 
+        <div className="hero-stat-bar">
+          <div className="hsb-item">
+            <span className="hsb-val hsb-green">+28,89 %</span>
+            <span className="hsb-lbl">BRVM Composite 2024</span>
+          </div>
+          <div className="hsb-sep">vs</div>
+          <div className="hsb-item">
+            <span className="hsb-val hsb-red">+0,92 %</span>
+            <span className="hsb-lbl">CAC 40 2024</span>
+          </div>
+        </div>
+
         <div className="hero-price-cards">
-          <a className="price-pill" href={LIENS.guide} target="_blank" rel="noreferrer">
+          <div className="price-pill" style={{ opacity: 0.5, cursor: 'default' }}>
             <div className="p-name">Guide PDF</div>
-            <div className="p-value">14,99 €</div>
-          </a>
-          <div className="price-pill" style={{ opacity: 0.4, cursor: 'default' }}>
+            <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
+          </div>
+          <div className="price-pill" style={{ opacity: 0.5, cursor: 'default' }}>
             <div className="p-name">Tracker Dashboard</div>
             <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
           </div>
-          <div className="price-pill" style={{ opacity: 0.4, cursor: 'default' }}>
+          <div className="price-pill" style={{ opacity: 0.5, cursor: 'default' }}>
             <div className="p-name">Pack Complet</div>
             <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
           </div>

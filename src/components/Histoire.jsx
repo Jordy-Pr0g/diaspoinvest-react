@@ -65,7 +65,7 @@ export default function Histoire() {
 
             <div className="histoire-signature">
               <strong>Jordan Djiokap</strong>
-              <span>Finance d&apos;Entreprise &amp; Ing&eacute;nierie Financi&egrave;re &middot; INSEEC Paris &middot; DiaspoInvest</span>
+              <span>Finance d&apos;Entreprise &amp; Ing&eacute;nierie Financi&egrave;re &middot; DiaspoInvest</span>
             </div>
           </div>
 

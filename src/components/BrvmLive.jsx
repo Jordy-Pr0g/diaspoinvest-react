@@ -94,7 +94,7 @@ export default function BrvmLive() {
   const [secteurs, setSecteurs] = useState([])
   const tickerRef = useRef(null)
 
-  useEffect(() => {
+  const loadData = () => {
     fetch('/api/brvm-data')
       .then(r => r.ok ? r.json() : null)
       .then(json => {
@@ -102,7 +102,8 @@ export default function BrvmLive() {
 
         if (json.genere_le) {
           const d = new Date(json.genere_le)
-          setDate(d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }))
+          const label = d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
+          setDate(isMarketOpen() ? label : `Dernière clôture — ${label}`)
         }
 
         // Indices principaux et sectoriels
@@ -177,6 +178,13 @@ export default function BrvmLive() {
         setTicker([...tkr, ...tkr])
       })
       .catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    // Rafraîchissement toutes les 5 min pendant les heures de marché
+    const id = setInterval(() => { if (isMarketOpen()) loadData() }, 5 * 60 * 1000)
+    return () => clearInterval(id)
   }, [])
 
   useEffect(() => {

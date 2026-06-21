@@ -17,9 +17,11 @@ import Footer from './components/Footer.jsx'
 import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
 import CookieBanner from './components/CookieBanner.jsx'
+import BlogPreview from './components/BlogPreview.jsx'
 import Cockpit from './Cockpit.jsx'
 import BlogIndex from './pages/BlogIndex.jsx'
 import BlogPost from './pages/BlogPost.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 function LandingPage() {
   const [modal, setModal] = useState(null)
@@ -39,6 +41,7 @@ function LandingPage() {
         <BrvmLive />
         <Calculateur />
         <LeadMagnet />
+        <BlogPreview />
         <Temoignages />
         <Pricing />
         <FAQ />
@@ -57,6 +60,7 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/blog" element={<BlogIndex />} />
       <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
