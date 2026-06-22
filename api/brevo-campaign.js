@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'Accès refusé' })
   }
 
-  const { content, subject: subjectOverride, scheduledAt } = req.body || {}
+  const { content, subject: subjectOverride, scheduledAt, testEmail } = req.body || {}
   if (!content || typeof content !== 'string' || content.trim().length < 50) {
     return res.status(400).json({ error: 'Contenu newsletter manquant ou trop court.' })
   }
@@ -68,6 +68,32 @@ export default async function handler(req, res) {
 
   const subject = subjectOverride || extractSubject(content)
   const htmlContent = textToHtml(content)
+
+  // Mode test : envoi transactionnel direct sans créer de campagne
+  if (testEmail) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(testEmail)) {
+      return res.status(400).json({ error: 'Adresse email de test invalide.' })
+    }
+    try {
+      const testRes = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: { 'api-key': apiKey, 'Content-Type': 'application/json', accept: 'application/json' },
+        body: JSON.stringify({
+          sender: SENDER,
+          to: [{ email: testEmail }],
+          subject: `[TEST] ${subject}`,
+          htmlContent: htmlContent.replace('{{unsubscribe}}', '#'),
+        }),
+      })
+      if (!testRes.ok) {
+        const err = await testRes.json().catch(() => ({}))
+        return res.status(502).json({ error: err.message || `Brevo erreur ${testRes.status}` })
+      }
+      return res.status(200).json({ success: true, test: true, to: testEmail, subject })
+    } catch {
+      return res.status(502).json({ error: 'Brevo injoignable lors de l\'envoi test.' })
+    }
+  }
 
   // 1) Créer la campagne
   const campaignName = `Newsletter ${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}`
