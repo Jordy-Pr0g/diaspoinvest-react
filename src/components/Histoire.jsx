@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Histoire() {
   return (
     <section className="section histoire" id="histoire">
@@ -15,7 +17,7 @@ export default function Histoire() {
           </div>
 
           <div className="histoire-texte">
-            <span className="eyebrow">Notre histoire</span>
+            <span className="eyebrow">À propos</span>
             <h2>La d&eacute;couverte</h2>
 
             <p className="histoire-intro">
@@ -67,6 +69,14 @@ export default function Histoire() {
               <strong>Jordan Djiokap</strong>
               <span>Finance d&apos;Entreprise &amp; Ing&eacute;nierie Financi&egrave;re &middot; DiaspoInvest</span>
             </div>
+
+            <Link to="/a-propos" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              marginTop: 24, fontSize: 14, fontWeight: 700,
+              color: '#C9A84C', textDecoration: 'none',
+            }}>
+              En savoir plus sur DiaspoInvest →
+            </Link>
           </div>
 
         </div>
