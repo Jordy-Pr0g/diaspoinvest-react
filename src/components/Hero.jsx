@@ -18,6 +18,9 @@ export default function Hero() {
         </p>
 
         <div className="hero-cta">
+          <a className="btn btn-or" href={LIENS.pack} target="_blank" rel="noreferrer">
+            Voir les produits
+          </a>
           <a className="btn btn-ghost" href="#calculateur" style={{ color: '#FFF8E7', borderColor: 'rgba(255,248,231,0.35)' }}>
             Simuler mon épargne
           </a>

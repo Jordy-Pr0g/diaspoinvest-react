@@ -168,7 +168,18 @@ export default function BlogPost() {
       const rawHtml = marked.parse(mod.default)
       setContent(processHtml(rawHtml))
     })
+    document.title = `${article.titre} — DiaspoInvest`
+    document.querySelector('meta[name="description"]')?.setAttribute('content', article.description)
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', article.titre)
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', article.description)
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', `https://diaspoinvest.fr/blog/${article.slug}`)
     window.scrollTo(0, 0)
+    return () => {
+      document.title = 'DiaspoInvest — Investir sur la bourse africaine'
+      document.querySelector('meta[name="description"]')?.setAttribute('content', 'DiaspoInvest — Apprends à investir sur la BRVM depuis la France ou le continent.')
+      document.querySelector('meta[property="og:title"]')?.setAttribute('content', 'DiaspoInvest — Investir sur la bourse africaine')
+      document.querySelector('meta[property="og:url"]')?.setAttribute('content', 'https://diaspoinvest.fr/')
+    }
   }, [slug])
 
   if (!article) return <Navigate to="/blog" replace />
