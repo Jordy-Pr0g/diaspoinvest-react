@@ -19,11 +19,11 @@ jobs:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
         run: |
-          python marketing/post_linkedin_action.py "Beaucoup de gens pensent qu'investir en bourse c'est compliqué.
+          python marketing/post_linkedin_action.py "Personne ne t'explique vraiment comment ça marche.
 
-Voilà comment ça se passe en réalité pour la bourse ouest-africaine.
+Voilà ce que ça donne concrètement pour la bourse ouest-africaine.
 
-1. Tu ouvres un compte chez un broker agréé (SGI). Tout se fait en ligne. Pièce d'identité + justificatif de domicile.
+1. Tu ouvres un compte chez un broker agréé (SGI). Tout se fait en ligne. Pièce d'identité et justificatif de domicile.
 
 2. Tu vires de l'argent sur ton compte. En euros depuis la France, le broker convertit en FCFA.
 

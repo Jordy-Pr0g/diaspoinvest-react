@@ -21,7 +21,7 @@ jobs:
         run: |
           python marketing/post_linkedin_action.py "30 000 FCFA par mois.
 
-C'est environ 46 euros. Moins qu'un abonnement Netflix + Spotify combinés.
+C'est environ 46 euros. Moins qu'un abonnement Netflix et Spotify combinés.
 
 Investi chaque mois sur la bourse ouest-africaine pendant 10 ans :
 

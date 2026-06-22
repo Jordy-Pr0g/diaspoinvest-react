@@ -19,19 +19,21 @@ jobs:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
         run: |
-          python marketing/post_linkedin_action.py "Je me présente.
+          python marketing/post_linkedin_action.py "Pendant 3 ans j'ai mis mon épargne sur un Livret A.
 
-Je m'appelle Jordan. Je suis de la diaspora africaine en France.
+1,5% par an. J'étais content. Je ne savais pas qu'il existait mieux.
 
-Pendant des années j'ai mis mon épargne sur un Livret A à 1,5%.
+Puis j'ai découvert qu'il existe une bourse en Afrique de l'Ouest. Accessible depuis Paris, Montréal ou Dakar. Qui verse jusqu'à 6% de dividendes par an.
 
-Jusqu'au jour où j'ai découvert qu'il existait une bourse en Afrique de l'Ouest — accessible depuis Paris, Montréal, Dakar — qui verse des dividendes allant jusqu'à 6% par an.
+J'ai tout appris seul. Les erreurs, les brokers, la fiscalité, les bons et les mauvais choix.
 
-Depuis, j'ai créé DiaspoInvest. Une plateforme pour aider la diaspora africaine à investir sur la bourse ouest-africaine. Simplement. Sans jargon. Sans se faire arnaquer.
+Depuis, j'ai créé DiaspoInvest. Pour partager ce que j'ai appris. Sans jargon. Sans te vendre du rêve.
 
-Chaque semaine je partage ici ce que j'apprends : comment ça marche, combien ça rapporte, comment éviter les erreurs.
+Chaque semaine ici : comment fonctionne la bourse ouest-africaine, combien ça peut rapporter réellement, et comment éviter les pièges que j'ai faits.
 
-Si tu fais partie de la diaspora africaine ou si tu habites en Afrique de l'Ouest et que tu veux faire travailler ton épargne — tu es au bon endroit.
+Si tu fais partie de la diaspora africaine ou si tu vis en Afrique de l'Ouest et que tu veux faire travailler ton épargne.
+
+Tu es au bon endroit.
 
 Sauvegarde ce post. On commence mercredi.
 

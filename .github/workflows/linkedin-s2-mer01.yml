@@ -21,11 +21,11 @@ jobs:
         run: |
           python marketing/post_linkedin_action.py "Depuis Paris, tu n'as pas besoin d'aller à Abidjan.
 
-BOA Capital Securities, BNI Securities, CGF Bourse — ouverture entièrement à distance.
+BOA Capital Securities, BNI Securities, CGF Bourse. L'ouverture de compte se fait entièrement à distance.
 
-Swipe pour voir les 5 étapes exactes. 👇
+Fais défiler pour voir les 5 étapes exactes. 👇
 
----
+Tout ce qu'il faut : une pièce d'identité, un justificatif de domicile, et environ 30 minutes.
 
 Sauvegarde ce carrousel. C'est ta feuille de route.
 
