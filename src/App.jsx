@@ -9,9 +9,14 @@ import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
 import CookieBanner from './components/CookieBanner.jsx'
 
-const Probleme  = lazy(() => import('./components/Probleme.jsx'))
-const Pricing   = lazy(() => import('./components/Pricing.jsx'))
-const BlogIndex = lazy(() => import('./pages/BlogIndex.jsx'))
+const Probleme    = lazy(() => import('./components/Probleme.jsx'))
+const Histoire    = lazy(() => import('./components/Histoire.jsx'))
+const Calculateur = lazy(() => import('./components/Calculateur.jsx'))
+const Temoignages = lazy(() => import('./components/Temoignages.jsx'))
+const FAQ         = lazy(() => import('./components/FAQ.jsx'))
+const LeadMagnet  = lazy(() => import('./components/LeadMagnet.jsx'))
+const Pricing     = lazy(() => import('./components/Pricing.jsx'))
+const BlogIndex   = lazy(() => import('./pages/BlogIndex.jsx'))
 const BlogPost  = lazy(() => import('./pages/BlogPost.jsx'))
 const Screener  = lazy(() => import('./pages/Screener.jsx'))
 const Backtest  = lazy(() => import('./pages/Backtest.jsx'))
@@ -29,6 +34,11 @@ function LandingPage() {
         <Stats />
         <Suspense fallback={null}>
           <Probleme />
+          <Histoire />
+          <Calculateur />
+          <Temoignages />
+          <FAQ />
+          <LeadMagnet />
           <Pricing />
         </Suspense>
       </main>
