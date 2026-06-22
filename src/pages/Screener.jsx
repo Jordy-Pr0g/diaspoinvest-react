@@ -123,7 +123,7 @@ export default function Screener() {
       <Navbar />
       <main style={{
         minHeight: '100vh',
-        background: 'linear-gradient(160deg, #0D3B2E 0%, #071a10 60%, #050f09 100%)',
+        background: 'linear-gradient(160deg, #0B1120 0%, #111827 50%, #0D1117 100%)',
         paddingTop: 80,
       }}>
         <style>{`
@@ -189,7 +189,7 @@ export default function Screener() {
         <div className="container" style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 20px 60px' }}>
 
           {/* En-tête */}
-          <div style={{ marginBottom: 32 }}>
+          <div style={{ marginBottom: 40 }}>
             <Link to="/" style={{ fontSize: 13, color: GRIS, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 20 }}>
               ← Accueil
             </Link>

@@ -216,7 +216,7 @@ export default function CalculateurFiscal() {
 
   return (
     <section className="section" id="fiscalite" style={{
-      background: 'linear-gradient(160deg, #0D3B2E 0%, #071a10 60%, #050f09 100%)',
+      background: 'linear-gradient(160deg, #0B1120 0%, #111827 50%, #0D1117 100%)',
       position: 'relative', overflow: 'hidden',
     }}>
       <div style={{

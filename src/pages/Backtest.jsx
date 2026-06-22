@@ -47,8 +47,9 @@ function runBacktest(history, apport, debut) {
 }
 
 function MiniChart({ courbe }) {
+  const [hovered, setHovered] = useState(null)
   if (!courbe || courbe.length < 2) return null
-  const W = 600, H = 160, PAD = 20
+  const W = 600, H = 200, PAD = 20, PAD_TOP = 16
 
   const vals = courbe.map(c => c.valeur)
   const invs  = courbe.map(c => c.investi)
@@ -57,34 +58,98 @@ function MiniChart({ courbe }) {
   const range = maxV - minV || 1
 
   const xScale = i => PAD + (i / (courbe.length - 1)) * (W - PAD * 2)
-  const yScale = v => H - PAD - ((v - minV) / range) * (H - PAD * 2)
+  const yScale = v => PAD_TOP + (1 - (v - minV) / range) * (H - PAD_TOP - PAD)
 
   const pathValeur  = courbe.map((c, i) => `${i === 0 ? 'M' : 'L'}${xScale(i).toFixed(1)},${yScale(c.valeur).toFixed(1)}`).join(' ')
   const pathInvesti = courbe.map((c, i) => `${i === 0 ? 'M' : 'L'}${xScale(i).toFixed(1)},${yScale(c.investi).toFixed(1)}`).join(' ')
-
-  // Fill under valeur
   const fillPath = pathValeur + ` L${xScale(courbe.length - 1).toFixed(1)},${H - PAD} L${PAD},${H - PAD} Z`
 
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', overflow: 'visible' }}>
-      <defs>
-        <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={OR} stopOpacity="0.25" />
-          <stop offset="100%" stopColor={OR} stopOpacity="0.02" />
-        </linearGradient>
-      </defs>
-      <path d={fillPath} fill="url(#fillGrad)" />
-      <path d={pathInvesti} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="4,4" />
-      <path d={pathValeur} fill="none" stroke={OR} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  const OR = '#C9A84C'
+  const VERT3 = '#22C55E'
+  const GRIS = '#94A3B8'
 
-      {/* Légende */}
-      <g transform={`translate(${PAD},${H - 8})`}>
-        <line x1="0" y1="0" x2="16" y2="0" stroke={OR} strokeWidth="2" />
-        <text x="20" y="4" fill={GRIS} fontSize="10" fontFamily="DM Mono,monospace">Valeur portefeuille</text>
-        <line x1="140" y1="0" x2="156" y2="0" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeDasharray="4,4" />
-        <text x="160" y="4" fill={GRIS} fontSize="10" fontFamily="DM Mono,monospace">Capital investi</text>
-      </g>
-    </svg>
+  function onMouseMove(e) {
+    const svg = e.currentTarget
+    const rect = svg.getBoundingClientRect()
+    const mouseX = (e.clientX - rect.left) * (W / rect.width)
+    const idx = Math.round(((mouseX - PAD) / (W - PAD * 2)) * (courbe.length - 1))
+    const clamped = Math.max(0, Math.min(courbe.length - 1, idx))
+    setHovered(clamped)
+  }
+
+  const h = hovered !== null ? courbe[hovered] : null
+  const hx = hovered !== null ? xScale(hovered) : null
+  const perf = h ? ((h.valeur - h.investi) / h.investi * 100) : 0
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        style={{ width: '100%', height: 'auto', overflow: 'visible', cursor: 'crosshair' }}
+        onMouseMove={onMouseMove}
+        onMouseLeave={() => setHovered(null)}
+      >
+        <defs>
+          <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={OR} stopOpacity="0.2" />
+            <stop offset="100%" stopColor={OR} stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+        <path d={fillPath} fill="url(#fillGrad)" />
+        <path d={pathInvesti} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="5,4" />
+        <path d={pathValeur} fill="none" stroke={OR} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+
+        {/* Crosshair */}
+        {hovered !== null && (
+          <>
+            <line x1={hx} y1={PAD_TOP} x2={hx} y2={H - PAD} stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="3,3" />
+            <circle cx={hx} cy={yScale(courbe[hovered].valeur)} r="5" fill={OR} stroke="#0B1120" strokeWidth="2" />
+            <circle cx={hx} cy={yScale(courbe[hovered].investi)} r="4" fill="rgba(255,255,255,0.4)" stroke="#0B1120" strokeWidth="2" />
+          </>
+        )}
+
+        {/* Légende */}
+        <g transform={`translate(${PAD},${H - 6})`}>
+          <line x1="0" y1="0" x2="16" y2="0" stroke={OR} strokeWidth="2" />
+          <text x="20" y="4" fill={GRIS} fontSize="10" fontFamily="DM Mono,monospace">Valeur portefeuille</text>
+          <line x1="148" y1="0" x2="164" y2="0" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeDasharray="4,4" />
+          <text x="168" y="4" fill={GRIS} fontSize="10" fontFamily="DM Mono,monospace">Capital investi</text>
+        </g>
+      </svg>
+
+      {/* Tooltip flottant */}
+      {h && (
+        <div style={{
+          position: 'absolute',
+          top: 8,
+          left: hovered > courbe.length * 0.6 ? 'auto' : Math.max(0, (hx / W * 100) - 5) + '%',
+          right: hovered > courbe.length * 0.6 ? '4%' : 'auto',
+          background: '#1A2236',
+          border: '1px solid rgba(201,168,76,0.3)',
+          borderRadius: 10,
+          padding: '10px 14px',
+          pointerEvents: 'none',
+          minWidth: 180,
+          zIndex: 10,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+        }}>
+          <div style={{ fontSize: 11, color: '#94A3B8', fontFamily: 'DM Mono,monospace', marginBottom: 8, fontWeight: 700 }}>
+            {new Date(h.date).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+          </div>
+          {[
+            { label: 'Cours', val: `${Math.round(h.cours).toLocaleString('fr-FR')} FCFA`, color: '#F1F5F9' },
+            { label: 'Portefeuille', val: `${Math.round(h.valeur).toLocaleString('fr-FR')} FCFA`, color: OR },
+            { label: 'Investi', val: `${Math.round(h.investi).toLocaleString('fr-FR')} FCFA`, color: '#94A3B8' },
+            { label: 'Performance', val: `${perf >= 0 ? '+' : ''}${perf.toFixed(1).replace('.', ',')} %`, color: perf >= 0 ? VERT3 : '#EF4444' },
+          ].map(({ label, val, color }) => (
+            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, marginBottom: 4 }}>
+              <span style={{ fontSize: 11, color: '#64748B' }}>{label}</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color, fontFamily: 'DM Mono,monospace' }}>{val}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -151,7 +216,7 @@ export default function Backtest() {
       <Navbar />
       <main style={{
         minHeight: '100vh',
-        background: 'linear-gradient(160deg, #0D3B2E 0%, #071a10 60%, #050f09 100%)',
+        background: 'linear-gradient(160deg, #0B1120 0%, #111827 50%, #0D1117 100%)',
         paddingTop: 80,
       }}>
         <div className="container" style={{ maxWidth: 700, margin: '0 auto', padding: '32px 20px 60px' }}>

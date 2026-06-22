@@ -9,15 +9,14 @@
   inset: 0 0 auto 0;
   z-index: 50;
   transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
-  padding: 20px 0;
+  padding: 18px 0;
 }
 
 .navbar.scrolled {
-  background: rgba(255, 248, 231, 0.95);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 1px 0 rgba(13, 59, 46, 0.1), 0 8px 32px -16px rgba(13, 59, 46, 0.25);
-  padding: 14px 0;
+  background: rgba(255, 248, 231, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px -18px rgba(13, 59, 46, 0.6);
+  padding: 12px 0;
 }
 
 .navbar .container {
@@ -48,19 +47,17 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 30px;
 }
 
 .nav-links a {
-  font-size: 0.9rem;
   font-weight: 500;
-  letter-spacing: 0.01em;
-  transition: color 0.15s ease, opacity 0.15s ease;
-  white-space: nowrap;
+  color: var(--texte);
+  transition: color 0.15s ease;
 }
 
 .nav-links a:hover {
-  color: var(--or) !important;
+  color: var(--or);
 }
 
 .nav-cta {
@@ -70,10 +67,10 @@
 
 .nav-menu-links {
   display: flex;
-  gap: 36px;
+  gap: 30px;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 860px) {
   .nav-menu-links {
     display: none;
   }
@@ -99,7 +96,7 @@
   display: block;
   height: 2px;
   border-radius: 2px;
-  background: var(--or-clair);
+  background: var(--vert);
   transition: transform 0.25s ease, opacity 0.2s ease;
 }
 
@@ -119,7 +116,7 @@
   transform: translateY(-7px) rotate(-45deg);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 860px) {
   .hamburger { display: flex; }
   .nav-cta   { display: none; }
 }
@@ -141,7 +138,7 @@
 }
 
 .mobile-drawer.open {
-  max-height: 520px;
+  max-height: 420px;
   padding: 16px 24px 24px;
 }
 
@@ -152,15 +149,13 @@
 }
 
 .mobile-drawer nav a {
-  display: flex;
-  align-items: center;
-  padding: 14px 8px;
-  font-size: 1rem;
+  display: block;
+  padding: 12px 8px;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--vert);
-  border-bottom: 1px solid rgba(13,43,30,0.07);
+  border-bottom: 1px solid rgba(13,43,30,0.08);
   transition: color 0.15s;
-  letter-spacing: 0.01em;
 }
 
 .mobile-drawer nav a:hover {
@@ -179,8 +174,7 @@
 .hero {
   position: relative;
   height: auto;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0px, transparent 90px),
-    radial-gradient(
+  background: radial-gradient(
       1100px 600px at 80% -10%,
       rgba(201, 168, 76, 0.22),
       transparent 60%
