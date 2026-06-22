@@ -5,7 +5,6 @@ import Footer from '../components/Footer.jsx'
 import { getMeta, SECTEURS, PAYS_LABEL } from '../data/brvm-meta.js'
 
 const OR    = '#C9A84C'
-const VERT  = '#0D3B2E'
 const VERT3 = '#2ECC8B'
 const CARD  = 'rgba(255,255,255,0.04)'
 const BDR   = 'rgba(255,255,255,0.09)'
@@ -114,8 +113,8 @@ export default function Screener() {
   const select = {
     background: 'rgba(255,255,255,0.05)', border: `1px solid ${BDR}`,
     borderRadius: 10, padding: '9px 14px', color: '#fff',
-    fontFamily: 'Space Grotesk,sans-serif', fontSize: 13, fontWeight: 600,
-    outline: 'none', cursor: 'pointer', width: '100%',
+    fontFamily: 'DM Sans,sans-serif', fontSize: 13, fontWeight: 600,
+    outline: 'none', cursor: 'pointer',
   }
 
   return (
@@ -128,65 +127,64 @@ export default function Screener() {
       }}>
         <style>{`
           .screener-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
           }
           .action-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 18px 18px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 16px 20px;
             transition: all .2s;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            display: grid;
+            grid-template-columns: 180px 1fr auto;
+            gap: 20px;
+            align-items: center;
           }
           .action-card:hover {
-            border-color: rgba(201,168,76,0.4);
-            background: rgba(201,168,76,0.05);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-          }
-          .action-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
-            opacity: 0;
-            transition: opacity .2s;
-          }
-          .action-card:hover::before { opacity: 1; }
-          .screener-filter-bar {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+            border-color: rgba(201,168,76,0.35);
+            background: rgba(201,168,76,0.04);
+            transform: translateX(3px);
           }
           .screener-stats {
             display: flex;
-            gap: 24px;
-            margin-bottom: 24px;
+            gap: 16px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
           }
           .stat-pill {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 30px;
-            padding: 8px 18px;
-            font-size: 13px;
-            color: rgba(255,255,255,0.6);
+            padding: 6px 16px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
             font-weight: 600;
           }
           .stat-pill span { color: ${OR}; }
-          @media(max-width:768px){
-            .screener-filter-bar { grid-template-columns: 1fr 1fr; }
-            .screener-grid { grid-template-columns: 1fr; }
+          .chip-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+          .chip {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 5px 13px;
+            color: rgba(255,255,255,0.55);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
           }
-          .screener-filter-bar select option {
-            background: #1A2236;
-            color: #F1F5F9;
+          .chip:hover { border-color: rgba(201,168,76,0.4); color: #F1F5F9; }
+          .chip.active {
+            background: ${OR};
+            border-color: ${OR};
+            color: #0B1120;
+          }
+          @media(max-width:768px){
+            .action-card { grid-template-columns: 1fr; gap: 10px; }
           }
         `}</style>
 
@@ -222,62 +220,63 @@ export default function Screener() {
           </div>
 
           {/* Filtres */}
-          <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BDR}`, borderRadius: 16, padding: '18px 20px', marginBottom: 24 }}>
-            <div className="screener-filter-bar">
+          <div style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${BDR}`, borderRadius: 16, padding: '16px 20px', marginBottom: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
+
+            {/* Ligne 1 : recherche + tri */}
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
               <input
                 type="text"
                 placeholder="Rechercher (nom ou code)…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                style={{ ...select, gridColumn: 'span 2' }}
+                style={{ ...select, flex: 1, minWidth: 180 }}
               />
-              <select value={secteur} onChange={e => setSecteur(e.target.value)} style={select}>
-                <option value="Tous">Tous secteurs</option>
-                {SECTEURS.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
-              <select value={pays} onChange={e => setPays(e.target.value)} style={select}>
-                <option value="Tous">Tous pays</option>
-                {Object.entries(PAYS_LABEL).map(([code, label]) => (
-                  <option key={code} value={code}>{label}</option>
-                ))}
-              </select>
-              <select value={labelFilter} onChange={e => setLabelFilter(e.target.value)} style={select}>
-                <option value="Tous">Tous labels</option>
-                <option value="Blue Chip">Blue Chip</option>
-                <option value="Haut Dividende">Haut Dividende</option>
-                <option value="Stable">Stable</option>
-              </select>
-              <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={select}>
+              <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ ...select, width: 'auto', minWidth: 160 }}>
                 {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
+              {(search || secteur !== 'Tous' || pays !== 'Tous' || labelFilter !== 'Tous' || rendMin > 0) && (
+                <button onClick={resetFiltres} style={{ fontSize: 12, color: 'rgba(255,100,100,0.65)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                  ✕ Réinitialiser
+                </button>
+              )}
             </div>
 
-            {/* Filtre rendement */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>Rendement min :</span>
+            {/* Ligne 2 : rendement min */}
+            <div className="chip-row">
+              <span style={{ fontSize: 11, color: GRIS, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, marginRight: 4 }}>Rendement</span>
               {[0, 2, 4, 6, 8, 10].map(v => (
-                <button
-                  key={v}
-                  onClick={() => setRendMin(v)}
-                  style={{
-                    background: rendMin === v ? OR : 'rgba(255,255,255,0.05)',
-                    border: `1px solid ${rendMin === v ? OR : BDR}`,
-                    borderRadius: 20, padding: '5px 14px',
-                    color: rendMin === v ? '#0D2B1E' : GRIS,
-                    fontSize: 12, fontWeight: 700, cursor: 'pointer',
-                  }}
-                >
+                <button key={v} onClick={() => setRendMin(v)} className={`chip${rendMin === v ? ' active' : ''}`}>
                   {v === 0 ? 'Tous' : `≥ ${v} %`}
                 </button>
               ))}
-              {(search || secteur !== 'Tous' || pays !== 'Tous' || labelFilter !== 'Tous' || rendMin > 0) && (
-                <button
-                  onClick={resetFiltres}
-                  style={{ marginLeft: 'auto', fontSize: 12, color: 'rgba(255,100,100,0.7)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}
-                >
-                  Réinitialiser
+            </div>
+
+            {/* Ligne 3 : secteur */}
+            <div className="chip-row">
+              <span style={{ fontSize: 11, color: GRIS, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, marginRight: 4 }}>Secteur</span>
+              <button onClick={() => setSecteur('Tous')} className={`chip${secteur === 'Tous' ? ' active' : ''}`}>Tous</button>
+              {SECTEURS.map(s => (
+                <button key={s} onClick={() => setSecteur(s === secteur ? 'Tous' : s)} className={`chip${secteur === s ? ' active' : ''}`}>{s}</button>
+              ))}
+            </div>
+
+            {/* Ligne 4 : label */}
+            <div className="chip-row">
+              <span style={{ fontSize: 11, color: GRIS, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, marginRight: 4 }}>Label</span>
+              {['Tous', 'Blue Chip', 'Haut Dividende', 'Stable', 'Croissance'].map(l => (
+                <button key={l} onClick={() => setLabelFilter(l)} className={`chip${labelFilter === l ? ' active' : ''}`}>{l}</button>
+              ))}
+            </div>
+
+            {/* Ligne 5 : pays */}
+            <div className="chip-row">
+              <span style={{ fontSize: 11, color: GRIS, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, marginRight: 4 }}>Pays</span>
+              <button onClick={() => setPays('Tous')} className={`chip${pays === 'Tous' ? ' active' : ''}`}>Tous</button>
+              {Object.entries(PAYS_LABEL).map(([code, label]) => (
+                <button key={code} onClick={() => setPays(code === pays ? 'Tous' : code)} className={`chip${pays === code ? ' active' : ''}`}>
+                  {label.split(' ')[0]}
                 </button>
-              )}
+              ))}
             </div>
           </div>
 
@@ -292,89 +291,80 @@ export default function Screener() {
                 const lc = a.label ? LABEL_COLORS[a.label] : null
                 return (
                   <div key={a.symbole} className="action-card">
-                    {/* Header */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                      <div>
-                        <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 15, fontWeight: 900, color: OR, letterSpacing: 1 }}>
+
+                    {/* Colonne gauche : identité */}
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+                        <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 17, fontWeight: 900, color: OR, letterSpacing: 0.5 }}>
                           {a.symbole}
-                        </div>
-                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 2, lineHeight: 1.3 }}>
-                          {a.nom.slice(0, 35)}{a.nom.length > 35 ? '…' : ''}
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 16, fontWeight: 900, color: '#fff' }}>
-                          {fmt(a.cours)}
-                        </div>
-                        <div style={{ fontSize: 11, color: GRIS, fontFamily: 'DM Mono,monospace' }}>FCFA</div>
-                      </div>
-                    </div>
-
-                    {/* Tags */}
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 20,
-                        background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: GRIS }}>
-                        {a.secteur}
-                      </span>
-                      <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 20,
-                        background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: GRIS }}>
-                        {PAYS_LABEL[a.pays]?.split(' ')[0] || a.pays}
-                      </span>
-                      {lc && (
-                        <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 20,
-                          background: lc.bg, border: `1px solid ${lc.border}`, color: lc.color }}>
-                          {a.label}
                         </span>
-                      )}
+                        {a.variation !== null && (
+                          <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 12, fontWeight: 700,
+                            color: a.variation > 0 ? VERT3 : a.variation < 0 ? RED : GRIS }}>
+                            {fmtPct(a.variation)}
+                          </span>
+                        )}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', lineHeight: 1.35, marginBottom: 8 }}>
+                        {a.nom.slice(0, 32)}{a.nom.length > 32 ? '…' : ''}
+                      </div>
+                      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: GRIS }}>
+                          {a.secteur}
+                        </span>
+                        <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: GRIS }}>
+                          {PAYS_LABEL[a.pays]?.split(' ')[0] || a.pays}
+                        </span>
+                        {lc && (
+                          <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                            background: lc.bg, border: `1px solid ${lc.border}`, color: lc.color }}>
+                            {a.label}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    {/* KPIs */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                      <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: 10, padding: '10px 12px' }}>
-                        <div style={{ fontSize: 10, color: GRIS, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 4 }}>
-                          Dividende
-                        </div>
-                        <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 14, fontWeight: 900, color: a.dividende ? VERT3 : 'rgba(255,255,255,0.25)' }}>
-                          {a.dividende ? `${fmt(a.dividende)} F` : '—'}
+                    {/* Colonne centre : données clés */}
+                    <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
+                      <div>
+                        <div style={{ fontSize: 10, color: GRIS, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 3 }}>Cours</div>
+                        <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 16, fontWeight: 900, color: '#F1F5F9' }}>
+                          {fmt(a.cours)} <span style={{ fontSize: 10, color: GRIS, fontWeight: 400 }}>FCFA</span>
                         </div>
                       </div>
-                      <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: 10, padding: '10px 12px' }}>
-                        <div style={{ fontSize: 10, color: GRIS, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 4 }}>
-                          Rendement
-                        </div>
-                        <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 14, fontWeight: 900, color: a.rendement ? OR : 'rgba(255,255,255,0.25)' }}>
+                      <div>
+                        <div style={{ fontSize: 10, color: GRIS, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 3 }}>Rendement</div>
+                        <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 22, fontWeight: 900,
+                          color: a.rendement ? OR : 'rgba(255,255,255,0.2)' }}>
                           {a.rendement ? `${a.rendement.toFixed(2).replace('.', ',')} %` : '—'}
                         </div>
                       </div>
+                      {a.dividende && (
+                        <div>
+                          <div style={{ fontSize: 10, color: GRIS, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 3 }}>Dividende</div>
+                          <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 14, fontWeight: 700, color: VERT3 }}>
+                            {fmt(a.dividende)} F
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Variation hebdo */}
-                    {a.variation !== null && (
-                      <div style={{ marginTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: 11, color: GRIS }}>Variation hebdo</span>
-                        <span style={{
-                          fontFamily: 'DM Mono,monospace', fontSize: 12, fontWeight: 700,
-                          color: a.variation > 0 ? VERT3 : a.variation < 0 ? RED : GRIS,
-                        }}>
-                          {fmtPct(a.variation)}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Lien backtest */}
-                    <Link
-                      to={`/backtest?ticker=${a.symbole}`}
-                      style={{
-                        display: 'block', marginTop: 14, textAlign: 'center',
-                        fontSize: 12, fontWeight: 700, color: OR,
-                        background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)',
-                        borderRadius: 8, padding: '8px',
-                        transition: 'all .15s',
-                      }}
-                      onClick={e => e.stopPropagation()}
-                    >
-                      Backtest DCA →
-                    </Link>
+                    {/* Colonne droite : CTA */}
+                    <div>
+                      <Link
+                        to={`/backtest?ticker=${a.symbole}`}
+                        style={{
+                          display: 'inline-block', fontSize: 12, fontWeight: 700, color: OR,
+                          background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)',
+                          borderRadius: 8, padding: '8px 14px', transition: 'all .15s', whiteSpace: 'nowrap',
+                        }}
+                        onClick={e => e.stopPropagation()}
+                      >
+                        Backtest →
+                      </Link>
+                    </div>
                   </div>
                 )
               })}
