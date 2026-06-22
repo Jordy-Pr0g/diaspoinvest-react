@@ -3,7 +3,7 @@
 // Non affilié à la BRVM ni au CREPMF.
 
 export const LIENS = {
-  guide:      "https://diaspoinvest.lemonsqueezy.com/checkout/buy/c908db0b-b753-4196-9bf5-ed01ddd4e42b",
+  guide:      "https://diaspoinvest.gumroad.com/l/oxxzda",
   guideUemoa: "https://diaspoinvest.gumroad.com/l/dpqvqo",
   calculateur:"https://diaspoinvest.gumroad.com/l/tocir",
   pack:       "https://diaspoinvest.gumroad.com/l/ecspxh",
