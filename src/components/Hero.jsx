@@ -18,11 +18,11 @@ export default function Hero() {
         </p>
 
         <div className="hero-cta">
-          <a className="btn btn-or" href="#pricing">
-            Voir les produits
+          <a className="btn btn-or" href="/screener">
+            Explorer le Screener
           </a>
-          <a className="btn btn-ghost" href="#calculateur" style={{ color: '#FFF8E7', borderColor: 'rgba(255,248,231,0.35)' }}>
-            Simuler mon épargne
+          <a className="btn btn-ghost" href="#pricing" style={{ color: '#F1F5F9', borderColor: 'rgba(241,245,249,0.3)' }}>
+            Voir les produits
           </a>
         </div>
 

@@ -1,0 +1,101 @@
+import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar.jsx'
+import Footer from '../components/Footer.jsx'
+
+const OR   = '#C9A84C'
+const GRIS = 'rgba(241,245,249,0.5)'
+const BDR  = 'rgba(255,255,255,0.08)'
+
+const OUTILS = [
+  {
+    to: '/screener',
+    emoji: '🔍',
+    titre: 'Screener BRVM',
+    desc: "Filtre toutes les actions cotées par rendement, secteur, pays. Identifie les meilleures opportunités en un coup d'œil.",
+    cta: 'Ouvrir le screener →',
+  },
+  {
+    to: '/backtest',
+    emoji: '📈',
+    titre: 'Backtest DCA',
+    desc: "Simule un investissement mensuel régulier sur n'importe quelle action BRVM depuis 1998. Données officielles réelles.",
+    cta: 'Lancer un backtest →',
+  },
+  {
+    to: '/fiscalite',
+    emoji: '🧾',
+    titre: 'Calculateur Fiscal',
+    desc: 'Calcule ton imposition réelle sur les dividendes BRVM selon ton pays de résidence. France, Belgique, Canada, UEMOA...',
+    cta: 'Calculer mon impôt →',
+  },
+  {
+    to: '/blog',
+    emoji: '📚',
+    titre: 'Blog & Analyses',
+    desc: "Articles sur l'investissement en BRVM, la fiscalité de la diaspora, et les stratégies DCA pour l'Afrique.",
+    cta: 'Lire les articles →',
+  },
+]
+
+export default function Guides() {
+  return (
+    <>
+      <Navbar />
+      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0B1120 0%, #111827 100%)', paddingTop: 80 }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '48px 24px 80px' }}>
+
+          <div style={{ marginBottom: 48 }}>
+            <Link to="/" style={{ fontSize: 13, color: GRIS, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 20 }}>
+              ← Accueil
+            </Link>
+            <span style={{ fontSize: 11, fontWeight: 700, color: OR, textTransform: 'uppercase', letterSpacing: 1.5, display: 'block', marginBottom: 8 }}>
+              Outils & Ressources
+            </span>
+            <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: '#F1F5F9', fontFamily: 'Playfair Display,serif', margin: 0, lineHeight: 1.2 }}>
+              Tous les outils DiaspoInvest
+            </h1>
+            <p style={{ fontSize: 15, color: GRIS, marginTop: 12, lineHeight: 1.6 }}>
+              Screener, backtest, fiscalité — tout ce qu'il faut pour investir sur la BRVM depuis l'étranger.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 20 }}>
+            {OUTILS.map(o => (
+              <Link key={o.to} to={o.to} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: `1px solid ${BDR}`,
+                  borderRadius: 16,
+                  padding: '28px 28px 24px',
+                  transition: 'all .2s',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 12,
+                  cursor: 'pointer',
+                }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = 'rgba(201,168,76,0.35)'
+                    e.currentTarget.style.background = 'rgba(201,168,76,0.05)'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = BDR
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+                    e.currentTarget.style.transform = 'none'
+                  }}
+                >
+                  <div style={{ fontSize: 28 }}>{o.emoji}</div>
+                  <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#F1F5F9', fontFamily: 'Playfair Display,serif' }}>{o.titre}</div>
+                  <div style={{ fontSize: 14, color: GRIS, lineHeight: 1.6, flex: 1 }}>{o.desc}</div>
+                  <div style={{ fontSize: 13, color: OR, fontWeight: 600, marginTop: 4 }}>{o.cta}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
+  )
+}

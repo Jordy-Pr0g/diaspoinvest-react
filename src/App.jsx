@@ -9,27 +9,18 @@ import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
 import CookieBanner from './components/CookieBanner.jsx'
 
-const Probleme    = lazy(() => import('./components/Probleme.jsx'))
-const Solution    = lazy(() => import('./components/Solution.jsx'))
-const Histoire    = lazy(() => import('./components/Histoire.jsx'))
-const BrvmLive    = lazy(() => import('./components/BrvmLive.jsx'))
-const Calculateur      = lazy(() => import('./components/Calculateur.jsx'))
-const CalculateurFiscal = lazy(() => import('./components/CalculateurFiscal.jsx'))
-const LeadMagnet  = lazy(() => import('./components/LeadMagnet.jsx'))
-const BlogPreview = lazy(() => import('./components/BlogPreview.jsx'))
-const Temoignages = lazy(() => import('./components/Temoignages.jsx'))
-const Pricing     = lazy(() => import('./components/Pricing.jsx'))
-const FAQ         = lazy(() => import('./components/FAQ.jsx'))
-const Cockpit     = lazy(() => import('./Cockpit.jsx'))
-const BlogIndex   = lazy(() => import('./pages/BlogIndex.jsx'))
-const BlogPost    = lazy(() => import('./pages/BlogPost.jsx'))
-const Screener    = lazy(() => import('./pages/Screener.jsx'))
-const Backtest    = lazy(() => import('./pages/Backtest.jsx'))
-const NotFound    = lazy(() => import('./pages/NotFound.jsx'))
+const Probleme  = lazy(() => import('./components/Probleme.jsx'))
+const Pricing   = lazy(() => import('./components/Pricing.jsx'))
+const BlogIndex = lazy(() => import('./pages/BlogIndex.jsx'))
+const BlogPost  = lazy(() => import('./pages/BlogPost.jsx'))
+const Screener  = lazy(() => import('./pages/Screener.jsx'))
+const Backtest  = lazy(() => import('./pages/Backtest.jsx'))
+const Guides    = lazy(() => import('./pages/Guides.jsx'))
+const Fiscalite = lazy(() => import('./pages/Fiscalite.jsx'))
+const NotFound  = lazy(() => import('./pages/NotFound.jsx'))
 
 function LandingPage() {
   const [modal, setModal] = useState(null)
-
   return (
     <>
       <Navbar />
@@ -38,16 +29,7 @@ function LandingPage() {
         <Stats />
         <Suspense fallback={null}>
           <Probleme />
-          <Solution />
-          <Histoire />
-          <BrvmLive />
-          <Calculateur />
-          <CalculateurFiscal />
-          <LeadMagnet />
-          <BlogPreview />
-          <Temoignages />
           <Pricing />
-          <FAQ />
         </Suspense>
       </main>
       <Footer onOpenModal={setModal} />
@@ -63,11 +45,12 @@ export default function App() {
     <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/cockpit" element={<Cockpit />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/screener" element={<Screener />} />
         <Route path="/backtest" element={<Backtest />} />
+        <Route path="/guides" element={<Guides />} />
+        <Route path="/fiscalite" element={<Fiscalite />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
