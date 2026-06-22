@@ -4,13 +4,13 @@
    ============================================================ */
 
 :root {
-  /* Navy design system */
-  --bg:       #0B1120;
-  --bg-2:     #111827;
-  --bg-card:  rgba(255,255,255,0.04);
-  --border:   rgba(255,255,255,0.08);
-  --text:     #F1F5F9;
-  --text-2:   rgba(241,245,249,0.55);
+  /* Navy design system — légèrement adouci, moins de noir pur */
+  --bg:       #0D1525;
+  --bg-2:     #131E30;
+  --bg-card:  rgba(255,255,255,0.045);
+  --border:   rgba(255,255,255,0.09);
+  --text:     #E8EEF6;
+  --text-2:   rgba(232,238,246,0.55);
   --gold:     #C9A84C;
   --gold-2:   #E8C46A;
   --green-acc:#2ECC8B;

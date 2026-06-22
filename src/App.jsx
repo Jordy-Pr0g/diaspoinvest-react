@@ -14,6 +14,7 @@ const Histoire    = lazy(() => import('./components/Histoire.jsx'))
 const Calculateur = lazy(() => import('./components/Calculateur.jsx'))
 const Temoignages = lazy(() => import('./components/Temoignages.jsx'))
 const FAQ         = lazy(() => import('./components/FAQ.jsx'))
+const APropos     = lazy(() => import('./components/APropos.jsx'))
 const LeadMagnet  = lazy(() => import('./components/LeadMagnet.jsx'))
 const Pricing     = lazy(() => import('./components/Pricing.jsx'))
 const BlogIndex   = lazy(() => import('./pages/BlogIndex.jsx'))
@@ -38,6 +39,7 @@ function LandingPage() {
           <Calculateur />
           <Temoignages />
           <FAQ />
+          <APropos />
           <LeadMagnet />
           <Pricing />
         </Suspense>

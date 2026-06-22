@@ -122,7 +122,7 @@ export default function Screener() {
       <Navbar />
       <main style={{
         minHeight: '100vh',
-        background: 'linear-gradient(160deg, #0B1120 0%, #111827 50%, #0D1117 100%)',
+        background: 'linear-gradient(160deg, #0D1525 0%, #131E30 50%, #0F1929 100%)',
         paddingTop: 80,
       }}>
         <style>{`
