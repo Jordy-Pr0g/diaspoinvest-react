@@ -184,6 +184,10 @@ export default function Screener() {
             .screener-filter-bar { grid-template-columns: 1fr 1fr; }
             .screener-grid { grid-template-columns: 1fr; }
           }
+          .screener-filter-bar select option {
+            background: #1A2236;
+            color: #F1F5F9;
+          }
         `}</style>
 
         <div className="container" style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 20px 60px' }}>
