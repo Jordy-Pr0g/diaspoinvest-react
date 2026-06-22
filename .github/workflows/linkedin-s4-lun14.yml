@@ -1,0 +1,38 @@
+name: LinkedIn S4 Lun 14/07 — Fete nationale et diaspora
+
+on:
+  schedule:
+    - cron: '0 6 14 7 *'  # 14 juillet 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "14 juillet.
+
+Pendant que la France célèbre, j'ai une question pour la diaspora africaine.
+
+Combien d'entre nous cotisent pour la retraite française mais n'ont rien construit au pays ?
+
+La retraite moyenne en France tourne autour de 1 400 euros/mois. Pour beaucoup dans la diaspora, c'est insuffisant pour vivre décemment en France ET aider la famille en Afrique.
+
+La bourse ouest-africaine ne résout pas tout. Mais elle permet de construire un revenu complémentaire en FCFA, dans la région où beaucoup d'entre nous ont encore de la famille, des projets, des racines.
+
+C'est ça l'idée derrière DiaspoInvest. Pas juste investir. Construire un pont entre ici et là-bas.
+
+Et toi, tu penses à quoi quand tu imagines ta retraite ?
+
+Contenu éducatif. Ne constitue pas un conseil en investissement.
+
+#Diaspora #Retraite #Investissement"

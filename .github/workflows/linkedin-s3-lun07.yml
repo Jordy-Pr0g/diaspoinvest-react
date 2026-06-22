@@ -1,0 +1,37 @@
+name: LinkedIn S3 Lun 07/07 — Carrousel Fiscalite
+
+on:
+  schedule:
+    - cron: '0 6 7 7 *'  # 7 juillet 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "Même action. Même dividende. Pas le même net selon où tu vis.
+
+Résident France : flat tax 31,4% → rendement net 4,21%
+Résident Sénégal : IRVM 10% → rendement net 5,52%
+Résident Côte d'Ivoire : prélèvement 15% → rendement net 5,20%
+Résidents UEMOA : plus-values totalement exonérées.
+
+Swipe pour le détail pays par pays. 👇
+
+---
+
+Tu résides dans quel pays ? Je te donne le calcul exact en commentaire.
+
+Contenu éducatif. Non affilié à la bourse ni au CREPMF.
+
+#Fiscalite #BourseAfricaine #Diaspora"

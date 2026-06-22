@@ -1,0 +1,40 @@
+name: LinkedIn S1 Lun 23/06 — Introduction Jordan
+
+on:
+  schedule:
+    - cron: '0 6 23 6 *'  # 23 juin 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "Je me présente.
+
+Je m'appelle Jordan. Je suis de la diaspora africaine en France.
+
+Pendant des années j'ai mis mon épargne sur un Livret A à 1,5%.
+
+Jusqu'au jour où j'ai découvert qu'il existait une bourse en Afrique de l'Ouest — accessible depuis Paris, Montréal, Dakar — qui verse des dividendes allant jusqu'à 6% par an.
+
+Depuis, j'ai créé DiaspoInvest. Une plateforme pour aider la diaspora africaine à investir sur la bourse ouest-africaine. Simplement. Sans jargon. Sans se faire arnaquer.
+
+Chaque semaine je partage ici ce que j'apprends : comment ça marche, combien ça rapporte, comment éviter les erreurs.
+
+Si tu fais partie de la diaspora africaine ou si tu habites en Afrique de l'Ouest et que tu veux faire travailler ton épargne — tu es au bon endroit.
+
+Sauvegarde ce post. On commence mercredi.
+
+Contenu éducatif. Non affilié à la BRVM ni au CREPMF.
+
+#Diaspora #Investissement #BourseAfricaine"

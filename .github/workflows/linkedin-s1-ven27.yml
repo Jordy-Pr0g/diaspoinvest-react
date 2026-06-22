@@ -1,0 +1,42 @@
+name: LinkedIn S1 Ven 27/06 — 30K FCFA par mois
+
+on:
+  schedule:
+    - cron: '0 6 27 6 *'  # 27 juin 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "30 000 FCFA par mois.
+
+C'est environ 46 euros. Moins qu'un abonnement Netflix + Spotify combinés.
+
+Investi chaque mois sur la bourse ouest-africaine pendant 10 ans :
+
+→ 220 actions accumulées
+→ 220 980 FCFA de dividendes par an
+→ Soit 18 415 FCFA par mois. Automatiquement.
+
+Sans vendre une seule action. Juste en touchant ta part des bénéfices chaque année.
+
+La différence entre ceux qui construisent un patrimoine et ceux qui n'y arrivent pas, ce n'est pas le montant. C'est la régularité.
+
+30 000 FCFA par mois. 10 ans. C'est tout.
+
+Quel est le montant que tu pourrais mettre de côté chaque mois sans que ça change vraiment ta vie ? Réponds en commentaire.
+
+Simulation mathématique illustrative. Ne constitue pas un conseil en investissement.
+
+#DCA #Investissement #Diaspora"

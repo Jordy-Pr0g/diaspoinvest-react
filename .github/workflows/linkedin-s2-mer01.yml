@@ -1,0 +1,36 @@
+name: LinkedIn S2 Mer 01/07 — Carrousel SGI
+
+on:
+  schedule:
+    - cron: '0 10 1 7 *'  # 1er juillet 2026 à 12h Paris (10h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "Depuis Paris, tu n'as pas besoin d'aller à Abidjan.
+
+BOA Capital Securities, BNI Securities, CGF Bourse — ouverture entièrement à distance.
+
+Swipe pour voir les 5 étapes exactes. 👇
+
+---
+
+Sauvegarde ce carrousel. C'est ta feuille de route.
+
+Tu galères sur quelle étape en ce moment ?
+
+Contenu éducatif. Non affilié à la bourse ni au CREPMF.
+
+#BourseAfricaine #SGI #Investissement"

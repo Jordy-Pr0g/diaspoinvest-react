@@ -1,0 +1,46 @@
+name: LinkedIn S4 Ven 18/07 — Presentation Tracker
+
+on:
+  schedule:
+    - cron: '0 6 18 7 *'  # 18 juillet 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "Depuis 4 semaines je partage ici de l'information gratuite sur la bourse ouest-africaine.
+
+Aujourd'hui je te montre l'outil qu'on a construit.
+
+Le DiaspoInvest Tracker. Un fichier Excel avec 13 onglets.
+
+Ce qu'il fait :
+→ Il calcule ton PRU automatiquement à chaque achat
+→ Il simule ta richesse sur 30 ans avec n'importe quelle action
+→ Il compare ton rendement avec le marché
+→ Il te dit combien tu paies d'impôts selon ton pays de résidence
+→ Il suit tes dividendes reçus
+
+Ce qu'il ne fait pas :
+→ Il ne te dit pas quoi acheter
+→ Il n'est pas connecté à un courtier
+→ Il ne gère pas ton argent
+
+C'est un outil de suivi et de simulation. Pour que tu prennes tes décisions avec les bons chiffres devant toi.
+
+Le lien est en commentaire.
+
+Outil éducatif. Ne constitue pas un conseil en investissement.
+
+#DiaspoInvest #Investissement #BourseAfricaine"

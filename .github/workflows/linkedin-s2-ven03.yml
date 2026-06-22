@@ -1,0 +1,45 @@
+name: LinkedIn S2 Ven 03/07 — Le PRU explique
+
+on:
+  schedule:
+    - cron: '0 6 3 7 *'  # 3 juillet 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "PRU. Trois lettres que tout investisseur doit connaître.
+
+Prix de Revient Unitaire. C'est le prix moyen auquel tu as acheté une action, tous tes achats confondus.
+
+Exemple concret.
+
+Tu achètes 10 actions à 26 000 FCFA en janvier.
+Tu en achètes 10 autres à 30 000 FCFA en juin.
+
+Ton PRU = (26 000 × 10 + 30 000 × 10) / 20 = 28 000 FCFA
+
+Pourquoi c'est important ?
+
+Parce que c'est par rapport à ce chiffre que tu calcules ta vraie plus-value. Pas par rapport au cours du jour où tu regardes.
+
+Si l'action cote 32 000 aujourd'hui et ton PRU est 28 000 → tu es à +14,3% de plus-value latente.
+
+Le Tracker DiaspoInvest calcule ton PRU automatiquement à chaque achat. Tu n'as rien à faire à la main.
+
+Tu savais déjà ce qu'était le PRU avant ce post ?
+
+Contenu éducatif. Ne constitue pas un conseil en investissement.
+
+#Investissement #BourseAfricaine #Finance"

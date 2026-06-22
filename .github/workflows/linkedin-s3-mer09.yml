@@ -1,0 +1,43 @@
+name: LinkedIn S3 Mer 09/07 — Formulaire 3916
+
+on:
+  schedule:
+    - cron: '0 10 9 7 *'  # 9 juillet 2026 à 12h Paris (10h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "Si tu es résident fiscal en France et que tu as un compte chez un broker africain, tu dois déclarer ce compte.
+
+C'est le formulaire 3916.
+
+Chaque compte détenu à l'étranger doit être déclaré chaque année sur ta déclaration d'impôts. Même si tu n'as rien vendu. Même si tu n'as reçu aucun dividende cette année-là.
+
+L'amende en cas d'oubli : 1 500 € par compte non déclaré.
+
+Comment faire ?
+→ Sur impots.gouv.fr, dans ta déclaration annuelle
+→ Section Comptes à l'étranger → formulaire 3916
+→ Tu indiques le nom du broker, le pays, le numéro de compte
+
+Et les dividendes reçus ? Tu les déclares en revenus de capitaux mobiliers. Ils sont soumis à la flat tax à 30% (ou au barème progressif sur option).
+
+Ce n'est pas compliqué. Mais beaucoup l'ignorent. Et ça coûte cher.
+
+Tu avais déjà entendu parler du 3916 ?
+
+Contenu éducatif. Consulte un conseiller fiscal pour ta situation personnelle.
+
+#Fiscalite #Diaspora #Investissement"

@@ -1,0 +1,42 @@
+name: LinkedIn S3 Ven 11/07 — La patience comme strategie
+
+on:
+  schedule:
+    - cron: '0 6 11 7 *'  # 11 juillet 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "L'investissement en bourse n'est pas passionnant au quotidien.
+
+Et c'est exactement pour ça que ça marche.
+
+Tu achètes. Tu attends. Tu récupères tes dividendes. Tu réinvestis.
+
+Il ne se passe rien d'excitant pendant des mois. Le cours monte un peu. Descend un peu. Tu ne touches à rien.
+
+Et au bout de 5 ans, tu regardes ton portefeuille et tu réalises que les intérêts composés ont fait leur travail en silence.
+
+Les investisseurs qui perdent de l'argent en bourse, ce sont en grande majorité ceux qui ont voulu aller vite. Qui ont vendu au mauvais moment parce que le cours baissait. Qui ont tout misé sur une seule action.
+
+La bourse ouest-africaine n'est pas un casino. C'est un outil de construction de patrimoine sur le long terme.
+
+La patience est ta stratégie numéro 1.
+
+Qu'est-ce qui t'a le plus surpris dans cet apprentissage de l'investissement ?
+
+Contenu éducatif. Ne constitue pas un conseil en investissement.
+
+#Investissement #Patrimoine #Diaspora"

@@ -1,0 +1,42 @@
+name: LinkedIn S1 Mer 25/06 — Carrousel BRVM
+
+on:
+  schedule:
+    - cron: '0 10 25 6 *'  # 25 juin 2026 à 12h Paris (10h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "Tu mets ton épargne sur un Livret A à 1,5% ?
+
+Il existe une bourse africaine qui verse jusqu'à 6,13% de dividende par an.
+
+Swipe pour tout comprendre. 👇
+
+---
+
+8 pays. 47 actions. Ouverte à la diaspora depuis Paris, Montréal ou Dakar.
+
+Ce carrousel explique ce qu'est la bourse ouest-africaine, les actions qui versent le plus, et comment ouvrir un compte.
+
+Sauvegarde-le — tu en auras besoin.
+
+---
+
+Et toi, tu en étais où avec ton épargne avant de découvrir ça ? Dis-moi en commentaire.
+
+Contenu éducatif. Non affilié à la bourse ni au CREPMF.
+
+#BourseAfricaine #Diaspora #Investissement"

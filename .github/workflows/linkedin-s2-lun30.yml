@@ -1,0 +1,44 @@
+name: LinkedIn S2 Lun 30/06 — Comment ca marche
+
+on:
+  schedule:
+    - cron: '0 6 30 6 *'  # 30 juin 2026 à 8h Paris (6h UTC)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Publier post LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python marketing/post_linkedin_action.py "Beaucoup de gens pensent qu'investir en bourse c'est compliqué.
+
+Voilà comment ça se passe en réalité pour la bourse ouest-africaine.
+
+1. Tu ouvres un compte chez un broker agréé (SGI). Tout se fait en ligne. Pièce d'identité + justificatif de domicile.
+
+2. Tu vires de l'argent sur ton compte. En euros depuis la France, le broker convertit en FCFA.
+
+3. Tu passes un ordre d'achat. Je veux 10 actions à tel cours maximum.
+
+4. La transaction est exécutée. Tu es actionnaire.
+
+5. Chaque année, si l'entreprise fait des bénéfices, elle te verse ta part. En FCFA sur ton compte.
+
+C'est tout.
+
+Pas besoin d'être en Côte d'Ivoire. Pas besoin d'être riche. Pas besoin d'avoir une formation en finance.
+
+Ce qui t'a toujours bloqué dans l'investissement, c'est quoi exactement ?
+
+Contenu éducatif. Vérifie la réglementation applicable dans ton pays de résidence.
+
+#BourseAfricaine #Investissement #Diaspora"
