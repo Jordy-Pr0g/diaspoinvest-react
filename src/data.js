@@ -4,7 +4,7 @@
 
 export const LIENS = {
   guide:      "https://diaspoinvest.lemonsqueezy.com/checkout/buy/c908db0b-b753-4196-9bf5-ed01ddd4e42b",
-  guideUemoa: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7855c4ed-54da-4a25-95e4-59dec1989e65",
+  guideUemoa: "https://diaspoinvest.gumroad.com/l/dpqvqo",
   calculateur:"https://diaspoinvest.gumroad.com/l/tocir",
   pack:       "https://diaspoinvest.gumroad.com/l/ecspxh",
   packUemoa:  "https://diaspoinvest.gumroad.com/l/cvkcwo",
