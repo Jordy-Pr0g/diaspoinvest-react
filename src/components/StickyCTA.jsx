@@ -5,7 +5,7 @@ export default function StickyCTA() {
   return (
     <div className="sticky-cta">
       <div className="sc-price">
-        29,99 €<small>Pack Complet · Guide + Tracker</small>
+        <s style={{ opacity: 0.45, fontSize: '0.8em', marginRight: 4 }}>34,99 €</s> 19,99 €<small>Pack Complet · Guide + Tracker</small>
       </div>
       <a className="btn btn-or" href={LIENS.pack} target="_blank" rel="noreferrer">
         Obtenir le Pack

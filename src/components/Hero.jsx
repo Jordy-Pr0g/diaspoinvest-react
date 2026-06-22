@@ -36,18 +36,18 @@ export default function Hero() {
         </div>
 
         <div className="hero-price-cards">
-          <div className="price-pill" style={{ opacity: 0.5, cursor: 'default' }}>
+          <a className="price-pill" href={LIENS.guide} target="_blank" rel="noreferrer">
             <div className="p-name">Guide PDF</div>
-            <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
-          </div>
-          <div className="price-pill" style={{ opacity: 0.5, cursor: 'default' }}>
+            <div className="p-value">14,99 €</div>
+          </a>
+          <a className="price-pill" href={LIENS.calculateur} target="_blank" rel="noreferrer">
             <div className="p-name">Tracker Dashboard</div>
-            <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
-          </div>
-          <div className="price-pill" style={{ opacity: 0.5, cursor: 'default' }}>
+            <div className="p-value">34,99 €</div>
+          </a>
+          <a className="price-pill" href={LIENS.pack} target="_blank" rel="noreferrer">
             <div className="p-name">Pack Complet</div>
-            <div className="p-value" style={{ fontSize: '1rem' }}>Bientôt</div>
-          </div>
+            <div className="p-value"><s style={{opacity:0.5, fontSize:'0.85em'}}>34,99 €</s> 19,99 €</div>
+          </a>
         </div>
 
       </div>

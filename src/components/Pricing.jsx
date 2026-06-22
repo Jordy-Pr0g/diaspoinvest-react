@@ -12,7 +12,7 @@ export default function Pricing() {
         <div className="section-head">
           <span className="eyebrow">Tarifs de lancement</span>
           <h2>Nos produits</h2>
-          <p>Satisfait ou remboursé 7 jours.</p>
+          <p>Satisfait ou remboursé 14 jours.</p>
         </div>
 
         {/* Toggle segment */}
@@ -59,7 +59,10 @@ export default function Pricing() {
               )}
               <h3>{p.nom}</h3>
               <div className="plan-sub">{p.sousTitre}</div>
-              <div className="plan-price">{p.prix}</div>
+              <div className="plan-price">
+                {p.prixBarre && <s style={{ opacity: 0.45, fontSize: '0.75em', marginRight: 6 }}>{p.prixBarre}</s>}
+                {p.prix}
+              </div>
 
               <ul>
                 {p.points.map((pt) => (
