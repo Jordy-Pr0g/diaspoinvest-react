@@ -6,7 +6,7 @@ export const LIENS = {
   guide:      "https://diaspoinvest.lemonsqueezy.com/checkout/buy/c908db0b-b753-4196-9bf5-ed01ddd4e42b",
   guideUemoa: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7855c4ed-54da-4a25-95e4-59dec1989e65",
   calculateur:"https://diaspoinvest.gumroad.com/l/tocir",
-  pack:       "https://diaspoinvest.lemonsqueezy.com/checkout/buy/3c7690d1-d8ca-426b-8745-f88bfd81e556",
+  pack:       "https://diaspoinvest.gumroad.com/l/ecspxh",
   packUemoa:  "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7d7196b5-9afa-4932-aa20-abd83c979223",
 }
 
@@ -50,7 +50,6 @@ export const PRODUITS = [
     prix: "29,99 €",
     lien: LIENS.pack,
     populaire: true,
-    bientot: true,
     points: [
       "Le Guide PDF Diaspora Europe complet",
       "Le Tracker Dashboard (10 onglets)",
