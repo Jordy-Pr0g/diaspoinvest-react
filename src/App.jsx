@@ -13,7 +13,8 @@ const Probleme    = lazy(() => import('./components/Probleme.jsx'))
 const Solution    = lazy(() => import('./components/Solution.jsx'))
 const Histoire    = lazy(() => import('./components/Histoire.jsx'))
 const BrvmLive    = lazy(() => import('./components/BrvmLive.jsx'))
-const Calculateur = lazy(() => import('./components/Calculateur.jsx'))
+const Calculateur      = lazy(() => import('./components/Calculateur.jsx'))
+const CalculateurFiscal = lazy(() => import('./components/CalculateurFiscal.jsx'))
 const LeadMagnet  = lazy(() => import('./components/LeadMagnet.jsx'))
 const BlogPreview = lazy(() => import('./components/BlogPreview.jsx'))
 const Temoignages = lazy(() => import('./components/Temoignages.jsx'))
@@ -39,6 +40,7 @@ function LandingPage() {
           <Histoire />
           <BrvmLive />
           <Calculateur />
+          <CalculateurFiscal />
           <LeadMagnet />
           <BlogPreview />
           <Temoignages />

@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { href: '#probleme',    label: 'Constat' },
   { href: '#marche',      label: 'La BRVM' },
   { href: '#calculateur', label: 'Simulateur' },
+  { href: '#fiscalite',   label: 'Fiscalité' },
   { href: '#leadmagnet',  label: 'Newsletter' },
   { href: '#avis',        label: 'Avis' },
   { href: '#pricing',     label: 'Produits' },
