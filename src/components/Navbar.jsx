@@ -46,13 +46,17 @@ export default function Navbar() {
 
         <nav className="nav-menu-links">
           <div className="nav-links" style={{ gap: 28 }}>
-            {!isHome && (
-              <Link to="/" style={{ color: linkColor, fontWeight: 500, fontSize: '0.9rem' }}
-                onMouseEnter={e => e.target.style.color = activeColor}
-                onMouseLeave={e => e.target.style.color = linkColor}>
-                Accueil
-              </Link>
-            )}
+            <Link to="/"
+              style={{
+                color: location.pathname === '/' ? activeColor : linkColor,
+                fontWeight: location.pathname === '/' ? 700 : 500,
+                fontSize: '0.9rem',
+                transition: 'color 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = activeColor }}
+              onMouseLeave={e => { e.currentTarget.style.color = location.pathname === '/' ? activeColor : linkColor }}>
+              Accueil
+            </Link>
             {NAV.map(({ to, label }) => (
               <Link key={to} to={to}
                 style={{
@@ -85,7 +89,7 @@ export default function Navbar() {
 
       <div className={`mobile-drawer${open ? ' open' : ''}`} onClick={e => e.stopPropagation()}>
         <nav>
-          {!isHome && <Link to="/" onClick={() => setOpen(false)}>Accueil</Link>}
+          <Link to="/" onClick={() => setOpen(false)} style={{ color: location.pathname === '/' ? '#C9A84C' : undefined }}>Accueil</Link>
           {NAV.map(({ to, label }) => (
             <Link key={to} to={to} onClick={() => setOpen(false)}
               style={{ color: isActive(to) ? '#C9A84C' : undefined }}>
