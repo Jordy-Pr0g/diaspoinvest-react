@@ -42,11 +42,11 @@ export default function Hero() {
           </a>
           <a className="price-pill" href={LIENS.calculateur} target="_blank" rel="noreferrer">
             <div className="p-name">Tracker Dashboard</div>
-            <div className="p-value">34,99 €</div>
+            <div className="p-value"><s style={{opacity:0.5, fontSize:'0.85em'}}>34,99 €</s> 19,99 €</div>
           </a>
           <a className="price-pill" href={LIENS.pack} target="_blank" rel="noreferrer">
             <div className="p-name">Pack Complet</div>
-            <div className="p-value"><s style={{opacity:0.5, fontSize:'0.85em'}}>34,99 €</s> 19,99 €</div>
+            <div className="p-value">29,99 €</div>
           </a>
         </div>
 

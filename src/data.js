@@ -47,8 +47,7 @@ export const PRODUITS = [
     id: "pack",
     nom: "Pack Complet Europe",
     sousTitre: "Guide + Tracker Dashboard",
-    prix: "19,99 €",
-    prixBarre: "34,99 €",
+    prix: "29,99 €",
     lien: LIENS.pack,
     populaire: true,
     points: [
@@ -63,7 +62,8 @@ export const PRODUITS = [
     id: "calculateur",
     nom: "Tracker Dashboard",
     sousTitre: "13 onglets · Excel",
-    prix: "34,99 €",
+    prix: "19,99 €",
+    prixBarre: "34,99 €",
     lien: LIENS.calculateur,
     populaire: false,
     points: [
@@ -96,7 +96,8 @@ export const PRODUITS_UEMOA = [
     id: "trackerUemoa",
     nom: "Tracker Dashboard",
     sousTitre: "13 onglets · Excel",
-    prix: "34,99 €",
+    prix: "19,99 €",
+    prixBarre: "34,99 €",
     lien: LIENS.calculateur,
     populaire: false,
     points: [
@@ -110,8 +111,7 @@ export const PRODUITS_UEMOA = [
     id: "packUemoa",
     nom: "Pack Complet UEMOA",
     sousTitre: "Guide UEMOA + Tracker Dashboard",
-    prix: "19,99 €",
-    prixBarre: "34,99 €",
+    prix: "29,99 €",
     lien: LIENS.packUemoa,
     populaire: true,
     points: [
