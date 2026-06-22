@@ -484,6 +484,33 @@ export default function CalculateurFiscal() {
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>
             {pays.note}
           </p>
+          {/* Sources officielles France */}
+          {pays.code === 'FR' && (
+            <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
+                Sources officielles
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {[
+                  { label: 'BOFiP — Crédit d\'impôt dividendes étrangers (IR-PFU)', url: 'https://bofip.impots.gouv.fr/bofip/3399-PGP.html' },
+                  { label: 'Notice 2047 — Revenus encaissés à l\'étranger', url: 'https://www.impots.gouv.fr/formulaire/2047/declaration-des-revenus-encaisses-letranger' },
+                  { label: 'Formulaire 3916 — Déclaration compte étranger', url: 'https://www.impots.gouv.fr/formulaire/3916/declaration-par-un-resident-dun-compte-ouvert-letranger' },
+                  { label: 'Convention fiscale CI-France (1966) — Légifrance', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000503191' },
+                ].map(s => (
+                  <a key={s.url} href={s.url} target="_blank" rel="noreferrer" style={{
+                    fontSize: 11, color: OR, opacity: 0.7,
+                    textDecoration: 'underline', textUnderlineOffset: 2,
+                    transition: 'opacity .15s',
+                  }}
+                    onMouseEnter={e => e.target.style.opacity = 1}
+                    onMouseLeave={e => e.target.style.opacity = 0.7}
+                  >
+                    ↗ {s.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Astuce barème France */}
@@ -496,21 +523,21 @@ export default function CalculateurFiscal() {
               Astuce — Tu paies peu d'impôts ?
             </div>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: '0 0 12px' }}>
-              Si tu es étudiant, salarié modeste ou que tes revenus sont faibles, tu peux <strong style={{ color: '#fff' }}>payer seulement ~19% au lieu de 41,4%</strong> en cochant une case sur ta déclaration d'impôts.
+              Si tu es étudiant, salarié modeste ou que tes revenus sont faibles, tu peux <strong style={{ color: '#fff' }}>payer ~28-29% au total au lieu de 31,4%</strong> en optant pour le barème progressif sur ta déclaration.
             </p>
             <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 10, padding: '12px 14px', marginBottom: 10 }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.5)', marginBottom: 8 }}>Comparaison sur {fmt(dividendeBrut)} FCFA</div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 12, color: RED }}>PFU par défaut (41,4%)</span>
-                <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 13, fontWeight: 700, color: RED }}>{fmt(Math.round(dividendeBrut * 0.586))} FCFA</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>PFU — coût total 31,4%</span>
+                <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>{fmt(Math.round(dividendeBrut * 0.686))} FCFA net</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 12, color: VERT3 }}>Barème 0% IR (≈ 18,6%)</span>
-                <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 13, fontWeight: 700, color: VERT3 }}>{fmt(Math.round(dividendeBrut * 0.814))} FCFA</span>
+                <span style={{ fontSize: 12, color: VERT3 }}>Barème 0% IR — coût total ~28,6%</span>
+                <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 13, fontWeight: 700, color: VERT3 }}>{fmt(Math.round(dividendeBrut * 0.714))} FCFA net</span>
               </div>
             </div>
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, margin: 0 }}>
-              Sur ta déclaration impots.gouv.fr → cocher <strong style={{ color: 'rgba(255,255,255,0.7)' }}>"Option pour l'imposition au barème progressif"</strong> dans la section revenus de capitaux mobiliers.
+              Sur impots.gouv.fr → cocher <strong style={{ color: 'rgba(255,255,255,0.7)' }}>"Option pour l'imposition au barème progressif"</strong> dans la section revenus de capitaux mobiliers. Valable si ta tranche marginale d'IR est 0% ou 11%.
             </p>
           </div>
         )}
@@ -537,9 +564,16 @@ export default function CalculateurFiscal() {
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', fontSize: 10, color: 'rgba(255,255,255,0.18)', lineHeight: 1.7 }}>
-          Simulation indicative à titre pédagogique · Non-exhaustif · Consultez un expert fiscal<br />
-          1 EUR = 655,957 FCFA (parité fixe CFA) · Taux 2024-2025
+        <div style={{
+          background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+          borderRadius: 10, padding: '12px 16px',
+        }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
+            Avertissement
+          </div>
+          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.22)', lineHeight: 1.7, margin: 0 }}>
+            Ce simulateur est fourni à titre pédagogique et informatif uniquement. Il ne constitue pas un conseil fiscal, juridique ou financier. Les taux et règles fiscaux peuvent évoluer. Les calculs sont basés sur les dispositions connues au 1er janvier 2026 et peuvent ne pas refléter votre situation personnelle (déductions, abattements, conventions bilatérales non listées, etc.). <strong style={{ color: 'rgba(255,255,255,0.35)' }}>Consultez un expert-comptable ou un avocat fiscaliste avant toute décision.</strong> · 1 EUR = 655,957 FCFA (parité fixe Zone CFA).
+          </p>
         </div>
       </div>
     </section>
