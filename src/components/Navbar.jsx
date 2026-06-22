@@ -7,6 +7,7 @@ const NAV = [
   { to: '/backtest',  label: 'Backtest'  },
   { to: '/fiscalite', label: 'Fiscalité' },
   { to: '/blog',      label: 'Blog'      },
+  { to: '/a-propos',  label: 'À propos'  },
 ]
 
 export default function Navbar() {

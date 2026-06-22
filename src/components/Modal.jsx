@@ -7,7 +7,7 @@ const CONTENU = {
       <>
         <h4>Éditeur</h4>
         <p>
-          DiaspoInvest est un projet éducatif indépendant édité par Jordan Djiokap,
+          DiaspoInvest est un projet éducatif indépendant édité par Jordan DJIOKAP,
           étudiant en Finance d'Entreprise et Ingénierie Financière, Paris (France).
         </p>
         <p>Contact : contact@diaspoinvest.fr</p>
@@ -42,7 +42,7 @@ const CONTENU = {
         <h4>Propriété intellectuelle</h4>
         <p>
           L'ensemble des contenus (textes, visuels, données, guides) est la propriété exclusive
-          de Jordan Djiokap. Toute reproduction sans autorisation écrite est interdite.
+          de Jordan DJIOKAP. Toute reproduction sans autorisation écrite est interdite.
         </p>
       </>
     ),
@@ -101,7 +101,7 @@ const CONTENU = {
       <>
         <h4>Vendeur</h4>
         <p>
-          Jordan Djiokap — DiaspoInvest, Paris (France).
+          Jordan DJIOKAP — DiaspoInvest, Paris (France).
           Contact : contact@diaspoinvest.fr
         </p>
 

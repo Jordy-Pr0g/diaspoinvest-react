@@ -11,7 +11,7 @@ export default function Pricing() {
       <div className="container">
         <div className="section-head">
           <span className="eyebrow">Tarifs de lancement</span>
-          <h2>Nos produits</h2>
+          <h2>Les produits</h2>
           <p>Satisfait ou remboursé 14 jours.</p>
         </div>
 

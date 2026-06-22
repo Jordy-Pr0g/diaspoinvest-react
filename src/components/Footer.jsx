@@ -105,7 +105,7 @@ export default function Footer({ onOpenModal }) {
 
         {/* Barre de bas */}
         <div className="footer-bottom">
-          <span>© 2026 DiaspoInvest · Jordan Djiokap · Paris</span>
+          <span>© 2026 DiaspoInvest · Jordan DJIOKAP · Paris</span>
           <span className="footer-bottom-legal">
             Non affilié à la BRVM ni au CREPMF · Ceci n'est pas un conseil en investissement
           </span>
