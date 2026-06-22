@@ -3,9 +3,10 @@ import { Link, useLocation } from 'react-router-dom'
 import { LIENS } from '../data.js'
 
 const NAV = [
-  { to: '/screener', label: 'Screener' },
-  { to: '/backtest', label: 'Backtest' },
-  { to: '/guides',   label: 'Guides' },
+  { to: '/screener',  label: 'Screener'  },
+  { to: '/backtest',  label: 'Backtest'  },
+  { to: '/fiscalite', label: 'Fiscalité' },
+  { to: '/blog',      label: 'Blog'      },
 ]
 
 export default function Navbar() {
@@ -44,7 +45,7 @@ export default function Navbar() {
         </a>
 
         <nav className="nav-menu-links">
-          <div className="nav-links" style={{ gap: 32 }}>
+          <div className="nav-links" style={{ gap: 28 }}>
             {!isHome && (
               <Link to="/" style={{ color: linkColor, fontWeight: 500, fontSize: '0.9rem' }}
                 onMouseEnter={e => e.target.style.color = activeColor}
@@ -65,14 +66,6 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
-            {isHome && (
-              <Link to="/blog"
-                style={{ color: isActive('/blog') ? activeColor : linkColor, fontWeight: 500, fontSize: '0.9rem' }}
-                onMouseEnter={e => e.target.style.color = activeColor}
-                onMouseLeave={e => e.target.style.color = isActive('/blog') ? activeColor : linkColor}>
-                Blog
-              </Link>
-            )}
           </div>
         </nav>
 
@@ -99,7 +92,6 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <Link to="/blog" onClick={() => setOpen(false)}>Blog</Link>
           <a className="btn btn-or mobile-drawer-cta" href={LIENS.pack}
             target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
             Voir le Pack

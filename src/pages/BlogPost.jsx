@@ -5,7 +5,7 @@ import { ARTICLES } from '../data/articles.js'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 
-const OR = '#D4AF37'
+const OR = '#C9A84C'
 
 function ProgressBar() {
   const [pct, setPct] = useState(0)
@@ -66,20 +66,20 @@ function ArticlesLies({ currentSlug }) {
   const autres = ARTICLES.filter(a => a.slug !== currentSlug).slice(0, 3)
   if (autres.length === 0) return null
   return (
-    <div style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid #1E2E21' }}>
-      <h3 style={{ fontSize: '1.1rem', marginBottom: 20, color: 'rgba(255,255,255,0.7)', fontWeight: 700 }}>
+    <div style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+      <h3 style={{ fontSize: '1.1rem', marginBottom: 20, color: 'rgba(241,245,249,0.7)', fontWeight: 700 }}>
         À lire aussi
       </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {autres.map(a => (
           <Link key={a.slug} to={`/blog/${a.slug}`} style={{
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '14px 18px', background: '#0F1A12', border: '1px solid #1E2E21',
+            padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: 12, textDecoration: 'none', gap: 12,
             transition: 'border-color 0.2s',
           }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = OR + '50'}
-            onMouseLeave={e => e.currentTarget.style.borderColor = '#1E2E21'}
+            onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
           >
             <span style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600, lineHeight: 1.4 }}>{a.titre}</span>
             <span style={{ fontSize: 11, color: OR, whiteSpace: 'nowrap', fontWeight: 700 }}>{a.lecture} →</span>

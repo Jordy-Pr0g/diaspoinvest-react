@@ -2,11 +2,8 @@ import { Link } from 'react-router-dom'
 import { ARTICLES } from '../data/articles.js'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
-import { useState } from 'react'
 
 export default function BlogIndex() {
-  const [modal, setModal] = useState(null)
-
   return (
     <>
       <Navbar />
@@ -30,13 +27,13 @@ export default function BlogIndex() {
                 </div>
                 <h2 className="blog-card-titre">{article.titre}</h2>
                 <p className="blog-card-desc">{article.description}</p>
-                <span className="blog-card-lire">Lire l'article</span>
+                <span className="blog-card-lire">Lire l'article →</span>
               </Link>
             ))}
           </div>
         </div>
       </main>
-      <Footer onOpenModal={setModal} />
+      <Footer />
     </>
   )
 }
