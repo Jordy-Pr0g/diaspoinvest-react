@@ -23,6 +23,8 @@ const FAQ         = lazy(() => import('./components/FAQ.jsx'))
 const Cockpit     = lazy(() => import('./Cockpit.jsx'))
 const BlogIndex   = lazy(() => import('./pages/BlogIndex.jsx'))
 const BlogPost    = lazy(() => import('./pages/BlogPost.jsx'))
+const Screener    = lazy(() => import('./pages/Screener.jsx'))
+const Backtest    = lazy(() => import('./pages/Backtest.jsx'))
 const NotFound    = lazy(() => import('./pages/NotFound.jsx'))
 
 function LandingPage() {
@@ -64,6 +66,8 @@ export default function App() {
         <Route path="/cockpit" element={<Cockpit />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/screener" element={<Screener />} />
+        <Route path="/backtest" element={<Backtest />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

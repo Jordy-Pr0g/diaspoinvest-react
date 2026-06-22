@@ -47,6 +47,7 @@ export default function Navbar() {
             {isBlog && (
               <Link to="/">Accueil</Link>
             )}
+            <Link to="/screener">Screener</Link>
             <Link to="/blog" style={{ fontWeight: isBlog ? 700 : 500 }}>Blog</Link>
           </div>
         </nav>
@@ -75,6 +76,7 @@ export default function Navbar() {
             <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
           ))}
           {isBlog && <Link to="/" onClick={() => setOpen(false)}>Accueil</Link>}
+          <Link to="/screener" onClick={() => setOpen(false)}>Screener</Link>
           <Link to="/blog" onClick={() => setOpen(false)}>Blog</Link>
           <a
             className="btn btn-or mobile-drawer-cta"
