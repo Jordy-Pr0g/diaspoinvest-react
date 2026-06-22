@@ -2,11 +2,10 @@
 // Données BRVM factuelles (Juin 2026). Référence éducative uniquement.
 // Non affilié à la BRVM ni au CREPMF.
 
-// Liens Lemon Squeezy — checkout direct par produit.
 export const LIENS = {
   guide:      "https://diaspoinvest.lemonsqueezy.com/checkout/buy/c908db0b-b753-4196-9bf5-ed01ddd4e42b",
   guideUemoa: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7855c4ed-54da-4a25-95e4-59dec1989e65",
-  calculateur:"https://diaspoinvest.lemonsqueezy.com/checkout/buy/a57a680d-8503-4ca1-8e80-44906ae9a3c2",
+  calculateur:"https://diaspoinvest.gumroad.com/l/tocir",
   pack:       "https://diaspoinvest.lemonsqueezy.com/checkout/buy/3c7690d1-d8ca-426b-8745-f88bfd81e556",
   packUemoa:  "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7d7196b5-9afa-4932-aa20-abd83c979223",
 }
@@ -63,11 +62,10 @@ export const PRODUITS = [
   {
     id: "calculateur",
     nom: "Tracker Dashboard",
-    sousTitre: "10 onglets · Excel et Google Sheets",
-    prix: "24,99 €",
+    sousTitre: "13 onglets · Excel",
+    prix: "34,99 €",
     lien: LIENS.calculateur,
     populaire: false,
-    bientot: true,
     points: [
       "47 actions BRVM par secteur",
       "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
@@ -97,11 +95,10 @@ export const PRODUITS_UEMOA = [
   {
     id: "trackerUemoa",
     nom: "Tracker Dashboard",
-    sousTitre: "10 onglets · Excel et Google Sheets",
-    prix: "24,99 €",
+    sousTitre: "13 onglets · Excel",
+    prix: "34,99 €",
     lien: LIENS.calculateur,
     populaire: false,
-    bientot: true,
     points: [
       "47 actions BRVM par secteur",
       "Simulateur DCA sur 30 ans avec fiscalité UEMOA",
