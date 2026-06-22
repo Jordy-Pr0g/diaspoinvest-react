@@ -136,6 +136,22 @@ const PAYS = [
     note: "Résidents maliens : l'IRVM de 7% (réduit de 10% à 7% en 2017) est libératoire sur les dividendes BRVM. C'est l'imposition finale.",
     highlight: null,
   },
+  {
+    code: 'CM',
+    nom: 'Cameroun',
+    flag: '🇨🇲',
+    retenueBRVM: 0.10,
+    impoLocal: 0.165,
+    creditImpot: 0,
+    assiette: 'net',
+    methode: 'cumul',
+    obligations: [
+      { label: 'Déclaration IRPP', detail: "Les dividendes de source étrangère doivent être déclarés dans votre déclaration annuelle d'Impôt sur le Revenu des Personnes Physiques (IRPP) au Cameroun." },
+      { label: 'Compte étranger', detail: "Obligation de déclarer tout compte détenu à l'étranger auprès de la Direction Générale des Impôts du Cameroun." },
+    ],
+    note: "Le Cameroun (zone CEMAC) n'est pas membre de l'UEMOA : vous êtes traité comme non-résident BRVM (retenue 10%). L'IRPP camerounais de 16,5% s'applique ensuite sur le montant reçu. Taux indicatif — pas de convention CI-Cameroun connue. Consultez un fiscaliste local.",
+    highlight: null,
+  },
 ]
 
 function calcul(pays, dividendeBrut) {
@@ -168,9 +184,9 @@ export default function CalculateurFiscal() {
 
   const { RS, reçu, impoLocBrut, credit, impoLocNet, net, tauxEffectif } = calcul(pays, dividendeBrut)
 
-  const card = { background: CARD, border: `1px solid ${BDR}`, borderRadius: 14 }
+  const card = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 16 }
   const inputStyle = {
-    background: CARD, border: `1px solid ${BDR}`, borderRadius: 12,
+    background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12,
     padding: '12px 16px', color: '#fff', fontFamily: 'Space Grotesk,sans-serif',
     fontSize: 15, outline: 'none', width: '100%', boxSizing: 'border-box',
   }
@@ -199,65 +215,98 @@ export default function CalculateurFiscal() {
   }
 
   return (
-    <section className="section" id="fiscalite" style={{ background: '#060E09' }}>
+    <section className="section" id="fiscalite" style={{
+      background: 'linear-gradient(160deg, #0D3B2E 0%, #071a10 60%, #050f09 100%)',
+      position: 'relative', overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'absolute', top: -120, right: -120, width: 400, height: 400,
+        background: 'radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
       <style>{`
         .fiscal-pays-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 8px;
           margin-bottom: 24px;
         }
         .pays-btn {
-          background: ${CARD};
-          border: 1.5px solid ${BDR};
-          border-radius: 12px;
-          padding: 10px 8px;
+          background: rgba(255,255,255,0.04);
+          border: 1.5px solid rgba(255,255,255,0.08);
+          border-radius: 14px;
+          padding: 12px 8px;
           cursor: pointer;
           text-align: center;
           transition: all .2s;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.55);
           font-family: 'Space Grotesk', sans-serif;
           font-size: 12px;
           font-weight: 600;
         }
-        .pays-btn:hover { border-color: rgba(201,168,76,0.4); color: #fff; }
-        .pays-btn.active { border-color: ${OR}; background: rgba(201,168,76,0.1); color: #fff; }
-        .pays-btn .flag { font-size: 20px; display: block; margin-bottom: 4px; }
+        .pays-btn:hover {
+          border-color: rgba(201,168,76,0.5);
+          background: rgba(201,168,76,0.06);
+          color: #fff;
+          transform: translateY(-1px);
+        }
+        .pays-btn.active {
+          border-color: ${OR};
+          background: rgba(201,168,76,0.12);
+          color: #fff;
+          box-shadow: 0 4px 16px rgba(201,168,76,0.15);
+        }
+        .pays-btn .flag { font-size: 22px; display: block; margin-bottom: 5px; }
+        .fiscal-card {
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.09);
+          border-radius: 16px;
+          backdrop-filter: blur(4px);
+        }
+        .fiscal-card-gold {
+          background: rgba(201,168,76,0.07);
+          border: 1px solid rgba(201,168,76,0.2);
+          border-radius: 16px;
+        }
         .obligation-item {
           background: rgba(201,168,76,0.05);
           border: 1px solid rgba(201,168,76,0.15);
-          border-radius: 10px;
-          padding: 12px 14px;
+          border-radius: 12px;
+          padding: 13px 16px;
           cursor: pointer;
           transition: all .2s;
           margin-bottom: 8px;
         }
-        .obligation-item:hover { border-color: rgba(201,168,76,0.4); }
+        .obligation-item:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.09); }
         .obligation-item .obli-label {
           font-size: 13px; font-weight: 700; color: ${OR};
           display: flex; justify-content: space-between; align-items: center;
         }
         .obligation-item .obli-detail {
-          font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6;
+          font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7;
           margin-top: 8px;
         }
         .unite-toggle {
           display: flex; gap: 0; border-radius: 10px; overflow: hidden;
-          border: 1px solid ${BDR}; width: fit-content;
+          border: 1px solid rgba(255,255,255,0.1); width: fit-content;
         }
         .unite-btn {
           padding: 8px 18px; cursor: pointer; font-size: 13px; font-weight: 700;
           font-family: 'Space Grotesk',sans-serif; border: none; transition: all .15s;
         }
         .unite-btn.active { background: ${OR}; color: #0D2B1E; }
-        .unite-btn:not(.active) { background: ${CARD}; color: ${GRIS}; }
+        .unite-btn:not(.active) { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); }
         .highlight-badge {
           font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
           color: ${VERT3}; background: rgba(46,204,139,0.1); border: 1px solid rgba(46,204,139,0.3);
           border-radius: 20px; padding: 3px 10px; display: inline-block; margin-bottom: 8px;
         }
+        .ligne-fiscale {
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
         @media(max-width:600px){
-          .fiscal-pays-grid { grid-template-columns: repeat(4, 1fr); }
+          .fiscal-pays-grid { grid-template-columns: repeat(3, 1fr); }
         }
       `}</style>
 
@@ -307,7 +356,7 @@ export default function CalculateurFiscal() {
             onChange={e => setMontant(parseFloat(e.target.value) || 0)}
             style={{ ...inputStyle, fontFamily: 'DM Mono,monospace', fontSize: 24, fontWeight: 900, color: OR, padding: '14px 16px' }}
           />
-          <div style={{ fontSize: 11, color: GRIS, marginTop: 8, fontFamily: 'DM Mono,monospace' }}>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 8, fontFamily: 'DM Mono,monospace' }}>
             {unite === 'FCFA'
               ? `≈ ${fmtEur(dividendeBrut)} € (1 EUR = 655,957 FCFA)`
               : `= ${fmt(dividendeBrut)} FCFA`}
@@ -428,10 +477,7 @@ export default function CalculateurFiscal() {
         </div>
 
         {/* Note pédagogique */}
-        <div style={{
-          background: 'rgba(201,168,76,0.06)', border: `1px solid rgba(201,168,76,0.2)`,
-          borderRadius: 12, padding: '14px 16px', marginBottom: 16,
-        }}>
+        <div className="fiscal-card-gold" style={{ padding: '14px 16px', marginBottom: 16 }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: OR, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
             À savoir — {pays.nom}
           </div>
