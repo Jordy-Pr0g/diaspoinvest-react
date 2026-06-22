@@ -440,6 +440,35 @@ export default function CalculateurFiscal() {
           </p>
         </div>
 
+        {/* Astuce barème France */}
+        {pays.code === 'FR' && (
+          <div style={{
+            background: 'rgba(46,204,139,0.07)', border: '1px solid rgba(46,204,139,0.3)',
+            borderRadius: 12, padding: '16px 18px', marginBottom: 16,
+          }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: VERT3, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
+              Astuce — Tu paies peu d'impôts ?
+            </div>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: '0 0 12px' }}>
+              Si tu es étudiant, salarié modeste ou que tes revenus sont faibles, tu peux <strong style={{ color: '#fff' }}>payer seulement ~19% au lieu de 41,4%</strong> en cochant une case sur ta déclaration d'impôts.
+            </p>
+            <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 10, padding: '12px 14px', marginBottom: 10 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.5)', marginBottom: 8 }}>Comparaison sur {fmt(dividendeBrut)} FCFA</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                <span style={{ fontSize: 12, color: RED }}>PFU par défaut (41,4%)</span>
+                <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 13, fontWeight: 700, color: RED }}>{fmt(Math.round(dividendeBrut * 0.586))} FCFA</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 12, color: VERT3 }}>Barème 0% IR (≈ 18,6%)</span>
+                <span style={{ fontFamily: 'DM Mono,monospace', fontSize: 13, fontWeight: 700, color: VERT3 }}>{fmt(Math.round(dividendeBrut * 0.814))} FCFA</span>
+              </div>
+            </div>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, margin: 0 }}>
+              Sur ta déclaration impots.gouv.fr → cocher <strong style={{ color: 'rgba(255,255,255,0.7)' }}>"Option pour l'imposition au barème progressif"</strong> dans la section revenus de capitaux mobiliers.
+            </p>
+          </div>
+        )}
+
         {/* Obligations déclaratives */}
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12 }}>
