@@ -1,8 +1,8 @@
-name: LinkedIn S3 Mer 09/07 — Formulaire 3916
+name: LinkedIn S3 Mer 15/07 — Formulaire 3916
 
 on:
   schedule:
-    - cron: '0 10 9 7 *'  # 9 juillet 2026 à 12h Paris (10h UTC)
+    - cron: '0 10 15 7 *'  # 15 juillet 2026 à 12h Paris (10h UTC)
   workflow_dispatch:
 
 jobs:

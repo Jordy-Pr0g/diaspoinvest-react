@@ -1,8 +1,8 @@
-name: LinkedIn S2 Mer 01/07 — Carrousel SGI
+name: LinkedIn S2 Mer 08/07 — Carrousel SGI
 
 on:
   schedule:
-    - cron: '0 10 1 7 *'  # 1er juillet 2026 à 12h Paris (10h UTC)
+    - cron: '0 10 8 7 *'  # 8 juillet 2026 à 12h Paris (10h UTC)
   workflow_dispatch:
 
 jobs:

@@ -1,8 +1,8 @@
-name: LinkedIn S4 Lun 14/07 — Fete nationale et diaspora
+name: LinkedIn S4 Lun 20/07 — Fete nationale et diaspora
 
 on:
   schedule:
-    - cron: '0 6 14 7 *'  # 14 juillet 2026 à 8h Paris (6h UTC)
+    - cron: '0 6 20 7 *'  # 20 juillet 2026 à 8h Paris (6h UTC)
   workflow_dispatch:
 
 jobs:
@@ -19,9 +19,7 @@ jobs:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
         run: |
-          python marketing/post_linkedin_action.py "14 juillet.
-
-Pendant que la France célèbre, j'ai une question pour la diaspora africaine.
+          python marketing/post_linkedin_action.py "Une question pour la diaspora africaine.
 
 Combien d'entre nous cotisent pour la retraite française mais n'ont rien construit au pays ?
 

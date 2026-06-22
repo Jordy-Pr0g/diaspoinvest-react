@@ -1,8 +1,8 @@
-name: LinkedIn S1 Lun 23/06 — Introduction Jordan
+name: LinkedIn S1 Lun 29/06 — Introduction Jordan
 
 on:
   schedule:
-    - cron: '0 6 23 6 *'  # 23 juin 2026 à 8h Paris (6h UTC)
+    - cron: '0 6 29 6 *'  # 29 juin 2026 à 8h Paris (6h UTC)
   workflow_dispatch:
 
 jobs:

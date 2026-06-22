@@ -1,8 +1,8 @@
-name: LinkedIn S2 Ven 03/07 — Le PRU explique
+name: LinkedIn S2 Ven 10/07 — Le PRU explique
 
 on:
   schedule:
-    - cron: '0 6 3 7 *'  # 3 juillet 2026 à 8h Paris (6h UTC)
+    - cron: '0 6 10 7 *'  # 10 juillet 2026 à 8h Paris (6h UTC)
   workflow_dispatch:
 
 jobs:
