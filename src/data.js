@@ -7,7 +7,7 @@ export const LIENS = {
   guideUemoa: "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7855c4ed-54da-4a25-95e4-59dec1989e65",
   calculateur:"https://diaspoinvest.gumroad.com/l/tocir",
   pack:       "https://diaspoinvest.gumroad.com/l/ecspxh",
-  packUemoa:  "https://diaspoinvest.lemonsqueezy.com/checkout/buy/7d7196b5-9afa-4932-aa20-abd83c979223",
+  packUemoa:  "https://diaspoinvest.gumroad.com/l/cvkcwo",
 }
 
 // Données BRVM — 16/06/2026 · Source : scraper brvm_scraper.py (brvm.org + sikafinance.com)
@@ -112,7 +112,6 @@ export const PRODUITS_UEMOA = [
     prix: "29,99 €",
     lien: LIENS.packUemoa,
     populaire: true,
-    bientot: true,
     points: [
       "Le Guide PDF Résident UEMOA complet",
       "Le Tracker Dashboard (10 onglets)",
