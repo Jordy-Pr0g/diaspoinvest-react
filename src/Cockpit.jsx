@@ -321,6 +321,8 @@ function AgentWorkspace({ agent, context, onBack }) {
   const [history, setHistory] = useState(() => loadHistory(agent.id))
   const [showHistory, setShowHistory] = useState(false)
   const [notionUrl, setNotionUrl] = useState('')
+  const [sendStatus, setSendStatus] = useState('idle') // idle | sending | sent | error
+  const [sendError, setSendError] = useState('')
 
   useEffect(() => { setTimeout(() => setVisible(true), 30) }, [])
 
@@ -347,6 +349,27 @@ function AgentWorkspace({ agent, context, onBack }) {
       if (url) setNotionUrl(url)
     } catch (e) { setError(e.message) }
     finally { setLoading(false) }
+  }
+
+  const sendNewsletter = async () => {
+    if (!result) return
+    setSendStatus('sending'); setSendError('')
+    try {
+      const res = await fetch('/api/brevo-campaign', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-cockpit-secret': localStorage.getItem('di_cockpit_secret') || '',
+        },
+        body: JSON.stringify({ content: result }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || `Erreur ${res.status}`)
+      setSendStatus('sent')
+    } catch (e) {
+      setSendError(e.message)
+      setSendStatus('error')
+    }
   }
 
   const btnStyle = (active) => ({
@@ -496,6 +519,41 @@ function AgentWorkspace({ agent, context, onBack }) {
                 <pre style={{ padding: '24px', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: 13, lineHeight: 1.85, color: 'rgba(255,255,255,0.8)', fontFamily: 'DM Sans, sans-serif', maxHeight: 620, overflowY: 'auto' }}>
                   {result}
                 </pre>
+
+                {agent.id === 'newsletter' && (
+                  <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                    <button
+                      onClick={sendNewsletter}
+                      disabled={sendStatus === 'sending' || sendStatus === 'sent'}
+                      style={{
+                        padding: '11px 24px', borderRadius: 12, border: 'none',
+                        background: sendStatus === 'sent' ? '#22c55e' : sendStatus === 'error' ? 'rgba(220,53,69,0.15)' : sendStatus === 'sending' ? 'rgba(176,111,255,0.2)' : '#B06FFF',
+                        color: sendStatus === 'sent' ? '#fff' : sendStatus === 'error' ? '#ff6b7a' : sendStatus === 'sending' ? '#B06FFF' : '#fff',
+                        fontWeight: 800, fontSize: 13, cursor: sendStatus === 'sending' || sendStatus === 'sent' ? 'default' : 'pointer',
+                        fontFamily: 'DM Sans, sans-serif', transition: 'all 0.2s',
+                        border: sendStatus === 'error' ? '1.5px solid rgba(220,53,69,0.3)' : '1.5px solid transparent',
+                      }}
+                    >
+                      {sendStatus === 'sending' && '⏳ Envoi en cours...'}
+                      {sendStatus === 'sent' && '✓ Newsletter envoyée !'}
+                      {sendStatus === 'error' && '✕ Échec — réessayer'}
+                      {sendStatus === 'idle' && '✉ Envoyer via Brevo'}
+                    </button>
+                    {sendStatus === 'idle' && (
+                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)' }}>
+                        Envoie immédiatement à tous les abonnés de la liste 3
+                      </span>
+                    )}
+                    {sendStatus === 'error' && sendError && (
+                      <span style={{ fontSize: 12, color: '#ff6b7a' }}>{sendError}</span>
+                    )}
+                    {sendStatus === 'sent' && (
+                      <button onClick={() => setSendStatus('idle')} style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
+                        Réinitialiser
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 
