@@ -30,7 +30,11 @@ def post(texte):
         },
     )
     if r.status_code in (200, 201):
-        print(f"Post publie ! ID : {r.headers.get('x-restli-id', '?')}")
+        post_id = r.headers.get("x-restli-id", "")
+        print(f"Post publie ! ID : {post_id}")
+        # Ecrire l'ID dans un fichier pour les etapes suivantes
+        with open("post_id.txt", "w") as f:
+            f.write(post_id)
     else:
         print(f"ERREUR {r.status_code}: {r.text[:300]}")
         sys.exit(1)

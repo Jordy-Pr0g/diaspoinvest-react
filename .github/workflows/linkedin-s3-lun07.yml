@@ -35,3 +35,10 @@ Tu résides dans quel pays ? Je te donne le calcul exact en commentaire.
 Contenu éducatif. Non affilié à la bourse ni au CREPMF.
 
 #Fiscalite #BourseAfricaine #Diaspora"
+      - name: Poster carrousel PDF en commentaire
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          POST_ID=$(cat post_id.txt)
+          python marketing/post_linkedin_comment.py "$POST_ID" "content/carrousels/DiaspoInvest_Carrousel_S3_Fiscalite.pdf"
