@@ -5,37 +5,146 @@
 const SENDER = { name: 'Jordan — DiaspoInvest', email: 'contact@diaspoinvest.fr' }
 const LIST_IDS = [3] // "Newsletter DiaspoInvest"
 
-function textToHtml(text) {
-  const escaped = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
+const SECTION_LABELS = {
+  INTRO: { label: null, color: null },
+  'CE QUI A BOUGÉ': { label: '📊 Ce qui a bougé', color: '#1a3a2a' },
+  SIGNAL: { label: '🔍 Signal de la semaine', color: '#1a2a3a' },
+  CONSEIL: { label: '💡 Conseil', color: '#2a1a3a' },
+  CTA: { label: null, color: null, isCta: true },
+  QUESTION: { label: '💬 Question de la semaine', color: '#1a2a1a' },
+  SIGNATURE: { label: null, color: null, isSignature: true },
+}
 
-  const paragraphs = escaped
-    .split(/\n{2,}/)
-    .map(block => {
-      const lines = block.split('\n').join('<br>')
-      return `<p style="margin:0 0 16px;line-height:1.7;color:#333;">${lines}</p>`
-    })
-    .join('\n')
+function esc(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+function linkify(str) {
+  return esc(str).replace(
+    /(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" style="color:#C9A84C;font-weight:700;">$1</a>'
+  )
+}
+
+function parseSection(raw) {
+  const match = raw.match(/^(OBJET|PREHEADER|INTRO|CE QUI A BOUGÉ|SIGNAL|CONSEIL|CTA|QUESTION|SIGNATURE)\s*[:\-]?\s*/i)
+  if (!match) return { key: null, content: raw.trim() }
+  return {
+    key: match[1].toUpperCase().trim(),
+    content: raw.slice(match[0].length).trim(),
+  }
+}
+
+function renderParagraphs(text) {
+  return text.split(/\n{2,}/).map(block => {
+    const lines = block.split('\n').map(linkify).join('<br>')
+    return `<p style="margin:0 0 14px;font-size:16px;line-height:1.75;color:#2d2d2d;font-family:Georgia,serif;">${lines}</p>`
+  }).join('')
+}
+
+function textToHtml(text) {
+  // Découpe par sections
+  const rawSections = text.split(/\n(?=(?:OBJET|PREHEADER|INTRO|CE QUI A BOUGÉ|SIGNAL|CONSEIL|CTA|QUESTION|SIGNATURE)\s*[:\-]?)/i)
+  const sections = rawSections.map(parseSection).filter(s => s.content.length > 0)
+
+  let introHtml = ''
+  let bodyHtml = ''
+
+  for (const s of sections) {
+    const key = s.key
+    const content = s.content
+
+    if (!key || key === 'OBJET' || key === 'PREHEADER') continue
+
+    if (key === 'INTRO') {
+      introHtml = `<div style="padding:0 0 24px;">${renderParagraphs(content)}</div>`
+      continue
+    }
+
+    if (key === 'SIGNATURE') {
+      bodyHtml += `
+        <div style="margin-top:32px;padding-top:24px;border-top:2px solid #f0f0f0;">
+          <p style="margin:0;font-size:15px;color:#444;font-family:Georgia,serif;font-style:italic;">${linkify(content)}</p>
+        </div>`
+      continue
+    }
+
+    if (key === 'CTA') {
+      // Extraire l'URL s'il y en a une
+      const urlMatch = content.match(/(https?:\/\/[^\s]+)/)
+      const url = urlMatch ? urlMatch[1] : 'https://diaspoinvest.gumroad.com/l/tocir'
+      const ctaText = esc(content.replace(/(https?:\/\/[^\s]+)/g, '').trim()) || 'Obtenir le Tracker Dashboard'
+      bodyHtml += `
+        <div style="margin:28px 0;padding:24px;background:#0D1525;border-radius:10px;text-align:center;">
+          <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);font-family:Georgia,serif;line-height:1.6;">${ctaText}</p>
+          <a href="${url}" style="display:inline-block;background:#C9A84C;color:#0D1525;font-weight:800;font-size:15px;padding:14px 32px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;">
+            Obtenir le Tracker Dashboard &rarr;
+          </a>
+          <p style="margin:12px 0 0;font-size:12px;color:rgba(255,255,255,0.4);font-family:Arial,sans-serif;">19,99&nbsp;&euro; &mdash; offre valable jusqu'&agrave; fin juillet 2026</p>
+        </div>`
+      continue
+    }
+
+    const meta = SECTION_LABELS[key] || {}
+    const bg = meta.color || '#f8f8f8'
+    const label = meta.label || key
+
+    bodyHtml += `
+      <div style="margin:0 0 24px;border-radius:10px;overflow:hidden;">
+        <div style="background:${bg};padding:10px 20px;">
+          <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);font-family:Arial,sans-serif;letter-spacing:0.5px;">${label}</span>
+        </div>
+        <div style="padding:20px;background:#fafafa;border:1px solid #ebebeb;border-top:none;border-radius:0 0 10px 10px;">
+          ${renderParagraphs(content)}
+        </div>
+      </div>`
+  }
 
   return `<!DOCTYPE html>
 <html lang="fr">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:Georgia,serif;">
-  <div style="max-width:600px;margin:32px auto;background:#fff;border-radius:8px;overflow:hidden;">
-    <div style="background:#0D1525;padding:24px 32px;">
-      <div style="font-family:sans-serif;font-size:22px;font-weight:800;color:#C9A84C;letter-spacing:-0.5px;">
-        Diaspo<span style="color:#fff;">Invest</span>
-      </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DiaspoInvest Newsletter</title>
+</head>
+<body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,serif;">
+  <div style="max-width:600px;margin:24px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+    <!-- Header -->
+    <div style="background:#0D1525;padding:24px 32px;display:block;">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td>
+            <span style="font-family:Arial,sans-serif;font-size:24px;font-weight:900;color:#C9A84C;letter-spacing:-0.5px;">Diaspo</span><span style="font-family:Arial,sans-serif;font-size:24px;font-weight:900;color:#ffffff;">Invest</span>
+          </td>
+          <td align="right">
+            <span style="font-size:12px;color:rgba(255,255,255,0.35);font-family:Arial,sans-serif;">Newsletter BRVM</span>
+          </td>
+        </tr>
+      </table>
     </div>
-    <div style="padding:32px;">
-      ${paragraphs}
+
+    <!-- Intro -->
+    <div style="padding:32px 32px 8px;">
+      ${introHtml}
     </div>
-    <div style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee;font-family:sans-serif;font-size:12px;color:#999;text-align:center;">
-      Tu reçois cet email car tu t'es inscrit(e) sur diaspoinvest.fr.<br>
-      <a href="{{unsubscribe}}" style="color:#999;">Se désabonner</a>
+
+    <!-- Sections -->
+    <div style="padding:0 32px 32px;">
+      ${bodyHtml}
     </div>
+
+    <!-- Disclaimer -->
+    <div style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee;">
+      <p style="margin:0 0 8px;font-size:11px;color:#999;font-family:Arial,sans-serif;line-height:1.6;">
+        DiaspoInvest est un projet &eacute;ducatif ind&eacute;pendant, non affili&eacute; &agrave; la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.
+      </p>
+      <p style="margin:0;font-size:11px;color:#bbb;font-family:Arial,sans-serif;text-align:center;">
+        Tu re&ccedil;ois cet email car tu t'es inscrit(e) sur <a href="https://diaspoinvest.fr" style="color:#C9A84C;">diaspoinvest.fr</a> &nbsp;&bull;&nbsp;
+        <a href="{{unsubscribe}}" style="color:#bbb;">Se d&eacute;sabonner</a>
+      </p>
+    </div>
+
   </div>
 </body>
 </html>`
