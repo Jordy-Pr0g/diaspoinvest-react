@@ -80,7 +80,10 @@ async function saveToNotion({ agentNom, agentId, sujet, result }) {
 async function callClaude(prompt, _apiKey, maxTokens = 4000) {
   const res = await fetch('/api/claude', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-cockpit-secret': localStorage.getItem('di_cockpit_secret') || '',
+    },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: maxTokens,
@@ -174,7 +177,7 @@ POST LINKEDIN : [même sujet, ton plus pro, 3-5 paragraphes courts, question ouv
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige : "${s}"
 ${brvmData}${LEGAL_RULES}
 AUDIENCE : diaspora africaine partout ET résidents UEMOA. Jamais sur-centré sur la France.
-Produits (Gumroad) : Guide PDF Europe 14,99€ → https://diaspoinvest.gumroad.com/l/oxxzda · Guide PDF UEMOA 14,99€ → https://diaspoinvest.gumroad.com/l/dpqvqo · Tracker Dashboard 24,99€ → https://diaspoinvest.gumroad.com/l/tocir · Pack Europe 29,99€ → https://diaspoinvest.gumroad.com/l/ecspxh · Pack UEMOA 29,99€ → https://diaspoinvest.gumroad.com/l/cvkcwo.
+Produits (Gumroad) : Guide PDF Europe 14,99€ → https://diaspoinvest.gumroad.com/l/oxxzda · Guide PDF UEMOA 14,99€ → https://diaspoinvest.gumroad.com/l/dpqvqo · Tracker Dashboard 19,99€ (prix lancement, normalement 34,99€, offre valable jusqu'à fin juillet 2026) → https://diaspoinvest.gumroad.com/l/tocir · Pack Europe 29,99€ → https://diaspoinvest.gumroad.com/l/ecspxh · Pack UEMOA 29,99€ → https://diaspoinvest.gumroad.com/l/cvkcwo.
 Règles : jamais de tiret long ni de tiret court utilisé comme tiret long · virgule décimale française · jamais "conseil en investissement" · toujours sourcer les chiffres · ton sobre, fraternel, direct.
 Structure newsletter : OBJET (≤55 car.) · PREHEADER · INTRO chiffre BRVM · CE QUI A BOUGÉ · SIGNAL · CONSEIL · CTA Tracker Dashboard · QUESTION engagement A/B/C · SIGNATURE : "Jordan — DiaspoInvest" (rien d'autre).`,
   },
@@ -778,6 +781,8 @@ export default function Cockpit() {
   const [showNotionSettings, setShowNotionSettings] = useState(false)
   const [notionKey, setNotionKey] = useState(() => localStorage.getItem(NOTION_KEY_STORE) || '')
   const [notionDb, setNotionDb] = useState(() => localStorage.getItem(NOTION_DB_STORE) || '')
+  const [showSecretSettings, setShowSecretSettings] = useState(false)
+  const [cockpitSecret, setCockpitSecret] = useState(() => localStorage.getItem('di_cockpit_secret') || '')
   const [brvmJson, setBrvmJson] = useState(null)
   const [brvmStatus, setBrvmStatus] = useState('loading') // loading | ok | fallback
   const notionConfigured = notionKey && notionDb
@@ -878,6 +883,38 @@ export default function Cockpit() {
                 <button onClick={() => setShowNotionSettings(false)}
                   style={{ marginTop: 14, width: '100%', padding: '9px', borderRadius: 10, border: 'none', background: notionConfigured ? '#4CAF50' : 'rgba(255,255,255,0.08)', color: notionConfigured ? '#000' : 'rgba(255,255,255,0.4)', fontWeight: 700, fontSize: 12, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
                   {notionConfigured ? 'Notion configuré' : 'Fermer'}
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Bouton Secret Cockpit */}
+          <div style={{ position: 'relative' }}>
+            <button onClick={() => setShowSecretSettings(!showSecretSettings)}
+              title="Clé d'accès Cockpit"
+              style={{ display: 'flex', alignItems: 'center', gap: 6, background: cockpitSecret ? 'rgba(201,168,76,0.08)' : 'rgba(255,255,255,0.03)', border: `1px solid ${cockpitSecret ? 'rgba(201,168,76,0.3)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 20, padding: '6px 14px', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', transition: 'all 0.2s' }}>
+              <span style={{ fontSize: 12 }}>🔑</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: cockpitSecret ? '#C9A84C' : 'rgba(255,255,255,0.25)' }}>
+                {cockpitSecret ? 'Clé active' : 'Clé'}
+              </span>
+              {cockpitSecret && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4CAF50', boxShadow: '0 0 6px #4CAF50' }}/>}
+            </button>
+
+            {showSecretSettings && (
+              <div style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, background: '#0F1419', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: '20px', width: 300, zIndex: 200, boxShadow: '0 20px 60px rgba(0,0,0,0.6)', animation: 'bubble-pop 0.2s ease both' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.5)', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 14 }}>Clé d'accès Cockpit</div>
+                <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 5, fontWeight: 600 }}>COCKPIT_SECRET (Vercel)</label>
+                <input type="password" value={cockpitSecret}
+                  onChange={e => { setCockpitSecret(e.target.value); localStorage.setItem('di_cockpit_secret', e.target.value) }}
+                  placeholder="di-cockpit-2026"
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: 12, fontFamily: 'monospace', boxSizing: 'border-box', outline: 'none', marginBottom: 12 }}
+                />
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', lineHeight: 1.6, marginBottom: 12 }}>
+                  Doit correspondre à la variable <code style={{ color: 'rgba(201,168,76,0.7)' }}>COCKPIT_SECRET</code> dans Vercel → Settings → Environment Variables.
+                </div>
+                <button onClick={() => setShowSecretSettings(false)}
+                  style={{ width: '100%', padding: '9px', borderRadius: 10, border: 'none', background: cockpitSecret ? 'rgba(201,168,76,0.15)' : 'rgba(255,255,255,0.08)', color: cockpitSecret ? '#C9A84C' : 'rgba(255,255,255,0.4)', fontWeight: 700, fontSize: 12, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
+                  {cockpitSecret ? 'Clé enregistrée' : 'Fermer'}
                 </button>
               </div>
             )}
