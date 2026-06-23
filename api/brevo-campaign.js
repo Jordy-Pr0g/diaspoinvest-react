@@ -5,100 +5,73 @@
 const SENDER = { name: 'Jordan — DiaspoInvest', email: 'contact@diaspoinvest.fr' }
 const LIST_IDS = [3] // "Newsletter DiaspoInvest"
 
-const SECTION_LABELS = {
-  INTRO: { label: null, color: null },
-  'CE QUI A BOUGÉ': { label: '📊 Ce qui a bougé', color: '#1a3a2a' },
-  SIGNAL: { label: '🔍 Signal de la semaine', color: '#1a2a3a' },
-  CONSEIL: { label: '💡 Conseil', color: '#2a1a3a' },
-  CTA: { label: null, color: null, isCta: true },
-  QUESTION: { label: '💬 Question de la semaine', color: '#1a2a1a' },
-  SIGNATURE: { label: null, color: null, isSignature: true },
-}
-
 function esc(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-function linkify(str) {
-  return esc(str).replace(
-    /(https?:\/\/[^\s<]+)/g,
-    '<a href="$1" style="color:#C9A84C;font-weight:700;">$1</a>'
-  )
-}
+function renderBody(text) {
+  // Supprime les lignes OBJET/PREHEADER et le séparateur ---
+  const cleaned = text
+    .replace(/^OBJET\s*:.+$/im, '')
+    .replace(/^PREHEADER\s*:.+$/im, '')
+    .replace(/^---+$/m, '')
+    .trim()
 
-function parseSection(raw) {
-  const match = raw.match(/^(OBJET|PREHEADER|INTRO|CE QUI A BOUGÉ|SIGNAL|CONSEIL|CTA|QUESTION|SIGNATURE)\s*[:\-]?\s*/i)
-  if (!match) return { key: null, content: raw.trim() }
-  return {
-    key: match[1].toUpperCase().trim(),
-    content: raw.slice(match[0].length).trim(),
+  // Détecte le bloc CTA : ligne entre crochets contenant une URL Gumroad
+  // Ex: [Faire mon propre calcul (19,99 €) → https://...]
+  const ctaRegex = /\[([^\]]+https?:\/\/[^\]]+)\]/g
+  const internalLinkRegex = /(https?:\/\/diaspoinvest\.fr\/[^\s<"]+)/g
+
+  let html = ''
+  const paragraphs = cleaned.split(/\n{2,}/)
+
+  for (const block of paragraphs) {
+    const trimmed = block.trim()
+    if (!trimmed) continue
+
+    // Bloc CTA Gumroad
+    const ctaMatch = trimmed.match(/^\[([^\]]*https?:\/\/diaspoinvest\.gumroad[^\]]*)\]$/)
+    if (ctaMatch) {
+      const inner = ctaMatch[1]
+      const urlMatch = inner.match(/(https?:\/\/[^\s\]]+)/)
+      const url = urlMatch ? urlMatch[1] : '#'
+      const label = esc(inner.replace(/(https?:\/\/[^\s\]]+)/g, '').replace(/[→>]/g, '').trim())
+      html += `
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:32px 0;">
+          <tr><td align="center">
+            <a href="${url}" style="display:inline-block;background:#C9A84C;color:#0D1525;font-weight:800;font-size:15px;padding:14px 32px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;letter-spacing:0.2px;">
+              ${label || 'Accéder au produit'} &rarr;
+            </a>
+          </td></tr>
+        </table>`
+      continue
+    }
+
+    // Signature "À très vite" ou "Jordan,"
+    if (/^(À très vite|A très vite|Jordan,)/i.test(trimmed)) {
+      html += `
+        <div style="margin-top:32px;padding-top:24px;border-top:1px solid #f0f0f0;">
+          <p style="margin:0;font-size:15px;color:#555;font-family:Georgia,serif;line-height:1.7;">${esc(trimmed).replace(/\n/g, '<br>')}</p>
+        </div>`
+      continue
+    }
+
+    // Paragraphe normal — linkifie les liens DiaspoInvest
+    const lines = trimmed.split('\n').map(line => {
+      return esc(line).replace(
+        /https?:\/\/diaspoinvest\.(fr|gumroad\.com)\/[^\s<&]+/g,
+        url => `<a href="${url}" style="color:#C9A84C;font-weight:600;text-decoration:underline;">${url}</a>`
+      )
+    }).join('<br>')
+
+    html += `<p style="margin:0 0 18px;font-size:16px;line-height:1.8;color:#2d2d2d;font-family:Georgia,serif;">${lines}</p>`
   }
-}
 
-function renderParagraphs(text) {
-  return text.split(/\n{2,}/).map(block => {
-    const lines = block.split('\n').map(linkify).join('<br>')
-    return `<p style="margin:0 0 14px;font-size:16px;line-height:1.75;color:#2d2d2d;font-family:Georgia,serif;">${lines}</p>`
-  }).join('')
+  return html
 }
 
 function textToHtml(text) {
-  // Découpe par sections
-  const rawSections = text.split(/\n(?=(?:OBJET|PREHEADER|INTRO|CE QUI A BOUGÉ|SIGNAL|CONSEIL|CTA|QUESTION|SIGNATURE)\s*[:\-]?)/i)
-  const sections = rawSections.map(parseSection).filter(s => s.content.length > 0)
-
-  let introHtml = ''
-  let bodyHtml = ''
-
-  for (const s of sections) {
-    const key = s.key
-    const content = s.content
-
-    if (!key || key === 'OBJET' || key === 'PREHEADER') continue
-
-    if (key === 'INTRO') {
-      introHtml = `<div style="padding:0 0 24px;">${renderParagraphs(content)}</div>`
-      continue
-    }
-
-    if (key === 'SIGNATURE') {
-      bodyHtml += `
-        <div style="margin-top:32px;padding-top:24px;border-top:2px solid #f0f0f0;">
-          <p style="margin:0;font-size:15px;color:#444;font-family:Georgia,serif;font-style:italic;">${linkify(content)}</p>
-        </div>`
-      continue
-    }
-
-    if (key === 'CTA') {
-      // Extraire l'URL s'il y en a une
-      const urlMatch = content.match(/(https?:\/\/[^\s]+)/)
-      const url = urlMatch ? urlMatch[1] : 'https://diaspoinvest.gumroad.com/l/tocir'
-      const ctaText = esc(content.replace(/(https?:\/\/[^\s]+)/g, '').trim()) || 'Obtenir le Tracker Dashboard'
-      bodyHtml += `
-        <div style="margin:28px 0;padding:24px;background:#0D1525;border-radius:10px;text-align:center;">
-          <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);font-family:Georgia,serif;line-height:1.6;">${ctaText}</p>
-          <a href="${url}" style="display:inline-block;background:#C9A84C;color:#0D1525;font-weight:800;font-size:15px;padding:14px 32px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;">
-            Obtenir le Tracker Dashboard &rarr;
-          </a>
-          <p style="margin:12px 0 0;font-size:12px;color:rgba(255,255,255,0.4);font-family:Arial,sans-serif;">19,99&nbsp;&euro; &mdash; offre valable jusqu'&agrave; fin juillet 2026</p>
-        </div>`
-      continue
-    }
-
-    const meta = SECTION_LABELS[key] || {}
-    const bg = meta.color || '#f8f8f8'
-    const label = meta.label || key
-
-    bodyHtml += `
-      <div style="margin:0 0 24px;border-radius:10px;overflow:hidden;">
-        <div style="background:${bg};padding:10px 20px;">
-          <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);font-family:Arial,sans-serif;letter-spacing:0.5px;">${label}</span>
-        </div>
-        <div style="padding:20px;background:#fafafa;border:1px solid #ebebeb;border-top:none;border-radius:0 0 10px 10px;">
-          ${renderParagraphs(content)}
-        </div>
-      </div>`
-  }
+  const bodyHtml = renderBody(text)
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -110,38 +83,26 @@ function textToHtml(text) {
 <body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,serif;">
   <div style="max-width:600px;margin:24px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
 
-    <!-- Header -->
-    <div style="background:#0D1525;padding:24px 32px;display:block;">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td>
-            <span style="font-family:Arial,sans-serif;font-size:24px;font-weight:900;color:#C9A84C;letter-spacing:-0.5px;">Diaspo</span><span style="font-family:Arial,sans-serif;font-size:24px;font-weight:900;color:#ffffff;">Invest</span>
-          </td>
-          <td align="right">
-            <span style="font-size:12px;color:rgba(255,255,255,0.35);font-family:Arial,sans-serif;">Newsletter BRVM</span>
-          </td>
-        </tr>
-      </table>
+    <!-- Header avec logo -->
+    <div style="background:#0D1525;padding:20px 32px;text-align:center;">
+      <img src="https://diaspoinvest.fr/logo-email.jpg" alt="DiaspoInvest" width="180" style="display:block;margin:0 auto;max-width:180px;height:auto;" />
     </div>
 
-    <!-- Intro -->
-    <div style="padding:32px 32px 8px;">
-      ${introHtml}
-    </div>
-
-    <!-- Sections -->
-    <div style="padding:0 32px 32px;">
+    <!-- Corps lettre -->
+    <div style="padding:36px 40px 28px;">
       ${bodyHtml}
     </div>
 
-    <!-- Disclaimer -->
+    <!-- Footer légal -->
     <div style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee;">
-      <p style="margin:0 0 8px;font-size:11px;color:#999;font-family:Arial,sans-serif;line-height:1.6;">
-        DiaspoInvest est un projet &eacute;ducatif ind&eacute;pendant, non affili&eacute; &agrave; la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.
+      <p style="margin:0 0 8px;font-size:11px;color:#aaa;font-family:Arial,sans-serif;line-height:1.6;text-align:center;">
+        DiaspoInvest est un projet &eacute;ducatif ind&eacute;pendant, non affili&eacute; &agrave; la BRVM ni au CREPMF.<br>
+        Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.
       </p>
-      <p style="margin:0;font-size:11px;color:#bbb;font-family:Arial,sans-serif;text-align:center;">
-        Tu re&ccedil;ois cet email car tu t'es inscrit(e) sur <a href="https://diaspoinvest.fr" style="color:#C9A84C;">diaspoinvest.fr</a> &nbsp;&bull;&nbsp;
-        <a href="{{unsubscribe}}" style="color:#bbb;">Se d&eacute;sabonner</a>
+      <p style="margin:8px 0 0;font-size:11px;color:#ccc;font-family:Arial,sans-serif;text-align:center;">
+        Tu re&ccedil;ois cet email car tu t'es inscrit(e) sur <a href="https://diaspoinvest.fr" style="color:#C9A84C;">diaspoinvest.fr</a>
+        &nbsp;&bull;&nbsp;
+        <a href="{{unsubscribe}}" style="color:#ccc;">Se d&eacute;sabonner</a>
       </p>
     </div>
 
