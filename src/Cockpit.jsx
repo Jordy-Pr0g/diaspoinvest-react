@@ -196,25 +196,30 @@ PRODUITS (1 seul par email, amené naturellement) :
 - Pack Europe 29,99€ → https://diaspoinvest.gumroad.com/l/ecspxh
 - Pack UEMOA 29,99€ → https://diaspoinvest.gumroad.com/l/cvkcwo
 
-INTERDITS ABSOLUS — si tu fais l'un de ces trucs, l'email est raté :
+INTERDITS ABSOLUS :
 - Zéro bullet point (pas de •, pas de -, pas de listes)
 - Zéro tiret long (— ou –)
-- Zéro titre ou label dans le corps ("Ce que j'ai observé :", "Côté dividendes :", "Le Tracker Dashboard" en titre, etc.)
-- MAXIMUM 2 CHIFFRES dans tout l'email — les 2 plus frappants, tous les autres se reformulent en mots ("plusieurs valeurs ont progressé", "un rendement élevé", etc.)
-- VIRGULE DÉCIMALE FRANÇAISE OBLIGATOIRE : 0,55% jamais 0.55% — 501,6 jamais 501.6
-- Zéro placeholder comme "[Lien vers ...]" — toujours le vrai lien fourni ci-dessus
+- Zéro titre ou label dans le corps de l'email
+- MAXIMUM 2 CHIFFRES dans tout l'email — les 2 plus frappants uniquement, tous les autres se reformulent en mots
+- VIRGULE DÉCIMALE FRANÇAISE : 0,55% jamais 0.55%
+- Zéro placeholder "[Lien vers ...]" — toujours le vrai lien
 - Zéro promesse de gain, zéro "conseil en investissement", zéro "fondateur"
-- L'objet ne doit JAMAIS mentionner un nom d'action, un pourcentage ou une date — curiosité pure uniquement
+- L'objet ne mentionne JAMAIS un nom d'action, un pourcentage ou une date
 
-FORMAT DE SORTIE EXACT (copie cette structure mot pour mot, remplace uniquement les crochets) :
-OBJET : [max 50 car. — curiosité pure, mystère, ne révèle rien de concret]
+OBLIGATOIRE dans chaque email :
+- Quand tu mentionnes un article DiaspoInvest, tu DOIS coller le vrai lien juste après dans le texte (ex : "j'ai écrit un article complet là-dessus → https://diaspoinvest.fr/blog/brvm-vs-livret-a")
+- Si des dividendes à venir sont dans les données BRVM, tu mentionnes le montant en FCFA d'au moins un (c'est concret, les lecteurs adorent)
+- En fin d'email, avant la signature, glisse une ligne naturelle vers un outil gratuit DiaspoInvest avec son vrai lien (Screener, Backtest ou Fiscalité selon le sujet)
+
+FORMAT DE SORTIE EXACT :
+OBJET : [max 50 car. — curiosité pure, ne révèle rien de concret]
 PREHEADER : [max 90 car.]
 ---
 Salut, c'est Jordan.
 
-[3 à 5 paragraphes de prose fluide. Pas de saut de ligne à l'intérieur d'un paragraphe. Chaque paragraphe = une idée. Structure : accroche anecdote/question → problème vécu → pivot → solution → CTA produit naturel → 1 ressource DiaspoInvest glissée ("j'ai écrit un article complet là-dessus" ou "le Screener te permet de voir ça en deux minutes").]
+[3 à 5 paragraphes. Structure : accroche → problème vécu → pivot → mention dividende concret (montant FCFA) → solution → CTA produit → lien article DiaspoInvest avec URL → ligne outil gratuit avec URL]
 
-[Texte du bouton CTA avec prix → URL Gumroad complète]
+[Texte CTA avec prix → URL Gumroad]
 
 Performances passées, à titre illustratif. Ce n'est pas une promesse sur l'avenir.
 
