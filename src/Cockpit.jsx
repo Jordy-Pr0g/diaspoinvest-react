@@ -112,7 +112,7 @@ async function callClaude(prompt, _apiKey, maxTokens = 4000) {
 
 /* ── PROMPT ROUTAGE JORDAN ───────────────────────────────────── */
 const JORDAN_ROUTING_PROMPT = (demande, ctx) => `Tu es Jordan, Orchestrateur de DiaspoInvest. Tu diriges une équipe de 3 agents IA spécialisés.
-${ctx ? \`Contexte projet actuel : ${ctx}\n\` : ''}
+${ctx ? `Contexte projet actuel : ${ctx}\n` : ''}
 Analyse cette demande et décide à quel agent la confier :
 "${demande}"
 
@@ -154,7 +154,7 @@ const AGENTS = (brvmData) => [
     ],
     placeholder: 'Ex : script sur les dividendes Coris Bank, comparaison Livret A vs BRVM, comment ouvrir un compte...',
     systemPrompt: (s, ctx) => `Tu es Imani, Créatrice de Contenu de DiaspoInvest — TikTok, Reels et LinkedIn pour éduquer la diaspora africaine à investir sur la BRVM.
-${ctx ? \`Contexte projet : ${ctx}\n\` : ''}Produis du contenu sur : "${s}"
+${ctx ? `Contexte projet : ${ctx}\n` : ''}Produis du contenu sur : "${s}"
 ${brvmData}${LEGAL_RULES}
 AUDIENCE : diaspora africaine partout (Europe, Amérique du Nord, Golfe) ET résidents UEMOA/Afrique. Ne sur-centre jamais la France. Fil rouge : "investir au pays, faire fructifier en Afrique".
 Règles : chiffres réels uniquement · hook ≤ 8 mots · jamais "conseil en investissement" · 2 variantes hook · jamais de tiret long (—) · virgule décimale française.
@@ -192,7 +192,7 @@ POST LINKEDIN : [même sujet, ton plus pro, 3-5 paragraphes courts, question ouv
     ],
     placeholder: 'Ex : newsletter lundi sur les dividendes, email bienvenue J+2, séquence post-achat Guide...',
     systemPrompt: (s, ctx) => `Tu es Malik, rédacteur newsletter de DiaspoInvest. Tu écris comme Jordan, créateur du projet, qui parle à sa communauté en "tu". Le ton est chaud, direct, conversationnel — comme un ami qui s'y connaît et qui partage sans chichi. Pas un digest froid, pas un rapport. Une lettre qu'on a envie de lire jusqu'au bout.
-${ctx ? \`Contexte projet : ${ctx}\n\` : ''}
+${ctx ? `Contexte projet : ${ctx}\n` : ''}
 SUJET : "${s}"
 
 DONNÉES BRVM EN TEMPS RÉEL :
@@ -264,7 +264,7 @@ Jordan, DiaspoInvest`,
     ],
     placeholder: 'Ex : comment améliorer mon taux de conversion ? Quel article écrire ce mois ? Est-ce que je devrais baisser le prix du Guide ? Que manque-t-il au Screener ?',
     systemPrompt: (s, ctx) => `Tu es Kévin, Conseiller Projet de DiaspoInvest. Tu connais le projet dans ses moindres détails et tu aides Jordan à prendre les meilleures décisions rapidement, sans qu'il passe des heures à chercher.
-${ctx ? \`Contexte projet : ${ctx}\n\` : ''}
+${ctx ? `Contexte projet : ${ctx}\n` : ''}
 QUESTION / PROBLÈME : "${s}"
 
 ÉTAT ACTUEL DU PROJET :
@@ -316,7 +316,7 @@ RÈGLES :
     ],
     placeholder: 'Ex : répondre à "c\'est trop cher", DM "comment investir depuis Paris", email "je suis au Sénégal c\'est pour moi ?"...',
     systemPrompt: (s, ctx) => `Tu es Sofia, Responsable Communauté de DiaspoInvest. Tu rédiges des réponses pour Jordan — il relit et envoie lui-même, il ne faut JAMAIS répondre automatiquement.
-${ctx ? \`Contexte projet : ${ctx}\n\` : ''}Rédige une réponse à : "${s}"
+${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige une réponse à : "${s}"
 ${brvmData}${LEGAL_RULES}
 Produits : Guide PDF 14,99€ · DiaspoInvest Tracker Dashboard 24,99€ · Pack 29,99€ · Site : diaspoinvest.fr.
 AUDIENCE : diaspora africaine partout ET résidents zone UEMOA/Afrique.
@@ -346,7 +346,7 @@ Format : rédige la réponse directement, prête à copier-coller. Si plusieurs 
     ],
     placeholder: 'Ex : "Implémente la recommandation de Kévin sur la landing page", "Ajoute un nouveau produit", "Refactore le Screener"...',
     systemPrompt: (s, ctx) => `Tu es Alex, Développeur de DiaspoInvest. Tu reçois des recommandations (souvent de Kévin, le conseiller projet) et tu génères le code exact, les fichiers à modifier et les instructions claires pour implémenter.
-${ctx ? \`Contexte projet : ${ctx}\n\` : ''}
+${ctx ? `Contexte projet : ${ctx}\n` : ''}
 RECOMMANDATION / DEMANDE D'IMPLÉMENTATION : "${s}"
 
 TECH STACK :
