@@ -56,6 +56,22 @@ COUVERTURE JURIDIQUE (OBLIGATOIRE dans tout contenu public — newsletter, TikTo
 
 const HISTORY_KEY = (id) => `di_history_${id}`
 const CONTEXT_KEY = 'di_projet_context'
+
+const DEFAULT_CONTEXT = `DiaspoInvest est le point de référence francophone sur l'investissement à la BRVM (Bourse Régionale des Valeurs Mobilières, zone UEMOA, 8 pays d'Afrique de l'Ouest). Projet solo créé par Jordan DJIOKAP, étudiant en Finance d'Entreprise et Ingénierie Financière, Paris.
+
+AUDIENCE : Toute personne intéressée par l'investissement BRVM — diaspora africaine partout dans le monde, résidents UEMOA, débutants complets ou personnes déjà investies. Pas de profil unique. Fil conducteur : vouloir investir sur le continent sans savoir par où commencer.
+
+ORIGINE : Jordan avait un PEA en France, a découvert la BRVM via un proche, a cherché des ressources en français, n'en a pas trouvé de structurées, a tout compilé lui-même. DiaspoInvest est né de ce manque.
+
+DIFFÉRENCIATION : Approche structurée, en français, par quelqu'un qui vit la même situation que ses lecteurs. Pas de jargon, pas de contenu générique.
+
+TON : Chaud, direct, fraternel. Comme un ami qui s'y connaît. Première personne, "tu". Jamais condescendant, jamais guru, jamais vendeur agressif.
+
+LIGNES ROUGES : Jamais conseiller en investissement. Jamais de recommandation personnalisée. Jamais de promesse de rendement. Jamais affilié BRVM/CREPMF. Jordan n'est pas "fondateur".
+
+VISION : Devenir la référence francophone incontournable sur la BRVM. Communauté établie. Pour Jordan : aboutissement personnel, compétences finance pour sa carrière.
+
+RÈGLES UNIVERSELLES : Virgule décimale française (0,55% jamais 0.55%). Jamais tiret long. Jamais bullet points dans emails. Max 2 chiffres par email. Chaque mention article/outil = lien URL immédiatement après. Signature : "Jordan, DiaspoInvest".`
 const NOTION_KEY_STORE = 'di_notion_key'
 const NOTION_DB_STORE = 'di_notion_db'
 const MAX_HISTORY = 20
@@ -817,7 +833,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
 export default function Cockpit() {
   const [activeAgent, setActiveAgent] = useState(null)
   const [entered, setEntered] = useState(false)
-  const [projetContext, setProjetContext] = useState(() => localStorage.getItem(CONTEXT_KEY) || '')
+  const [projetContext, setProjetContext] = useState(() => localStorage.getItem(CONTEXT_KEY) || DEFAULT_CONTEXT)
   const [editingContext, setEditingContext] = useState(false)
   const [highlightedId, setHighlightedId] = useState(null)
   const [showNotionSettings, setShowNotionSettings] = useState(false)
