@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react'
+import { useState, lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar.jsx'
@@ -8,6 +8,7 @@ import Footer from './components/Footer.jsx'
 import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
 import CookieBanner from './components/CookieBanner.jsx'
+import SegmentQuiz from './components/SegmentQuiz.jsx'
 
 const Probleme    = lazy(() => import('./components/Probleme.jsx'))
 const Histoire    = lazy(() => import('./components/Histoire.jsx'))
@@ -27,8 +28,19 @@ const NotFound  = lazy(() => import('./pages/NotFound.jsx'))
 
 function LandingPage() {
   const [modal, setModal] = useState(null)
+  const [showQuiz, setShowQuiz] = useState(false)
+
+  useEffect(() => {
+    const quizShown = sessionStorage.getItem('diaspoinvest_quiz_shown')
+    if (!quizShown) {
+      setShowQuiz(true)
+      sessionStorage.setItem('diaspoinvest_quiz_shown', 'true')
+    }
+  }, [])
+
   return (
     <>
+      {showQuiz && <SegmentQuiz onComplete={() => setShowQuiz(false)} />}
       <Navbar />
       <main>
         <Hero />
