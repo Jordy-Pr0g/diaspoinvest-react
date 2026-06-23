@@ -71,7 +71,7 @@ export default function APropos() {
                 "Rendre la bourse africaine aussi accessible que l'investissement en Europe."
               </p>
               <p style={{ margin: '14px 0 0', fontSize: 13, color: OR, fontWeight: 700 }}>
-                Jordan DJIOKAP, fondateur de DiaspoInvest
+                Jordan DJIOKAP — DiaspoInvest
               </p>
             </div>
 
