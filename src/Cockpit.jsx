@@ -189,12 +189,14 @@ RESSOURCES DIASPOINVEST (glisse-en 1 naturellement selon le sujet, jamais en lis
 - Article "Ouvrir un compte SGI" → https://diaspoinvest.fr/blog/ouvrir-compte-sgi-depuis-etranger
 - Article "Déclarer aux impôts" → https://diaspoinvest.fr/blog/declarer-compte-brvm-impots-france
 
-PRODUITS (1 seul par email, amené naturellement) :
-- Tracker Dashboard 19,99€ au lieu de 34,99€ → https://diaspoinvest.gumroad.com/l/tocir
-- Guide PDF Europe 14,99€ → https://diaspoinvest.gumroad.com/l/oxxzda
-- Guide PDF UEMOA 14,99€ → https://diaspoinvest.gumroad.com/l/dpqvqo
-- Pack Europe 29,99€ → https://diaspoinvest.gumroad.com/l/ecspxh
+PRODUITS (choisis selon le sujet, bouton CTA = 1 seul) :
+- Guide PDF Europe 14,99€ — le plus accessible, idéal pour comprendre le marché BRVM depuis zéro → https://diaspoinvest.gumroad.com/l/oxxzda
+- Guide PDF UEMOA 14,99€ — même chose pour les résidents UEMOA → https://diaspoinvest.gumroad.com/l/dpqvqo
+- Tracker Dashboard 19,99€ au lieu de 34,99€ — pour suivre portefeuille, dividendes et fiscalité → https://diaspoinvest.gumroad.com/l/tocir
+- Pack Europe 29,99€ — Guide + Tracker → https://diaspoinvest.gumroad.com/l/ecspxh
 - Pack UEMOA 29,99€ → https://diaspoinvest.gumroad.com/l/cvkcwo
+
+CHOIX PRODUIT : sujet débutant / comprendre le marché / premier investissement → Guide en avant ("pour poser les bases, j'ai rédigé un guide complet à 14,99€"). Sujet portefeuille / dividendes / fiscalité → Tracker. Tu peux mentionner les deux en une phrase ("le Guide pour comprendre, le Tracker pour suivre") mais le bouton CTA pointe vers un seul des deux.
 
 INTERDITS ABSOLUS :
 - Zéro bullet point (pas de •, pas de -, pas de listes)
