@@ -61,7 +61,7 @@ const CONTENU = {
 
         <h4>Paiements</h4>
         <p>
-          Les achats sont traités exclusivement par Lemon Squeezy (A Lemon Squeezy LLC company).
+          Les achats sont traités exclusivement par Gumroad (Gumroad, Inc.).
           DiaspoInvest ne stocke aucune donnée bancaire ou de carte de paiement.
         </p>
 
@@ -121,7 +121,7 @@ const CONTENU = {
 
         <h4>Commande et paiement</h4>
         <p>
-          Les achats sont effectués via la plateforme Lemon Squeezy. Le paiement est exigible
+          Les achats sont effectués via la plateforme Gumroad. Le paiement est exigible
           à la commande. Après confirmation du paiement, le produit est livré immédiatement
           par email à l'adresse fournie lors de la commande.
         </p>

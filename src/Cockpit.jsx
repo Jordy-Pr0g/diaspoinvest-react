@@ -174,7 +174,7 @@ POST LINKEDIN : [même sujet, ton plus pro, 3-5 paragraphes courts, question ouv
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige : "${s}"
 ${brvmData}${LEGAL_RULES}
 AUDIENCE : diaspora africaine partout ET résidents UEMOA. Jamais sur-centré sur la France.
-Produits : Guide PDF 14,99€ · DiaspoInvest Tracker Dashboard 24,99€ · Pack 29,99€ (Lemon Squeezy).
+Produits (Gumroad) : Guide PDF Europe 14,99€ → https://diaspoinvest.gumroad.com/l/oxxzda · Guide PDF UEMOA 14,99€ → https://diaspoinvest.gumroad.com/l/dpqvqo · Tracker Dashboard 24,99€ → https://diaspoinvest.gumroad.com/l/tocir · Pack Europe 29,99€ → https://diaspoinvest.gumroad.com/l/ecspxh · Pack UEMOA 29,99€ → https://diaspoinvest.gumroad.com/l/cvkcwo.
 Règles : jamais de tiret long ni de tiret court utilisé comme tiret long · virgule décimale française · jamais "conseil en investissement" · toujours sourcer les chiffres · ton sobre, fraternel, direct.
 Structure newsletter : OBJET (≤55 car.) · PREHEADER · INTRO chiffre BRVM · CE QUI A BOUGÉ · SIGNAL · CONSEIL · CTA Tracker Dashboard · QUESTION engagement A/B/C · SIGNATURE : "Jordan — DiaspoInvest" (rien d'autre).`,
   },
