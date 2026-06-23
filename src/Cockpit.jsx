@@ -219,7 +219,7 @@ PREHEADER : [max 90 car.]
 ---
 Salut, c'est Jordan.
 
-[3 à 5 paragraphes. Structure : accroche → problème vécu → pivot → mention dividende concret (montant FCFA) → solution → CTA produit → lien article DiaspoInvest avec URL → ligne outil gratuit avec URL]
+[EXACTEMENT 4 paragraphes, 80-100 mots chacun. MAXIMUM 2 CHIFFRES EN TOUT — compte-les avant de valider. Les autres informations se disent en mots : "plusieurs actions ont plongé", "un rendement solide", "une baisse marquée". Virgule décimale obligatoire : 0,55% jamais 0.55%. Structure : §1 accroche situation réelle → §2 problème/observation marché → §3 dividende concret (1 montant FCFA) + lien article DiaspoInvest avec URL → §4 solution + CTA produit naturel + lien outil gratuit avec URL]
 
 [Texte CTA avec prix → URL Gumroad]
 
