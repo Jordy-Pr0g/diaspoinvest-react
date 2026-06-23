@@ -7,7 +7,6 @@ import Stats from './components/Stats.jsx'
 import Footer from './components/Footer.jsx'
 import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
-import CookieBanner from './components/CookieBanner.jsx'
 import SegmentQuiz from './components/SegmentQuiz.jsx'
 
 const Probleme    = lazy(() => import('./components/Probleme.jsx'))
@@ -19,24 +18,25 @@ const LeadMagnet  = lazy(() => import('./components/LeadMagnet.jsx'))
 const Pricing     = lazy(() => import('./components/Pricing.jsx'))
 const APropos     = lazy(() => import('./pages/APropos.jsx'))
 const BlogIndex   = lazy(() => import('./pages/BlogIndex.jsx'))
-const BlogPost  = lazy(() => import('./pages/BlogPost.jsx'))
-const Screener  = lazy(() => import('./pages/Screener.jsx'))
-const Backtest  = lazy(() => import('./pages/Backtest.jsx'))
-const Guides    = lazy(() => import('./pages/Guides.jsx'))
-const Fiscalite = lazy(() => import('./pages/Fiscalite.jsx'))
-const NotFound  = lazy(() => import('./pages/NotFound.jsx'))
+const BlogPost    = lazy(() => import('./pages/BlogPost.jsx'))
+const Screener    = lazy(() => import('./pages/Screener.jsx'))
+const Backtest    = lazy(() => import('./pages/Backtest.jsx'))
+const Guides      = lazy(() => import('./pages/Guides.jsx'))
+const Fiscalite   = lazy(() => import('./pages/Fiscalite.jsx'))
+const NotFound    = lazy(() => import('./pages/NotFound.jsx'))
 
 function LandingPage() {
   const [modal, setModal] = useState(null)
-  const [showQuiz, setShowQuiz] = useState(false)
+  const [showQuiz, setShowQuiz] = useState(() => {
+    const shown = sessionStorage.getItem('diaspoinvest_quiz_shown')
+    return !shown
+  })
 
   useEffect(() => {
-    const quizShown = sessionStorage.getItem('diaspoinvest_quiz_shown')
-    if (!quizShown) {
-      setShowQuiz(true)
+    if (!showQuiz) {
       sessionStorage.setItem('diaspoinvest_quiz_shown', 'true')
     }
-  }, [])
+  }, [showQuiz])
 
   return (
     <>
@@ -58,7 +58,6 @@ function LandingPage() {
       <Footer onOpenModal={setModal} />
       <StickyCTA />
       <Modal type={modal} onClose={() => setModal(null)} />
-      <CookieBanner />
     </>
   )
 }
