@@ -11,7 +11,7 @@ Réponse rapide : Oui, tu peux ouvrir un compte SGI depuis la France, la Belgiqu
 
 "Jordan, j'habite à Lyon, est-ce que je peux vraiment ouvrir un compte sans prendre l'avion pour Abidjan ?"
 
-C'est la question la plus fréquente dans la communauté DiaspoInvest. Et c'est aussi la première objection qui empêche beaucoup de membres de la diaspora de passer à l'action.
+C'est l'une des questions les plus fréquentes. Et c'est aussi la première objection qui empêche beaucoup de personnes de la diaspora de passer à l'action.
 
 La réponse est oui. Entièrement à distance.
 
@@ -111,7 +111,7 @@ Le délai de J1 à J30 est réaliste pour un dossier complet envoyé du premier 
 
 Ce guide t'explique le processus général. Il ne te dit pas quelle SGI choisir pour ta situation précise : les frais varient entre 0,5 % et 1,5 % selon la SGI et le montant, certaines ont des frais de tenue de compte annuels, certaines ont des interfaces utilisables sur mobile et d'autres non.
 
-Des membres de la communauté ont ouvert leur compte dans une SGI avec de mauvais délais de réponse, des frais cachés découverts après les premiers ordres, ou une interface client qui rend le suivi du portefeuille compliqué. Ce genre d'erreur se corrige difficilement une fois le compte ouvert.
+Certains investisseurs ont ouvert leur compte dans une SGI avec de mauvais délais de réponse, des frais cachés découverts après les premiers ordres, ou une interface client qui rend le suivi du portefeuille compliqué. Ce genre d'erreur se corrige difficilement une fois le compte ouvert.
 
 Le Guide DiaspoInvest (14,99 EUR) compare les 4 principales SGI qui acceptent la diaspora avec les frais exacts, les délais réels constatés, et la liste précise des documents acceptés et refusés par chaque SGI. Il inclut aussi un plan d'action complet post-ouverture et les erreurs à éviter les 6 premiers mois.
 
@@ -122,7 +122,7 @@ Le Guide DiaspoInvest (14,99 EUR) compare les 4 principales SGI qui acceptent la
 ## Questions fréquentes
 
 **Peut-on ouvrir un compte SGI sans avoir d'argent à investir immédiatement ?**
-Oui. L'ouverture de compte ne nécessite pas de dépôt immédiat. Tu peux ouvrir, recevoir tes identifiants, et alimenter quand tu es prêt. Beaucoup de membres de la communauté ouvrent leur compte en avance, pendant qu'ils mettent de côté leur premier montant.
+Oui. L'ouverture de compte ne nécessite pas de dépôt immédiat. Tu peux ouvrir, recevoir tes identifiants, et alimenter quand tu es prêt. Beaucoup de personnes ouvrent leur compte en avance, pendant qu'elles mettent de côté leur premier montant.
 
 **Peut-on avoir des comptes dans plusieurs SGI en même temps ?**
 Oui. Certains investisseurs expérimentés utilisent deux SGI pour se couvrir en cas de problème avec l'une d'elles. Chaque compte doit être déclaré séparément sur le formulaire 3916.

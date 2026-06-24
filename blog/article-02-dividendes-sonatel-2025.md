@@ -6,7 +6,7 @@
 
 ---
 
-Réponse rapide : Sonatel a versé 1 740 FCFA de dividende par action en 2025, soit un rendement brut de 6,18 %. Pour un résident en France après flat tax de 30 %, le rendement net est de 4,33 %, soit environ 2,9 fois ce que rapporte le Livret A. Les dividendes sont versés automatiquement une fois par an sur ton compte SGI.
+Réponse rapide : Sonatel a versé 1 740 FCFA de dividende par action, soit un rendement brut d'environ 6,13 %. Pour un résident en France après flat tax de 30 %, le rendement net est de 4,29 %, soit près de 3 fois ce que rapporte le Livret A (1,5 %). Les dividendes sont versés automatiquement une fois par an sur ton compte SGI.
 
 ---
 
@@ -16,7 +16,7 @@ Chaque année. Sans vendre. Sans rien gérer.
 
 C'est le dividende que Sonatel a versé à ses actionnaires en 2025. Pas une projection. Pas une promesse de commercial. Un virement réel, en FCFA, sur le compte de chaque personne qui détenait des actions Sonatel à la date de détachement.
 
-Et tu sais ce qui est intéressant ? La plupart des membres de la diaspora qui ont de l'argent qui dort sur un Livret A à 3 % ne savent pas que Sonatel verse des dividendes. Ou ne savent pas combien. Ou ne savent pas comment calculer ce que ça donne pour eux, nets d'impôts, en euros.
+Et tu sais ce qui est intéressant ? La plupart des personnes de la diaspora qui ont de l'argent qui dort sur un Livret A à 1,5 % ne savent pas que Sonatel verse des dividendes. Ou ne savent pas combien. Ou ne savent pas comment calculer ce que ça donne pour eux, nets d'impôts, en euros.
 
 Voilà exactement ce que cet article va calculer, avec les vrais chiffres du marché au 19 juin 2026, selon le nombre d'actions que tu détiens, et selon où tu résides.
 
@@ -55,18 +55,19 @@ Données au 19 juin 2026 :
 
 | Indicateur | Valeur |
 |---|---|
-| Cours de l'action | 28 150 FCFA (43 EUR) |
-| Dividende versé en 2025 | 1 740 FCFA par action (2,65 EUR) |
-| Rendement brut | 6,18 % |
-| Rendement net résident France (-30 %) | 4,33 % |
-| Rendement net résident Sénégal (-10 % IRVM) | 5,56 % |
-| Rendement net résident Côte d'Ivoire (-12 % IRVM) | 5,44 % |
+| Cours de l'action | 28 400 FCFA (43 EUR) |
+| Dividende versé | 1 740 FCFA par action (2,65 EUR) |
+| Rendement brut | 6,13 % |
+| Rendement net résident France (-30 %) | 4,29 % |
+| Rendement net résident UEMOA (-10 % IRVM Sénégal) | 5,52 % |
 
-Source : brvm.org, 19 juin 2026
+Source : brvm.org, sikafinance.com, 16 juin 2026
 
-Pour replacer ça dans un contexte que tout le monde comprend : le Livret A français est à 3 %. L'immobilier locatif moyen en France : 4 à 5 % brut, avant charges, avant fiscalité, avant les nuits blanches quand le locataire ne paie pas.
+Note : Sonatel est une société sénégalaise. L'IRVM de 10 % s'applique donc à tous les résidents de l'UEMOA, quel que soit leur pays.
 
-Sonatel verse 6,18 % brut. Tu ne gères rien. Tu ne réponds à aucun appel. Tu attends que le dividende tombe sur ton compte.
+Pour replacer ça dans un contexte que tout le monde comprend : le Livret A français est à 1,5 %. L'immobilier locatif moyen en France : 4 à 5 % brut, avant charges, avant fiscalité, avant les nuits blanches quand le locataire ne paie pas.
+
+Sonatel verse 6,13 % brut. Tu ne gères rien. Tu ne réponds à aucun appel. Tu attends que le dividende tombe sur ton compte.
 
 ---
 
@@ -144,7 +145,7 @@ La stratégie compte autant que l'action. Combien mettre par mois ? Sur quelle a
 
 Et la convention fiscale France/CI peut changer ton calcul. Si ta SGI est en Côte d'Ivoire, l'IRVM ivoirien prélevé à la source peut s'imputer sur ta flat tax française. La plupart des investisseurs ne savent pas que ce mécanisme existe et paient deux fois.
 
-Des membres de la communauté ont passé des semaines à naviguer ces questions seuls, à choisir la mauvaise action pour commencer, ou à mal déclarer leurs dividendes la première année. Le Guide DiaspoInvest (14,99 EUR) existe pour raccourcir ce chemin, avec les analyses des principales actions à dividende, la stratégie DCA adaptée à ton profil, et la fiche fiscale complète selon ton pays de résidence.
+Beaucoup d'investisseurs de la diaspora ont passé des semaines à naviguer ces questions seuls, à choisir la mauvaise action pour commencer, ou à mal déclarer leurs dividendes la première année. Le Guide DiaspoInvest (14,99 EUR) existe pour raccourcir ce chemin, avec les analyses des principales actions à dividende, la stratégie DCA adaptée à ton profil, et la fiche fiscale complète selon ton pays de résidence.
 
 [J'accède au Guide DiaspoInvest à 14,99 EUR →](https://diaspoinvest.fr/#produits)
 

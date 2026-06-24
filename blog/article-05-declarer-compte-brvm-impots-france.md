@@ -65,7 +65,7 @@ Exemple avec Sonatel au 19 juin 2026 :
 | 50 actions | 87 000 FCFA (132,63 EUR) | 26 100 FCFA (39,79 EUR) | 60 900 FCFA (92,84 EUR) |
 | 100 actions | 174 000 FCFA (265,26 EUR) | 52 200 FCFA (79,58 EUR) | 121 800 FCFA (185,68 EUR) |
 
-Rendement net Sonatel pour un résident France : 4,33 % contre 6,18 % brut.
+Rendement net Sonatel pour un résident France : 4,29 % contre 6,13 % brut.
 
 Les dividendes se déclarent en case 2DC du formulaire 2042.
 
@@ -77,18 +77,27 @@ La BRVM n'est pas éligible au PEA. Le PEA est réservé aux sociétés dont le 
 
 Ce n'est pas la même chose selon où tu vis.
 
-| Pays de résidence | Impôt sur dividendes | Rendement net Sonatel | Plus-values |
+L'impôt sur les dividendes (IRVM) en zone UEMOA est retenu à la source par la société qui verse le dividende. C'est donc le pays de la **société**, pas ton pays de résidence, qui détermine le taux.
+
+| Pays de la société | Taux IRVM dividendes |
+|---|---|
+| Côte d'Ivoire | 10 % |
+| Sénégal | 10 % |
+| Burkina Faso | 12,5 % |
+| Mali | 7 % |
+| Togo | 7 % (3 % pour les personnes physiques) |
+| Bénin | 5 % |
+
+Source : Directive 02/2010/CM/UEMOA, sikafinance.com
+
+Comparons sur Sonatel, société sénégalaise (IRVM 10 %), au dividende brut de 6,13 % :
+
+| Situation | Impôt sur dividendes | Rendement net Sonatel | Plus-values |
 |---|---|---|---|
-| France | Flat tax 30 % | 4,33 % | Flat tax 30 % |
-| Sénégal | IRVM 10 % (prélevé à la source) | 5,56 % | Exonérées |
-| Côte d'Ivoire | IRVM 12 % (prélevé à la source) | 5,44 % | Exonérées |
-| Burkina Faso | IRVM 12,5 % | 5,40 % | Exonérées |
-| Togo | IRVM 13 % | 5,38 % | Exonérées |
-| Bénin | IRVM 10 % | 5,56 % | Exonérées |
+| Résident France | Flat tax 30 % | 4,29 % | Flat tax 30 % |
+| Résident UEMOA | IRVM 10 % (à la source) | 5,52 % | Exonérées |
 
-Source : données BCEAO et codes fiscaux UEMOA
-
-Les résidents en zone UEMOA ont un avantage fiscal significatif. Les plus-values à la revente sont totalement exonérées. Un investisseur basé à Dakar qui achète Sonatel à 28 150 FCFA et le revend à 35 000 FCFA ne paie aucun impôt sur ce gain. Un résident en France paie 30 % sur la plus-value.
+Les résidents en zone UEMOA ont un avantage fiscal significatif : les plus-values à la revente sont totalement exonérées. Un investisseur basé à Dakar qui achète Sonatel à 28 400 FCFA et le revend plus cher ne paie aucun impôt sur ce gain. Un résident en France paie 30 % sur la plus-value.
 
 ---
 

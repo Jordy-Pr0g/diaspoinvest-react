@@ -173,7 +173,7 @@ function FormulaireAvis({ onSuccess }) {
     <div style={{ textAlign: 'center', padding: '32px 0' }}>
       <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 6 }}>Merci pour ton avis !</div>
       <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>
-        Il est maintenant visible pour toute la communauté.
+        Il est maintenant visible sur le site.
       </div>
     </div>
   )
@@ -378,7 +378,7 @@ export default function Temoignages() {
           }}>
             <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Sois le premier à laisser un avis</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', marginBottom: 20 }}>
-              Ta communauté compte sur toi pour les aider à franchir le pas.
+              Ton retour aidera les prochains lecteurs à franchir le pas.
             </div>
             <button
               onClick={() => setShowForm(true)}

@@ -8,6 +8,22 @@ export const ARTICLES = [
     file: () => import('../../blog/article-01-investir-brvm-depuis-france.md?raw'),
   },
   {
+    slug: 'investir-brvm-zone-uemoa',
+    titre: 'Investir sur la BRVM quand on vit en zone UEMOA : le guide du résident',
+    description: 'Tu vis en Côte d\'Ivoire, au Sénégal, au Bénin ? Tu investis directement, sans passer par l\'étranger, sans frais de change, et tes plus-values sont exonérées. Le guide complet du résident.',
+    date: '23 juin 2026',
+    lecture: '7 min',
+    file: () => import('../../blog/article-06-investir-brvm-zone-uemoa.md?raw'),
+  },
+  {
+    slug: 'fiscalite-dividendes-brvm-uemoa',
+    titre: 'Fiscalité BRVM en zone UEMOA : ce que tu paies vraiment sur tes dividendes',
+    description: 'Plus-values exonérées, dividendes soumis à l\'IRVM retenu à la source. Les taux pays par pays (5 % à 12,5 %) et un exemple chiffré avec Sonatel.',
+    date: '22 juin 2026',
+    lecture: '6 min',
+    file: () => import('../../blog/article-07-fiscalite-dividendes-brvm-uemoa.md?raw'),
+  },
+  {
     slug: 'dividendes-sonatel-2025',
     titre: 'Dividendes Sonatel 2025 : combien ça rapporte vraiment depuis la France ?',
     description: '1 740 FCFA par action, chaque année, sans vendre. Calculs nets selon où tu résides, historique des dividendes, et simulations DCA sur 10, 20 et 30 ans.',
@@ -18,7 +34,7 @@ export const ARTICLES = [
   {
     slug: 'brvm-vs-livret-a',
     titre: 'BRVM vs Livret A : comparaison honnête pour la diaspora africaine',
-    description: 'Le Livret A rapporte 3 %. Sonatel rapporte 6,18 % brut. Mais ce n\'est pas si simple. Comparaison chiffrée et stratégie pour utiliser les deux intelligemment.',
+    description: 'Le Livret A rapporte 1,5 %. Sonatel verse un dividende d\'environ 6,13 % brut. Mais ce n\'est pas si simple. Comparaison chiffrée et stratégie pour utiliser les deux intelligemment.',
     date: '13 juin 2026',
     lecture: '7 min',
     file: () => import('../../blog/article-03-brvm-vs-livret-a.md?raw'),

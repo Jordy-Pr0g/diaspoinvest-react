@@ -77,7 +77,7 @@ La vraie question n'est pas "est-ce que la BRVM est risquée ?" parce que toute 
 
 ## Les chiffres que personne ne te montre
 
-Voici ce qui se passe pendant que ton Livret A rapporte 3 %.
+Voici ce qui se passe pendant que ton Livret A rapporte 1,5 % (taux officiel depuis février 2026).
 
 La BRVM Composite en 2024 a progressé de +28,89 %. Le CAC 40 sur la même période : +0,92 %. L'immobilier locatif en France : 4 à 5 % brut, avant charges, avant fiscalité, avant les nuits blanches avec les locataires.
 
@@ -85,16 +85,17 @@ Et en parallèle de cette performance, les actionnaires ont aussi encaissé leur
 
 Concrètement, au 19 juin 2026 :
 
-| Action | Cours | Dividende 2025 | Rendement brut | Net France (-30 %) |
-|--------|-------|----------------|----------------|-------------------|
-| Sonatel (SNTS) | 28 150 FCFA | 1 740 FCFA | 6,18 % | 4,33 % |
-| BOA Bénin (BOAB) | 8 780 FCFA | 526 FCFA | 5,99 % | 4,19 % |
-| SGBCI (SGBC) | 38 995 FCFA | 2 064 FCFA | 5,29 % | 3,70 % |
-| Orange CI (ORAC) | 15 650 FCFA | 720 FCFA | 4,60 % | 3,22 % |
+| Action | Cours | Dividende | Rendement brut | Net France (-30 %) |
+|--------|-------|-----------|----------------|-------------------|
+| Vivo Energy CI | 3 700 FCFA | 270 FCFA | 7,30 % | 5,11 % |
+| Sonatel (SNTS) | 28 400 FCFA | 1 740 FCFA | 6,13 % | 4,29 % |
+| SGBCI | 36 015 FCFA | 2 064 FCFA | 5,73 % | 4,01 % |
+| Ecobank CI | 16 770 FCFA | 799 FCFA | 4,76 % | 3,33 % |
+| Orange CI | 15 800 FCFA | 720 FCFA | 4,56 % | 3,19 % |
 
-Source : brvm.org, 19 juin 2026
+Source : brvm.org, sikafinance.com, 16 juin 2026
 
-Avec 100 actions Sonatel (4 291 EUR investis), tu reçois 174 000 FCFA de dividendes bruts par an, soit 121 800 FCFA nets après flat tax 30 % en France. C'est 186 EUR par an, chaque année, sans vendre une seule action.
+Avec 100 actions Sonatel (4 329 EUR investis), tu reçois 174 000 FCFA de dividendes bruts par an, soit 121 800 FCFA nets après flat tax 30 % en France. C'est 186 EUR par an, chaque année, sans vendre une seule action.
 
 Tu veux calculer avec ton propre montant ? Le simulateur gratuit DiaspoInvest le fait en 3 minutes : [diaspoinvest.fr/#calculateur](https://diaspoinvest.fr/#calculateur)
 
@@ -148,7 +149,7 @@ La SGI ne s'occupe de rien côté France. La déclaration est entièrement de ta
 
 ## Ce que cet article ne te donne pas
 
-Tu comprends maintenant ce qu'est la BRVM, pourquoi ça intéresse la diaspora, et que c'est légal et réglementé. Mais beaucoup de membres de la communauté ont passé des semaines à tâtonner après cette étape : mauvaise SGI choisie, dossier refusé plusieurs fois, premier ordre passé sans comprendre les frais, déclaration fiscale ratée la première année.
+Tu comprends maintenant ce qu'est la BRVM, pourquoi ça intéresse la diaspora, et que c'est légal et réglementé. Mais beaucoup d'investisseurs de la diaspora ont passé des semaines à tâtonner après cette étape : mauvaise SGI choisie, dossier refusé plusieurs fois, premier ordre passé sans comprendre les frais, déclaration fiscale ratée la première année.
 
 Le Guide DiaspoInvest (14,99 EUR) a été construit pour que tu n'aies pas à répéter ces erreurs. Il compare en détail les 4 SGI qui acceptent la diaspora (frais exacts, délais réels, documents acceptés), analyse les principales actions à dividende une par une, donne un plan d'action de 30 jours avec les étapes dans l'ordre, et inclut une fiche fiscale complète avec les cases exactes à remplir selon ton pays de résidence.
 
