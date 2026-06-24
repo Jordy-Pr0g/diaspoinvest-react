@@ -1869,6 +1869,20 @@ input[type='range']::-moz-range-thumb {
   background: rgba(255,255,255,0.02);
 }
 
+/* Illustration d'en-tête d'article */
+.blog-hero {
+  margin: 0 0 32px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  line-height: 0;
+}
+.blog-hero svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* Figures, schémas et graphiques dans les articles */
 .di-figure {
   margin: 28px 0;
