@@ -36,7 +36,7 @@ Taux officiel : 1,5 % depuis le 1er février 2026 (source : economie.gouv.fr). C
 
 Ce qu'il fait parfaitement : zéro risque de perte en capital, retrait disponible à tout moment, zéro frais, zéro déclaration. C'est l'outil idéal pour l'épargne de précaution à court terme.
 
-Ce qu'il ne peut pas faire : il est plafonné à 22 950 EUR. Avec une inflation autour de 0,8 % fin 2025, ton gain de pouvoir d'achat réel est faible — de l'ordre de 0,7 %. Il ne peut pas financer un projet long terme ambitieux.
+Ce qu'il ne peut pas faire : il est plafonné à 22 950 EUR. Avec une inflation autour de 0,8 % fin 2025, ton gain de pouvoir d'achat réel est faible, de l'ordre de 0,7 %. Il ne peut pas financer un projet long terme ambitieux.
 
 Le Livret A est un outil de sécurité. Pas un outil de constitution de patrimoine.
 
@@ -71,7 +71,7 @@ Place 10 000 EUR sur ton Livret A à 1,5 % : il te rapporte environ 150 EUR la p
 
 Investis 10 000 EUR (environ 6 560 000 FCFA) sur Sonatel à 6,13 % de rendement dividende : tu reçois environ 613 EUR de dividendes bruts la première année, soit environ 420 EUR nets après flat tax 31,4 % en France. Mais la valeur de ton capital peut monter… ou baisser.
 
-L'écart de revenu annuel est donc réel — environ 270 EUR de plus côté BRVM sur cet exemple. Le prix de cet écart, c'est le risque : ton Livret A ne perdra jamais de valeur, ton action Sonatel le peut.
+L'écart de revenu annuel est donc réel : environ 270 EUR de plus côté BRVM sur cet exemple. Le prix de cet écart, c'est le risque : ton Livret A ne perdra jamais de valeur, ton action Sonatel le peut.
 
 Pour projeter ta propre trajectoire avec ton budget mensuel réel, le simulateur DCA gratuit de DiaspoInvest le fait en quelques minutes : [diaspoinvest.fr/#calculateur](https://diaspoinvest.fr/#calculateur)
 
@@ -85,7 +85,7 @@ Si le taux du Livret A remonte, l'écart avec la BRVM se réduit. La comparaison
 
 Si le cours de Sonatel baisse, la valeur de ton portefeuille baisse aussi, même si les dividendes continuent. En 2022-2023, c'est exactement ce qui s'est passé.
 
-La fiscalité dépend de où tu vis. Sonatel est une société sénégalaise : son dividende supporte un IRVM de 10 % retenu à la source au Sénégal, quel que soit ton pays de résidence dans l'UEMOA. Un résident UEMOA touche donc environ 5,52 % net sur Sonatel — et, contrairement à un résident français, il est exonéré d'impôt sur les plus-values à la revente. Même action, même dividende, un net différent selon où tu résides.
+La fiscalité dépend de où tu vis. Sonatel est une société sénégalaise : son dividende supporte un IRVM de 10 % retenu à la source au Sénégal, quel que soit ton pays de résidence dans l'UEMOA. Un résident UEMOA touche donc environ 5,52 % net sur Sonatel, et contrairement à un résident français, il est exonéré d'impôt sur les plus-values à la revente. Même action, même dividende, un net différent selon où tu résides.
 
 ---
 
@@ -99,9 +99,9 @@ La BRVM sert à l'épargne long terme. Tout ce dont tu n'auras pas besoin avant 
 
 Exemple : tu épargnes 500 EUR par mois. 200 EUR vont sur le Livret A jusqu'à atteindre 6 mois de dépenses. 300 EUR vont en DCA sur la BRVM dès maintenant. Une fois ton matelas de sécurité constitué, tu bascules davantage vers la BRVM.
 
-C'est le principe que le Guide DiaspoInvest (14,99 EUR) adapte à ton budget réel, ton pays de résidence et ton horizon.
+Pour chiffrer ta propre situation, le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) projette tes versements en quelques minutes. Et si tu veux la méthode complète pour comprendre la bourse et passer à l'action, le Guide DiaspoInvest (14,99 €) t'explique tout pas à pas.
 
-[Voir les outils DiaspoInvest →](https://diaspoinvest.fr/#produits)
+[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
 ---
 

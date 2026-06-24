@@ -133,9 +133,11 @@ Ce guide couvre les obligations de base. Il ne remplace pas une situation fiscal
 
 La convention fiscale France/CI dans le détail, les conditions exactes d'application de l'imputation, les justificatifs à conserver, la case précise à remplir dans ta déclaration : beaucoup d'investisseurs ont payé double sans le savoir pendant plusieurs années parce que cette information n'est jamais clairement expliquée.
 
-Le Guide DiaspoInvest (14,99 EUR) inclut une fiche fiscale complète avec les cases exactes selon ton pays de résidence, le mécanisme d'imputation expliqué étape par étape, les erreurs les plus fréquentes à la déclaration, et une checklist annuelle à suivre chaque année.
+Tu peux déjà voir ce qu'il te resterait après impôts selon ton pays avec le [calculateur de fiscalité gratuit](https://diaspoinvest.fr/fiscalite).
 
-[J'accède au Guide DiaspoInvest à 14,99 EUR →](https://diaspoinvest.fr/#produits)
+Et pour la démarche complète, le Guide DiaspoInvest (14,99 €) explique la fiscalité française pas à pas et comment déclarer ton compte (formulaire 3916). Format PDF, accès immédiat.
+
+[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
 ---
 

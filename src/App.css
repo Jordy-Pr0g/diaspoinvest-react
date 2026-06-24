@@ -1983,14 +1983,14 @@ input[type='range']::-moz-range-thumb {
   font-family: 'Cinzel', serif;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--vert);
+  color: var(--or);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 4px;
 }
 
 .blog-post-content .sommaire-liste {
-  background: rgba(13,43,30,0.04);
+  background: rgba(255,255,255,0.03);
   border-left: 3px solid var(--or);
   border-radius: 0 8px 8px 0;
   padding: 16px 20px 16px 36px;
@@ -2002,7 +2002,7 @@ input[type='range']::-moz-range-thumb {
 }
 
 .blog-post-content .sommaire-liste a {
-  color: var(--vert);
+  color: rgba(232,238,246,0.82);
   font-weight: 500;
   text-decoration: none;
   transition: color 0.2s;

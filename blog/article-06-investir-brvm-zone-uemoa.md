@@ -1,4 +1,4 @@
-# Investir sur la BRVM quand on vit en zone UEMOA : le guide du résident
+# Investir sur la bourse africaine quand on vit en Afrique : le guide simple
 
 **Temps de lecture : 7 minutes**
 **Dernière mise à jour : juin 2026**
@@ -6,97 +6,104 @@
 
 ---
 
-Réponse rapide : si tu vis en Côte d'Ivoire, au Sénégal, au Bénin ou dans l'un des 8 pays de l'UEMOA, tu peux investir sur la BRVM directement, sans passer par l'étranger. Tu ouvres un compte chez une SGI agréée de ton pays, tu commences avec le prix d'une seule action, et tes plus-values sont exonérées d'impôt.
+Réponse rapide : oui, tu peux acheter des parts de grandes entreprises africaines et toucher de l'argent chaque année. Si tu vis dans un pays d'Afrique de l'Ouest (Côte d'Ivoire, Sénégal, Bénin et les autres pays de l'UEMOA), c'est le plus simple : tu ouvres un compte près de chez toi. Et si tu vis ailleurs en Afrique, tu peux aussi le faire, à distance.
 
 ---
 
-La plupart des contenus sur la BRVM s'adressent à la diaspora : "comment investir depuis Paris", "comment déclarer son compte en France". Mais si tu vis **dans** la zone UEMOA, ta situation est différente — et, sur plusieurs points, plus simple.
-
-Cet article est écrit pour toi : le résident qui veut faire travailler son épargne là où il vit.
+La plupart des articles sur la bourse africaine parlent à la diaspora : "comment investir depuis Paris", "comment déclarer son compte en France". Mais si tu vis en Afrique, ta situation est souvent plus simple. Cet article est écrit pour toi, sans mots compliqués.
 
 ---
 
-## Sommaire
-1. La BRVM, c'est ta bourse régionale
-2. Pourquoi c'est plus simple quand tu résides dans l'UEMOA
-3. Ouvrir un compte chez une SGI de ton pays
-4. Combien faut-il pour commencer
-5. Ce que cet article ne te donne pas
+Sommaire
+1. C'est quoi la bourse, en deux minutes
+2. La BRVM, la bourse de l'Afrique de l'Ouest
+3. Tu vis en zone UEMOA : le chemin le plus court
+4. Tu vis ailleurs en Afrique : c'est possible aussi
+5. Combien faut-il pour commencer
+6. Pour aller plus loin
 
 ---
 
-## La BRVM, c'est ta bourse régionale
+## C'est quoi la bourse, en deux minutes
 
-La BRVM, Bourse Régionale des Valeurs Mobilières, a été créée en 1998. C'est la bourse commune des 8 pays de l'UEMOA : Côte d'Ivoire, Sénégal, Burkina Faso, Mali, Bénin, Guinée-Bissau, Niger et Togo. Une seule bourse, un siège à Abidjan, des SGI dans chaque pays.
+Une bourse, c'est un endroit où l'on achète et vend des "actions". Une action, c'est tout simplement une petite part d'une entreprise. Si tu achètes une action de Sonatel, tu possèdes un tout petit morceau de Sonatel.
 
-Les entreprises cotées, tu les connais déjà. Sonatel au Sénégal. Orange Côte d'Ivoire. Ecobank, présente dans toute l'Afrique. SGBCI, BOA, TotalEnergies CI. Ce sont des groupes que tu croises au quotidien, avec des comptes audités et un régulateur officiel, le CREPMF, en place depuis 1996.
+Pourquoi faire ça ? Pour deux raisons.
 
-47 entreprises au total. Beaucoup versent un dividende chaque année — une part de leurs bénéfices reversée aux actionnaires. Le rendement dividende moyen tourne autour de 6 % par an.
+D'abord, beaucoup d'entreprises partagent une partie de leurs bénéfices avec leurs actionnaires chaque année. Cette somme s'appelle un "dividende". Tu n'as rien à faire : tu possèdes l'action, l'argent arrive sur ton compte.
 
----
-
-## Pourquoi c'est plus simple quand tu résides dans l'UEMOA
-
-Trois différences concrètes par rapport à la diaspora.
-
-**Pas de change.** Ton épargne est déjà en FCFA. Tu n'as pas de frais de virement international, pas de conversion, pas de service comme Wise à comparer. Tu vires depuis ton compte local vers ta SGI.
-
-**Pas de déclaration à l'étranger.** Le formulaire 3916 et la flat tax française ne te concernent pas. Tu es résident fiscal de ton pays.
-
-**Les plus-values sont exonérées.** Dans la zone UEMOA, la plus-value réalisée à la revente d'une action n'est pas imposée. Si tu achètes une action et que tu la revends plus cher, le gain est pour toi.
-
-Sur les **dividendes**, en revanche, un impôt est prélevé à la source : l'IRVM (Impôt sur le Revenu des Valeurs Mobilières). La société retient cet impôt avant de te verser le dividende — tu reçois donc directement le montant net. Le taux dépend de ton pays. Le détail pays par pays est expliqué dans l'article dédié à la fiscalité UEMOA.
+Ensuite, le prix d'une action peut monter avec le temps. Si tu revends plus cher que ton prix d'achat, tu gardes la différence. Ce gain s'appelle une "plus-value". Attention : un prix peut aussi baisser, donc tu peux perdre de l'argent. C'est pour ça qu'on investit sur le long terme, au moins cinq ans.
 
 ---
 
-## Ouvrir un compte chez une SGI de ton pays
+## La BRVM, la bourse de l'Afrique de l'Ouest
 
-Une SGI (Société de Gestion et d'Intermédiation) est ton courtier agréé. C'est l'intermédiaire obligatoire : sans SGI agréée CREPMF, tu ne peux acheter aucune action.
+La BRVM est la bourse commune à huit pays d'Afrique de l'Ouest : Côte d'Ivoire, Sénégal, Burkina Faso, Mali, Bénin, Guinée-Bissau, Niger et Togo. Elle existe depuis 1998 et un organisme officiel, le CREPMF, la surveille depuis 1996.
 
-Chaque pays de l'UEMOA a ses propres SGI. Les documents demandés sont classiques : pièce d'identité valide, justificatif de domicile, et le formulaire d'ouverture de la SGI. Beaucoup proposent aujourd'hui une ouverture rapide, parfois en agence, parfois en ligne.
+Les entreprises cotées, tu les connais déjà : Sonatel (le réseau Orange au Sénégal), Orange Côte d'Ivoire, Ecobank, la SGBCI, BOA. Au total, 47 entreprises. Beaucoup versent un dividende chaque année. En moyenne, cela représente autour de 6 % par an, c'est-à-dire qu'en plaçant 100 000 FCFA, tu peux recevoir environ 6 000 FCFA de dividendes dans l'année. Ce chiffre change d'une entreprise à l'autre.
 
-Une fois le compte ouvert et alimenté, tu passes ton premier ordre : tu choisis une action, une quantité et un prix maximum. L'ordre à cours limité est recommandé — tu fixes le prix que tu acceptes de payer, et l'ordre ne s'exécute pas au-dessus.
+---
 
-La BRVM est ouverte du lundi au vendredi, de 9h à 15h30 (heure d'Abidjan).
+## Tu vis en zone UEMOA : le chemin le plus court
+
+Si tu vis en Côte d'Ivoire, au Sénégal, au Bénin ou dans un autre pays de l'UEMOA, c'est le plus simple, pour trois raisons.
+
+Ton argent est déjà en FCFA : pas de change, pas de frais d'envoi d'argent à l'étranger.
+
+Tu n'as rien à déclarer dans un pays étranger : tu es chez toi.
+
+Et surtout, si tu revends tes actions avec un gain, ce gain n'est pas imposé en zone UEMOA. Tu le gardes en entier.
+
+Pour acheter, tu passes par une SGI : c'est une société agréée, ton intermédiaire obligatoire pour acheter des actions. Chaque pays de l'UEMOA a les siennes. Tu apportes une pièce d'identité, un justificatif de domicile, tu remplis un formulaire, et c'est ouvert.
+
+---
+
+## Tu vis ailleurs en Afrique : c'est possible aussi
+
+Tu vis au Cameroun, au Gabon, au Maroc, en Tunisie ou ailleurs sur le continent ? Tu peux aussi investir sur la BRVM. Comme la diaspora, tu ouvres ton compte à distance auprès d'une SGI qui accepte les non-résidents, en envoyant tes documents par internet.
+
+Une chose à vérifier de ton côté : les impôts sur tes gains dépendent des règles de ton propre pays. Renseigne-toi auprès de l'administration fiscale locale.
 
 ---
 
 ## Combien faut-il pour commencer
 
-Il n'y a pas de minimum légal. Le seul vrai minimum, c'est le prix d'une action. Certaines coûtent quelques milliers de FCFA, d'autres plusieurs dizaines de milliers.
+Il n'y a pas de montant minimum imposé. Le seul vrai minimum, c'est le prix d'une action. Certaines coûtent quelques milliers de FCFA, d'autres quelques dizaines de milliers.
 
-Les frais de courtage tournent autour de 0,5 % par ordre. Mieux vaut commencer petit et régulier — un montant fixe chaque mois — plutôt que d'attendre d'avoir une grosse somme. C'est le principe du DCA (investissement progressif), qui lisse le prix d'achat dans le temps.
+Le conseil le plus simple : place un petit montant fixe, chaque mois, plutôt que d'attendre d'avoir une grosse somme. Cette habitude porte un nom, le "DCA", mais l'idée est juste de lisser tes achats dans le temps. Les frais pour passer un ordre tournent autour de 0,5 %.
 
-Investir comporte un risque de perte en capital : le cours d'une action peut baisser. L'horizon recommandé est d'au moins 5 ans.
+Rappelle-toi : un prix peut monter ou baisser. Investis sur le long terme, avec de l'argent dont tu n'as pas besoin tout de suite.
 
 ---
 
-## Ce que cet article ne te donne pas
+## Pour aller plus loin
 
-Tu sais maintenant que la BRVM est accessible, régulée, et que ta situation de résident est avantageuse sur la fiscalité. Mais entre choisir ta SGI, sélectionner tes premières actions et construire une stratégie régulière, il reste du chemin.
+Avant de te lancer, tu peux tout essayer gratuitement sur le site.
 
-Le Guide DiaspoInvest UEMOA (14,99 €) reprend tout, étape par étape : comprendre la BRVM et ses 47 actions, ouvrir un compte SGI dans ton pays, la fiscalité UEMOA, et une stratégie DCA pensée pour les résidents. Le Tracker Dashboard, lui, te permet de suivre ton portefeuille et de simuler tes rendements sur 30 ans.
+Regarde les 47 entreprises et ce qu'elles versent chaque année avec le [Screener](https://diaspoinvest.fr/screener). Vois combien tu aurais gagné en investissant plus tôt avec le [Backtest](https://diaspoinvest.fr/backtest). Et estime ce que ton épargne pourrait te rapporter avec le [simulateur](https://diaspoinvest.fr/#calculateur).
 
-[Voir les outils DiaspoInvest →](https://diaspoinvest.fr/#produits)
+Si tu vis en zone UEMOA et que tu veux une méthode complète, le Guide DiaspoInvest Résident (14,99 €) explique comment comprendre la bourse, ouvrir ton compte dans ton pays et gérer les impôts. Et où que tu sois, le Tracker (19,99 €) te permet de suivre ton portefeuille et de projeter tes versements sur 30 ans.
+
+[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
 ---
 
 ## Questions fréquentes
 
 **Faut-il être ivoirien pour investir si je vis au Sénégal ?**
-Non. La BRVM est une bourse régionale commune aux 8 pays de l'UEMOA. Où que tu résides dans la zone, tu ouvres un compte chez une SGI agréée et tu accèdes aux mêmes actions.
+Non. La BRVM est commune aux huit pays de l'UEMOA. Où que tu vives dans la zone, tu ouvres un compte chez une SGI agréée et tu accèdes aux mêmes entreprises.
 
-**Mes plus-values sont-elles vraiment exonérées ?**
-Oui, dans la zone UEMOA la plus-value de cession d'actions n'est pas imposée. Les dividendes, eux, supportent l'IRVM retenu à la source, dont le taux varie selon le pays.
+**Et si je vis au Cameroun ou au Maroc ?**
+Tu peux aussi investir, en ouvrant un compte à distance, comme la diaspora. Vérifie simplement les règles d'impôt de ton pays.
+
+**Est-ce que je peux perdre de l'argent ?**
+Oui. Le prix d'une action peut baisser. C'est pour cela qu'il faut investir sur le long terme, au moins cinq ans, et seulement avec de l'argent dont tu n'as pas besoin tout de suite.
 
 **Combien de temps pour ouvrir un compte ?**
-Cela dépend de la SGI et de la complétude de ton dossier. Un dossier complet est traité plus vite — prévois les pièces demandées dès le départ.
-
-**Peut-on perdre de l'argent ?**
-Oui. Investir en bourse comporte un risque de perte en capital. Un cours peut baisser. C'est pourquoi l'horizon long (5 ans et plus) et l'investissement régulier sont recommandés.
+Cela dépend de la SGI et de ton dossier. Un dossier complet est traité plus vite : prépare tes documents dès le départ.
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Vérifie toujours les informations à jour auprès des sources officielles et de ta SGI. Investir comporte un risque de perte en capital.
 
 Données de marché : brvm.org, sikafinance.com, juin 2026.

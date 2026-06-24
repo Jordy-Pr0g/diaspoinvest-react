@@ -55,9 +55,9 @@ Source : sikafinance.com, Directive 02/2010/CM/UEMOA.
 
 ---
 
-## Un exemple concret
+## Exemple concret
 
-Prenons Sonatel (société sénégalaise). Son dividende déclaré était de 1 740 FCFA par action, pour un cours de 28 400 FCFA — soit un rendement brut d'environ 6,13 %.
+Prenons Sonatel (société sénégalaise). Son dividende déclaré était de 1 740 FCFA par action, pour un cours de 28 400 FCFA, soit un rendement brut d'environ 6,13 %.
 
 Comme Sonatel est sénégalaise, l'IRVM applicable est de 10 %. Sur un dividende de 1 740 FCFA, environ 174 FCFA sont retenus à la source, et tu reçois environ 1 566 FCFA nets par action. Le tout automatiquement, sans démarche.
 
@@ -72,9 +72,9 @@ Et si tu revends un jour tes actions Sonatel plus cher que ton prix d'achat ? La
 - **Aucune démarche** : tu reçois le net, l'impôt est déjà prélevé.
 - C'est le pays de la **société** qui détermine le taux, pas forcément ton pays de résidence.
 
-Pour suivre tes dividendes nets et simuler tes rendements sur le long terme, le Tracker Dashboard DiaspoInvest (19,99 €) intègre la fiscalité UEMOA. Le Guide UEMOA (14,99 €) détaille la fiscalité pays par pays.
+Tu peux déjà voir ce qu'il te reste après impôts avec le [calculateur gratuit](https://diaspoinvest.fr/fiscalite). Pour suivre tes dividendes et projeter tes versements sur 30 ans, le Tracker Dashboard (19,99 €) intègre la fiscalité UEMOA. Le Guide Résident (14,99 €) explique, lui, comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité.
 
-[Voir les outils DiaspoInvest →](https://diaspoinvest.fr/#produits)
+[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
 ---
 

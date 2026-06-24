@@ -113,9 +113,9 @@ Ce guide t'explique le processus général. Il ne te dit pas quelle SGI choisir 
 
 Certains investisseurs ont ouvert leur compte dans une SGI avec de mauvais délais de réponse, des frais cachés découverts après les premiers ordres, ou une interface client qui rend le suivi du portefeuille compliqué. Ce genre d'erreur se corrige difficilement une fois le compte ouvert.
 
-Le Guide DiaspoInvest (14,99 EUR) compare les 4 principales SGI qui acceptent la diaspora avec les frais exacts, les délais réels constatés, et la liste précise des documents acceptés et refusés par chaque SGI. Il inclut aussi un plan d'action complet post-ouverture et les erreurs à éviter les 6 premiers mois.
+Le Guide DiaspoInvest (14,99 €) t'accompagne pas à pas : comprendre la bourse, ouvrir un compte chez une SGI à distance, et la fiscalité expliquée simplement. Format PDF, accès immédiat.
 
-[J'accède au Guide DiaspoInvest à 14,99 EUR →](https://diaspoinvest.fr/#produits)
+[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
 ---
 

@@ -151,11 +151,11 @@ La SGI ne s'occupe de rien côté France. La déclaration est entièrement de ta
 
 Tu comprends maintenant ce qu'est la BRVM, pourquoi ça intéresse la diaspora, et que c'est légal et réglementé. Mais beaucoup d'investisseurs de la diaspora ont passé des semaines à tâtonner après cette étape : mauvaise SGI choisie, dossier refusé plusieurs fois, premier ordre passé sans comprendre les frais, déclaration fiscale ratée la première année.
 
-Le Guide DiaspoInvest (14,99 EUR) a été construit pour que tu n'aies pas à répéter ces erreurs. Il compare en détail les 4 SGI qui acceptent la diaspora (frais exacts, délais réels, documents acceptés), analyse les principales actions à dividende une par une, donne un plan d'action de 30 jours avec les étapes dans l'ordre, et inclut une fiche fiscale complète avec les cases exactes à remplir selon ton pays de résidence.
+Avant d'acheter quoi que ce soit, tu peux déjà utiliser les outils gratuits du site : regarde les 47 entreprises cotées et ce qu'elles versent sur le [Screener](https://diaspoinvest.fr/screener), et vois combien tu aurais gagné en investissant plus tôt avec le [Backtest](https://diaspoinvest.fr/backtest).
 
-Ce n'est pas un article plus long. C'est un plan d'action.
+Et si tu veux une méthode complète pour passer à l'action sans tâtonner, le Guide DiaspoInvest (14,99 €) reprend tout pas à pas : comprendre la BRVM, ouvrir un compte chez une SGI à distance, déclarer ton compte en France (formulaire 3916) et la fiscalité française expliquée simplement. Format PDF, accès immédiat.
 
-[J'accède au Guide DiaspoInvest à 14,99 EUR →](https://diaspoinvest.fr/#produits)
+[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
 ---
 

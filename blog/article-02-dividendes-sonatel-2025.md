@@ -145,9 +145,11 @@ La stratégie compte autant que l'action. Combien mettre par mois ? Sur quelle a
 
 Et la convention fiscale France/CI peut changer ton calcul. Si ta SGI est en Côte d'Ivoire, l'IRVM ivoirien prélevé à la source peut s'imputer sur ta flat tax française. La plupart des investisseurs ne savent pas que ce mécanisme existe et paient deux fois.
 
-Beaucoup d'investisseurs de la diaspora ont passé des semaines à naviguer ces questions seuls, à choisir la mauvaise action pour commencer, ou à mal déclarer leurs dividendes la première année. Le Guide DiaspoInvest (14,99 EUR) existe pour raccourcir ce chemin, avec les analyses des principales actions à dividende, la stratégie DCA adaptée à ton profil, et la fiche fiscale complète selon ton pays de résidence.
+Avant d'acheter quoi que ce soit, teste avec tes propres chiffres : le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) estime ce que ton épargne pourrait rapporter, et le [Backtest](https://diaspoinvest.fr/backtest) montre ce que tu aurais gagné en investissant plus tôt.
 
-[J'accède au Guide DiaspoInvest à 14,99 EUR →](https://diaspoinvest.fr/#produits)
+Et pour aller plus loin, le Guide DiaspoInvest (14,99 €) explique comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité, étape par étape. Le Tracker (19,99 €), lui, suit ton portefeuille et projette tes versements sur 30 ans.
+
+[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
 ---
 

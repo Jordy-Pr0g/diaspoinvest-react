@@ -219,7 +219,7 @@ export default function BlogPost() {
             Vérifie toujours l'information à jour auprès des sources officielles
             (<a href="https://www.brvm.org" target="_blank" rel="noreferrer" style={{ color: OR }}>brvm.org</a>,
             {' '}<a href="https://www.impots.gouv.fr" target="_blank" rel="noreferrer" style={{ color: OR }}>impots.gouv.fr</a>,
-            {' '}ta SGI) avant toute décision. Contenu éducatif — ne constitue pas un conseil en investissement.
+            {' '}ta SGI) avant toute décision. Contenu éducatif, qui ne constitue pas un conseil en investissement.
             Investir comporte un risque de perte en capital.
           </div>
 

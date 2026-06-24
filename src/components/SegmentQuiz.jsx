@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// Liens produits réels (source : src/data.js)
+// Liens produits reels (source unique : src/data.js)
 const GUMROAD = {
   guideEurope: 'https://diaspoinvest.gumroad.com/l/oxxzda',
   guideUemoa:  'https://diaspoinvest.gumroad.com/l/dpqvqo',
@@ -13,97 +13,82 @@ const GUMROAD = {
 const QUESTIONS = [
   {
     id: 'experience',
-    text: 'Tu investis sur la BRVM depuis combien de temps ?',
+    text: 'Tu connais déjà la bourse africaine ?',
     answers: [
-      { label: 'Jamais entendu parler', value: 'beginner' },
-      { label: 'Moins de 1 an', value: 'junior' },
-      { label: 'Plus d\'1 an', value: 'advanced' },
+      { label: 'Non, je découvre', value: 'beginner' },
+      { label: 'Un peu, je débute', value: 'junior' },
+      { label: 'Oui, j\'investis déjà', value: 'advanced' },
     ],
   },
   {
     id: 'goal',
-    text: 'Qu\'est-ce qui t\'intéresse le plus en ce moment ?',
+    text: 'Qu\'est-ce qui t\'intéresse le plus aujourd\'hui ?',
     answers: [
-      { label: 'Comprendre et débuter', value: 'learn' },
-      { label: 'Choisir mes actions', value: 'analyze' },
-      { label: 'Optimiser ma fiscalité', value: 'optimize' },
+      { label: 'Comprendre comment ça marche', value: 'learn' },
+      { label: 'Voir ce que ça pourrait me rapporter', value: 'gain' },
+      { label: 'Comprendre les impôts', value: 'tax' },
     ],
   },
   {
     id: 'location',
-    text: 'Où vis-tu aujourd\'hui ?',
+    text: 'Tu vis où en ce moment ?',
     answers: [
-      { label: 'En zone UEMOA (Afrique de l\'Ouest)', value: 'uemoa' },
-      { label: 'En France', value: 'europe' },
-      { label: 'Ailleurs (Canada, Belgique…)', value: 'other' },
+      { label: 'En Afrique de l\'Ouest (Côte d\'Ivoire, Sénégal, Bénin…)', value: 'uemoa' },
+      { label: 'Ailleurs en Afrique (Cameroun, Gabon, Maroc…)', value: 'afrique' },
+      { label: 'En Europe, au Canada, ailleurs', value: 'monde' },
     ],
   },
 ]
 
-// Titres + intro par niveau, nuancés par objectif
 const TITLES = {
-  beginner: '🚀 Commence ici',
-  junior: '📊 Passe au niveau supérieur',
-  advanced: '💰 Affûte ta stratégie',
+  beginner: 'Tu débutes ? Voici par où commencer',
+  junior: 'Tu connais les bases ? Voici la suite',
+  advanced: 'Tu es à l\'aise ? Passe au niveau au-dessus',
 }
 const GOAL_INTRO = {
-  learn: 'On part des bases, étape par étape :',
-  analyze: 'Voici de quoi choisir tes actions en confiance :',
-  optimize: 'Concentrons-nous sur ce que tu gardes vraiment :',
+  learn: 'On commence simplement, sans jargon.',
+  gain: 'Voici de quoi voir, concrètement, ce que ça pourrait donner.',
+  tax: 'Regardons ce qu\'il te reste vraiment, une fois les impôts payés.',
 }
 
-// Matrice : RECOS[track][experience] → 3 items réels
+// Items reutilisables (liens reels : routes, ancre landing, ou produit Gumroad)
+const I = {
+  artUemoa:   { title: 'Investir sur la bourse africaine quand on vit en Afrique', text: 'Le guide du résident, expliqué simplement.', to: '/blog/investir-brvm-zone-uemoa' },
+  artImpotsUemoa: { title: 'Les impôts sur tes gains, en clair', text: 'Ce que tu paies vraiment selon ton pays.', to: '/blog/fiscalite-dividendes-brvm-uemoa' },
+  artDepuisEtranger: { title: 'Investir sur la bourse africaine depuis l\'étranger', text: 'Comment ça marche, étape par étape.', to: '/blog/investir-brvm-depuis-france' },
+  artOuvrir:  { title: 'Ouvrir ton compte à distance', text: 'Les documents et les étapes, sans prendre l\'avion.', to: '/blog/ouvrir-compte-sgi-depuis-etranger' },
+  artVsLivret:{ title: 'Bourse africaine ou Livret A ?', text: 'La comparaison simple, sans te noyer.', to: '/blog/brvm-vs-livret-a' },
+  artImpotsFr:{ title: 'Déclarer ton compte aux impôts en France', text: 'Le formulaire à ne pas oublier, sans stress.', to: '/blog/declarer-compte-brvm-impots-france' },
+  artSonatel: { title: 'Combien rapporte une action, concrètement', text: 'L\'exemple de Sonatel, chiffres à l\'appui.', to: '/blog/dividendes-sonatel-2025' },
+
+  toolScreener: { title: 'Voir les 47 entreprises de la bourse', text: 'Leurs prix et ce qu\'elles versent chaque année. Gratuit.', to: '/screener' },
+  toolBacktest: { title: 'Combien tu aurais gagné en investissant avant', text: 'Choisis une entreprise et une somme, le calcul se fait. Gratuit.', to: '/backtest' },
+  toolCalc:     { title: 'Estimer ce que ton épargne pourrait rapporter', text: 'Mets un montant, vois le résultat. Gratuit.', anchor: 'calculateur' },
+  toolFisc:     { title: 'Voir ce qu\'il te reste après impôts', text: 'Compare selon ton pays. Gratuit.', to: '/fiscalite' },
+
+  guideUemoa: { title: 'Guide PDF Résident (14,99 €)', text: 'Comprendre la bourse, ouvrir ton compte dans ton pays et gérer les impôts.', href: GUMROAD.guideUemoa, product: true },
+  guideEurope:{ title: 'Guide PDF Diaspora (14,99 €)', text: 'Comprendre la bourse, ouvrir un compte à distance et déclarer en France.', href: GUMROAD.guideEurope, product: true },
+  tracker:    { title: 'Tracker Dashboard (19,99 €)', text: 'Les 47 actions par secteur, une projection sur 30 ans et le suivi de ton portefeuille.', href: GUMROAD.tracker, product: true },
+  packUemoa:  { title: 'Pack Complet Résident (29,99 €)', text: 'Le guide résident plus le Tracker pour suivre et projeter ton épargne.', href: GUMROAD.packUemoa, product: true },
+  packEurope: { title: 'Pack Complet Diaspora (29,99 €)', text: 'Le guide diaspora plus le Tracker pour suivre et projeter ton épargne.', href: GUMROAD.packEurope, product: true },
+}
+
+// Matrice track x experience. 2 ressources gratuites + 1 produit honnête.
 const RECOS = {
   uemoa: {
-    beginner: [
-      { title: 'Investir sur la BRVM en zone UEMOA', text: 'Le guide du résident : SGI locale, zéro frais de change, plus-values exonérées.', to: '/blog/investir-brvm-zone-uemoa' },
-      { title: 'Voir les 47 actions en direct', text: 'Cours et rendements à jour, sans inscription.', to: '/screener' },
-      { title: 'Guide PDF UEMOA — 14,99 €', text: 'Tout pour débuter depuis ton pays, expliqué simplement.', href: GUMROAD.guideUemoa, product: true },
-    ],
-    junior: [
-      { title: 'Fiscalité UEMOA : plus-values exonérées', text: 'Ce que tu paies vraiment sur tes dividendes (IRVM pays par pays).', to: '/blog/fiscalite-dividendes-brvm-uemoa' },
-      { title: 'Screener en direct', text: 'Filtre les 47 actions par rendement et secteur.', to: '/screener' },
-      { title: 'Tracker Dashboard — 19,99 €', text: 'Suis ton portefeuille et simule tes rendements (fiscalité UEMOA).', href: GUMROAD.tracker, product: true },
-    ],
-    advanced: [
-      { title: 'Fiscalité dividendes UEMOA, pays par pays', text: 'IRVM Côte d\'Ivoire, Sénégal, Mali… et plus-values exonérées.', to: '/blog/fiscalite-dividendes-brvm-uemoa' },
-      { title: 'Simuler ton DCA sur 30 ans', text: 'Backtest d\'un investissement régulier depuis 1998.', to: '/backtest' },
-      { title: 'Pack Complet UEMOA — 29,99 €', text: 'Guide UEMOA + Tracker : l\'arsenal complet du résident.', href: GUMROAD.packUemoa, product: true },
-    ],
+    beginner: [I.artUemoa, I.toolCalc, I.guideUemoa],
+    junior:   [I.toolScreener, I.toolBacktest, I.tracker],
+    advanced: [I.artImpotsUemoa, I.toolFisc, I.packUemoa],
   },
-  diaspora: {
-    beginner: [
-      { title: 'Investir sur la BRVM depuis la France', text: 'Comment ça marche, ce que ça rapporte, ce qu\'il faut déclarer.', to: '/blog/investir-brvm-depuis-france' },
-      { title: 'Ouvrir un compte SGI depuis l\'étranger', text: 'Tout à distance : documents, SGI, frais de virement.', to: '/blog/ouvrir-compte-sgi-depuis-etranger' },
-      { title: 'Guide PDF Europe — 14,99 €', text: 'Le plan d\'action complet pour la diaspora en France.', href: GUMROAD.guideEurope, product: true },
-    ],
-    junior: [
-      { title: 'BRVM vs Livret A : la comparaison honnête', text: '1,5 % garanti contre ~6,13 % brut avec risque. Comment combiner les deux.', to: '/blog/brvm-vs-livret-a' },
-      { title: 'Screener en direct', text: 'Filtre les 47 actions par rendement et secteur.', to: '/screener' },
-      { title: 'Tracker Dashboard — 19,99 €', text: 'Suis ton portefeuille et simule tes rendements (fiscalité France/UEMOA).', href: GUMROAD.tracker, product: true },
-    ],
-    advanced: [
-      { title: 'Déclarer ton compte aux impôts (France)', text: 'Formulaire 3916, flat tax 30 %, éviter la double imposition.', to: '/blog/declarer-compte-brvm-impots-france' },
-      { title: 'Calculateur fiscal', text: 'Estime ton imposition réelle selon ta situation.', to: '/fiscalite' },
-      { title: 'Pack Complet Europe — 29,99 €', text: 'Guide + Tracker : l\'arsenal complet de la diaspora.', href: GUMROAD.packEurope, product: true },
-    ],
+  afrique: {
+    beginner: [I.artUemoa, I.toolCalc, I.tracker],
+    junior:   [I.toolScreener, I.toolBacktest, I.tracker],
+    advanced: [I.artSonatel, I.toolFisc, I.tracker],
   },
-  other: {
-    beginner: [
-      { title: 'Investir sur la BRVM depuis l\'étranger', text: 'Pourquoi et comment investir sur la bourse africaine à distance.', to: '/blog/investir-brvm-depuis-france' },
-      { title: 'Ouvrir un compte SGI depuis l\'étranger', text: 'Tout à distance : documents, SGI, frais de virement.', to: '/blog/ouvrir-compte-sgi-depuis-etranger' },
-      { title: 'Guide PDF — 14,99 €', text: 'Le plan d\'action complet, étape par étape.', href: GUMROAD.guideEurope, product: true },
-    ],
-    junior: [
-      { title: 'Dividendes Sonatel : combien ça rapporte', text: '1 740 FCFA par action, calculs nets selon ta résidence.', to: '/blog/dividendes-sonatel-2025' },
-      { title: 'Screener en direct', text: 'Filtre les 47 actions par rendement et secteur.', to: '/screener' },
-      { title: 'Tracker Dashboard — 19,99 €', text: 'Suis ton portefeuille et simule tes rendements.', href: GUMROAD.tracker, product: true },
-    ],
-    advanced: [
-      { title: 'Dividendes Sonatel en détail', text: 'Rendement brut, net, et stratégie de réinvestissement.', to: '/blog/dividendes-sonatel-2025' },
-      { title: 'Simuler ton DCA sur 30 ans', text: 'Backtest d\'un investissement régulier depuis 1998.', to: '/backtest' },
-      { title: 'Pack Complet — 29,99 €', text: 'Guide + Tracker : l\'arsenal complet de l\'investisseur.', href: GUMROAD.packEurope, product: true },
-    ],
+  monde: {
+    beginner: [I.artDepuisEtranger, I.toolCalc, I.guideEurope],
+    junior:   [I.toolScreener, I.toolBacktest, I.tracker],
+    advanced: [I.artImpotsFr, I.toolFisc, I.packEurope],
   },
 }
 
@@ -122,6 +107,11 @@ export default function SegmentQuiz({ onComplete }) {
   const handleNavigate = (item) => {
     if (item.href) {
       window.open(item.href, '_blank', 'noopener')
+    } else if (item.anchor) {
+      onComplete()
+      setTimeout(() => {
+        document.getElementById(item.anchor)?.scrollIntoView({ behavior: 'smooth' })
+      }, 60)
     } else if (item.to) {
       onComplete()
       navigate(item.to)
@@ -149,8 +139,8 @@ export default function SegmentQuiz({ onComplete }) {
   const experience = answers.experience || 'beginner'
   const goal = answers.goal || 'learn'
   const track = answers.location === 'uemoa' ? 'uemoa'
-    : answers.location === 'europe' ? 'diaspora'
-    : 'other'
+    : answers.location === 'afrique' ? 'afrique'
+    : 'monde'
   const items = RECOS[track][experience]
 
   return (
@@ -168,7 +158,7 @@ export default function SegmentQuiz({ onComplete }) {
           <div className="segment-quiz-question">
             <h2>Bienvenue sur DiaspoInvest</h2>
             <p className="segment-quiz-subtext">
-              3 questions pour t'orienter vers ce qui te sera vraiment utile (20 secondes)
+              3 petites questions pour te montrer ce qui te sera vraiment utile (20 secondes).
             </p>
 
             <div className="segment-quiz-progress">
@@ -213,7 +203,7 @@ export default function SegmentQuiz({ onComplete }) {
             </div>
 
             <form onSubmit={handleEmailSubmit} className="segment-quiz-email-form">
-              <label>Reçois nos analyses BRVM par email (facultatif) :</label>
+              <label>Reçois nos conseils sur la bourse africaine par email (facultatif) :</label>
               <div className="segment-quiz-email-group">
                 <input
                   type="email"
@@ -243,7 +233,7 @@ export default function SegmentQuiz({ onComplete }) {
         )}
 
         <p className="segment-quiz-legal">
-          DiaspoInvest · Jamais de spam · Tu peux te désabonner à tout moment
+          DiaspoInvest · Jamais de spam · Tu peux te désinscrire quand tu veux
         </p>
       </div>
     </div>
