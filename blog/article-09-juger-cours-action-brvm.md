@@ -39,6 +39,12 @@ Ensuite, **l'historique de l'entreprise**. Si une action se paie habituellement 
 
 Enfin, **le rendement du dividende**, que tu peux calculer toi-même (dividende divisé par cours). Tu le compares à son niveau passé et à un placement sans risque. Un rendement qui paraît anormalement élevé n'est pas toujours une aubaine : il peut venir d'un cours qui a chuté parce que le marché anticipe une baisse du dividende.
 
+| Repère | À quoi tu compares | Ce que ça t'apprend |
+|---|---|---|
+| Secteur | Le PER d'autres sociétés du même secteur | Si l'action est chère face à ses pairs |
+| Historique | Le PER habituel de l'entreprise | Si elle est chère face à sa propre histoire |
+| Rendement | Le dividende/cours vs le passé et un placement sûr | Si le rendement est attractif… ou un signal d'alerte |
+
 ---
 
 ## La pérennité du dividende

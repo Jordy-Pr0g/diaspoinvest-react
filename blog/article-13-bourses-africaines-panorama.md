@@ -39,6 +39,15 @@ Pour la diaspora nigériane, l'accès s'est simplifié : ouverture de compte à 
 
 ---
 
+| Bourse | Pays | Taille (début 2026) | Accès |
+|---|---|---|---|
+| JSE | Afrique du Sud | ~1 600 milliards $ | Courtiers locaux, ETF mondiaux |
+| BRVM | 8 pays UEMOA | Milliers de milliards FCFA | SGI agréée, locale ou à distance |
+| NGX | Nigeria | ~90 à 115 milliards $ | Courtiers nigérians, plateformes |
+| Casablanca, Nairobi, Le Caire, Dar es Salaam | Maroc, Kenya, Égypte, Tanzanie | Variables | Bourses nationales |
+
+Source : african-markets.com, brvm.org. Chiffres de début 2026, susceptibles d'évoluer.
+
 ## Les autres places à connaître
 
 Le continent compte d'autres bourses actives : la Bourse de Casablanca au Maroc, la Bourse de Nairobi au Kenya, la Bourse d'Égypte, ou encore la Bourse de Dar es Salaam en Tanzanie, qui a connu une forte hausse en 2026. Chacune a ses règles d'accès, sa devise et sa fiscalité propres. Si tu vis dans l'un de ces pays, c'est souvent ta bourse nationale qui sera la plus simple d'accès.

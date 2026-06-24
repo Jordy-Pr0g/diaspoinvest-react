@@ -81,6 +81,21 @@ Voici ce qui se passe pendant que ton Livret A rapporte 1,5 % (taux officiel dep
 
 La BRVM Composite en 2024 a progressé de +28,89 %. Le CAC 40 sur la même période : +0,92 %. L'immobilier locatif en France : 4 à 5 % brut, avant charges, avant fiscalité, avant les nuits blanches avec les locataires.
 
+<figure class="di-figure">
+<svg viewBox="0 0 460 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Performance 2024 : BRVM Composite +28,89 pourcent contre CAC 40 +0,92 pourcent">
+  <text x="0" y="18" fill="#E8EEF6" font-family="Arial" font-size="13" font-weight="bold">Performance 2024</text>
+  <line x1="120" y1="30" x2="120" y2="150" stroke="rgba(255,255,255,0.15)"/>
+  <text x="0" y="62" fill="#9fb0c3" font-family="Arial" font-size="12">BRVM Composite</text>
+  <rect x="120" y="48" width="240" height="24" rx="3" fill="#2ECC8B"/>
+  <text x="368" y="65" fill="#2ECC8B" font-family="Arial" font-size="13" font-weight="bold">+28,89 %</text>
+  <text x="0" y="112" fill="#9fb0c3" font-family="Arial" font-size="12">CAC 40</text>
+  <rect x="120" y="98" width="10" height="24" rx="3" fill="#C9A84C"/>
+  <text x="140" y="115" fill="#C9A84C" font-family="Arial" font-size="13" font-weight="bold">+0,92 %</text>
+  <text x="0" y="168" fill="#9fb0c3" font-family="Arial" font-size="11">Une année donnée ne préjuge pas des suivantes.</text>
+</svg>
+<figcaption>Sources : brvm.org (Bulletin Officiel 31/12/2024), Euronext. Performances passées, non garanties.</figcaption>
+</figure>
+
 Et en parallèle de cette performance, les actionnaires ont aussi encaissé leurs dividendes.
 
 Concrètement, au 19 juin 2026 :

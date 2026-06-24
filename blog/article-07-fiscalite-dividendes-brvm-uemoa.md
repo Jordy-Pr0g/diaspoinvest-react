@@ -61,6 +61,24 @@ Prenons Sonatel (société sénégalaise). Son dividende déclaré était de 1 7
 
 Comme Sonatel est sénégalaise, l'IRVM applicable est de 10 %. Sur un dividende de 1 740 FCFA, environ 174 FCFA sont retenus à la source, et tu reçois environ 1 566 FCFA nets par action. Le tout automatiquement, sans démarche.
 
+<figure class="di-figure">
+<svg viewBox="0 0 470 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dividende brut 1740 FCFA moins IRVM 10 pourcent égale 1566 FCFA nets">
+  <rect x="0" y="35" width="120" height="44" rx="6" fill="#2ECC8B" opacity="0.85"/>
+  <text x="60" y="55" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Dividende</text>
+  <text x="60" y="71" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">1 740 FCFA</text>
+  <text x="150" y="62" fill="#9fb0c3" font-family="Arial" font-size="20" text-anchor="middle">→</text>
+  <rect x="175" y="35" width="120" height="44" rx="6" fill="#C9A84C" opacity="0.5"/>
+  <text x="235" y="55" fill="#E8EEF6" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">IRVM 10 %</text>
+  <text x="235" y="71" fill="#E8EEF6" font-family="Arial" font-size="12" text-anchor="middle">- 174 FCFA</text>
+  <text x="325" y="62" fill="#9fb0c3" font-family="Arial" font-size="20" text-anchor="middle">→</text>
+  <rect x="350" y="35" width="120" height="44" rx="6" fill="#C9A84C"/>
+  <text x="410" y="55" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Tu reçois</text>
+  <text x="410" y="71" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">1 566 FCFA</text>
+  <text x="0" y="20" fill="#E8EEF6" font-family="Arial" font-size="13" font-weight="bold">Ce qui se passe à chaque dividende Sonatel</text>
+</svg>
+<figcaption>L'impôt est prélevé automatiquement par la société : tu reçois le net, sans démarche.</figcaption>
+</figure>
+
 Et si tu revends un jour tes actions Sonatel plus cher que ton prix d'achat ? La plus-value est exonérée.
 
 ---

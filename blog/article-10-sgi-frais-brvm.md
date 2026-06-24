@@ -39,6 +39,28 @@ Trois grandes catégories.
 
 **Les frais annexes.** Frais de tenue de compte, frais d'inactivité, frais de virement ou de retrait. Ce sont souvent eux qui font la différence entre deux SGI affichant le même taux de courtage.
 
+| Type de frais | Quand | Ordre de grandeur |
+|---|---|---|
+| Courtage | À chaque achat et vente | 0,5 % à 1,5 % du montant |
+| Droits de garde | Chaque année | Souvent nuls sous ~5 M FCFA d'encours |
+| Frais annexes | Tenue de compte, inactivité, virement | Variable selon la SGI |
+
+Source : brvm.org (frais applicables), sikafinance.com.
+
+<figure class="di-figure">
+<svg viewBox="0 0 460 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparaison des frais de courtage sur un ordre de 100 000 FCFA">
+  <text x="0" y="20" fill="#E8EEF6" font-family="Arial" font-size="13" font-weight="bold">Frais sur un ordre de 100 000 FCFA</text>
+  <text x="0" y="58" fill="#9fb0c3" font-family="Arial" font-size="12">Courtage 0,5 %</text>
+  <rect x="130" y="46" width="60" height="16" rx="3" fill="#2ECC8B"/>
+  <text x="200" y="58" fill="#E8EEF6" font-family="Arial" font-size="12">500 FCFA</text>
+  <text x="0" y="92" fill="#9fb0c3" font-family="Arial" font-size="12">Courtage 1,5 %</text>
+  <rect x="130" y="80" width="180" height="16" rx="3" fill="#C9A84C"/>
+  <text x="320" y="92" fill="#E8EEF6" font-family="Arial" font-size="12">1 500 FCFA</text>
+  <text x="0" y="130" fill="#9fb0c3" font-family="Arial" font-size="11">Soit 3 fois plus, prélevé à chaque ordre, pendant des années.</text>
+</svg>
+<figcaption>Exemple chiffré sur un seul ordre. Répété chaque mois, l'écart s'accumule fortement.</figcaption>
+</figure>
+
 ---
 
 ## Pourquoi un petit écart de frais change tout sur le long terme

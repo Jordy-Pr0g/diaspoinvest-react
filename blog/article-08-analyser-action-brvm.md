@@ -73,6 +73,17 @@ Trois points propres à ce marché que tout investisseur confirmé doit intégre
 
 ---
 
+## Mémo : les ratios en un coup d'œil
+
+| Ratio | Ce qu'il mesure | Comment le lire |
+|---|---|---|
+| PER (cours / BPA) | Cher ou pas par rapport aux bénéfices | Plus bas = moins cher, à comparer au secteur |
+| PBR (cours / fonds propres) | Prix vs valeur comptable | < 1 = sous la valeur comptable (utile pour les banques) |
+| Rendement du dividende | Ce que l'action verse par an | Calculable seul : dividende / cours |
+| Taux de distribution (payout) | Part du bénéfice distribuée | Trop élevé (proche 100 %) = dividende fragile |
+| ROE | Rentabilité des fonds propres | Élevé et stable = entreprise efficace |
+| Endettement | Solidité financière | Plus c'est bas, plus c'est prudent |
+
 ## Où trouver les chiffres officiels
 
 Ne te fie jamais à un chiffre non sourcé. Pour les fondamentaux d'une société cotée :

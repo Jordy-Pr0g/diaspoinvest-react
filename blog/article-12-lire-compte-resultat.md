@@ -40,6 +40,28 @@ On le lit de haut en bas, du chiffre d'affaires jusqu'au résultat net.
 
 **Le résultat net.** C'est la dernière ligne, ce qui reste réellement après tout, y compris l'impôt. C'est ce résultat net qui sert de base au bénéfice par action (BPA) et au dividende.
 
+| Ligne | À quoi ça correspond |
+|---|---|
+| Chiffre d'affaires | Total des ventes de l'année |
+| (-) Coûts d'exploitation | Achats, salaires, amortissements |
+| = Résultat d'exploitation | Rentabilité du métier |
+| (-) Résultat financier | Intérêts des dettes, produits financiers |
+| (-) Impôt | Impôt sur les bénéfices |
+| = Résultat net | Ce qui reste vraiment, base du dividende |
+
+<figure class="di-figure">
+<svg viewBox="0 0 460 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Du chiffre d'affaires au résultat net">
+  <rect x="0" y="20" width="430" height="26" rx="4" fill="#2ECC8B" opacity="0.85"/>
+  <text x="10" y="38" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold">Chiffre d'affaires</text>
+  <rect x="60" y="58" width="300" height="26" rx="4" fill="#C9A84C" opacity="0.9"/>
+  <text x="70" y="76" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold">Résultat d'exploitation</text>
+  <rect x="120" y="96" width="180" height="26" rx="4" fill="#C9A84C"/>
+  <text x="130" y="114" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold">Résultat net</text>
+  <text x="120" y="150" fill="#9fb0c3" font-family="Arial" font-size="11">À chaque étape, on retire des coûts. Le dividende vient du résultat net.</text>
+</svg>
+<figcaption>Schéma de principe (les proportions varient selon l'entreprise).</figcaption>
+</figure>
+
 ---
 
 ## Les marges, le vrai indicateur de santé

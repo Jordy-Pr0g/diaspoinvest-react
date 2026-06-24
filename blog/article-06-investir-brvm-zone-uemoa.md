@@ -34,6 +34,24 @@ D'abord, beaucoup d'entreprises partagent une partie de leurs bénéfices avec l
 
 Ensuite, le prix d'une action peut monter avec le temps. Si tu revends plus cher que ton prix d'achat, tu gardes la différence. Ce gain s'appelle une "plus-value". Attention : un prix peut aussi baisser, donc tu peux perdre de l'argent. C'est pour ça qu'on investit sur le long terme, au moins cinq ans.
 
+<figure class="di-figure">
+<svg viewBox="0 0 470 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tu achètes une action, tu possèdes une part de l'entreprise, elle te verse un dividende chaque année">
+  <rect x="0" y="40" width="135" height="50" rx="8" fill="#C9A84C" opacity="0.9"/>
+  <text x="67" y="62" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Tu achètes</text>
+  <text x="67" y="78" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">une action</text>
+  <text x="152" y="70" fill="#9fb0c3" font-family="Arial" font-size="20" text-anchor="middle">→</text>
+  <rect x="170" y="40" width="135" height="50" rx="8" fill="#2ECC8B" opacity="0.85"/>
+  <text x="237" y="62" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Tu possèdes une</text>
+  <text x="237" y="78" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">part de l'entreprise</text>
+  <text x="322" y="70" fill="#9fb0c3" font-family="Arial" font-size="20" text-anchor="middle">→</text>
+  <rect x="340" y="40" width="130" height="50" rx="8" fill="#C9A84C"/>
+  <text x="405" y="62" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Tu touches un</text>
+  <text x="405" y="78" fill="#0D1525" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">dividende/an</text>
+  <text x="0" y="22" fill="#E8EEF6" font-family="Arial" font-size="13" font-weight="bold">Comment ça marche, en 3 étapes</text>
+</svg>
+<figcaption>Le principe d'une action qui verse un dividende, simplement.</figcaption>
+</figure>
+
 ---
 
 ## La BRVM, la bourse de l'Afrique de l'Ouest

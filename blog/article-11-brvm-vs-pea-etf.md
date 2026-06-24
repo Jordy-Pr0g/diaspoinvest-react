@@ -23,6 +23,18 @@ Sommaire
 
 Le PEA est une enveloppe fiscale française. L'ETF World est un produit qui réplique un indice mondial. La BRVM est une bourse régionale africaine. On ne compare donc pas vraiment "lequel rapporte le plus", mais "à quoi sert chacun".
 
+| Critère | PEA | ETF World | BRVM |
+|---|---|---|---|
+| Nature | Enveloppe fiscale française | Fonds indiciel mondial | Bourse régionale africaine |
+| Ce que tu détiens | Actions/fonds européens | Centaines d'entreprises mondiales | Actions de 8 pays UEMOA |
+| Plafond | 150 000 € | Aucun | Aucun |
+| Frais typiques | Selon le courtier | TER 0,05 % à 0,50 %/an | Courtage 0,5 % à 1,5 %/ordre |
+| Fiscalité (France) | IR exonéré après 5 ans, PS 18,6 % | Flat tax 31,4 % (hors PEA) | Flat tax 31,4 % (compte-titres) |
+| Atout principal | Avantage fiscal long terme | Diversification mondiale | Dividendes élevés, expo Afrique |
+| Limite principale | Europe seulement | Peu d'exposition Afrique | Marché moins liquide |
+
+Source : economie.gouv.fr, service-public.fr, brvm.org (juin 2026).
+
 ---
 
 ## Le PEA : l'enveloppe fiscale française
