@@ -154,6 +154,7 @@ export default function SegmentQuiz({ onComplete }) {
   const [answers, setAnswers] = useState({})
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(null) // null | 'ok' | 'error'
   const navigate = useNavigate()
 
   const handleAnswer = (questionId, value) => {
@@ -177,20 +178,24 @@ export default function SegmentQuiz({ onComplete }) {
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault()
+    if (!email) { onComplete(); return }
     setLoading(true)
-    if (email) {
-      await fetch('/api/subscribe-segment', {
+    try {
+      const r = await fetch('/api/subscribe-segment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          segment: answers.experience,
+          experience: answers.experience,
           goal: answers.goal,
+          location: answers.location,
         }),
-      }).catch(() => {})
+      })
+      setSent(r.ok ? 'ok' : 'error')
+    } catch {
+      setSent('error')
     }
     setLoading(false)
-    onComplete()
   }
 
   const experience = answers.experience || 'beginner'
@@ -283,25 +288,34 @@ export default function SegmentQuiz({ onComplete }) {
               </button>
             </div>
 
-            <form onSubmit={handleEmailSubmit} className="segment-quiz-email-form">
-              <label>Reçois nos conseils sur la bourse africaine par email (facultatif) :</label>
-              <div className="segment-quiz-email-group">
-                <input
-                  type="email"
-                  placeholder="ton@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="segment-quiz-input"
-                />
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="segment-quiz-submit"
-                >
-                  {loading ? '...' : '→'}
-                </button>
+            {sent === 'ok' ? (
+              <div className="segment-quiz-email-form segment-quiz-email-done">
+                ✓ C'est noté, tu es inscrit. À très vite par email.
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleEmailSubmit} className="segment-quiz-email-form">
+                <label>Reçois nos conseils sur la bourse africaine par email (facultatif) :</label>
+                <div className="segment-quiz-email-group">
+                  <input
+                    type="email"
+                    placeholder="ton@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="segment-quiz-input"
+                  />
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="segment-quiz-submit"
+                  >
+                    {loading ? '...' : '→'}
+                  </button>
+                </div>
+                {sent === 'error' && (
+                  <span className="segment-quiz-email-err">Une erreur est survenue, réessaie.</span>
+                )}
+              </form>
+            )}
 
             <button
               type="button"
