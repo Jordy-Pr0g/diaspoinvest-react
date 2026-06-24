@@ -25,8 +25,8 @@ const QUESTIONS = [
     text: 'Qu\'est-ce qui t\'intéresse le plus aujourd\'hui ?',
     answers: [
       { label: 'Comprendre comment ça marche', value: 'learn' },
-      { label: 'Voir ce que ça pourrait me rapporter', value: 'gain' },
-      { label: 'Comprendre les impôts', value: 'tax' },
+      { label: 'Choisir et analyser des actions', value: 'analyze' },
+      { label: 'Optimiser : frais, fiscalité, stratégie', value: 'optimize' },
     ],
   },
   {
@@ -47,8 +47,8 @@ const TITLES = {
 }
 const GOAL_INTRO = {
   learn: 'De quoi bien comprendre comment tout ça marche.',
-  gain: 'De quoi voir, concrètement, ce que ça pourrait te rapporter.',
-  tax: 'De quoi y voir clair sur les impôts, et sur ce qu\'il te reste vraiment.',
+  analyze: 'De quoi choisir et analyser des actions par toi-même.',
+  optimize: 'De quoi optimiser tes frais, ta fiscalité et ta stratégie.',
 }
 
 // Items reutilisables (liens reels : routes, ancre landing, ou produit Gumroad)
@@ -62,6 +62,10 @@ const I = {
   artSonatel: { title: 'Combien rapporte une action, concrètement', text: 'L\'exemple de Sonatel, chiffres à l\'appui.', to: '/blog/dividendes-sonatel-2025' },
   artAnalyse: { title: 'Analyser une action : les ratios qui comptent', text: 'PER, BPA, payout, ROE, liquidité. La méthode pour juger une entreprise.', to: '/blog/analyser-action-brvm' },
   artValo:    { title: 'Juger un cours : chère ou bon marché ?', text: 'Valorisation, dividende durable, liquidité du titre.', to: '/blog/juger-cours-action-brvm' },
+  artCompteResultat: { title: 'Lire un compte de résultat', text: 'Chiffre d\'affaires, marges, résultat net : décrypter une entreprise.', to: '/blog/lire-compte-resultat' },
+  artSgiFrais:{ title: 'SGI et frais : leur impact sur ton rendement', text: 'Comment choisir un courtier et pourquoi les frais comptent sur 20 ans.', to: '/blog/sgi-frais-brvm' },
+  artVsPea:   { title: 'BRVM, PEA ou ETF World : comment choisir', text: 'Ce que la diaspora doit comprendre avant d\'arbitrer.', to: '/blog/brvm-vs-pea-etf' },
+  artBourses: { title: 'Les bourses africaines au-delà de la BRVM', text: 'Nigeria, Afrique du Sud, Maroc… le panorama du continent.', to: '/blog/bourses-africaines-panorama' },
 
   toolScreener: { title: 'Voir les 47 entreprises de la bourse', text: 'Leurs prix et ce qu\'elles versent chaque année. Gratuit.', to: '/screener' },
   toolBacktest: { title: 'Combien tu aurais gagné en investissant avant', text: 'Choisis une entreprise et une somme, le calcul se fait. Gratuit.', to: '/backtest' },
@@ -78,32 +82,40 @@ const I = {
 // Config par lieu : article d'intro, article fiscal, produit d'entrée, produit complet.
 // Pour "afrique" (hors UEMOA), les produits géo-spécifiques ne collent pas :
 // on s'appuie sur le Tracker (universel) et il n'y a pas d'article fiscal dédié.
+// Config par lieu. "compare" = l'article d'optimisation le plus pertinent pour le profil :
+//  - monde (diaspora) : arbitrage BRVM / PEA / ETF
+//  - afrique (hors UEMOA) : panorama des bourses du continent
+//  - uemoa : SGI et frais
+// Pour "afrique", les produits géo-spécifiques ne collent pas : on s'appuie sur le Tracker (universel).
 const TRACK = {
-  uemoa:   { intro: I.artUemoa,         tax: I.artImpotsUemoa, entry: I.guideUemoa,  top: I.packUemoa },
-  afrique: { intro: I.artUemoa,         tax: null,             entry: I.tracker,     top: I.tracker },
-  monde:   { intro: I.artDepuisEtranger, tax: I.artImpotsFr,   entry: I.guideEurope, top: I.packEurope },
+  uemoa:   { intro: I.artUemoa,          tax: I.artImpotsUemoa, entry: I.guideUemoa,  top: I.packUemoa,  compare: I.artSgiFrais },
+  afrique: { intro: I.artUemoa,          tax: null,             entry: I.tracker,     top: I.tracker,    compare: I.artBourses },
+  monde:   { intro: I.artDepuisEtranger, tax: I.artImpotsFr,    entry: I.guideEurope, top: I.packEurope, compare: I.artVsPea },
 }
 
 // Recommandations pilotées par (lieu, niveau, objectif).
-// Toujours 3 items, le produit en dernier. Outils gratuits d'abord.
+// Toujours 3 items, le produit en dernier. Ressources gratuites/articles d'abord.
 function pickItems(track, experience, goal) {
   const T = TRACK[track]
-  const taxArticle = T.tax || I.toolScreener // afrique : pas d'article fiscal, on remplace
+  const taxArticle = T.tax || I.toolFisc // afrique : pas d'article fiscal dédié
   const POOL = {
+    // Comprendre comment ça marche
     learn: {
       beginner: [T.intro, I.toolCalc, T.entry],
       junior:   [T.intro, I.toolScreener, T.entry],
-      advanced: [I.artAnalyse, I.toolScreener, T.top],
+      advanced: [I.artCompteResultat, I.artAnalyse, T.top],
     },
-    gain: {
-      beginner: [I.toolCalc, T.intro, T.entry],
-      junior:   [I.toolBacktest, I.toolCalc, I.tracker],
-      advanced: [I.artValo, I.toolBacktest, I.tracker],
+    // Choisir et analyser des actions
+    analyze: {
+      beginner: [I.toolScreener, T.intro, T.entry],
+      junior:   [I.toolScreener, I.toolBacktest, I.tracker],
+      advanced: [I.artAnalyse, I.artValo, I.tracker],
     },
-    tax: {
-      beginner: [taxArticle, I.toolFisc, T.entry],
-      junior:   [I.toolFisc, taxArticle, I.tracker],
-      advanced: [taxArticle, I.toolFisc, T.top],
+    // Optimiser : frais, fiscalité, stratégie
+    optimize: {
+      beginner: [I.artSgiFrais, I.toolFisc, T.entry],
+      junior:   [I.artSgiFrais, taxArticle, I.tracker],
+      advanced: [T.compare, I.toolFisc, T.top],
     },
   }
   return POOL[goal][experience]
