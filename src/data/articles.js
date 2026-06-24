@@ -24,6 +24,22 @@ export const ARTICLES = [
     file: () => import('../../blog/article-07-fiscalite-dividendes-brvm-uemoa.md?raw'),
   },
   {
+    slug: 'analyser-action-brvm',
+    titre: 'Comment analyser une action de la BRVM : la méthode, ratio par ratio',
+    description: 'Pour les investisseurs confirmés : PER, BPA, payout, ROE, PBR, liquidité et flottant. Comment juger une entreprise sur ses fondamentaux, et où lire les chiffres officiels.',
+    date: '24 juin 2026',
+    lecture: '9 min',
+    file: () => import('../../blog/article-08-analyser-action-brvm.md?raw'),
+  },
+  {
+    slug: 'juger-cours-action-brvm',
+    titre: 'Juger un cours : une action est-elle chère ou bon marché ?',
+    description: 'Niveau confirmé : lire une valorisation (PER, rendement vs historique), juger la pérennité d\'un dividende, gérer la liquidité et construire une position diversifiée sur la BRVM.',
+    date: '24 juin 2026',
+    lecture: '8 min',
+    file: () => import('../../blog/article-09-juger-cours-action-brvm.md?raw'),
+  },
+  {
     slug: 'dividendes-sonatel-2025',
     titre: 'Dividendes Sonatel 2025 : combien ça rapporte vraiment depuis la France ?',
     description: '1 740 FCFA par action, chaque année, sans vendre. Calculs nets selon où tu résides, historique des dividendes, et simulations DCA sur 10, 20 et 30 ans.',

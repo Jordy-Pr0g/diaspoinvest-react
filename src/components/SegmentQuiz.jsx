@@ -60,6 +60,8 @@ const I = {
   artVsLivret:{ title: 'Bourse africaine ou Livret A ?', text: 'La comparaison simple, sans te noyer.', to: '/blog/brvm-vs-livret-a' },
   artImpotsFr:{ title: 'Déclarer ton compte aux impôts en France', text: 'Le formulaire à ne pas oublier, sans stress.', to: '/blog/declarer-compte-brvm-impots-france' },
   artSonatel: { title: 'Combien rapporte une action, concrètement', text: 'L\'exemple de Sonatel, chiffres à l\'appui.', to: '/blog/dividendes-sonatel-2025' },
+  artAnalyse: { title: 'Analyser une action : les ratios qui comptent', text: 'PER, BPA, payout, ROE, liquidité. La méthode pour juger une entreprise.', to: '/blog/analyser-action-brvm' },
+  artValo:    { title: 'Juger un cours : chère ou bon marché ?', text: 'Valorisation, dividende durable, liquidité du titre.', to: '/blog/juger-cours-action-brvm' },
 
   toolScreener: { title: 'Voir les 47 entreprises de la bourse', text: 'Leurs prix et ce qu\'elles versent chaque année. Gratuit.', to: '/screener' },
   toolBacktest: { title: 'Combien tu aurais gagné en investissant avant', text: 'Choisis une entreprise et une somme, le calcul se fait. Gratuit.', to: '/backtest' },
@@ -91,12 +93,12 @@ function pickItems(track, experience, goal) {
     learn: {
       beginner: [T.intro, I.toolCalc, T.entry],
       junior:   [T.intro, I.toolScreener, T.entry],
-      advanced: [I.toolScreener, I.toolBacktest, T.top],
+      advanced: [I.artAnalyse, I.toolScreener, T.top],
     },
     gain: {
       beginner: [I.toolCalc, T.intro, T.entry],
       junior:   [I.toolBacktest, I.toolCalc, I.tracker],
-      advanced: [I.toolBacktest, I.toolScreener, I.tracker],
+      advanced: [I.artValo, I.toolBacktest, I.tracker],
     },
     tax: {
       beginner: [taxArticle, I.toolFisc, T.entry],
