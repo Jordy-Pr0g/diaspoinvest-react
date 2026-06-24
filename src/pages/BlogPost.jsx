@@ -203,6 +203,26 @@ export default function BlogPost() {
             <span style={{ fontSize: 13, color: OR, fontWeight: 600 }}>· {article.lecture} de lecture</span>
           </div>
 
+          <div style={{
+            background: 'rgba(201,168,76,0.07)',
+            border: '1px solid rgba(201,168,76,0.22)',
+            borderRadius: 12,
+            padding: '14px 18px',
+            margin: '0 0 32px',
+            fontSize: 13,
+            lineHeight: 1.6,
+            color: 'rgba(232,238,246,0.62)',
+          }}>
+            <strong style={{ color: OR }}>À noter.</strong> Article publié le {article.date}.
+            Les cours de bourse, taux de rendement et règles fiscales évoluent dans le temps :
+            ces chiffres étaient exacts à la date de rédaction mais peuvent avoir changé depuis.
+            Vérifie toujours l'information à jour auprès des sources officielles
+            (<a href="https://www.brvm.org" target="_blank" rel="noreferrer" style={{ color: OR }}>brvm.org</a>,
+            {' '}<a href="https://www.impots.gouv.fr" target="_blank" rel="noreferrer" style={{ color: OR }}>impots.gouv.fr</a>,
+            {' '}ta SGI) avant toute décision. Contenu éducatif — ne constitue pas un conseil en investissement.
+            Investir comporte un risque de perte en capital.
+          </div>
+
           <article
             className="blog-post-content"
             dangerouslySetInnerHTML={{ __html: content }}
