@@ -85,7 +85,7 @@ export default function Guides() {
                     e.currentTarget.style.transform = 'none'
                   }}
                 >
-                  <div style={{ fontSize: 28 }}>{o.emoji}</div>
+                  <div style={{ width: 32, height: 3, background: OR, borderRadius: 2, marginBottom: 4 }} />
                   <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#F1F5F9', fontFamily: 'Playfair Display,serif' }}>{o.titre}</div>
                   <div style={{ fontSize: 14, color: GRIS, lineHeight: 1.6, flex: 1 }}>{o.desc}</div>
                   <div style={{ fontSize: 13, color: OR, fontWeight: 600, marginTop: 4 }}>{o.cta}</div>
