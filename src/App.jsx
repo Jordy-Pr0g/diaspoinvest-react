@@ -27,16 +27,7 @@ const NotFound    = lazy(() => import('./pages/NotFound.jsx'))
 
 function LandingPage() {
   const [modal, setModal] = useState(null)
-  const [showQuiz, setShowQuiz] = useState(() => {
-    const shown = sessionStorage.getItem('diaspoinvest_quiz_shown')
-    return !shown
-  })
-
-  useEffect(() => {
-    if (!showQuiz) {
-      sessionStorage.setItem('diaspoinvest_quiz_shown', 'true')
-    }
-  }, [showQuiz])
+  const [showQuiz, setShowQuiz] = useState(true)
 
   return (
     <>
