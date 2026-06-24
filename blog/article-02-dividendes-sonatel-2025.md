@@ -6,7 +6,7 @@
 
 ---
 
-Réponse rapide : Sonatel a versé 1 740 FCFA de dividende par action, soit un rendement brut d'environ 6,13 %. Pour un résident en France après flat tax de 30 %, le rendement net est de 4,29 %, soit près de 3 fois ce que rapporte le Livret A (1,5 %). Les dividendes sont versés automatiquement une fois par an sur ton compte SGI.
+Réponse rapide : Sonatel a versé 1 740 FCFA de dividende par action, soit un rendement brut d'environ 6,13 %. Pour un résident en France après flat tax de 31,4 %, le rendement net est de 4,20 %, soit près de 3 fois ce que rapporte le Livret A (1,5 %). Les dividendes sont versés automatiquement une fois par an sur ton compte SGI.
 
 ---
 
@@ -58,7 +58,7 @@ Données au 19 juin 2026 :
 | Cours de l'action | 28 400 FCFA (43 EUR) |
 | Dividende versé | 1 740 FCFA par action (2,65 EUR) |
 | Rendement brut | 6,13 % |
-| Rendement net résident France (-30 %) | 4,29 % |
+| Rendement net résident France (-31,4 %) | 4,20 % |
 | Rendement net résident UEMOA (-10 % IRVM Sénégal) | 5,52 % |
 
 Source : brvm.org, sikafinance.com, 16 juin 2026
@@ -73,14 +73,14 @@ Sonatel verse 6,13 % brut. Tu ne gères rien. Tu ne réponds à aucun appel. Tu 
 
 ## Ce que ça donne selon le nombre d'actions
 
-Pour un résident en France après flat tax de 30 % :
+Pour un résident en France après flat tax de 31,4 % :
 
 | Actions | Investissement | Dividende brut/an | Dividende net/an | En euros |
 |---------|---------------|-------------------|-----------------|---------|
-| 10 | 281 500 FCFA (429 EUR) | 17 400 FCFA | 12 180 FCFA | 18,57 EUR |
-| 50 | 1 407 500 FCFA (2 145 EUR) | 87 000 FCFA | 60 900 FCFA | 92,84 EUR |
-| 100 | 2 815 000 FCFA (4 291 EUR) | 174 000 FCFA | 121 800 FCFA | 185,68 EUR |
-| 200 | 5 630 000 FCFA (8 582 EUR) | 348 000 FCFA | 243 600 FCFA | 371,36 EUR |
+| 10 | 284 000 FCFA (433 EUR) | 17 400 FCFA | 11 936 FCFA | 18,20 EUR |
+| 50 | 1 420 000 FCFA (2 165 EUR) | 87 000 FCFA | 59 682 FCFA | 90,98 EUR |
+| 100 | 2 840 000 FCFA (4 329 EUR) | 174 000 FCFA | 119 364 FCFA | 181,97 EUR |
+| 200 | 5 680 000 FCFA (8 659 EUR) | 348 000 FCFA | 238 728 FCFA | 363,94 EUR |
 
 Ces dividendes tombent chaque année, sans que tu vendes quoi que ce soit, sans que tu fasses quoi que ce soit. Tu détiens les actions et l'argent arrive.
 

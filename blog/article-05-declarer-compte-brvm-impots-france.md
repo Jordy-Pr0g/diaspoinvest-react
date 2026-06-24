@@ -5,7 +5,7 @@
 
 ---
 
-Réponse rapide : Tout résident fiscal français qui détient un compte SGI (BRVM) doit le déclarer chaque année via le formulaire 3916 sur impots.gouv.fr. Amende en cas d'oubli : 1 500 euros par compte, par an. Les dividendes sont soumis à la flat tax de 30 % et se déclarent en case 2DC. La SGI ne fait rien de ton côté, tu es seul responsable.
+Réponse rapide : Tout résident fiscal français qui détient un compte SGI (BRVM) doit le déclarer chaque année via le formulaire 3916 sur impots.gouv.fr. Amende en cas d'oubli : 1 500 euros par compte, par an. Les dividendes sont soumis à la flat tax de 31,4 % et se déclarent en case 2DC. La SGI ne fait rien de ton côté, tu es seul responsable.
 
 ---
 
@@ -23,7 +23,7 @@ Voilà ce que tu dois savoir, sans jargon, avec les cases exactes à remplir.
 
 Sommaire
 1. Le formulaire 3916 : l'obligation que tout le monde oublie
-2. La flat tax de 30 % sur les dividendes BRVM
+2. La flat tax de 31,4 % sur les dividendes BRVM
 3. La fiscalité selon ton pays de résidence
 4. La convention fiscale France/Côte d'Ivoire : éviter la double imposition
 5. Les 3 erreurs les plus coûteuses
@@ -50,22 +50,22 @@ Le remplissage prend moins de 5 minutes. L'oubli coûte 1 500 euros. Il n'y a pa
 
 ---
 
-## La flat tax de 30 % sur les dividendes BRVM
+## La flat tax de 31,4 % sur les dividendes BRVM
 
-Les dividendes BRVM sont des revenus de capitaux mobiliers. En France, ils sont soumis au Prélèvement Forfaitaire Unique (PFU), la flat tax, de 30 % : 12,8 % d'impôt sur le revenu et 17,2 % de prélèvements sociaux.
+Les dividendes BRVM sont des revenus de capitaux mobiliers. En France, ils sont soumis au Prélèvement Forfaitaire Unique (PFU), la flat tax, de 31,4 % depuis 2026 : 12,8 % d'impôt sur le revenu et 18,6 % de prélèvements sociaux (la CSG est passée de 9,2 % à 10,6 %).
 
 Ce prélèvement s'applique dès que le dividende est versé, pas quand tu rapatries l'argent en France, pas quand tu le dépenses. Dès le versement, même si tu le réinvestis immédiatement sur ton compte SGI.
 
-Exemple avec Sonatel au 19 juin 2026 :
+Exemple avec Sonatel :
 
-| Scénario | Dividende brut | Flat tax (30 %) | Net réel France |
-|----------|---------------|-----------------|-----------------|
-| 1 action | 1 740 FCFA (2,65 EUR) | 522 FCFA (0,80 EUR) | 1 218 FCFA (1,86 EUR) |
-| 10 actions | 17 400 FCFA (26,53 EUR) | 5 220 FCFA (7,96 EUR) | 12 180 FCFA (18,57 EUR) |
-| 50 actions | 87 000 FCFA (132,63 EUR) | 26 100 FCFA (39,79 EUR) | 60 900 FCFA (92,84 EUR) |
-| 100 actions | 174 000 FCFA (265,26 EUR) | 52 200 FCFA (79,58 EUR) | 121 800 FCFA (185,68 EUR) |
+| Scénario | Dividende brut | Flat tax (31,4 %) | Net réel France |
+|----------|---------------|-------------------|-----------------|
+| 1 action | 1 740 FCFA (2,65 EUR) | 546 FCFA (0,83 EUR) | 1 194 FCFA (1,82 EUR) |
+| 10 actions | 17 400 FCFA (26,53 EUR) | 5 464 FCFA (8,33 EUR) | 11 936 FCFA (18,20 EUR) |
+| 50 actions | 87 000 FCFA (132,63 EUR) | 27 318 FCFA (41,65 EUR) | 59 682 FCFA (90,98 EUR) |
+| 100 actions | 174 000 FCFA (265,26 EUR) | 54 636 FCFA (83,29 EUR) | 119 364 FCFA (181,97 EUR) |
 
-Rendement net Sonatel pour un résident France : 4,29 % contre 6,13 % brut.
+Rendement net Sonatel pour un résident France : 4,20 % contre 6,13 % brut.
 
 Les dividendes se déclarent en case 2DC du formulaire 2042.
 
@@ -94,10 +94,10 @@ Comparons sur Sonatel, société sénégalaise (IRVM 10 %), au dividende brut de
 
 | Situation | Impôt sur dividendes | Rendement net Sonatel | Plus-values |
 |---|---|---|---|
-| Résident France | Flat tax 30 % | 4,29 % | Flat tax 30 % |
+| Résident France | Flat tax 31,4 % | 4,20 % | Flat tax 31,4 % |
 | Résident UEMOA | IRVM 10 % (à la source) | 5,52 % | Exonérées |
 
-Les résidents en zone UEMOA ont un avantage fiscal significatif : les plus-values à la revente sont totalement exonérées. Un investisseur basé à Dakar qui achète Sonatel à 28 400 FCFA et le revend plus cher ne paie aucun impôt sur ce gain. Un résident en France paie 30 % sur la plus-value.
+Les résidents en zone UEMOA ont un avantage fiscal significatif : les plus-values à la revente sont totalement exonérées. Un investisseur basé à Dakar qui achète Sonatel à 28 400 FCFA et le revend plus cher ne paie aucun impôt sur ce gain. Un résident en France paie 31,4 % sur la plus-value.
 
 ---
 
@@ -105,13 +105,13 @@ Les résidents en zone UEMOA ont un avantage fiscal significatif : les plus-valu
 
 C'est le mécanisme que la plupart des investisseurs de la diaspora ne connaissent pas, et qui leur coûte de l'argent chaque année.
 
-Quand tu reçois des dividendes d'une action cotée à la BRVM via une SGI ivoirienne, la Côte d'Ivoire prélève un IRVM de 12 % à la source, directement sur le dividende.
+Quand tu reçois des dividendes d'une société ivoirienne cotée à la BRVM, la Côte d'Ivoire prélève un IRVM de 10 % à la source, directement sur le dividende.
 
-En France, tu dois ensuite déclarer ces dividendes et payer la flat tax de 30 %.
+En France, tu dois ensuite déclarer ces dividendes et payer la flat tax de 31,4 %.
 
-Sans la convention fiscale, tu paierais deux fois : 12 % en CI et 30 % en France, soit 42 % au total.
+Sans la convention fiscale, tu paierais deux fois : 10 % en CI et 31,4 % en France, soit 41,4 % au total.
 
-Avec la convention fiscale bilatérale France/Côte d'Ivoire, le mécanisme d'imputation permet de déduire l'IRVM ivoirien (12 %) de ta flat tax française (30 %). Tu paies donc effectivement 30 % au total, pas 42 %.
+Avec la convention fiscale bilatérale France/Côte d'Ivoire, le mécanisme d'imputation permet de déduire l'IRVM ivoirien (10 %) de ta flat tax française (31,4 %). Tu paies donc effectivement 31,4 % au total, pas 41,4 %.
 
 Ce mécanisme s'applique sous conditions et nécessite de le déclarer correctement. Le Guide DiaspoInvest détaille exactement comment procéder et quels justificatifs conserver.
 
@@ -151,7 +151,7 @@ Certaines le font sur demande explicite. La plupart ne le font pas automatiqueme
 Tu peux déposer des déclarations rectificatives pour les années non prescrites, généralement les 3 dernières années. La régularisation spontanée avant contrôle fiscal est systématiquement mieux traitée qu'une découverte lors d'un contrôle. Consulte un fiscaliste ou les services des impôts directement.
 
 **Est-ce que les dividendes BRVM sont imposés deux fois automatiquement ?**
-Potentiellement oui, si tu ne déclares pas correctement et n'appliques pas la convention fiscale. Avec la bonne déclaration et la convention France/CI, tu ne paies qu'une seule fois : 30 % au total, et non 30 % + 12 %.
+Potentiellement oui, si tu ne déclares pas correctement et n'appliques pas la convention fiscale. Avec la bonne déclaration et la convention France/CI, tu ne paies qu'une seule fois : 31,4 % au total, et non 31,4 % + 10 %.
 
 **Que se passe-t-il si je rentre définitivement en Afrique en cours d'année ?**
 Ton statut de résident fiscal change à la date de départ. La partie de l'année où tu étais résident fiscal français est soumise aux règles françaises. La suite dépend de la fiscalité de ton pays d'accueil. Consulte un conseiller fiscal pour la transition.

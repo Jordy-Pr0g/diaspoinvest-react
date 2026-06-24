@@ -50,7 +50,7 @@ export const ARTICLES = [
   {
     slug: 'declarer-compte-brvm-impots-france',
     titre: 'Déclarer un compte BRVM aux impôts français : ce que personne ne t\'explique',
-    description: 'Formulaire 3916, flat tax 30 %, convention fiscale France/CI pour éviter la double imposition. Amende en cas d\'oubli : 1 500 € par an.',
+    description: 'Formulaire 3916, flat tax 31,4 %, convention fiscale France/CI pour éviter la double imposition. Amende en cas d\'oubli : 1 500 € par an.',
     date: '5 juin 2026',
     lecture: '7 min',
     file: () => import('../../blog/article-05-declarer-compte-brvm-impots-france.md?raw'),

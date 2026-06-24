@@ -85,17 +85,17 @@ Et en parallèle de cette performance, les actionnaires ont aussi encaissé leur
 
 Concrètement, au 19 juin 2026 :
 
-| Action | Cours | Dividende | Rendement brut | Net France (-30 %) |
-|--------|-------|-----------|----------------|-------------------|
-| Vivo Energy CI | 3 700 FCFA | 270 FCFA | 7,30 % | 5,11 % |
-| Sonatel (SNTS) | 28 400 FCFA | 1 740 FCFA | 6,13 % | 4,29 % |
-| SGBCI | 36 015 FCFA | 2 064 FCFA | 5,73 % | 4,01 % |
-| Ecobank CI | 16 770 FCFA | 799 FCFA | 4,76 % | 3,33 % |
-| Orange CI | 15 800 FCFA | 720 FCFA | 4,56 % | 3,19 % |
+| Action | Cours | Dividende | Rendement brut | Net France (-31,4 %) |
+|--------|-------|-----------|----------------|---------------------|
+| Vivo Energy CI | 3 700 FCFA | 270 FCFA | 7,30 % | 5,01 % |
+| Sonatel (SNTS) | 28 400 FCFA | 1 740 FCFA | 6,13 % | 4,20 % |
+| SGBCI | 36 015 FCFA | 2 064 FCFA | 5,73 % | 3,93 % |
+| Ecobank CI | 16 770 FCFA | 799 FCFA | 4,76 % | 3,27 % |
+| Orange CI | 15 800 FCFA | 720 FCFA | 4,56 % | 3,13 % |
 
 Source : brvm.org, sikafinance.com, 16 juin 2026
 
-Avec 100 actions Sonatel (4 329 EUR investis), tu reçois 174 000 FCFA de dividendes bruts par an, soit 121 800 FCFA nets après flat tax 30 % en France. C'est 186 EUR par an, chaque année, sans vendre une seule action.
+Avec 100 actions Sonatel (4 329 EUR investis), tu reçois 174 000 FCFA de dividendes bruts par an, soit 119 364 FCFA nets après flat tax 31,4 % en France. C'est 182 EUR par an, chaque année, sans vendre une seule action.
 
 Tu veux calculer avec ton propre montant ? Le simulateur gratuit DiaspoInvest le fait en 3 minutes : [diaspoinvest.fr/#calculateur](https://diaspoinvest.fr/#calculateur)
 
@@ -139,7 +139,7 @@ Le formulaire 3916 est obligatoire. Dès que ton compte SGI est ouvert, tu dois 
 
 Amende en cas d'oubli : 1 500 euros par compte, par an. Même si le compte est vide. Même si tu n'as fait aucune transaction.
 
-Les dividendes sont soumis à la flat tax de 30 % (12,8 % IR + 17,2 % prélèvements sociaux) et se déclarent en case 2DC du formulaire 2042.
+Les dividendes sont soumis à la flat tax de 31,4 % (12,8 % IR + 18,6 % prélèvements sociaux depuis 2026) et se déclarent en case 2DC du formulaire 2042.
 
 La BRVM n'est pas éligible au PEA. Ton investissement passe par un compte-titres ordinaire.
 

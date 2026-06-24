@@ -30,7 +30,7 @@ En zone UEMOA, ces deux gains ne sont pas traités de la même manière.
 
 Dans la zone UEMOA, la plus-value réalisée à la cession d'actions n'est pas imposée pour le résident. Si tu achètes une action Sonatel et que tu la revends plus cher quelques années plus tard, le gain te revient sans prélèvement.
 
-C'est une différence majeure avec la France, où la plus-value est taxée à 30 % (flat tax).
+C'est une différence majeure avec la France, où la plus-value sur titres est taxée à 31,4 % (flat tax depuis 2026).
 
 ---
 

@@ -206,7 +206,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "Les plus-values sont-elles imposées en France ?",
-    r: "Oui, les plus-values réalisées à la vente d'actions BRVM sont imposables en France au taux de 30 % (Flat Tax). En revanche, elles sont exonérées d'impôt dans la zone UEMOA. Le guide explique comment les déclarer correctement via le formulaire 2074.",
+    r: "Oui, les plus-values réalisées à la vente d'actions BRVM sont imposables en France au taux de 31,4 % (Flat Tax, depuis 2026). En revanche, elles sont exonérées d'impôt dans la zone UEMOA. Le guide explique comment les déclarer correctement via le formulaire 2074.",
   },
   {
     q: "Les chiffres sont-ils à jour ?",

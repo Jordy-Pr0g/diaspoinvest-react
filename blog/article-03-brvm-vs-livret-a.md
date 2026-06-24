@@ -6,7 +6,7 @@
 
 ---
 
-Réponse rapide : le Livret A rapporte 1,5 % net, garanti, plafonné à 22 950 EUR. Sonatel verse un dividende d'environ 6,13 % brut (4,29 % net France après flat tax 30 %). L'écart est réel, mais la BRVM comporte un risque en capital que le Livret A n'a pas. Les deux ont des rôles différents et complémentaires.
+Réponse rapide : le Livret A rapporte 1,5 % net, garanti, plafonné à 22 950 EUR. Sonatel verse un dividende d'environ 6,13 % brut (4,20 % net France après flat tax 31,4 %). L'écart est réel, mais la BRVM comporte un risque en capital que le Livret A n'a pas. Les deux ont des rôles différents et complémentaires.
 
 ---
 
@@ -47,7 +47,7 @@ Le Livret A est un outil de sécurité. Pas un outil de constitution de patrimoi
 | Indicateur | Valeur |
 |---|---|
 | Rendement dividende Sonatel (brut) | 6,13 % |
-| Rendement net résident France (-30 %) | 4,29 % |
+| Rendement net résident France (-31,4 %) | 4,20 % |
 | Performance BRVM Composite 2024 | +28,89 % |
 | Plafond d'investissement | Aucun |
 | Garantie du capital | Aucune |
@@ -69,9 +69,9 @@ Comparons simplement, sur les chiffres d'aujourd'hui.
 
 Place 10 000 EUR sur ton Livret A à 1,5 % : il te rapporte environ 150 EUR la première année, garantis, sans risque.
 
-Investis 10 000 EUR (environ 6 560 000 FCFA) sur Sonatel à 6,13 % de rendement dividende : tu reçois environ 613 EUR de dividendes bruts la première année, soit environ 429 EUR nets après flat tax 30 % en France. Mais la valeur de ton capital peut monter… ou baisser.
+Investis 10 000 EUR (environ 6 560 000 FCFA) sur Sonatel à 6,13 % de rendement dividende : tu reçois environ 613 EUR de dividendes bruts la première année, soit environ 420 EUR nets après flat tax 31,4 % en France. Mais la valeur de ton capital peut monter… ou baisser.
 
-L'écart de revenu annuel est donc réel — environ 279 EUR de plus côté BRVM sur cet exemple. Le prix de cet écart, c'est le risque : ton Livret A ne perdra jamais de valeur, ton action Sonatel le peut.
+L'écart de revenu annuel est donc réel — environ 270 EUR de plus côté BRVM sur cet exemple. Le prix de cet écart, c'est le risque : ton Livret A ne perdra jamais de valeur, ton action Sonatel le peut.
 
 Pour projeter ta propre trajectoire avec ton budget mensuel réel, le simulateur DCA gratuit de DiaspoInvest le fait en quelques minutes : [diaspoinvest.fr/#calculateur](https://diaspoinvest.fr/#calculateur)
 
