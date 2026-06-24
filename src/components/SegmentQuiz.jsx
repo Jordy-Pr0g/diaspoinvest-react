@@ -43,12 +43,12 @@ const QUESTIONS = [
 const TITLES = {
   beginner: 'Tu débutes ? Voici par où commencer',
   junior: 'Tu connais les bases ? Voici la suite',
-  advanced: 'Tu es à l\'aise ? Passe au niveau au-dessus',
+  advanced: 'Tu connais déjà ? Allons à l\'essentiel',
 }
 const GOAL_INTRO = {
-  learn: 'On commence simplement, sans jargon.',
-  gain: 'Voici de quoi voir, concrètement, ce que ça pourrait donner.',
-  tax: 'Regardons ce qu\'il te reste vraiment, une fois les impôts payés.',
+  learn: 'De quoi bien comprendre comment tout ça marche.',
+  gain: 'De quoi voir, concrètement, ce que ça pourrait te rapporter.',
+  tax: 'De quoi y voir clair sur les impôts, et sur ce qu\'il te reste vraiment.',
 }
 
 // Items reutilisables (liens reels : routes, ancre landing, ou produit Gumroad)
@@ -73,23 +73,38 @@ const I = {
   packEurope: { title: 'Pack Complet Diaspora (29,99 €)', text: 'Le guide diaspora plus le Tracker pour suivre et projeter ton épargne.', href: GUMROAD.packEurope, product: true },
 }
 
-// Matrice track x experience. 2 ressources gratuites + 1 produit honnête.
-const RECOS = {
-  uemoa: {
-    beginner: [I.artUemoa, I.toolCalc, I.guideUemoa],
-    junior:   [I.toolScreener, I.toolBacktest, I.tracker],
-    advanced: [I.artImpotsUemoa, I.toolFisc, I.packUemoa],
-  },
-  afrique: {
-    beginner: [I.artUemoa, I.toolCalc, I.tracker],
-    junior:   [I.toolScreener, I.toolBacktest, I.tracker],
-    advanced: [I.artSonatel, I.toolFisc, I.tracker],
-  },
-  monde: {
-    beginner: [I.artDepuisEtranger, I.toolCalc, I.guideEurope],
-    junior:   [I.toolScreener, I.toolBacktest, I.tracker],
-    advanced: [I.artImpotsFr, I.toolFisc, I.packEurope],
-  },
+// Config par lieu : article d'intro, article fiscal, produit d'entrée, produit complet.
+// Pour "afrique" (hors UEMOA), les produits géo-spécifiques ne collent pas :
+// on s'appuie sur le Tracker (universel) et il n'y a pas d'article fiscal dédié.
+const TRACK = {
+  uemoa:   { intro: I.artUemoa,         tax: I.artImpotsUemoa, entry: I.guideUemoa,  top: I.packUemoa },
+  afrique: { intro: I.artUemoa,         tax: null,             entry: I.tracker,     top: I.tracker },
+  monde:   { intro: I.artDepuisEtranger, tax: I.artImpotsFr,   entry: I.guideEurope, top: I.packEurope },
+}
+
+// Recommandations pilotées par (lieu, niveau, objectif).
+// Toujours 3 items, le produit en dernier. Outils gratuits d'abord.
+function pickItems(track, experience, goal) {
+  const T = TRACK[track]
+  const taxArticle = T.tax || I.toolScreener // afrique : pas d'article fiscal, on remplace
+  const POOL = {
+    learn: {
+      beginner: [T.intro, I.toolCalc, T.entry],
+      junior:   [T.intro, I.toolScreener, T.entry],
+      advanced: [I.toolScreener, I.toolBacktest, T.top],
+    },
+    gain: {
+      beginner: [I.toolCalc, T.intro, T.entry],
+      junior:   [I.toolBacktest, I.toolCalc, I.tracker],
+      advanced: [I.toolBacktest, I.toolScreener, I.tracker],
+    },
+    tax: {
+      beginner: [taxArticle, I.toolFisc, T.entry],
+      junior:   [I.toolFisc, taxArticle, I.tracker],
+      advanced: [taxArticle, I.toolFisc, T.top],
+    },
+  }
+  return POOL[goal][experience]
 }
 
 export default function SegmentQuiz({ onComplete }) {
@@ -141,7 +156,7 @@ export default function SegmentQuiz({ onComplete }) {
   const track = answers.location === 'uemoa' ? 'uemoa'
     : answers.location === 'afrique' ? 'afrique'
     : 'monde'
-  const items = RECOS[track][experience]
+  const items = pickItems(track, experience, goal)
 
   return (
     <div className="segment-quiz-overlay">
