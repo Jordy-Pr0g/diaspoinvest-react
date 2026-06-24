@@ -198,22 +198,35 @@ SUJET : "${s}"
 DONNÉES BRVM EN TEMPS RÉEL :
 ${brvmData}
 
-RESSOURCES DIASPOINVEST disponibles :
-- Screener BRVM → https://diaspoinvest.fr/screener
-- Backtest DCA → https://diaspoinvest.fr/backtest
-- Calculateur fiscal → https://diaspoinvest.fr/fiscalite
-- Article "Investir depuis la France" → https://diaspoinvest.fr/blog/investir-brvm-depuis-france
-- Article "BRVM vs Livret A" → https://diaspoinvest.fr/blog/brvm-vs-livret-a
-- Article "Ouvrir un compte SGI" → https://diaspoinvest.fr/blog/ouvrir-compte-sgi-depuis-etranger
-- Article "Déclarer aux impôts" → https://diaspoinvest.fr/blog/declarer-compte-brvm-impots-france
+OUTILS GRATUITS (cite l'URL complète juste après la mention) :
+- Screener BRVM, voir les 47 actions : https://diaspoinvest.fr/screener
+- Backtest, combien tu aurais gagné en investissant avant : https://diaspoinvest.fr/backtest
+- Simulateur DCA, ce que ton épargne pourrait rapporter : https://diaspoinvest.fr/#calculateur
+- Calculateur de fiscalité, ce qu'il reste après impôts : https://diaspoinvest.fr/fiscalite
 
-PRODUITS :
-- Guide PDF Europe 14,99€ — idéal pour débuter → https://diaspoinvest.gumroad.com/l/oxxzda
-- Guide PDF UEMOA 14,99€ → https://diaspoinvest.gumroad.com/l/dpqvqo
-- Tracker Dashboard 19,99€ au lieu de 34,99€ — portefeuille, dividendes, fiscalité → https://diaspoinvest.gumroad.com/l/tocir
-- Pack Europe 29,99€ → https://diaspoinvest.gumroad.com/l/ecspxh
-- Pack UEMOA 29,99€ → https://diaspoinvest.gumroad.com/l/cvkcwo
-Sujet débutant → Guide. Sujet portefeuille/dividendes/fiscalité → Tracker. Tu peux citer les deux en une phrase mais 1 seul bouton CTA.
+ARTICLES (choisis celui qui colle au sujet ; débutants ET confirmés) :
+- Investir depuis la France : https://diaspoinvest.fr/blog/investir-brvm-depuis-france
+- Investir quand on vit en Afrique (résident) : https://diaspoinvest.fr/blog/investir-brvm-zone-uemoa
+- Fiscalité des dividendes en zone UEMOA : https://diaspoinvest.fr/blog/fiscalite-dividendes-brvm-uemoa
+- Dividendes Sonatel, combien ça rapporte : https://diaspoinvest.fr/blog/dividendes-sonatel-2025
+- BRVM vs Livret A : https://diaspoinvest.fr/blog/brvm-vs-livret-a
+- Ouvrir un compte SGI à distance : https://diaspoinvest.fr/blog/ouvrir-compte-sgi-depuis-etranger
+- Déclarer son compte aux impôts en France : https://diaspoinvest.fr/blog/declarer-compte-brvm-impots-france
+- SGI et frais, leur impact sur le rendement : https://diaspoinvest.fr/blog/sgi-frais-brvm
+- BRVM, PEA ou ETF World, comment choisir : https://diaspoinvest.fr/blog/brvm-vs-pea-etf
+- Analyser une action, les ratios qui comptent (confirmé) : https://diaspoinvest.fr/blog/analyser-action-brvm
+- Juger un cours, chère ou bon marché (confirmé) : https://diaspoinvest.fr/blog/juger-cours-action-brvm
+- Lire un compte de résultat (confirmé) : https://diaspoinvest.fr/blog/lire-compte-resultat
+- Les bourses africaines au-delà de la BRVM : https://diaspoinvest.fr/blog/bourses-africaines-panorama
+
+PRODUITS (ce qu'ils font VRAIMENT, n'invente aucune capacité) :
+- Guide PDF Europe, 14,99€ : comprendre la BRVM, ouvrir un compte à distance, déclarer en France. https://diaspoinvest.gumroad.com/l/oxxzda
+- Guide PDF UEMOA, 14,99€ : comprendre la BRVM, ouvrir un compte dans son pays, fiscalité UEMOA. https://diaspoinvest.gumroad.com/l/dpqvqo
+- Tracker Dashboard, 19,99€ (au lieu de 34,99€) : 47 actions par secteur, simulateur DCA 30 ans, suivi de portefeuille. https://diaspoinvest.gumroad.com/l/tocir
+- Pack Europe, 29,99€ : Guide Europe plus Tracker. https://diaspoinvest.gumroad.com/l/ecspxh
+- Pack UEMOA, 29,99€ : Guide UEMOA plus Tracker. https://diaspoinvest.gumroad.com/l/cvkcwo
+Le Guide ne recommande PAS d'actions et n'analyse PAS les 47 sociétés : il explique comment comprendre, ouvrir un compte et gérer la fiscalité. Le Tracker liste et simule.
+Choix : lecteur en Europe ou diaspora hors Afrique, produits Europe ; résident UEMOA, produits UEMOA. Sujet débutant, Guide ; sujet portefeuille/dividendes/suivi, Tracker. Un seul bouton CTA.
 
 RÈGLES NON NÉGOCIABLES :
 1. Zéro bullet point, zéro liste, zéro tiret long
@@ -269,11 +282,13 @@ QUESTION / PROBLÈME : "${s}"
 
 ÉTAT ACTUEL DU PROJET :
 Site : https://diaspoinvest.fr
-Pages : Accueil (landing), Screener BRVM, Backtest DCA, Fiscalité, Blog (4 articles), À propos
-Outils gratuits : Screener (47 actions live), Backtest DCA (depuis 1998), Calculateur fiscal
+Pages : Accueil (landing avec quiz d'orientation), Screener BRVM, Backtest DCA, Fiscalité, Blog (13 articles), À propos
+Outils gratuits : Screener (47 actions live), Backtest DCA (depuis 1998), Simulateur DCA bidirectionnel (#calculateur sur l'accueil), Calculateur fiscal
+Blog (13 articles) : investir depuis la France, investir en zone UEMOA (résident), fiscalité dividendes UEMOA, dividendes Sonatel, BRVM vs Livret A, ouvrir un compte SGI, déclarer aux impôts France, SGI et frais, BRVM vs PEA/ETF, analyser une action (ratios), juger un cours, lire un compte de résultat, panorama des bourses africaines
+Quiz d'accueil : 3 questions (niveau, objectif adapté au niveau, lieu) qui orientent vers articles + outils gratuits + 1 produit, et capture l'email (liste Brevo + attributs QUIZ_NIVEAU/QUIZ_OBJECTIF/QUIZ_LIEU)
 Produits Gumroad : Guide PDF Europe 14,99€, Guide PDF UEMOA 14,99€, Tracker Dashboard 19,99€ (promo jusqu'à fin juillet, normalement 34,99€), Pack Europe 29,99€, Pack UEMOA 29,99€
 Newsletter : liste Brevo, envoi via Cockpit avec Malik
-Cockpit interne : 4 agents IA (Imani TikTok, Malik Newsletter, Sofia Communauté, Kévin Conseiller)
+Cockpit interne : 5 agents IA (Imani TikTok, Malik Newsletter, Sofia Communauté, Kévin Conseiller, Alex Développeur)
 Tech : React/Vite, Vercel, API Brevo, API Anthropic, données BRVM live scrappées
 ${brvmData}
 
