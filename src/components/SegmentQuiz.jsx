@@ -10,35 +10,56 @@ const GUMROAD = {
   packUemoa:   'https://diaspoinvest.gumroad.com/l/cvkcwo',
 }
 
-const QUESTIONS = [
-  {
-    id: 'experience',
-    text: 'Tu connais déjà la bourse africaine ?',
-    answers: [
-      { label: 'Non, je découvre', value: 'beginner' },
-      { label: 'Un peu, je débute', value: 'junior' },
-      { label: 'Oui, j\'investis déjà', value: 'advanced' },
-    ],
-  },
-  {
+const Q_EXPERIENCE = {
+  id: 'experience',
+  text: 'Tu connais déjà la bourse africaine ?',
+  answers: [
+    { label: 'Non, je découvre', value: 'beginner' },
+    { label: 'Un peu, je débute', value: 'junior' },
+    { label: 'Oui, j\'investis déjà', value: 'advanced' },
+  ],
+}
+
+// La 2e question s'adapte au niveau choisi (mots et choix différents par profil).
+const GOAL_QUESTION = {
+  beginner: {
     id: 'goal',
-    text: 'Qu\'est-ce qui t\'intéresse le plus aujourd\'hui ?',
+    text: 'Qu\'est-ce que tu cherches en venant ici ?',
     answers: [
-      { label: 'Comprendre comment ça marche', value: 'learn' },
-      { label: 'Choisir et analyser des actions', value: 'analyze' },
-      { label: 'Optimiser : frais, fiscalité, stratégie', value: 'optimize' },
+      { label: 'Comprendre comment tout ça marche', value: 'learn' },
+      { label: 'Savoir si c\'est fait pour moi', value: 'analyze' },
+      { label: 'Éviter les pièges (frais, impôts)', value: 'optimize' },
     ],
   },
-  {
-    id: 'location',
-    text: 'Tu vis où en ce moment ?',
+  junior: {
+    id: 'goal',
+    text: 'Sur quoi veux-tu progresser ?',
     answers: [
-      { label: 'En Afrique de l\'Ouest (Côte d\'Ivoire, Sénégal, Bénin…)', value: 'uemoa' },
-      { label: 'Ailleurs en Afrique (Cameroun, Gabon, Maroc…)', value: 'afrique' },
-      { label: 'En Europe, au Canada, ailleurs', value: 'monde' },
+      { label: 'Consolider mes bases', value: 'learn' },
+      { label: 'Apprendre à choisir mes actions', value: 'analyze' },
+      { label: 'Réduire mes frais et mes impôts', value: 'optimize' },
     ],
   },
-]
+  advanced: {
+    id: 'goal',
+    text: 'Qu\'est-ce qui t\'intéresse le plus ?',
+    answers: [
+      { label: 'Approfondir l\'analyse fondamentale', value: 'learn' },
+      { label: 'Sélectionner et valoriser des titres', value: 'analyze' },
+      { label: 'Optimiser fiscalité, frais et allocation', value: 'optimize' },
+    ],
+  },
+}
+
+const Q_LOCATION = {
+  id: 'location',
+  text: 'Tu vis où en ce moment ?',
+  answers: [
+    { label: 'En Afrique de l\'Ouest (Côte d\'Ivoire, Sénégal, Bénin…)', value: 'uemoa' },
+    { label: 'Ailleurs en Afrique (Cameroun, Gabon, Maroc…)', value: 'afrique' },
+    { label: 'En Europe, au Canada, ailleurs', value: 'monde' },
+  ],
+}
 
 const TITLES = {
   beginner: 'Tu débutes ? Voici par où commencer',
@@ -121,6 +142,13 @@ function pickItems(track, experience, goal) {
   return POOL[goal][experience]
 }
 
+// Articles supplémentaires proposés en "À lire aussi", variés selon le lieu.
+const EXTRAS = {
+  uemoa:   [I.artSonatel, I.artVsLivret, I.artBourses, I.artImpotsUemoa],
+  afrique: [I.artOuvrir, I.artSgiFrais, I.artBourses, I.artSonatel],
+  monde:   [I.artVsLivret, I.artOuvrir, I.artVsPea, I.artSonatel],
+}
+
 export default function SegmentQuiz({ onComplete }) {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState({})
@@ -170,7 +198,10 @@ export default function SegmentQuiz({ onComplete }) {
   const track = answers.location === 'uemoa' ? 'uemoa'
     : answers.location === 'afrique' ? 'afrique'
     : 'monde'
+  const questions = [Q_EXPERIENCE, GOAL_QUESTION[answers.experience || 'beginner'], Q_LOCATION]
   const items = pickItems(track, experience, goal)
+  const mainTitles = new Set(items.map((i) => i.title))
+  const extras = (EXTRAS[track] || []).filter((x) => !mainTitles.has(x.title)).slice(0, 3)
 
   return (
     <div className="segment-quiz-overlay">
@@ -183,7 +214,7 @@ export default function SegmentQuiz({ onComplete }) {
           ✕
         </button>
 
-        {step < QUESTIONS.length ? (
+        {step < questions.length ? (
           <div className="segment-quiz-question">
             <h2>Bienvenue sur DiaspoInvest</h2>
             <p className="segment-quiz-subtext">
@@ -193,18 +224,18 @@ export default function SegmentQuiz({ onComplete }) {
             <div className="segment-quiz-progress">
               <div
                 className="segment-quiz-progress-bar"
-                style={{ width: `${((step + 1) / QUESTIONS.length) * 100}%` }}
+                style={{ width: `${((step + 1) / questions.length) * 100}%` }}
               />
             </div>
 
-            <h3 className="segment-quiz-text">{QUESTIONS[step].text}</h3>
+            <h3 className="segment-quiz-text">{questions[step].text}</h3>
 
             <div className="segment-quiz-answers">
-              {QUESTIONS[step].answers.map((answer) => (
+              {questions[step].answers.map((answer) => (
                 <button
                   key={answer.value}
                   className="segment-quiz-answer-btn"
-                  onClick={() => handleAnswer(QUESTIONS[step].id, answer.value)}
+                  onClick={() => handleAnswer(questions[step].id, answer.value)}
                 >
                   {answer.label}
                 </button>
@@ -229,6 +260,27 @@ export default function SegmentQuiz({ onComplete }) {
                   <span className="segment-quiz-reco-arrow">→</span>
                 </button>
               ))}
+            </div>
+
+            <div className="segment-quiz-more">
+              <span className="segment-quiz-more-label">À lire aussi</span>
+              {extras.map((x, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className="segment-quiz-more-link"
+                  onClick={() => handleNavigate(x)}
+                >
+                  {x.title}
+                </button>
+              ))}
+              <button
+                type="button"
+                className="segment-quiz-more-link segment-quiz-more-all"
+                onClick={() => handleNavigate({ to: '/blog' })}
+              >
+                Voir tous les articles →
+              </button>
             </div>
 
             <form onSubmit={handleEmailSubmit} className="segment-quiz-email-form">

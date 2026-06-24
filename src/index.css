@@ -427,6 +427,46 @@ img {
   font-weight: 600;
 }
 
+.segment-quiz-more {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.segment-quiz-more-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-2);
+  margin-bottom: 2px;
+}
+
+.segment-quiz-more-link {
+  background: none;
+  border: none;
+  padding: 3px 0;
+  text-align: left;
+  font-size: 13px;
+  color: rgba(232,238,246,0.78);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+
+.segment-quiz-more-link:hover {
+  color: var(--gold);
+}
+
+.segment-quiz-more-all {
+  color: var(--gold);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
 .segment-quiz-email-form {
   margin-top: 16px;
   padding-top: 16px;
