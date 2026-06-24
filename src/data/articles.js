@@ -1,5 +1,21 @@
 export const ARTICLES = [
   {
+    slug: 'erreurs-debutant-brvm',
+    titre: '5 erreurs fréquentes quand on débute sur la BRVM',
+    description: 'Tout miser sur une action, vendre dans la panique, ignorer les frais, attendre le bon moment... Les pièges classiques du débutant, et comment les éviter.',
+    date: '25 juin 2026',
+    lecture: '6 min',
+    file: () => import('../../blog/article-15-erreurs-debutant-brvm.md?raw'),
+  },
+  {
+    slug: 'indices-brvm',
+    titre: 'Comprendre les indices de la BRVM : Composite, BRVM 30, Prestige',
+    description: 'Le Composite (tout le marché), le BRVM 30 (les valeurs les plus échangées) et le Prestige (l\'élite de la cote) expliqués simplement, et lequel suivre.',
+    date: '25 juin 2026',
+    lecture: '6 min',
+    file: () => import('../../blog/article-14-indices-brvm.md?raw'),
+  },
+  {
     slug: 'investir-brvm-depuis-france',
     titre: 'Comment investir sur la BRVM depuis la France en 2026',
     description: 'Oui, tu peux investir dans des entreprises africaines depuis Paris. Voici comment ça fonctionne concrètement, ce que ça rapporte, et ce que tu dois déclarer en France.',

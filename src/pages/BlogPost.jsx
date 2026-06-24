@@ -30,6 +30,25 @@ const SLUG_HERO = {
   'lire-compte-resultat': 'tax',
   'brvm-vs-pea-etf': 'compare',
   'ouvrir-compte-sgi-depuis-etranger': 'account',
+  'indices-brvm': 'growth',
+  'erreurs-debutant-brvm': 'account',
+}
+
+// Petites icônes de section (devant les titres H2), choisies selon les mots du titre
+const ICO = {
+  doc:   '<svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h5"/></svg>',
+  coin:  '<svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M10 10.5h3a1.5 1.5 0 010 3h-3"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 16v-4M13 16V9M18 16v-7"/></svg>',
+  card:  '<svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>',
+  warn:  '<svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>',
+}
+function pickIcon(text) {
+  const t = text.toLowerCase()
+  if (/imp[oô]t|fiscal|d[ée]clar|imposab|irvm|taxe|\bpea\b/.test(t)) return ICO.doc
+  if (/erreur|pi[èe]ge|risque|attention/.test(t)) return ICO.warn
+  if (/compte|\bsgi\b|ouvrir|courtier|carte/.test(t)) return ICO.card
+  if (/dividend|rapport|gagn|frais|co[uû]t|\bprix\b|fcfa|argent|[ée]pargne|combien/.test(t)) return ICO.coin
+  return ICO.chart
 }
 
 function ProgressBar() {
@@ -139,6 +158,8 @@ function processHtml(rawHtml) {
   const headings = doc.querySelectorAll('h2')
   headings.forEach((h2) => {
     h2.id = slugify(h2.textContent)
+    h2.classList.add('h2-ico')
+    h2.insertAdjacentHTML('afterbegin', `<span class="sec-ico">${pickIcon(h2.textContent)}</span>`)
   })
 
   // Transformer le sommaire en liens cliquables
