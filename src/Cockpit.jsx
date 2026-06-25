@@ -129,25 +129,32 @@ async function callClaudeChat(system, messages, maxTokens = 4000) {
   return (await res.json()).content[0].text
 }
 
-/* ── PROMPT ROUTAGE JORDAN ───────────────────────────────────── */
-const JORDAN_ROUTING_PROMPT = (demande, ctx) => `Tu es Jordan, Orchestrateur de DiaspoInvest. Tu diriges une équipe de 3 agents IA spécialisés.
-${ctx ? `Contexte projet actuel : ${ctx}\n` : ''}
-Analyse cette demande et décide à quel agent la confier :
-"${demande}"
+/* ── PROMPT ORCHESTRATEUR JORDAN ─────────────────────────────── */
+const JORDAN_PROMPT = (ctx) => `Tu es Jordan, l'orchestrateur de DiaspoInvest : le chef d'orchestre IA du fondateur. Tu connais le projet dans ses moindres détails et tu coordonnes une équipe de 5 agents spécialisés. Tu es son point d'entrée unique.
 
-Agents disponibles :
-- tiktok (Imani) : scripts TikTok, hooks, Reels, contenu vidéo, posts LinkedIn, idées de contenu, réseaux sociaux
-- newsletter (Malik) : newsletters hebdo, emails marketing, séquences email, contenu Brevo, copywriting
-- community (Sofia) : réponses DM Instagram/TikTok, emails communauté entrants, FAQ, messages de bienvenue, objections acheteurs
-- conseiller (Kévin) : toute question stratégique ou problème projet — landing page, SEO, pricing, features, roadmap, conversion, amélioration site, idées contenu, diagnostics, décisions produit
-- developpeur (Alex) : implémentation technique des recommandations — génère code, fichiers, instructions, commits — transforme les idées en changements appliqués
+${ctx ? `Contexte projet : ${ctx}\n` : ''}
+TU ES EN CONVERSATION CONTINUE : garde le fil de tout l'échange, ne repars jamais de zéro, rebondis sur ce qui a déjà été dit.
 
-Réponds UNIQUEMENT en JSON valide sans markdown ni backticks :
-{"agentId":"...","reason":"...","refinedPrompt":"..."}
+CE QUE TU FAIS TOI-MÊME (réponds directement, sans déléguer) :
+- Stratégie, priorisation, "par où commencer", arbitrages, vue d'ensemble.
+- Coordination : décomposer une grosse demande en étapes claires et dire qui fait quoi.
+- Conseil rapide, réponses aux questions sur le projet, l'avancement, les prochaines actions.
 
-- agentId : l'id exact de l'agent le plus adapté
-- reason : 1 phrase courte expliquant ton choix (ex: "Demande de script vidéo → Imani")
-- refinedPrompt : la demande reformulée et enrichie pour que l'agent produise le meilleur résultat possible`
+TON ÉQUIPE (tu délègues les LIVRABLES concrets) :
+- Imani (id: tiktok) : scripts TikTok/Reels, posts LinkedIn, contenu réseaux sociaux.
+- Malik (id: newsletter) : newsletters, séquences email, copywriting Brevo.
+- Sofia (id: community) : réponses DM/emails entrants, FAQ, objections, messages de bienvenue.
+- Kévin (id: conseiller) : analyse stratégique approfondie, SEO, pricing, features, roadmap, diagnostics.
+- Alex (id: developpeur) : implémentation technique, code, fichiers, commits.
+
+COMMENT DÉLÉGUER :
+- Quand un livrable concret relève d'un agent, explique-le en une phrase, puis termine ton message par une ou plusieurs lignes de délégation, chacune au format EXACT :
+[[GO:id|demande claire et reformulée pour l'agent]]
+- Exemple : [[GO:newsletter|Rédige la newsletter de lundi sur les dividendes Sonatel, ton chaleureux, 1 CTA vers le Guide]]
+- Tu peux enchaîner plusieurs délégations pour une demande complexe (ex: une campagne = une ligne Imani + une ligne Malik).
+- N'utilise une délégation QUE si un livrable est réellement demandé. Pour une simple question ou un conseil, réponds toi-même SANS balise.
+
+STYLE : direct, concret, chaleureux, zéro blabla. Virgule décimale française. Jamais de tiret long. Réponses courtes et actionnables.`
 
 const AGENTS = (brvmData) => [
   {
@@ -567,6 +574,7 @@ function AgentWorkspace({ agent, context, onBack }) {
   const [sendStatus, setSendStatus] = useState('idle') // idle | sending | sent | error
   const [sendError, setSendError] = useState('')
   const threadRef = useRef(null)
+  const pendingRef = useRef(false)
 
   const lastAssistant = [...messages].reverse().find(m => m.role === 'assistant')
 
@@ -575,10 +583,24 @@ function AgentWorkspace({ agent, context, onBack }) {
     if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight
   }, [messages, loading])
 
-  const send = async () => {
-    const q = input.trim()
+  // Tâche déléguée par Jordan : on la lance automatiquement à l'ouverture
+  useEffect(() => {
+    if (pendingRef.current) return
+    let pending = null
+    try { pending = localStorage.getItem('di_pending_' + agent.id) } catch {}
+    if (pending) {
+      pendingRef.current = true
+      try { localStorage.removeItem('di_pending_' + agent.id) } catch {}
+      send(pending)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const send = async (forced) => {
+    const q = (typeof forced === 'string' ? forced : input).trim()
     if (!q || loading) return
-    setError(''); setInput('')
+    setError('')
+    if (typeof forced !== 'string') setInput('')
     const userMsg = { id: Date.now(), role: 'user', content: q }
     const base = [...messages, userMsg]
     setMessages(base); saveChat(agent.id, base); setLoading(true)
@@ -845,157 +867,144 @@ function AgentWorkspace({ agent, context, onBack }) {
   )
 }
 
-/* ── PANNEAU SUPERVISEUR ─────────────────────────────────────── */
+/* ── ORCHESTRATEUR JORDAN (chat continu + délégation) ────────── */
+const DELEG_RE = /\[\[GO:\s*(\w+)\s*\|\s*([^\]]+?)\s*\]\]/g
+function parseDelegations(text) {
+  const dels = []
+  let clean = text.replace(DELEG_RE, (_, id, demande) => { dels.push({ id: id.trim(), demande: demande.trim() }); return '' })
+  return { clean: clean.trim(), dels }
+}
+
 function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
-  const [demande, setDemande] = useState('')
-  const [phase, setPhase] = useState('idle') // idle | routing | generating | done | error
-  const [routing, setRouting] = useState(null) // { agentId, reason, refinedPrompt }
-  const [result, setResult] = useState('')
+  const [messages, setMessages] = useState(() => loadChat('jordan'))
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [copied, setCopied] = useState(false)
-  const [notionUrl, setNotionUrl] = useState('')
-  const resultRef = useRef(null)
+  const [copiedId, setCopiedId] = useState(null)
+  const threadRef = useRef(null)
 
-  const selectedAgent = routing ? agents.find(a => a.id === routing.agentId) : null
+  useEffect(() => { if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight }, [messages, loading])
 
-  const submit = async () => {
-    if (!demande.trim()) return
-    setError(''); setResult(''); setRouting(null); setPhase('routing')
+  const send = async () => {
+    const q = input.trim()
+    if (!q || loading) return
+    setError(''); setInput('')
+    const userMsg = { id: Date.now(), role: 'user', content: q }
+    const base = [...messages, userMsg]
+    setMessages(base); saveChat('jordan', base); setLoading(true)
     try {
-      // Appel 1 — Jordan route
-      const raw = await callClaude(JORDAN_ROUTING_PROMPT(demande, context), null, 300)
-      let decision
-      try {
-        const clean = raw.replace(/```json|```/g, '').trim()
-        const match = clean.match(/\{[\s\S]*\}/)
-        decision = JSON.parse(match ? match[0] : clean)
-      } catch { throw new Error("Jordan n'a pas pu analyser la demande. Reformule et réessaie.") }
-      const agent = agents.find(a => a.id === decision.agentId)
-      if (!agent) throw new Error(`Agent inconnu : ${decision.agentId}`)
-      setRouting(decision)
-      setPhase('generating')
-      onRouted && onRouted(decision.agentId)
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
-
-      // Appel 2 — agent génère
-      const text = await callClaudeChat(agent.systemPrompt(context), [{ role: 'user', content: decision.refinedPrompt }])
-      setResult(text)
-
-      // Sauvegarde historique
-      const entry = { id: Date.now(), sujet: decision.refinedPrompt, result: text, date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }
-      saveHistory(agent.id, [entry, ...loadHistory(agent.id)])
-
-      // Auto-save Notion si configuré
-      const url = await saveToNotion({ agentNom: agent.nom, agentId: agent.id, sujet: decision.refinedPrompt, result: text })
-      if (url) setNotionUrl(url)
-
-      setPhase('done')
-    } catch(e) { setError(e.message); setPhase('error') }
+      const text = await callClaudeChat(JORDAN_PROMPT(context), base)
+      const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
+      setMessages(full); saveChat('jordan', full)
+    } catch (e) { setError(e.message); setMessages(base) }
+    finally { setLoading(false) }
   }
 
-  const reset = () => { setPhase('idle'); setDemande(''); setRouting(null); setResult(''); setError('') }
+  const resetChat = () => { setMessages([]); saveChat('jordan', []); setError('') }
+
+  // Confier une tâche à un agent : pré-remplit son chat puis ouvre son espace
+  const handoff = (id, demande) => {
+    const agent = agents.find(a => a.id === id)
+    if (!agent) return
+    try { localStorage.setItem('di_pending_' + id, demande) } catch {}
+    onRouted && onRouted(id)
+    onOpenAgent(agent)
+  }
 
   return (
-    <div style={{ padding: '0 48px 32px', maxWidth: 1200, margin: '0 auto' }}>
-      {/* Zone de saisie Jordan */}
-      <div style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.07) 0%, rgba(13,59,46,0.25) 100%)', border: '1px solid rgba(201,168,76,0.22)', borderRadius: 24, padding: '28px 32px' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#C9A84C', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 14 }}>
-          Parle à Jordan — il confie ta demande au bon agent
+    <div style={{ padding: '0 48px 40px', maxWidth: 1000, margin: '0 auto' }}>
+      <div style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(13,59,46,0.18) 100%)', border: '1px solid rgba(201,168,76,0.22)', borderRadius: 24, overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 480 }}>
+
+        {/* En-tête */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', borderBottom: '1px solid rgba(201,168,76,0.15)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <img src="/avatars/bearded-headset.png" alt="Jordan" style={{ height: 40, objectFit: 'contain' }}/>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 15, color: 'white', fontFamily: 'Playfair Display, serif' }}>Jordan</div>
+              <div style={{ fontSize: 11, color: '#C9A84C', fontWeight: 700 }}>Orchestrateur — il répond ou délègue à l'équipe</div>
+            </div>
+          </div>
+          {messages.length > 0 && (
+            <button onClick={resetChat} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '7px 16px', color: 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
+              Nouvelle conversation
+            </button>
+          )}
         </div>
-        <textarea
-          value={demande}
-          onChange={e => setDemande(e.target.value)}
-          disabled={phase === 'routing' || phase === 'generating'}
-          placeholder="Ex : crée un script TikTok sur le rendement de Vivo Energy · analyse les signaux BRVM ce mois · rédige un email post-achat pour le Guide..."
-          rows={3}
-          style={{ width: '100%', padding: '14px 16px', borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,168,76,0.18)', color: 'white', fontSize: 14, resize: 'none', fontFamily: 'DM Sans, sans-serif', boxSizing: 'border-box', outline: 'none', lineHeight: 1.7 }}
-          onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submit() }}
-        />
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14, gap: 12, flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', gap: 8 }}>
-            {(phase === 'done' || phase === 'error') && (
-              <button onClick={reset} style={{ padding: '11px 20px', borderRadius: 14, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.4)', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
-                Nouvelle demande
-              </button>
-            )}
-            <button onClick={submit} disabled={phase === 'routing' || phase === 'generating' || !demande.trim()}
-              style={{ padding: '11px 28px', borderRadius: 14, border: 'none', background: (phase === 'routing' || phase === 'generating') ? 'rgba(201,168,76,0.2)' : '#C9A84C', color: (phase === 'routing' || phase === 'generating') ? 'rgba(255,255,255,0.3)' : '#0D3B2E', fontWeight: 800, fontSize: 14, cursor: (phase === 'routing' || phase === 'generating') ? 'not-allowed' : 'pointer', fontFamily: 'DM Sans, sans-serif', boxShadow: (phase === 'routing' || phase === 'generating') ? 'none' : '0 6px 24px rgba(201,168,76,0.4)', transition: 'all 0.2s' }}>
-              {phase === 'routing' ? 'Jordan analyse...' : phase === 'generating' ? `${selectedAgent?.nom || 'Agent'} génère...` : 'Soumettre à Jordan'}
+
+        {/* Fil */}
+        <div ref={threadRef} style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: 16, maxHeight: '58vh' }}>
+          {messages.length === 0 && !loading && (
+            <div style={{ margin: 'auto', textAlign: 'center', padding: '30px 20px', maxWidth: 460 }}>
+              <img src="/avatars/bearded-headset.png" alt="" style={{ height: 90, objectFit: 'contain', marginBottom: 14 }}/>
+              <div style={{ color: 'white', fontWeight: 700, fontSize: 17, marginBottom: 8 }}>Parle à Jordan</div>
+              <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, lineHeight: 1.6 }}>
+                Demande-lui un conseil, un plan, une priorité — il te répond. Et quand il faut produire un contenu, il le confie au bon agent en un clic. Il garde le fil de toute la conversation.
+              </div>
+            </div>
+          )}
+
+          {messages.map((m) => {
+            if (m.role === 'user') return (
+              <div key={m.id} style={{ alignSelf: 'flex-end', maxWidth: '82%', background: '#C9A84C', color: '#0b0f14', padding: '12px 16px', borderRadius: '16px 16px 4px 16px', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontWeight: 500 }}>{m.content}</div>
+            )
+            const { clean, dels } = parseDelegations(m.content)
+            return (
+              <div key={m.id} style={{ alignSelf: 'flex-start', width: '100%', maxWidth: '94%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <img src="/avatars/bearded-headset.png" alt="" style={{ height: 26, objectFit: 'contain' }}/>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#C9A84C' }}>Jordan</span>
+                  <button onClick={() => { navigator.clipboard.writeText(clean); setCopiedId(m.id); setTimeout(() => setCopiedId(null), 2000) }}
+                    style={{ marginLeft: 'auto', background: 'none', border: 'none', color: copiedId === m.id ? '#C9A84C' : 'rgba(255,255,255,0.3)', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
+                    {copiedId === m.id ? 'Copié !' : 'Copier'}
+                  </button>
+                </div>
+                <pre style={{ margin: 0, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,168,76,0.18)', borderRadius: '4px 16px 16px 16px', padding: '14px 16px', whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: 13.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.85)', fontFamily: 'DM Sans, sans-serif' }}>{clean}</pre>
+                {dels.length > 0 && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 10 }}>
+                    {dels.map((d, i) => {
+                      const ag = agents.find(a => a.id === d.id)
+                      if (!ag) return null
+                      return (
+                        <button key={i} onClick={() => handoff(d.id, d.demande)}
+                          style={{ display: 'flex', alignItems: 'center', gap: 10, background: `${ag.color}14`, border: `1px solid ${ag.color}44`, borderRadius: 14, padding: '10px 16px', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', textAlign: 'left', maxWidth: 380 }}>
+                          <img src={ag.avatar} alt="" style={{ height: 32, objectFit: 'contain', flexShrink: 0 }}/>
+                          <span style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontSize: 13, fontWeight: 800, color: ag.color }}>Confier à {ag.nom} →</span>
+                            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{d.demande}</span>
+                          </span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+
+          {loading && (
+            <div style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
+              <img src="/avatars/bearded-headset.png" alt="" style={{ height: 26, objectFit: 'contain', animation: 'breathe 1.5s ease-in-out infinite' }}/>
+              Jordan réfléchit...
+            </div>
+          )}
+        </div>
+
+        {error && <div style={{ margin: '0 24px 12px', padding: '12px 16px', background: 'rgba(220,53,69,0.1)', border: '1px solid rgba(220,53,69,0.25)', borderRadius: 12, color: '#ff6b7a', fontSize: 13 }}>{error}</div>}
+
+        {/* Saisie */}
+        <div style={{ borderTop: '1px solid rgba(201,168,76,0.15)', padding: '16px 20px', background: 'rgba(255,255,255,0.02)' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
+            <textarea value={input} onChange={e => setInput(e.target.value)} placeholder={messages.length ? 'Relance Jordan...' : 'Ex : par quoi je commence cette semaine ? · prépare une campagne sur les dividendes · rédige la newsletter de lundi'} rows={2}
+              style={{ flex: 1, padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1.5px solid rgba(201,168,76,0.18)', color: 'white', fontSize: 14, resize: 'none', fontFamily: 'DM Sans, sans-serif', boxSizing: 'border-box', outline: 'none', lineHeight: 1.6 }}
+              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }}
+            />
+            <button onClick={send} disabled={loading || !input.trim()} style={{ padding: '13px 26px', borderRadius: 14, border: 'none', background: (loading || !input.trim()) ? 'rgba(201,168,76,0.2)' : '#C9A84C', color: (loading || !input.trim()) ? 'rgba(255,255,255,0.3)' : '#0D3B2E', fontWeight: 800, fontSize: 14, cursor: (loading || !input.trim()) ? 'not-allowed' : 'pointer', fontFamily: 'DM Sans, sans-serif', whiteSpace: 'nowrap' }}>
+              Envoyer
             </button>
           </div>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', marginTop: 8, display: 'block' }}>Entrée pour envoyer · Maj+Entrée pour un saut de ligne</span>
         </div>
-        {error && <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(220,53,69,0.1)', border: '1px solid rgba(220,53,69,0.2)', borderRadius: 10, color: '#ff6b7a', fontSize: 13 }}>{error}</div>}
       </div>
-
-      {/* Décision de routage */}
-      {routing && selectedAgent && (
-        <div ref={resultRef} style={{ marginTop: 16, animation: 'decision-slide 0.5s cubic-bezier(0.34,1.4,0.64,1) both' }}>
-          {/* Speech bubble Jordan */}
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 14, marginBottom: 12 }}>
-            <img src="/avatars/bearded-headset.png" alt="Jordan"
-              style={{ height: 64, objectFit: 'contain', filter: 'drop-shadow(0 0 16px rgba(201,168,76,0.6))', flexShrink: 0 }}/>
-            <div style={{ position: 'relative', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: '18px 18px 18px 4px', padding: '12px 18px', maxWidth: 480, animation: 'bubble-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.15s both' }}>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 4, fontWeight: 600 }}>Jordan —</div>
-              <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', lineHeight: 1.55 }}>
-                {routing.reason} C'est le domaine de{' '}
-                <span style={{ color: selectedAgent.color, fontWeight: 800, fontFamily: 'Playfair Display, serif', fontSize: 15 }}>{selectedAgent.nom}</span>.
-              </div>
-            </div>
-          </div>
-
-          {/* Bandeau agent sélectionné */}
-          <div style={{ background: `linear-gradient(135deg, rgba(13,59,46,0.4) 0%, ${selectedAgent.color}12 100%)`, border: `1px solid ${selectedAgent.color}30`, borderRadius: 20, padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 16, animation: 'decision-slide 0.4s cubic-bezier(0.34,1.3,0.64,1) 0.25s both' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: `${selectedAgent.color}12`, border: `1px solid ${selectedAgent.color}35`, borderRadius: 14, padding: '10px 16px', boxShadow: `0 0 24px ${selectedAgent.glow}` }}>
-              <img src={selectedAgent.avatar} alt={selectedAgent.nom} style={{ height: 44, objectFit: 'contain', filter: `drop-shadow(0 0 10px ${selectedAgent.color})` }}/>
-              <div>
-                <div style={{ fontSize: 10, color: selectedAgent.color, fontWeight: 700, letterSpacing: 1.2, textTransform: 'uppercase' }}>{selectedAgent.titre}</div>
-                <div style={{ fontSize: 18, fontWeight: 800, color: 'white', fontFamily: 'Playfair Display, serif' }}>{selectedAgent.nom}</div>
-              </div>
-            </div>
-            <div style={{ flex: 1, fontSize: 12, color: 'rgba(255,255,255,0.3)', fontStyle: 'italic', lineHeight: 1.5 }}>
-              Prompt optimisé et transmis — {selectedAgent.nom} génère ta réponse...
-            </div>
-            <button onClick={() => onOpenAgent(selectedAgent)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '8px 14px', color: 'rgba(255,255,255,0.35)', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', whiteSpace: 'nowrap' }}>
-              Workspace →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Loading agent */}
-      {phase === 'generating' && selectedAgent && (
-        <div style={{ marginTop: 16, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 20, padding: '40px 20px', textAlign: 'center' }}>
-          <img src={selectedAgent.avatar} alt="" style={{ height: 80, objectFit: 'contain', marginBottom: 12, filter: `drop-shadow(0 0 20px ${selectedAgent.color})`, animation: 'breathe 1.5s ease-in-out infinite' }}/>
-          <div style={{ color: 'white', fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{selectedAgent.nom} prépare ta réponse...</div>
-          <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12 }}>Prompt optimisé par Jordan</div>
-        </div>
-      )}
-
-      {/* Résultat */}
-      {phase === 'done' && result && selectedAgent && (
-        <div style={{ marginTop: 16, background: 'rgba(255,255,255,0.03)', border: `1px solid ${selectedAgent.color}25`, borderRadius: 20, overflow: 'hidden' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src={selectedAgent.avatar} alt="" style={{ height: 34, objectFit: 'contain' }}/>
-              <span style={{ fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>Réponse de {selectedAgent.nom}</span>
-              {notionUrl && (
-                <a href={notionUrl} target="_blank" rel="noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '4px 10px', fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 700, textDecoration: 'none', animation: 'bubble-pop 0.3s ease both' }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v16H4z" opacity=".15"/><path d="M4 4h16v16H4V4zm2 2v12h12V6H6z"/></svg>
-                  Notion
-                </a>
-              )}
-            </div>
-            <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
-              style={{ padding: '6px 18px', borderRadius: 10, border: `1.5px solid ${copied ? selectedAgent.color : 'rgba(255,255,255,0.12)'}`, background: copied ? selectedAgent.color : 'transparent', color: copied ? '#000' : 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
-              {copied ? 'Copié !' : 'Tout copier'}
-            </button>
-          </div>
-          <pre style={{ padding: '24px', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: 13, lineHeight: 1.85, color: 'rgba(255,255,255,0.8)', fontFamily: 'DM Sans, sans-serif', maxHeight: 600, overflowY: 'auto' }}>
-            {result}
-          </pre>
-        </div>
-      )}
     </div>
   )
 }
