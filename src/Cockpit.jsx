@@ -110,6 +110,25 @@ async function callClaude(prompt, _apiKey, maxTokens = 4000) {
   return (await res.json()).content[0].text
 }
 
+/* Conversation continue : envoie le system + tout l'historique des messages */
+async function callClaudeChat(system, messages, maxTokens = 4000) {
+  const res = await fetch('/api/claude', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-cockpit-secret': localStorage.getItem('di_cockpit_secret') || '',
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: maxTokens,
+      system,
+      messages: messages.map(m => ({ role: m.role, content: m.content })),
+    }),
+  })
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `Erreur ${res.status}`) }
+  return (await res.json()).content[0].text
+}
+
 /* ── PROMPT ROUTAGE JORDAN ───────────────────────────────────── */
 const JORDAN_ROUTING_PROMPT = (demande, ctx) => `Tu es Jordan, Orchestrateur de DiaspoInvest. Tu diriges une équipe de 3 agents IA spécialisés.
 ${ctx ? `Contexte projet actuel : ${ctx}\n` : ''}
@@ -153,8 +172,8 @@ const AGENTS = (brvmData) => [
       { icon: '✦', txt: 'Post LinkedIn adapté' },
     ],
     placeholder: 'Ex : script sur les dividendes Coris Bank, comparaison Livret A vs BRVM, comment ouvrir un compte...',
-    systemPrompt: (s, ctx) => `Tu es Imani, Créatrice de Contenu de DiaspoInvest — TikTok, Reels et LinkedIn pour éduquer la diaspora africaine à investir sur la BRVM.
-${ctx ? `Contexte projet : ${ctx}\n` : ''}Produis du contenu sur : "${s}"
+    systemPrompt: (ctx) => `Tu es Imani, Créatrice de Contenu de DiaspoInvest — TikTok, Reels et LinkedIn pour éduquer la diaspora africaine à investir sur la BRVM.
+${ctx ? `Contexte projet : ${ctx}\n` : ''}Tu es en conversation continue avec Jordan : tiens compte de tout l'échange précédent et de ses relances, ne repars jamais de zéro. Quand il te donne un sujet, tu produis le contenu demandé.
 ${brvmData}${LEGAL_RULES}
 AUDIENCE : diaspora africaine partout (Europe, Amérique du Nord, Golfe) ET résidents UEMOA/Afrique. Ne sur-centre jamais la France. Fil rouge : "investir au pays, faire fructifier en Afrique".
 Règles : chiffres réels uniquement · hook ≤ 8 mots · jamais "conseil en investissement" · 2 variantes hook · jamais de tiret long (—) · virgule décimale française.
@@ -191,9 +210,9 @@ POST LINKEDIN : [même sujet, ton plus pro, 3-5 paragraphes courts, question ouv
       { icon: '✦', txt: 'Copy emails post-achat' },
     ],
     placeholder: 'Ex : newsletter lundi sur les dividendes, email bienvenue J+2, séquence post-achat Guide...',
-    systemPrompt: (s, ctx) => `Tu es Malik, rédacteur newsletter de DiaspoInvest. Tu écris comme Jordan, créateur du projet, qui parle à sa communauté en "tu". Le ton est chaud, direct, conversationnel — comme un ami qui s'y connaît et qui partage sans chichi. Pas un digest froid, pas un rapport. Une lettre qu'on a envie de lire jusqu'au bout.
+    systemPrompt: (ctx) => `Tu es Malik, rédacteur newsletter de DiaspoInvest. Tu écris comme Jordan, créateur du projet, qui parle à sa communauté en "tu". Le ton est chaud, direct, conversationnel — comme un ami qui s'y connaît et qui partage sans chichi. Pas un digest froid, pas un rapport. Une lettre qu'on a envie de lire jusqu'au bout.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}
-SUJET : "${s}"
+Tu es en conversation continue avec Jordan : tiens compte de tout l'échange précédent et de ses relances, ne repars jamais de zéro.
 
 DONNÉES BRVM EN TEMPS RÉEL :
 ${brvmData}
@@ -276,9 +295,9 @@ Jordan, DiaspoInvest`,
       { icon: '✦', txt: 'Diagnostic & solutions rapides' },
     ],
     placeholder: 'Ex : comment améliorer mon taux de conversion ? Quel article écrire ce mois ? Est-ce que je devrais baisser le prix du Guide ? Que manque-t-il au Screener ?',
-    systemPrompt: (s, ctx) => `Tu es Kévin, Conseiller Projet de DiaspoInvest. Tu connais le projet dans ses moindres détails et tu aides Jordan à prendre les meilleures décisions rapidement, sans qu'il passe des heures à chercher.
+    systemPrompt: (ctx) => `Tu es Kévin, Conseiller Projet de DiaspoInvest. Tu connais le projet dans ses moindres détails et tu aides Jordan à prendre les meilleures décisions rapidement, sans qu'il passe des heures à chercher.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}
-QUESTION / PROBLÈME : "${s}"
+Tu es en conversation continue avec Jordan : tiens compte de tout l'échange précédent et de ses relances, ne repars jamais de zéro.
 
 ÉTAT ACTUEL DU PROJET :
 Site : https://diaspoinvest.fr
@@ -330,8 +349,8 @@ RÈGLES :
       { icon: '✦', txt: 'FAQ DiaspoInvest complète' },
     ],
     placeholder: 'Ex : répondre à "c\'est trop cher", DM "comment investir depuis Paris", email "je suis au Sénégal c\'est pour moi ?"...',
-    systemPrompt: (s, ctx) => `Tu es Sofia, Responsable Communauté de DiaspoInvest. Tu rédiges des réponses pour Jordan — il relit et envoie lui-même, il ne faut JAMAIS répondre automatiquement.
-${ctx ? `Contexte projet : ${ctx}\n` : ''}Rédige une réponse à : "${s}"
+    systemPrompt: (ctx) => `Tu es Sofia, Responsable Communauté de DiaspoInvest. Tu rédiges des réponses pour Jordan — il relit et envoie lui-même, il ne faut JAMAIS répondre automatiquement.
+${ctx ? `Contexte projet : ${ctx}\n` : ''}Tu es en conversation continue avec Jordan : tiens compte de tout l'échange précédent et de ses relances, ne repars jamais de zéro. Tu l'aides à rédiger ses réponses.
 ${brvmData}${LEGAL_RULES}
 Produits : Guide PDF 14,99€ · DiaspoInvest Tracker Dashboard 24,99€ · Pack 29,99€ · Site : diaspoinvest.fr.
 AUDIENCE : diaspora africaine partout ET résidents zone UEMOA/Afrique.
@@ -360,9 +379,9 @@ Format : rédige la réponse directement, prête à copier-coller. Si plusieurs 
       { icon: '✦', txt: 'Valide avant d\'appliquer' },
     ],
     placeholder: 'Ex : "Implémente la recommandation de Kévin sur la landing page", "Ajoute un nouveau produit", "Refactore le Screener"...',
-    systemPrompt: (s, ctx) => `Tu es Alex, Développeur de DiaspoInvest. Tu reçois des recommandations (souvent de Kévin, le conseiller projet) et tu génères le code exact, les fichiers à modifier et les instructions claires pour implémenter.
+    systemPrompt: (ctx) => `Tu es Alex, Développeur de DiaspoInvest. Tu reçois des recommandations (souvent de Kévin, le conseiller projet) et tu génères le code exact, les fichiers à modifier et les instructions claires pour implémenter.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}
-RECOMMANDATION / DEMANDE D'IMPLÉMENTATION : "${s}"
+Tu es en conversation continue avec Jordan : tiens compte de tout l'échange précédent et de ses relances, ne repars jamais de zéro.
 
 TECH STACK :
 - Frontend : React 18 + Vite
@@ -434,6 +453,29 @@ function exportHistory(agent, history) {
   a.click()
 }
 
+/* ── CONVERSATION CONTINUE (par agent) ──────────────────────── */
+const CHAT_KEY = (id) => `di_chat_${id}`
+function loadChat(agentId) {
+  try { return JSON.parse(localStorage.getItem(CHAT_KEY(agentId)) || '[]') } catch { return [] }
+}
+function saveChat(agentId, messages) {
+  // Garde les derniers échanges pour ne pas exploser le localStorage ni le contexte
+  localStorage.setItem(CHAT_KEY(agentId), JSON.stringify(messages.slice(-40)))
+}
+function exportChat(agent, messages) {
+  const lines = [`# Conversation — ${agent.nom} (${agent.titre})\n`]
+  messages.forEach((m) => {
+    lines.push(`**${m.role === 'user' ? 'Jordan' : agent.nom}** :\n`)
+    lines.push(m.content)
+    lines.push('\n---\n')
+  })
+  const blob = new Blob([lines.join('\n')], { type: 'text/markdown' })
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = `diaspoinvest-${agent.id}-conversation.md`
+  a.click()
+}
+
 /* ── PARTICULES FOND ─────────────────────────────────────────── */
 function Particles({ color }) {
   return (
@@ -458,7 +500,7 @@ function Particles({ color }) {
 /* ── CARTE AGENT (vue grille) ────────────────────────────────── */
 function AgentCard({ agent, index, onSelect, highlighted }) {
   const [hovered, setHovered] = useState(false)
-  const history = loadHistory(agent.id)
+  const chatCount = loadChat(agent.id).length
   return (
     <div
       onMouseEnter={() => setHovered(true)}
@@ -495,9 +537,9 @@ function AgentCard({ agent, index, onSelect, highlighted }) {
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: agent.color, boxShadow: `0 0 8px ${agent.color}`, animation: 'pulse-dot 2s ease infinite' }}/>
           <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontWeight: 600 }}>En ligne</span>
           <div style={{ flex: 1 }}/>
-          {history.length > 0 && (
+          {chatCount > 0 && (
             <span style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 20, padding: '3px 9px', fontSize: 10, color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>
-              {history.length} souvenir{history.length > 1 ? 's' : ''}
+              conversation en cours
             </span>
           )}
           <span style={{ background: `${agent.color}15`, border: `1px solid ${agent.color}40`, borderRadius: 20, padding: '3px 10px', fontSize: 10, color: agent.color, fontWeight: 700 }}>{agent.tag.split(' · ')[0]}</span>
@@ -515,44 +557,45 @@ function AgentCard({ agent, index, onSelect, highlighted }) {
 
 /* ── VUE AGENT ACTIF ─────────────────────────────────────────── */
 function AgentWorkspace({ agent, context, onBack }) {
-  const [sujet, setSujet] = useState('')
-  const [result, setResult] = useState('')
+  const [messages, setMessages] = useState(() => loadChat(agent.id))
+  const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [copied, setCopied] = useState(false)
+  const [copiedId, setCopiedId] = useState(null)
   const [visible, setVisible] = useState(false)
-  const [history, setHistory] = useState(() => loadHistory(agent.id))
-  const [showHistory, setShowHistory] = useState(false)
   const [notionUrl, setNotionUrl] = useState('')
   const [sendStatus, setSendStatus] = useState('idle') // idle | sending | sent | error
   const [sendError, setSendError] = useState('')
+  const threadRef = useRef(null)
+
+  const lastAssistant = [...messages].reverse().find(m => m.role === 'assistant')
 
   useEffect(() => { setTimeout(() => setVisible(true), 30) }, [])
+  useEffect(() => {
+    if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight
+  }, [messages, loading])
 
-  const generate = async () => {
-    if (!sujet.trim()) { setError('Saisis un sujet avant de générer.'); return }
-    setError(''); setResult(''); setLoading(true)
+  const send = async () => {
+    const q = input.trim()
+    if (!q || loading) return
+    setError(''); setInput('')
+    const userMsg = { id: Date.now(), role: 'user', content: q }
+    const base = [...messages, userMsg]
+    setMessages(base); saveChat(agent.id, base); setLoading(true)
     try {
-      const text = await callClaude(agent.systemPrompt(sujet, context))
-      setResult(text)
-
-      // Sauvegarde dans l'historique
-      const entry = {
-        id: Date.now(),
-        sujet: sujet.trim(),
-        result: text,
-        date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-      }
-      const newHistory = [entry, ...history]
-      setHistory(newHistory)
-      saveHistory(agent.id, newHistory)
-
-      // Auto-save Notion si configuré
-      const url = await saveToNotion({ agentNom: agent.nom, agentId: agent.id, sujet: sujet.trim(), result: text })
+      const text = await callClaudeChat(agent.systemPrompt(context), base)
+      const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
+      setMessages(full); saveChat(agent.id, full)
+      const url = await saveToNotion({ agentNom: agent.nom, agentId: agent.id, sujet: q, result: text })
       if (url) setNotionUrl(url)
-    } catch (e) { setError(e.message) }
+    } catch (e) {
+      setError(e.message)
+      setMessages(base) // garde la question, retire la tentative ratée
+    }
     finally { setLoading(false) }
   }
+
+  const resetChat = () => { setMessages([]); saveChat(agent.id, []); setNotionUrl(''); setError(''); setSendStatus('idle') }
 
   const callBrevo = async (body) => {
     const res = await fetch('/api/brevo-campaign', {
@@ -569,10 +612,10 @@ function AgentWorkspace({ agent, context, onBack }) {
   }
 
   const sendTest = async () => {
-    if (!result) return
+    if (!lastAssistant) return
     setSendStatus('testing'); setSendError('')
     try {
-      await callBrevo({ content: result, testEmail: 'djiokapjordan@gmail.com' })
+      await callBrevo({ content: lastAssistant.content, testEmail: 'djiokapjordan@gmail.com' })
       setSendStatus('tested')
       setTimeout(() => setSendStatus('idle'), 4000)
     } catch (e) {
@@ -582,10 +625,10 @@ function AgentWorkspace({ agent, context, onBack }) {
   }
 
   const sendNewsletter = async () => {
-    if (!result) return
+    if (!lastAssistant) return
     setSendStatus('sending'); setSendError('')
     try {
-      await callBrevo({ content: result })
+      await callBrevo({ content: lastAssistant.content })
       setSendStatus('sent')
     } catch (e) {
       setSendError(e.message)
@@ -615,13 +658,13 @@ function AgentWorkspace({ agent, context, onBack }) {
             ← Retour aux agents
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            {history.length > 0 && (
-              <button onClick={() => setShowHistory(!showHistory)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: showHistory ? `${agent.color}18` : 'rgba(255,255,255,0.04)', border: `1px solid ${showHistory ? agent.color + '44' : 'rgba(255,255,255,0.07)'}`, borderRadius: 20, padding: '7px 16px', color: showHistory ? agent.color : 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
-                Mémoire ({history.length})
+            {messages.length > 0 && (
+              <button onClick={resetChat} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '7px 16px', color: 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
+                Nouvelle conversation
               </button>
             )}
-            {history.length > 0 && (
-              <button onClick={() => exportHistory(agent, history)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '7px 16px', color: 'rgba(255,255,255,0.35)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
+            {messages.length > 0 && (
+              <button onClick={() => exportChat(agent, messages)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '7px 16px', color: 'rgba(255,255,255,0.35)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
                 Exporter .md
               </button>
             )}
@@ -631,25 +674,6 @@ function AgentWorkspace({ agent, context, onBack }) {
             </div>
           </div>
         </div>
-
-        {/* Panneau historique */}
-        {showHistory && history.length > 0 && (
-          <div style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${agent.color}22`, borderRadius: 20, padding: '20px 24px', marginBottom: 28, maxHeight: 320, overflowY: 'auto' }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: agent.color, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 }}>Historique de {agent.nom}</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {history.map((h) => (
-                <div key={h.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '12px 16px', cursor: 'pointer' }}
-                  onClick={() => { setSujet(h.sujet); setResult(h.result); setShowHistory(false) }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600, flex: 1, marginRight: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.sujet}</span>
-                    <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', flexShrink: 0 }}>{h.date}</span>
-                  </div>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', marginTop: 4 }}>Cliquer pour recharger</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Layout 2 colonnes */}
         <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: 40, alignItems: 'start' }}>
@@ -687,61 +711,74 @@ function AgentWorkspace({ agent, context, onBack }) {
             </div>
           </div>
 
-          {/* Colonne droite */}
-          <div>
-            <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${agent.color}25`, borderRadius: 24, padding: '28px', marginBottom: 20 }}>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
-                Ton sujet ou ta question
-              </label>
-              <textarea value={sujet} onChange={e => setSujet(e.target.value)} placeholder={agent.placeholder} rows={4}
-                style={{ width: '100%', padding: '16px', borderRadius: 14, background: 'rgba(255,255,255,0.05)', border: '1.5px solid rgba(255,255,255,0.08)', color: 'white', fontSize: 14, resize: 'none', fontFamily: 'DM Sans, sans-serif', boxSizing: 'border-box', outline: 'none', lineHeight: 1.7, transition: 'border-color 0.15s' }}
-                onFocus={e => e.target.style.borderColor = agent.color + '77'}
-                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
-                onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) generate() }}
-              />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Ctrl+Entrée pour générer</span>
-                <button onClick={generate} disabled={loading} style={{ padding: '13px 36px', borderRadius: 14, border: 'none', background: loading ? 'rgba(255,255,255,0.08)' : agent.color, color: loading ? 'rgba(255,255,255,0.3)' : '#000', fontWeight: 800, fontSize: 14, cursor: loading ? 'not-allowed' : 'pointer', boxShadow: loading ? 'none' : `0 6px 24px ${agent.glow}`, transition: 'all 0.2s', fontFamily: 'DM Sans, sans-serif' }}>
-                  {loading ? `${agent.nom} réfléchit...` : `Demander à ${agent.nom}`}
-                </button>
-              </div>
+          {/* Colonne droite — conversation continue */}
+          <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${agent.color}25`, borderRadius: 24, overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 560 }}>
 
+            {/* Fil de discussion */}
+            <div ref={threadRef} style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: 16, maxHeight: '64vh' }}>
+              {messages.length === 0 && !loading && (
+                <div style={{ margin: 'auto', textAlign: 'center', padding: '40px 20px' }}>
+                  <img src={agent.avatar} alt="" style={{ height: 90, objectFit: 'contain', marginBottom: 14, opacity: 0.85 }}/>
+                  <div style={{ color: 'white', fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Discute avec {agent.nom}</div>
+                  <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13, maxWidth: 360, margin: '0 auto', lineHeight: 1.6 }}>
+                    Pose ta question, puis enchaîne les relances : {agent.nom} garde le fil de toute la conversation.
+                  </div>
+                </div>
+              )}
+
+              {messages.map((m) => m.role === 'user' ? (
+                <div key={m.id} style={{ alignSelf: 'flex-end', maxWidth: '82%', background: agent.color, color: '#0b0f14', padding: '12px 16px', borderRadius: '16px 16px 4px 16px', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontWeight: 500 }}>
+                  {m.content}
+                </div>
+              ) : (
+                <div key={m.id} style={{ alignSelf: 'flex-start', maxWidth: '94%', width: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <img src={agent.avatar} alt="" style={{ height: 26, objectFit: 'contain' }}/>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.55)' }}>{agent.nom}</span>
+                    <button onClick={() => { navigator.clipboard.writeText(m.content); setCopiedId(m.id); setTimeout(() => setCopiedId(null), 2000) }}
+                      style={{ marginLeft: 'auto', background: 'none', border: 'none', color: copiedId === m.id ? agent.color : 'rgba(255,255,255,0.3)', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>
+                      {copiedId === m.id ? 'Copié !' : 'Copier'}
+                    </button>
+                  </div>
+                  <pre style={{ margin: 0, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '4px 16px 16px 16px', padding: '14px 16px', whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: 13.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.82)', fontFamily: 'DM Sans, sans-serif' }}>
+                    {m.content}
+                  </pre>
+                </div>
+              ))}
+
+              {loading && (
+                <div style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
+                  <img src={agent.avatar} alt="" style={{ height: 26, objectFit: 'contain', animation: 'breathe 1.5s ease-in-out infinite' }}/>
+                  {agent.nom} réfléchit...
+                </div>
+              )}
             </div>
 
-            {error && <div style={{ padding: '14px 18px', background: 'rgba(220,53,69,0.1)', border: '1px solid rgba(220,53,69,0.25)', borderRadius: 14, color: '#ff6b7a', fontSize: 13, marginBottom: 16 }}>{error}</div>}
+            {error && <div style={{ margin: '0 24px 12px', padding: '12px 16px', background: 'rgba(220,53,69,0.1)', border: '1px solid rgba(220,53,69,0.25)', borderRadius: 12, color: '#ff6b7a', fontSize: 13 }}>{error}</div>}
 
-            {loading && (
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 24, padding: '60px 20px', textAlign: 'center' }}>
-                <img src={agent.avatar} alt="" style={{ height: 100, objectFit: 'contain', marginBottom: 16, filter: `drop-shadow(0 0 24px ${agent.color})`, animation: 'breathe 1.5s ease-in-out infinite' }}/>
-                <div style={{ color: 'white', fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{agent.nom} réfléchit...</div>
-                <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>Quelques secondes</div>
-              </div>
+            {notionUrl && lastAssistant && (
+              <a href={notionUrl} target="_blank" rel="noreferrer" style={{ margin: '0 24px 10px', alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textDecoration: 'none' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v16H4V4zm2 2v12h12V6H6z"/></svg>
+                Sauvegardé dans Notion
+              </a>
             )}
 
-            {result && !loading && (
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${agent.color}25`, borderRadius: 24, overflow: 'hidden' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <img src={agent.avatar} alt="" style={{ height: 38, objectFit: 'contain' }}/>
-                    <span style={{ fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>Réponse de {agent.nom}</span>
-                    {notionUrl && (
-                      <a href={notionUrl} target="_blank" rel="noreferrer"
-                        style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '4px 10px', fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 700, textDecoration: 'none', animation: 'bubble-pop 0.3s ease both' }}>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v16H4z" opacity=".15"/><path d="M4 4h16v16H4V4zm2 2v12h12V6H6z"/></svg>
-                        Notion
-                      </a>
-                    )}
-                  </div>
-                  <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
-                    style={btnStyle(copied)}>
-                    {copied ? 'Copié !' : 'Tout copier'}
-                  </button>
-                </div>
-                <pre style={{ padding: '24px', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: 13, lineHeight: 1.85, color: 'rgba(255,255,255,0.8)', fontFamily: 'DM Sans, sans-serif', maxHeight: 620, overflowY: 'auto' }}>
-                  {result}
-                </pre>
+            {/* Zone de saisie */}
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '16px 20px', background: 'rgba(255,255,255,0.02)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
+                <textarea value={input} onChange={e => setInput(e.target.value)} placeholder={messages.length ? `Relance ${agent.nom}...` : agent.placeholder} rows={2}
+                  style={{ flex: 1, padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,0.05)', border: '1.5px solid rgba(255,255,255,0.08)', color: 'white', fontSize: 14, resize: 'none', fontFamily: 'DM Sans, sans-serif', boxSizing: 'border-box', outline: 'none', lineHeight: 1.6, transition: 'border-color 0.15s' }}
+                  onFocus={e => e.target.style.borderColor = agent.color + '77'}
+                  onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
+                  onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }}
+                />
+                <button onClick={send} disabled={loading || !input.trim()} style={{ padding: '13px 26px', borderRadius: 14, border: 'none', background: (loading || !input.trim()) ? 'rgba(255,255,255,0.08)' : agent.color, color: (loading || !input.trim()) ? 'rgba(255,255,255,0.3)' : '#000', fontWeight: 800, fontSize: 14, cursor: (loading || !input.trim()) ? 'not-allowed' : 'pointer', transition: 'all 0.2s', fontFamily: 'DM Sans, sans-serif', whiteSpace: 'nowrap' }}>
+                  Envoyer
+                </button>
+              </div>
+              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', marginTop: 8, display: 'block' }}>Entrée pour envoyer · Maj+Entrée pour un saut de ligne</span>
 
-                {agent.id === 'newsletter' && (
+              {agent.id === 'newsletter' && lastAssistant && (
                   <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
 
@@ -800,15 +837,7 @@ function AgentWorkspace({ agent, context, onBack }) {
                     )}
                   </div>
                 )}
-              </div>
-            )}
-
-            {!result && !loading && !error && (
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 24, padding: '60px 20px', textAlign: 'center' }}>
-                <div style={{ fontSize: 48, marginBottom: 16, opacity: 0.3 }}>{agent.emoji}</div>
-                <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 14, fontWeight: 600 }}>Saisis ton sujet à gauche et clique sur "Demander à {agent.nom}"</div>
-              </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
@@ -849,7 +878,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
 
       // Appel 2 — agent génère
-      const text = await callClaude(agent.systemPrompt(decision.refinedPrompt, context))
+      const text = await callClaudeChat(agent.systemPrompt(context), [{ role: 'user', content: decision.refinedPrompt }])
       setResult(text)
 
       // Sauvegarde historique
