@@ -1,5 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+// Événement analytics Plausible (sans cookie). Silencieux si bloqué.
+const fireEvent = (name, props) => {
+  try { if (typeof window !== 'undefined' && window.plausible) window.plausible(name, props ? { props } : undefined) } catch {}
+}
 
 // Liens produits reels (source unique : src/data.js)
 const GUMROAD = {
@@ -164,6 +169,8 @@ export default function SegmentQuiz({ onComplete }) {
 
   const handleNavigate = (item) => {
     if (item.href) {
+      if (item.product) fireEvent('clic_produit', { produit: item.title, lieu: answers.location || 'inconnu' })
+      else fireEvent('clic_ressource', { ressource: item.title })
       window.open(item.href, '_blank', 'noopener')
     } else if (item.anchor) {
       onComplete()
@@ -192,11 +199,24 @@ export default function SegmentQuiz({ onComplete }) {
         }),
       })
       setSent(r.ok ? 'ok' : 'error')
+      if (r.ok) fireEvent('quiz_email', { lieu: answers.location || 'inconnu', niveau: answers.experience || 'inconnu' })
     } catch {
       setSent('error')
     }
     setLoading(false)
   }
+
+  // Quiz terminé : l'utilisateur atteint l'écran de recommandations
+  useEffect(() => {
+    if (step >= 3) {
+      fireEvent('quiz_termine', {
+        niveau: answers.experience || 'inconnu',
+        objectif: answers.goal || 'inconnu',
+        lieu: answers.location || 'inconnu',
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step])
 
   const experience = answers.experience || 'beginner'
   const goal = answers.goal || 'learn'
