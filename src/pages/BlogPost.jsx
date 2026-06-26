@@ -34,6 +34,39 @@ const SLUG_HERO = {
   'erreurs-debutant-brvm': 'account',
 }
 
+// Événement analytics Plausible (sans cookie)
+const fireEvent = (name, props) => {
+  try { if (typeof window !== 'undefined' && window.plausible) window.plausible(name, props ? { props } : undefined) } catch {}
+}
+
+// CTA produit contextuel par article. Pitch honnête, fidèle à ce que le produit fait vraiment (data.js).
+const GUM = {
+  guideEurope: 'https://diaspoinvest.gumroad.com/l/oxxzda',
+  guideUemoa: 'https://diaspoinvest.gumroad.com/l/dpqvqo',
+  tracker: 'https://diaspoinvest.gumroad.com/l/tocir',
+}
+const GUIDE_EU = { nom: 'Guide PDF Diaspora', prix: '14,99 €', lien: GUM.guideEurope }
+const GUIDE_UE = { nom: 'Guide PDF Résident', prix: '14,99 €', lien: GUM.guideUemoa }
+const TRACKER = { nom: 'Tracker Dashboard', prix: '19,99 €', lien: GUM.tracker }
+const CTA_BY_SLUG = {
+  'investir-brvm-depuis-france': { ...GUIDE_EU, pitch: "Tu sais que c'est possible. Le Guide te montre comment ouvrir ton compte à distance et le déclarer en France, pas à pas." },
+  'investir-brvm-zone-uemoa': { ...GUIDE_UE, pitch: "Pour passer à l'action depuis ton pays : ouvrir ton compte chez une SGI locale et gérer la fiscalité UEMOA, expliqué simplement." },
+  'erreurs-debutant-brvm': { ...GUIDE_EU, pitch: "Pour éviter ces erreurs dès le départ : une méthode claire pour comprendre la bourse et bien démarrer." },
+  'indices-brvm': { ...TRACKER, pitch: "Pour avoir les 47 actions regroupées par secteur et suivre ton portefeuille dans la durée." },
+  'ouvrir-compte-sgi-depuis-etranger': { ...GUIDE_EU, pitch: "Pour ouvrir ton compte sans tâtonner : les étapes à distance et la fiscalité expliquées de A à Z." },
+  'dividendes-sonatel-2025': { ...TRACKER, pitch: "Pour suivre tes dividendes et projeter tes versements sur 30 ans, action par action." },
+  'brvm-vs-livret-a': { ...TRACKER, pitch: "Pour chiffrer ta propre stratégie : suivi de portefeuille et simulation de tes versements sur le long terme." },
+  'fiscalite-dividendes-brvm-uemoa': { ...GUIDE_UE, pitch: "Pour tout comprendre de la fiscalité depuis ton pays, sans mauvaise surprise." },
+  'declarer-compte-brvm-impots-france': { ...GUIDE_EU, pitch: "Pour déclarer sans stress : la fiscalité française et le formulaire 3916 expliqués pas à pas." },
+  'sgi-frais-brvm': { ...TRACKER, pitch: "Pour garder un œil sur tes frais et ton portefeuille mois après mois." },
+  'brvm-vs-pea-etf': { ...GUIDE_EU, pitch: "Pour investir concrètement sur la BRVM, en complément de ton PEA et de tes ETF." },
+  'analyser-action-brvm': { ...TRACKER, pitch: "Pour avoir les 47 actions par secteur sous la main et suivre tes titres dans la durée." },
+  'juger-cours-action-brvm': { ...TRACKER, pitch: "Pour suivre tes titres et leurs secteurs, et simuler tes versements sur 30 ans." },
+  'lire-compte-resultat': { ...TRACKER, pitch: "Pour suivre tes titres par secteur et garder le fil de ton portefeuille." },
+  'bourses-africaines-panorama': { ...GUIDE_EU, pitch: "Pour te lancer concrètement sur la BRVM : comprendre, ouvrir un compte et démarrer." },
+}
+const CTA_DEFAULT = { ...GUIDE_EU, pitch: "Pour aller plus loin et passer à l'action sur la BRVM, étape par étape." }
+
 function ProgressBar() {
   const [pct, setPct] = useState(0)
   useEffect(() => {
@@ -256,6 +289,25 @@ export default function BlogPost() {
             className="blog-post-content"
             dangerouslySetInnerHTML={{ __html: content }}
           />
+
+          {(() => {
+            const c = CTA_BY_SLUG[slug] || CTA_DEFAULT
+            return (
+              <a
+                href={c.lien}
+                target="_blank"
+                rel="noreferrer"
+                className="blog-cta"
+                onClick={() => fireEvent('clic_produit', { produit: c.nom, lieu: 'article', article: slug })}
+              >
+                <div className="blog-cta-text">
+                  <span className="blog-cta-eyebrow">Pour aller plus loin</span>
+                  <span className="blog-cta-pitch">{c.pitch}</span>
+                </div>
+                <span className="blog-cta-btn">{c.nom} · {c.prix} →</span>
+              </a>
+            )
+          })()}
 
           <ShareButtons titre={article.titre} slug={slug} />
           <ArticlesLies currentSlug={slug} />

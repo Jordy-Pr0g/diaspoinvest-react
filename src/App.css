@@ -1869,6 +1869,55 @@ input[type='range']::-moz-range-thumb {
   background: rgba(255,255,255,0.02);
 }
 
+/* Carte CTA produit en fin d'article */
+.blog-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 40px 0 8px;
+  padding: 22px 26px;
+  border-radius: 16px;
+  text-decoration: none;
+  background: linear-gradient(135deg, rgba(201,168,76,0.10) 0%, rgba(13,59,46,0.20) 100%);
+  border: 1px solid rgba(201,168,76,0.3);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.blog-cta:hover {
+  border-color: var(--or);
+  transform: translateY(-2px);
+}
+.blog-cta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 220px;
+}
+.blog-cta-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--or);
+}
+.blog-cta-pitch {
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(232,238,246,0.85);
+}
+.blog-cta-btn {
+  flex: 0 0 auto;
+  background: var(--or);
+  color: #0D1525;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 13px 22px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
 /* Illustration d'en-tête d'article */
 .blog-hero {
   margin: 0 0 32px;
