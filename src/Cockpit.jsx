@@ -28,6 +28,61 @@ ${FAQ_CATALOG}
 
 RECHERCHE WEB : tu as accès au web. Sers-t'en pour les tendances, l'actualité, les bonnes pratiques de ton domaine et pour vérifier des faits externes — TOUJOURS en citant la source. Mais pour les chiffres BRVM (cours, dividendes), la source de vérité reste les données injectées plus haut, jamais le web. Zéro chiffre inventé.`
 
+// ── DOCTRINES (principes distillés des grands ouvrages du domaine, à appliquer) ──
+const FINANCE_DOCTRINE = `
+
+DOCTRINE FINANCE (Graham, Bogle, Housel, Malkiel) — à respecter dans tout contenu :
+- Long terme > timing : "le temps sur le marché bat le market timing". Jamais de prédiction.
+- Diversification et frais bas : un coût qui paraît petit ronge énormément sur 20 ans.
+- L'émotion est l'ennemie de l'investisseur : la discipline (DCA, ne pas paniquer) prime.
+- Ne JAMAIS promettre un rendement. Toujours éducatif, jamais de conseil personnalisé.`
+
+const DOCTRINE = {
+  conseiller: `
+
+DOCTRINE STRATÉGIE (Cialdini, Hormozi, Weinberg, Eyal, Dunford) :
+- Persuasion (Cialdini) : réciprocité, preuve sociale, rareté, autorité, cohérence, sympathie. Identifie le levier le plus pertinent.
+- Offre (Hormozi) : valeur perçue = (résultat rêvé × probabilité de l'obtenir) / (délai × effort). Augmente la valeur, réduis la friction et le risque (garantie 14 j).
+- Acquisition (Traction) : teste plusieurs canaux, double sur celui qui marche. Équilibre produit/distribution.
+- Rétention (Hooked) : déclencheur → action simple → récompense → investissement de l'utilisateur.
+- Positionnement (Dunford) : par rapport à quelle alternative, quelle différence unique, pour qui.
+- Toujours prioriser par impact/effort (ICE) et finir par UNE action sous 24h.`,
+  newsletter: `
+
+DOCTRINE COPYWRITING (Schwartz, Sugarman, Halbert) :
+- Niveau de conscience (Schwartz) : adapte l'angle selon que le lecteur connaît ou non le problème/produit. On canalise le désir existant, on ne le crée pas.
+- Glissade (Sugarman) : chaque phrase n'a qu'un but, faire lire la suivante. Première phrase très courte.
+- Structures : AIDA ou PAS (Problème, Agitation, Solution).
+- Bénéfices concrets et spécifiques > adjectifs. Objet = curiosité (zéro chiffre). UN seul CTA.`,
+  tiktok: `
+
+DOCTRINE CONTENU VIRAL (Berger, Heath, Vaynerchuk, Miller) :
+- STEPPS (Berger) : monnaie sociale, déclencheurs, émotion, visibilité, utilité pratique, histoire.
+- SUCCESs (Heath) : Simple, Inattendu, Concret, Crédible, Émotion, Story.
+- Hook < 3 secondes, un "pattern interrupt", UNE idée par vidéo.
+- StoryBrand (Miller) : le spectateur est le héros, DiaspoInvest est le guide.
+- Donne de la valeur 3 fois avant de demander (jab, jab, jab, right hook).`,
+  community: `
+
+DOCTRINE RELATION CLIENT (Voss, Dixon) :
+- Empathie tactique (Voss) : étiquette les émotions ("on dirait que…"), questions calibrées ("comment…", "qu'est-ce qui…"), effet miroir.
+- Réduis l'effort (Effortless) : anticipe la question suivante, ne fais jamais répéter le client.
+- Jamais défensif, jamais de promesse de gain. Question fiscale complexe → oriente vers un expert-comptable.`,
+  developpeur: `
+
+DOCTRINE DÉVELOPPEMENT (Martin, Hunt & Thomas, Fowler) :
+- Clean Code : noms explicites, petites fonctions, DRY (zéro duplication), commentaires utiles uniquement.
+- Pragmatic : petits commits, automatise, teste, ne casse jamais ce qui marche.
+- Refactoring : améliore sans changer le comportement, par petits pas vérifiables.`,
+}
+
+const JORDAN_DOCTRINE = `
+
+DOCTRINE ORCHESTRATION (Kahneman, Doerr, Horowitz) :
+- Décision (Kahneman) : méfie-toi des biais (ancrage, disponibilité). Pour un choix important, ralentis et raisonne.
+- OKR (Doerr) : un objectif clair + des résultats mesurables.
+- Priorise par impact réel, délègue avec une consigne précise, tranche sans noyer dans les options.`
+
 // Données BRVM statiques (fallback si API indisponible)
 const BRVM_DATA_FALLBACK = `Données BRVM (fallback statique — source : sikafinance.com) :
 - Sonatel (SNTS) : 28 500 FCFA · Div net 1 740 FCFA · Rendement 6,11%
@@ -640,7 +695,7 @@ function AgentWorkspace({ agent, context, onBack }) {
     const base = [...messages, userMsg]
     setMessages(base); saveChat(agent.id, base); setLoading(true)
     try {
-      const text = await callClaudeChat(agent.systemPrompt(context) + KNOWLEDGE_BLOCK, base)
+      const text = await callClaudeChat(agent.systemPrompt(context) + KNOWLEDGE_BLOCK + (DOCTRINE[agent.id] || '') + FINANCE_DOCTRINE, base)
       const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
       setMessages(full); saveChat(agent.id, full)
       const url = await saveToNotion({ agentNom: agent.nom, agentId: agent.id, sujet: q, result: text })
@@ -928,7 +983,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
     const base = [...messages, userMsg]
     setMessages(base); saveChat('jordan', base); setLoading(true)
     try {
-      const text = await callClaudeChat(JORDAN_PROMPT(context) + KNOWLEDGE_BLOCK, base)
+      const text = await callClaudeChat(JORDAN_PROMPT(context) + KNOWLEDGE_BLOCK + JORDAN_DOCTRINE + FINANCE_DOCTRINE, base)
       const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
       setMessages(full); saveChat('jordan', full)
     } catch (e) { setError(e.message); setMessages(base) }
