@@ -1,4 +1,32 @@
 import { useState, useEffect, useRef } from 'react'
+import { ARTICLES } from './data/articles.js'
+import { PRODUITS, PRODUITS_UEMOA, FAQ_ITEMS } from './data.js'
+
+// ── BASE DE CONNAISSANCE (tirée de la source de vérité, toujours à jour) ──
+const ARTICLES_CATALOG = ARTICLES
+  .map(a => `- ${a.titre} (${a.lecture}) : https://diaspoinvest.fr/blog/${a.slug}`)
+  .join('\n')
+const PRODUITS_CATALOG = [...PRODUITS, ...PRODUITS_UEMOA]
+  .map(p => `- ${p.nom} (${p.prix}${p.prixBarre ? `, au lieu de ${p.prixBarre}` : ''}) : ${p.points.join(' ; ')} → ${p.lien}`)
+  .join('\n')
+const FAQ_CATALOG = FAQ_ITEMS.map(f => `Q: ${f.q}\nR: ${f.r}`).join('\n\n')
+
+const KNOWLEDGE_BLOCK = `
+
+=== BASE DE CONNAISSANCE DIASPOINVEST (à jour, fait foi sur le contenu et les produits) ===
+
+ARTICLES DU BLOG (utilise ces liens EXACTS, n'en invente jamais) :
+${ARTICLES_CATALOG}
+
+OUTILS GRATUITS : Screener https://diaspoinvest.fr/screener · Backtest https://diaspoinvest.fr/backtest · Simulateur DCA https://diaspoinvest.fr/#calculateur · Calculateur fiscal https://diaspoinvest.fr/fiscalite
+
+PRODUITS (décris-les UNIQUEMENT par ces capacités réelles, n'invente aucune fonctionnalité) :
+${PRODUITS_CATALOG}
+
+FAQ OFFICIELLE (réponses validées, à réutiliser) :
+${FAQ_CATALOG}
+
+RECHERCHE WEB : tu as accès au web. Sers-t'en pour les tendances, l'actualité, les bonnes pratiques de ton domaine et pour vérifier des faits externes — TOUJOURS en citant la source. Mais pour les chiffres BRVM (cours, dividendes), la source de vérité reste les données injectées plus haut, jamais le web. Zéro chiffre inventé.`
 
 // Données BRVM statiques (fallback si API indisponible)
 const BRVM_DATA_FALLBACK = `Données BRVM (fallback statique — source : sikafinance.com) :
@@ -110,23 +138,30 @@ async function callClaude(prompt, _apiKey, maxTokens = 4000) {
   return (await res.json()).content[0].text
 }
 
-/* Conversation continue : envoie le system + tout l'historique des messages */
+/* Conversation continue : system + historique + accès web (outil de recherche Anthropic).
+   Si la recherche web échoue (indisponible/quota), on réessaie sans, pour que l'agent réponde quand même. */
 async function callClaudeChat(system, messages, maxTokens = 4000) {
-  const res = await fetch('/api/claude', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-cockpit-secret': localStorage.getItem('di_cockpit_secret') || '',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: maxTokens,
-      system,
-      messages: messages.map(m => ({ role: m.role, content: m.content })),
-    }),
-  })
-  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `Erreur ${res.status}`) }
-  return (await res.json()).content[0].text
+  const headers = {
+    'Content-Type': 'application/json',
+    'x-cockpit-secret': localStorage.getItem('di_cockpit_secret') || '',
+  }
+  const baseBody = {
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: maxTokens,
+    system,
+    messages: messages.map(m => ({ role: m.role, content: m.content })),
+  }
+  const webTool = [{ type: 'web_search_20250305', name: 'web_search', max_uses: 4 }]
+
+  let res = await fetch('/api/claude', { method: 'POST', headers, body: JSON.stringify({ ...baseBody, tools: webTool }) })
+  if (!res.ok) {
+    // Repli sans accès web
+    res = await fetch('/api/claude', { method: 'POST', headers, body: JSON.stringify(baseBody) })
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error?.message || `Erreur ${res.status}`) }
+  }
+  const data = await res.json()
+  const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim()
+  return text || '(réponse vide)'
 }
 
 /* ── PROMPT ORCHESTRATEUR JORDAN ─────────────────────────────── */
@@ -605,7 +640,7 @@ function AgentWorkspace({ agent, context, onBack }) {
     const base = [...messages, userMsg]
     setMessages(base); saveChat(agent.id, base); setLoading(true)
     try {
-      const text = await callClaudeChat(agent.systemPrompt(context), base)
+      const text = await callClaudeChat(agent.systemPrompt(context) + KNOWLEDGE_BLOCK, base)
       const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
       setMessages(full); saveChat(agent.id, full)
       const url = await saveToNotion({ agentNom: agent.nom, agentId: agent.id, sujet: q, result: text })
@@ -893,7 +928,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
     const base = [...messages, userMsg]
     setMessages(base); saveChat('jordan', base); setLoading(true)
     try {
-      const text = await callClaudeChat(JORDAN_PROMPT(context), base)
+      const text = await callClaudeChat(JORDAN_PROMPT(context) + KNOWLEDGE_BLOCK, base)
       const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
       setMessages(full); saveChat('jordan', full)
     } catch (e) { setError(e.message); setMessages(base) }
