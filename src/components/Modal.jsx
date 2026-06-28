@@ -48,6 +48,70 @@ const CONTENU = {
     ),
   },
 
+  cgu: {
+    titre: "Conditions Générales d'Utilisation",
+    corps: (
+      <>
+        <h4>Objet</h4>
+        <p>
+          Les présentes Conditions Générales d'Utilisation (CGU) encadrent l'accès et
+          l'usage du site diaspoinvest.fr, édité par Jordan DJIOKAP. En naviguant sur
+          le site, vous acceptez ces conditions sans réserve.
+        </p>
+
+        <h4>Accès au site</h4>
+        <p>
+          Le site et ses outils gratuits (screener, simulateurs, calculateurs, blog) sont
+          accessibles librement. L'éditeur s'efforce d'assurer leur disponibilité mais ne
+          garantit pas un accès continu et peut suspendre, modifier ou interrompre tout ou
+          partie du site à tout moment, sans préavis.
+        </p>
+
+        <h4>Nature des contenus</h4>
+        <p>
+          L'ensemble des contenus et outils est fourni à titre strictement éducatif et
+          informatif. Ils ne constituent pas un conseil en investissement, juridique ou
+          fiscal personnalisé. Les données de marché proviennent de sources publiques et
+          peuvent comporter des erreurs, retards ou approximations. Chaque utilisateur reste
+          seul responsable de ses décisions.
+        </p>
+
+        <h4>Propriété intellectuelle</h4>
+        <p>
+          Les textes, visuels, données, outils et guides sont la propriété exclusive de
+          Jordan DJIOKAP. Toute reproduction, extraction ou réutilisation sans autorisation
+          écrite est interdite.
+        </p>
+
+        <h4>Comportement de l'utilisateur</h4>
+        <p>
+          L'utilisateur s'engage à ne pas perturber le fonctionnement du site, à ne pas
+          tenter d'accéder à des espaces non autorisés et à ne pas en extraire massivement
+          les données par des moyens automatisés.
+        </p>
+
+        <h4>Liens externes</h4>
+        <p>
+          Le site peut renvoyer vers des sites tiers (sources de marché, plateforme de
+          paiement, réseaux sociaux). L'éditeur n'exerce aucun contrôle sur ces sites et
+          décline toute responsabilité quant à leur contenu.
+        </p>
+
+        <h4>Données personnelles</h4>
+        <p>
+          Le traitement des données est détaillé dans la Politique de confidentialité,
+          partie intégrante des présentes CGU.
+        </p>
+
+        <h4>Évolution et droit applicable</h4>
+        <p>
+          Ces CGU peuvent être modifiées à tout moment ; la version applicable est celle en
+          ligne au moment de la consultation. Elles sont soumises au droit français.
+        </p>
+      </>
+    ),
+  },
+
   confidentialite: {
     titre: 'Politique de confidentialité',
     corps: (
@@ -72,11 +136,14 @@ const CONTENU = {
           Vous pouvez vous désinscrire à tout moment via le lien présent dans chaque email.
         </p>
 
-        <h4>Cookies</h4>
+        <h4>Cookies et mesure d'audience</h4>
         <p>
-          Ce site n'utilise pas de cookies publicitaires ni de tracking tiers.
-          L'outil de mesure d'audience (Plausible Analytics) est sans cookie, anonymisé
-          et conforme au RGPD sans nécessiter de consentement.
+          Ce site n'utilise aucun cookie publicitaire ni traceur tiers. La mesure d'audience
+          est réalisée en interne (compteurs agrégés de pages vues et d'actions), sans cookie
+          et sans profilage. Le nombre de visiteurs uniques est estimé à partir d'un identifiant
+          technique anonymisé (empreinte non réversible dérivée de l'adresse IP et du navigateur),
+          jamais conservé en clair ni partagé avec des tiers. Ce dispositif est conforme au RGPD
+          et ne nécessite pas de consentement préalable.
         </p>
 
         <h4>Durée de conservation</h4>
