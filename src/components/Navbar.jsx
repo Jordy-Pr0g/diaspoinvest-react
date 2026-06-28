@@ -4,6 +4,7 @@ import { LIENS } from '../data.js'
 
 const NAV = [
   { to: '/screener',  label: 'Screener'  },
+  { to: '/portefeuille', label: 'Portefeuille' },
   { to: '/backtest',  label: 'Backtest'  },
   { to: '/fiscalite', label: 'Fiscalité' },
   { to: '/blog',      label: 'Blog'      },

@@ -20,6 +20,7 @@ const APropos     = lazy(() => import('./pages/APropos.jsx'))
 const BlogIndex   = lazy(() => import('./pages/BlogIndex.jsx'))
 const BlogPost    = lazy(() => import('./pages/BlogPost.jsx'))
 const Screener    = lazy(() => import('./pages/Screener.jsx'))
+const Portefeuille = lazy(() => import('./pages/Portefeuille.jsx'))
 const Backtest    = lazy(() => import('./pages/Backtest.jsx'))
 const Guides      = lazy(() => import('./pages/Guides.jsx'))
 const Fiscalite   = lazy(() => import('./pages/Fiscalite.jsx'))
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/screener" element={<Screener />} />
+        <Route path="/portefeuille" element={<Portefeuille />} />
         <Route path="/backtest" element={<Backtest />} />
         <Route path="/guides" element={<Guides />} />
         <Route path="/fiscalite" element={<Fiscalite />} />
