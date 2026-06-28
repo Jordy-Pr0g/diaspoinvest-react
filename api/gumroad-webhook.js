@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     await fetch('https://diaspoinvest.fr/api/stats', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ e: 'achat' }),
+      body: JSON.stringify({ e: 'achat', montant: Number(price) || 0 }),
     })
   } catch (e) {
     console.error('track achat échec:', e.message)

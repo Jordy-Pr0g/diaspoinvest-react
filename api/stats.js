@@ -39,18 +39,22 @@ async function buildAnalytics() {
     const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
     dates.push(d)
   }
-  const pvJour = await kvMget(store, dates.map(d => `pv:${d}`))
-  dates.forEach((d, i) => jours.push({ date: d, pv: pvJour[i] || 0 }))
+  const [pvJour, achJour, revJour] = await Promise.all([
+    kvMget(store, dates.map(d => `pv:${d}`)),
+    kvMget(store, dates.map(d => `ev:achat:${d}`)),
+    kvMget(store, dates.map(d => `rev:${d}`)),
+  ])
+  dates.forEach((d, i) => jours.push({ date: d, pv: pvJour[i] || 0, achat: achJour[i] || 0, revenu: (revJour[i] || 0) / 100 }))
 
-  const [pvTotal, quiz, achat, clic] = await kvMget(store, [
-    'pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total',
+  const [pvTotal, quiz, achat, clic, revTotal] = await kvMget(store, [
+    'pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total',
   ])
   const ratio = quiz > 0 ? (achat / quiz) * 100 : null
 
   return {
     disponible: true,
     jours,
-    totaux: { pv: pvTotal, quiz_termine: quiz, achat, clic_produit: clic },
+    totaux: { pv: pvTotal, quiz_termine: quiz, achat, clic_produit: clic, revenu: revTotal / 100 },
     ratio,
   }
 }
@@ -69,10 +73,10 @@ async function track(req, res) {
   if (body && body.reset === true) {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
-    const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total']
+    const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total']
     for (let i = 0; i < 60; i++) {
       const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
-      keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`)
+      keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`, `rev:${d}`)
     }
     try {
       await fetch(`${store.url}/pipeline`, {
@@ -87,10 +91,17 @@ async function track(req, res) {
   const e = (body.e || '').toString().slice(0, 40).replace(/[^a-z0-9_]/gi, '')
   const day = new Date().toISOString().slice(0, 10)
   const keys = e ? [`ev:${e}:${day}`, `ev:${e}:total`] : [`pv:${day}`, `pv:total`]
+  // Montant d'un achat (en centimes) -> revenu cumulé
+  const montant = Math.max(0, Math.round(Number(body.montant) || 0))
   try {
-    await Promise.all(keys.map(k =>
-      fetch(`${store.url}/incr/${encodeURIComponent(k)}`, { headers: { Authorization: `Bearer ${store.token}` } })
-    ))
+    await Promise.all([
+      ...keys.map(k =>
+        fetch(`${store.url}/incr/${encodeURIComponent(k)}`, { headers: { Authorization: `Bearer ${store.token}` } })
+      ),
+      ...(montant > 0 ? [`rev:${day}`, 'rev:total'].map(k =>
+        fetch(`${store.url}/incrby/${encodeURIComponent(k)}/${montant}`, { headers: { Authorization: `Bearer ${store.token}` } })
+      ) : []),
+    ])
   } catch { /* silencieux : ne jamais casser la navigation */ }
   return res.status(200).json({ ok: true })
 }

@@ -13,7 +13,10 @@ const BORDER = 'rgba(255,255,255,0.08)'
 const UP = '#3FB870'
 const DOWN = '#E5484D'
 
+const OBJECTIF_CA_MOIS = 300 // € — objectif de chiffre d'affaires mensuel (ajustable)
+
 const fmt = (n) => (n == null ? '—' : n.toLocaleString('fr-FR'))
+const eur = (n) => (n == null ? '—' : n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }))
 const pct = (v) => `${v > 0 ? '+' : ''}${v.toFixed(2)} %`
 const arrow = (v) => (v > 0 ? '▲' : v < 0 ? '▼' : '◆')
 const couleur = (v) => (v > 0 ? UP : v < 0 ? DOWN : 'rgba(255,255,255,0.5)')
@@ -57,6 +60,23 @@ function Kpi({ label, value, sub, variation, primary, spark }) {
       {sub && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{sub}</div>}
       {spark && spark.length > 1 && <div style={{ marginTop: 10 }}><Sparkline values={spark} color={primary ? GOLD : 'rgba(255,255,255,0.35)'} /></div>}
     </Card>
+  )
+}
+
+// Barre de progression vers un objectif (Lean Analytics : "draw a line in the sand")
+function GoalBar({ value, goal, label }) {
+  const p = goal > 0 ? Math.min(100, (value / goal) * 100) : 0
+  const atteint = value >= goal
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 5, color: 'rgba(255,255,255,0.6)' }}>
+        <span>{label}</span>
+        <span style={{ fontWeight: 700, color: atteint ? UP : '#fff' }}>{eur(value)} / {eur(goal)} · {p.toFixed(0)} %</span>
+      </div>
+      <div style={{ height: 10, background: 'rgba(255,255,255,0.06)', borderRadius: 6, overflow: 'hidden' }}>
+        <div style={{ width: `${Math.max(2, p)}%`, height: '100%', background: atteint ? UP : `linear-gradient(90deg, ${GOLD}, rgba(201,168,76,0.6))`, borderRadius: 6, transition: 'width .25s ease-out' }} />
+      </div>
+    </div>
   )
 }
 
@@ -279,12 +299,15 @@ export default function Dashboard() {
     .map(([k, v]) => ({ label: k.replace('BRVM - ', ''), value: v.variation_pct }))
     .sort((a, b) => b.value - a.value)
 
-  // North Star = les clients (acheteurs). Le reste = métriques d'entrée.
+  // North Star = le chiffre d'affaires. Le reste = métriques d'entrée (Lean Analytics, OMTM).
   const A = stats?.analytics
   const aDays = A?.jours || []
   const visites7 = aDays.slice(-7).reduce((s, d) => s + (d.pv || 0), 0)
   const ratioConv = A?.ratio
   const clients = getAbo(6)
+  const moisPrefix = new Date().toISOString().slice(0, 7)
+  const caMois = aDays.filter(j => j.date.startsWith(moisPrefix)).reduce((s, j) => s + (j.revenu || 0), 0)
+  const achatsMois = aDays.filter(j => j.date.startsWith(moisPrefix)).reduce((s, j) => s + (j.achat || 0), 0)
 
   return (
     <div style={{ minHeight: '100vh', background: BG, color: '#fff', fontFamily: 'DM Sans, system-ui, sans-serif' }}>
@@ -324,14 +347,14 @@ export default function Dashboard() {
 
         {stats && (
           <>
-            {/* ⭐ North Star : les clients. Tout le reste sert à faire grimper ce chiffre. */}
+            {/* ⭐ North Star : le chiffre d'affaires du mois. Tout le reste sert à le faire grimper. */}
             <Card style={{ marginTop: 24, background: 'linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.03))', borderColor: 'rgba(201,168,76,0.4)' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
                 <div>
-                  <div style={{ fontSize: 12, color: GOLD, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>⭐ Étoile polaire · clients</div>
-                  <div style={{ fontSize: 52, fontWeight: 800, lineHeight: 1, marginTop: 8 }}>{fmt(clients)}</div>
+                  <div style={{ fontSize: 12, color: GOLD, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>⭐ Étoile polaire · CA du mois</div>
+                  <div style={{ fontSize: 52, fontWeight: 800, lineHeight: 1, marginTop: 8 }}>{A?.disponible ? eur(caMois) : '—'}</div>
                   <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 6 }}>
-                    Le seul chiffre qui compte vraiment. Visites et conversion ne sont que les leviers pour le faire monter.
+                    {A?.disponible ? `${fmt(achatsMois)} vente(s) ce mois · ${fmt(clients)} clients au total` : 'En attente des premières ventes'}. Visites et conversion ne sont que les leviers.
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
@@ -345,6 +368,11 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
+              {A?.disponible && (
+                <div style={{ marginTop: 18 }}>
+                  <GoalBar value={caMois} goal={OBJECTIF_CA_MOIS} label={`Objectif du mois`} />
+                </div>
+              )}
             </Card>
 
             {/* Métriques d'entrée (audience) */}
