@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { LIENS, DISCLAIMER } from '../data.js'
+import Modal from './Modal.jsx'
 
 const OUTILS = [
   { to: '/screener',  label: 'Screener BRVM'       },
@@ -24,6 +26,11 @@ const PRODUITS = [
 ]
 
 export default function Footer({ onOpenModal }) {
+  // Footer autonome : si la page ne fournit pas de gestion de modal, on gère la nôtre,
+  // pour que les liens légaux soient accessibles depuis TOUTES les pages.
+  const [localModal, setLocalModal] = useState(null)
+  const open = onOpenModal || setLocalModal
+
   return (
     <footer className="footer">
       <div className="container">
@@ -84,12 +91,10 @@ export default function Footer({ onOpenModal }) {
           <div>
             <h4 className="footer-h4">Légal</h4>
             <ul className="footer-ul">
-              {onOpenModal && <>
-                <li><button className="linklike" onClick={() => onOpenModal('mentions')}>Mentions légales</button></li>
-                <li><button className="linklike" onClick={() => onOpenModal('cgu')}>CGU</button></li>
-                <li><button className="linklike" onClick={() => onOpenModal('cgv')}>CGV</button></li>
-                <li><button className="linklike" onClick={() => onOpenModal('confidentialite')}>Confidentialité</button></li>
-              </>}
+              <li><button className="linklike" onClick={() => open('mentions')}>Mentions légales</button></li>
+              <li><button className="linklike" onClick={() => open('cgu')}>CGU</button></li>
+              <li><button className="linklike" onClick={() => open('cgv')}>CGV</button></li>
+              <li><button className="linklike" onClick={() => open('confidentialite')}>Confidentialité</button></li>
               <li><Link to="/a-propos">À propos</Link></li>
               <li><a href="#faq">FAQ</a></li>
               <li><a href="mailto:contact@diaspoinvest.fr">Contact</a></li>
@@ -113,6 +118,8 @@ export default function Footer({ onOpenModal }) {
         </div>
 
       </div>
+
+      {!onOpenModal && <Modal type={localModal} onClose={() => setLocalModal(null)} />}
     </footer>
   )
 }
