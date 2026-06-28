@@ -213,7 +213,7 @@ async function callClaude(prompt, _apiKey, maxTokens = 4000) {
       'x-cockpit-secret': localStorage.getItem('di_cockpit_secret') || '',
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-sonnet-4-6',
       max_tokens: maxTokens,
       messages: [{ role: 'user', content: prompt }],
     }),
@@ -230,7 +230,7 @@ async function callClaudeChat(system, messages, maxTokens = 4000) {
     'x-cockpit-secret': localStorage.getItem('di_cockpit_secret') || '',
   }
   const baseBody = {
-    model: 'claude-haiku-4-5-20251001',
+    model: 'claude-sonnet-4-6',
     max_tokens: maxTokens,
     system,
     messages: messages.map(m => ({ role: m.role, content: m.content })),
