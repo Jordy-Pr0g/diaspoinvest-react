@@ -174,8 +174,12 @@ export default function Portefeuille() {
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 14 }}>Passer un ordre d'achat</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
                   <select value={sel} onChange={e => { setSel(e.target.value); setQty('') }} style={inputStyle}>
-                    <option value="">Choisis une action…</option>
-                    {actions.map(a => <option key={a.symbole} value={a.symbole}>{a.nom} ({a.symbole}) — {fmt(a.cours_cloture)} FCFA</option>)}
+                    <option value="" style={{ background: '#15243a', color: '#fff' }}>Choisis une action…</option>
+                    {actions.map(a => (
+                      <option key={a.symbole} value={a.symbole} style={{ background: '#15243a', color: '#fff' }}>
+                        {a.nom} ({a.symbole}) — {fmt(a.cours_cloture)} FCFA
+                      </option>
+                    ))}
                   </select>
                   {action && (
                     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end' }}>
