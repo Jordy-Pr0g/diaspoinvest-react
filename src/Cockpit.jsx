@@ -94,8 +94,28 @@ const BRVM_DATA_FALLBACK = `Données BRVM (fallback statique — source : sikafi
 - Ecobank CI : 16 300 FCFA · Div net 799 FCFA · Rendement 4,90%
 - Taux fixe : 1€ = 655,957 FCFA · Flat Tax France : 31,4%`
 
+// Repère temporel injecté dans TOUS les agents (date du jour + prochain lundi).
+function buildDateContext() {
+  const now = new Date()
+  const aujStr = now.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })
+  const d = now.getDay() // 0 = dimanche, 1 = lundi
+  const delta = (8 - d) % 7 || 7 // jours jusqu'au prochain lundi (jamais aujourd'hui)
+  const lundi = new Date(now); lundi.setDate(now.getDate() + delta)
+  const lundiStr = lundi.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })
+  const demain = new Date(now); demain.setDate(now.getDate() + 1)
+  const demainStr = demain.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long' })
+  return [
+    'REPÈRE TEMPOREL (fais foi pour TOUTE date — ne déduis jamais la date toi-même) :',
+    `- Nous sommes aujourd'hui : ${aujStr}.`,
+    `- Demain : ${demainStr}.`,
+    `- "Lundi prochain" / "la newsletter de lundi" = ${lundiStr}.`,
+    "- Un évènement dont la date est antérieure à aujourd'hui est PASSÉ (parle-en au passé), jamais \"à venir\".",
+  ].join('\n')
+}
+
 function buildBrvmData(json) {
-  if (!json) return BRVM_DATA_FALLBACK
+  const dateContext = buildDateContext()
+  if (!json) return `${dateContext}\n\n${BRVM_DATA_FALLBACK}`
   try {
     const date = new Date(json.genere_le).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })
     const lines = [`Données BRVM du ${date} (source : brvm.org + sikafinance.com) :`]
@@ -130,9 +150,9 @@ function buildBrvmData(json) {
       lines.push('Dividendes à venir : aucun détachement futur confirmé dans les données actuelles (ne pas annoncer de dividende futur).')
     }
     lines.push('Taux fixe : 1€ = 655,957 FCFA · Flat Tax France : 31,4%')
-    return lines.join('\n')
+    return `${dateContext}\n\n${lines.join('\n')}`
   } catch {
-    return BRVM_DATA_FALLBACK
+    return `${dateContext}\n\n${BRVM_DATA_FALLBACK}`
   }
 }
 
@@ -995,7 +1015,7 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
     const base = [...messages, userMsg]
     setMessages(base); saveChat('jordan', base); setLoading(true)
     try {
-      const text = await callClaudeChat(JORDAN_PROMPT(context) + KNOWLEDGE_BLOCK + JORDAN_DOCTRINE + FINANCE_DOCTRINE, base)
+      const text = await callClaudeChat(JORDAN_PROMPT(context) + '\n\n' + buildDateContext() + KNOWLEDGE_BLOCK + JORDAN_DOCTRINE + FINANCE_DOCTRINE, base)
       const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
       setMessages(full); saveChat('jordan', full)
     } catch (e) { setError(e.message); setMessages(base) }
