@@ -358,7 +358,7 @@ Choix : lecteur en Europe ou diaspora hors Afrique, produits Europe ; résident 
 RÈGLES NON NÉGOCIABLES :
 1. Zéro bullet point, zéro liste, zéro tiret long
 2. Zéro titre ou label dans le corps (pas de "Ce que j'ai observé :", pas de gras sur un mot seul)
-3. MAXIMUM 2 CHIFFRES dans tout l'email — avant de finir, compte chaque chiffre présent, supprime les moins importants, reformule en mots ("plusieurs actions ont plongé", "un rendement solide", "une belle progression")
+3. Utilise des CHIFFRES CONCRETS quand ils renforcent le propos (cours en FCFA, rendement en %, dividende, variation) — pas de limite de nombre, mais chaque chiffre doit avoir un sens pour le lecteur. Ne transforme pas la lettre en rapport ni en liste de stats : les chiffres s'intègrent dans des phrases, au service de l'histoire.
 4. VIRGULE DÉCIMALE FRANÇAISE : 0,55% jamais 0.55% — 501,6 jamais 501.6
 5. Zéro markdown (pas de ** gras **, pas de # titres) — texte brut uniquement
 6. CHAQUE mention d'un article ou outil DiaspoInvest = lien URL collé immédiatement après dans la phrase. Jamais de mention sans lien.
@@ -373,7 +373,7 @@ PREHEADER : [max 90 car.]
 ---
 Salut, c'est Jordan.
 
-[4 paragraphes, ton chaleureux et direct. §1 : accroche humaine, situation concrète ou question d'un lecteur. §2 : observation marché en mots, 1 seul chiffre max. §3 : un fait concret en FCFA (un dividende — PASSÉ au passé, "à venir" seulement s'il est dans la liste injectée — ou une autre donnée vérifiable) + lien article DiaspoInvest avec URL dans la phrase. §4 : transition naturelle vers produit + lien outil gratuit avec URL dans la phrase.]
+[4 paragraphes, ton chaleureux et direct. §1 : accroche humaine, situation concrète ou question d'un lecteur. §2 : observation marché concrète, avec les chiffres qui la rendent vivante (indice, secteur, variation). §3 : un fait concret en FCFA (un dividende — PASSÉ au passé, "à venir" seulement s'il est dans la liste injectée — ou une autre donnée vérifiable) + lien article DiaspoInvest avec URL dans la phrase. §4 : transition naturelle vers produit + lien outil gratuit avec URL dans la phrase.]
 
 [Texte du CTA avec prix → URL Gumroad]
 
