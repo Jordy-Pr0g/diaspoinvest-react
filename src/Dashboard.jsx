@@ -16,6 +16,7 @@ const DOWN = '#E5484D'
 const OBJECTIF_CA_MOIS = 300 // € — objectif de chiffre d'affaires mensuel (ajustable)
 
 const fmt = (n) => (n == null ? '—' : n.toLocaleString('fr-FR'))
+const fmtC = (n) => (n == null ? '—' : Math.abs(n) >= 10000 ? n.toLocaleString('fr-FR', { notation: 'compact', maximumFractionDigits: 1 }) : n.toLocaleString('fr-FR'))
 const eur = (n) => (n == null ? '—' : n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }))
 const pct = (v) => `${v > 0 ? '+' : ''}${v.toFixed(2)} %`
 const arrow = (v) => (v > 0 ? '▲' : v < 0 ? '▼' : '◆')
@@ -35,6 +36,11 @@ function Card({ children, style }) {
       {children}
     </div>
   )
+}
+
+// Placeholder de chargement (perçu plus rapide qu'un spinner)
+function Skeleton({ h = 90, style }) {
+  return <div style={{ height: h, background: 'rgba(255,255,255,0.05)', borderRadius: 16, animation: 'diPulse 1.2s ease-in-out infinite', ...style }} />
 }
 
 function SectionTitle({ children }) {
@@ -339,9 +345,19 @@ export default function Dashboard() {
           </Card>
         )}
 
-        {!stats && !erreur && (
+        {chargement && !stats && (
+          <div style={{ marginTop: 24, display: 'grid', gap: 14 }}>
+            <Skeleton h={120} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14 }}>
+              <Skeleton /><Skeleton /><Skeleton /><Skeleton />
+            </div>
+            <Skeleton h={240} />
+          </div>
+        )}
+
+        {!stats && !erreur && !chargement && (
           <Card style={{ marginTop: 24, textAlign: 'center', padding: 40 }}>
-            <p style={{ margin: 0, color: 'rgba(255,255,255,0.5)' }}>Entre ta clé d'accès puis clique « Actualiser ».</p>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.55)' }}>Entre ta clé d'accès puis clique « Actualiser ».</p>
           </Card>
         )}
 
@@ -360,7 +376,7 @@ export default function Dashboard() {
                 <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
                   <div>
                     <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>Visites · 7 j</div>
-                    <div style={{ fontSize: 24, fontWeight: 800, marginTop: 2 }}>{A?.disponible ? fmt(visites7) : '—'}</div>
+                    <div style={{ fontSize: 24, fontWeight: 800, marginTop: 2 }}>{A?.disponible ? fmtC(visites7) : '—'}</div>
                   </div>
                   <div>
                     <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>Taux quiz → achat</div>
@@ -445,8 +461,8 @@ export default function Dashboard() {
                   </Card>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14, marginTop: 14 }}>
-                    <Kpi label="Vues · 7 jours" value={fmt(last7)} variation={delta7} sub="vs 7 jours précédents" spark={spark} />
-                    <Kpi label="Vues · 30 jours" value={fmt(last30)} />
+                    <Kpi label="Vues · 7 jours" value={fmtC(last7)} variation={delta7} sub="vs 7 jours précédents" spark={spark} />
+                    <Kpi label="Vues · 30 jours" value={fmtC(last30)} />
                     <Kpi label="Quiz terminés" value={fmt(A.totaux.quiz_termine)} sub={`${fmt(A.totaux.clic_produit)} clics produit`} />
                     <Kpi primary label="Taux quiz → achat"
                       value={ratio == null ? '—' : `${ratio.toFixed(1)} %`}
