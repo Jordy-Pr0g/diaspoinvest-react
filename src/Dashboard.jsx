@@ -44,7 +44,7 @@ function SectionTitle({ children }) {
 }
 
 // KPI card : valeur + variation fléchée et colorée (le signal porte sur l'écart)
-function Kpi({ label, value, sub, variation, primary }) {
+function Kpi({ label, value, sub, variation, primary, spark }) {
   return (
     <Card style={primary ? { borderColor: 'rgba(201,168,76,0.35)', background: 'rgba(201,168,76,0.06)' } : {}}>
       <div style={{ fontSize: 12, color: primary ? GOLD : 'rgba(255,255,255,0.45)', fontWeight: 600 }}>{label}</div>
@@ -55,7 +55,21 @@ function Kpi({ label, value, sub, variation, primary }) {
         </div>
       )}
       {sub && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{sub}</div>}
+      {spark && spark.length > 1 && <div style={{ marginTop: 10 }}><Sparkline values={spark} color={primary ? GOLD : 'rgba(255,255,255,0.35)'} /></div>}
     </Card>
+  )
+}
+
+// Mini-courbe sans axe (tendance en un coup d'œil)
+function Sparkline({ values, color = GOLD }) {
+  if (!values || values.length < 2) return null
+  const W = 100, H = 26
+  const min = Math.min(...values), max = Math.max(...values), span = max - min || 1
+  const pts = values.map((v, i) => `${((i / (values.length - 1)) * W).toFixed(1)},${(H - ((v - min) / span) * H).toFixed(1)}`).join(' ')
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 26, display: 'block' }} preserveAspectRatio="none">
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+    </svg>
   )
 }
 
@@ -226,6 +240,18 @@ export default function Dashboard() {
     setChargement(false)
   }
 
+  async function resetCompteurs() {
+    if (!window.confirm('Remettre tous les compteurs de visites et conversions à zéro ? (action définitive)')) return
+    try {
+      await fetch('/api/stats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-cockpit-secret': secret },
+        body: JSON.stringify({ reset: true }),
+      })
+      charger()
+    } catch { /* ignore */ }
+  }
+
   async function chargerHisto(t) {
     setHisto(null)
     try {
@@ -320,39 +346,78 @@ export default function Dashboard() {
             </Card>
 
             {/* Visites & conversions — mesure maison */}
-            <SectionTitle>Visites & conversions</SectionTitle>
-            {stats.analytics?.disponible ? (
-              <>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14 }}>
-                  <Kpi label="Vues de page (total)" value={fmt(stats.analytics.totaux.pv)} />
-                  <Kpi label="Quiz terminés" value={fmt(stats.analytics.totaux.quiz_termine)} />
-                  <Kpi label="Clics produit" value={fmt(stats.analytics.totaux.clic_produit)} />
-                  <Kpi primary label="Taux quiz → achat"
-                    value={stats.analytics.ratio == null ? '—' : `${stats.analytics.ratio.toFixed(1)} %`}
-                    sub={`${fmt(stats.analytics.totaux.achat)} achat(s)`} />
-                </div>
-                <Card style={{ marginTop: 14 }}>
-                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Vues de page · 30 derniers jours</div>
-                  <AreaChart unit="vues" data={stats.analytics.jours.map(j => ({ date: j.date.slice(5), close: j.pv }))} />
-                </Card>
-                <Card style={{ marginTop: 14 }}>
-                  <Funnel steps={[
-                    { label: 'Vues de page', value: stats.analytics.totaux.pv },
-                    { label: 'Quiz terminés', value: stats.analytics.totaux.quiz_termine },
-                    { label: 'Clics produit', value: stats.analytics.totaux.clic_produit },
-                    { label: 'Achats', value: stats.analytics.totaux.achat },
-                  ]} />
-                </Card>
-              </>
-            ) : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <SectionTitle>Visites & conversions</SectionTitle>
+              {stats.analytics?.disponible && (stats.analytics.totaux.pv > 0) && (
+                <button onClick={resetCompteurs}
+                  style={{ background: 'transparent', border: `1px solid ${BORDER}`, color: 'rgba(255,255,255,0.4)', borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
+                  Remettre à zéro
+                </button>
+              )}
+            </div>
+            {!stats.analytics?.disponible ? (
               <Card style={{ borderStyle: 'dashed' }}>
                 <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
-                  ⏳ En attente d'activation du stockage. Crée un store <b style={{ color: '#fff' }}>KV (Upstash)</b> dans Vercel
-                  (onglet <b style={{ color: '#fff' }}>Storage → Create Database → KV</b>, gratuit) : les variables s'ajoutent toutes seules,
-                  et dès le prochain déploiement, tes visites et conversions s'afficheront ici automatiquement.
+                  ⏳ Stockage non activé. Crée un store <b style={{ color: '#fff' }}>KV / Upstash</b> dans Vercel (onglet Storage), gratuit.
                 </div>
               </Card>
-            )}
+            ) : (() => {
+              const A = stats.analytics
+              const days = A.jours || []
+              const sum = (arr) => arr.reduce((s, d) => s + (d.pv || 0), 0)
+              const last7 = sum(days.slice(-7)), prev7 = sum(days.slice(-14, -7)), last30 = sum(days)
+              const delta7 = prev7 > 0 ? ((last7 - prev7) / prev7) * 100 : (last7 > 0 ? 100 : null)
+              const spark = days.slice(-14).map(d => d.pv)
+              const hasData = (A.totaux.pv || 0) > 0
+              const ratio = A.ratio
+              const fiable = (A.totaux.quiz_termine || 0) >= 20
+              let insight, ton = 'rgba(255,255,255,0.7)'
+              if (!hasData) insight = 'Pas encore de visites enregistrées. Les chiffres apparaîtront dès les premiers visiteurs.'
+              else if (ratio == null) insight = 'Trafic enregistré, mais pas encore de quiz terminé : impossible de calculer le taux de conversion pour l’instant.'
+              else if (ratio < 1) { insight = `Taux de conversion faible (${ratio.toFixed(1)} %). Le contenu attire mais convertit peu : priorité à la clarté de l’offre et de la landing.`; ton = DOWN }
+              else if (ratio < 5) { insight = `Taux correct (${ratio.toFixed(1)} %). Vise > 5 % en alignant mieux chaque article au bon produit.`; ton = GOLD }
+              else { insight = `Très bon taux (${ratio.toFixed(1)} %). Le levier devient le trafic : concentre-toi sur l’acquisition.`; ton = UP }
+              if (ratio != null && !fiable) insight += ' (Échantillon encore faible, à confirmer.)'
+              return (
+                <>
+                  {/* Bandeau insight actionnable */}
+                  <Card style={{ borderLeft: `3px solid ${ton}` }}>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Lecture</div>
+                    <div style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>{insight}</div>
+                  </Card>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14, marginTop: 14 }}>
+                    <Kpi label="Vues · 7 jours" value={fmt(last7)} variation={delta7} sub="vs 7 jours précédents" spark={spark} />
+                    <Kpi label="Vues · 30 jours" value={fmt(last30)} />
+                    <Kpi label="Quiz terminés" value={fmt(A.totaux.quiz_termine)} sub={`${fmt(A.totaux.clic_produit)} clics produit`} />
+                    <Kpi primary label="Taux quiz → achat"
+                      value={ratio == null ? '—' : `${ratio.toFixed(1)} %`}
+                      sub={`${fmt(A.totaux.achat)} achat(s) · cible 5 %`} />
+                  </div>
+
+                  {hasData ? (
+                    <Card style={{ marginTop: 14 }}>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Vues de page · 30 derniers jours</div>
+                      <AreaChart unit="vues" data={days.map(j => ({ date: j.date.slice(5), close: j.pv }))} />
+                    </Card>
+                  ) : (
+                    <Card style={{ marginTop: 14, textAlign: 'center', padding: 32, borderStyle: 'dashed' }}>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>La courbe se remplira au fil des visites réelles.</div>
+                    </Card>
+                  )}
+
+                  <Card style={{ marginTop: 14 }}>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Entonnoir de conversion</div>
+                    <Funnel steps={[
+                      { label: 'Vues de page', value: A.totaux.pv },
+                      { label: 'Quiz terminés', value: A.totaux.quiz_termine },
+                      { label: 'Clics produit', value: A.totaux.clic_produit },
+                      { label: 'Achats', value: A.totaux.achat },
+                    ]} />
+                  </Card>
+                </>
+              )
+            })()}
 
             {/* BRVM — courbe */}
             <SectionTitle>Marché BRVM{brvm?.genere_le ? ` · clôture du ${new Date(brvm.genere_le).toLocaleDateString('fr-FR')}` : ''}</SectionTitle>

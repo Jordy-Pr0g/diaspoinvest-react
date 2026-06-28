@@ -64,6 +64,26 @@ async function track(req, res) {
 
   let body = req.body || {}
   if (typeof body === 'string') { try { body = JSON.parse(body) } catch { body = {} } }
+
+  // Reset admin (protégé par la clé) : remet à zéro totaux + 60 derniers jours.
+  if (body && body.reset === true) {
+    const secret = process.env.COCKPIT_SECRET
+    if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
+    const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total']
+    for (let i = 0; i < 60; i++) {
+      const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
+      keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`)
+    }
+    try {
+      await fetch(`${store.url}/pipeline`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${store.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(keys.map(k => ['DEL', k])),
+      })
+    } catch { /* silencieux */ }
+    return res.status(200).json({ ok: true, reset: true })
+  }
+
   const e = (body.e || '').toString().slice(0, 40).replace(/[^a-z0-9_]/gi, '')
   const day = new Date().toISOString().slice(0, 10)
   const keys = e ? [`ev:${e}:${day}`, `ev:${e}:total`] : [`pv:${day}`, `pv:total`]
