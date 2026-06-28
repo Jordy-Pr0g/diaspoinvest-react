@@ -55,7 +55,29 @@ async function buildAnalytics() {
   }
 }
 
+// POST = enregistre une vue de page (corps vide) ou un event (corps {e:"..."}).
+// Public (pas de secret) car appelé par le tracker du site. Dégrade si KV absent.
+async function track(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  const store = kvStore()
+  if (!store) return res.status(200).json({ ok: false, reason: 'kv-non-configure' })
+
+  let body = req.body || {}
+  if (typeof body === 'string') { try { body = JSON.parse(body) } catch { body = {} } }
+  const e = (body.e || '').toString().slice(0, 40).replace(/[^a-z0-9_]/gi, '')
+  const day = new Date().toISOString().slice(0, 10)
+  const keys = e ? [`ev:${e}:${day}`, `ev:${e}:total`] : [`pv:${day}`, `pv:total`]
+  try {
+    await Promise.all(keys.map(k =>
+      fetch(`${store.url}/incr/${encodeURIComponent(k)}`, { headers: { Authorization: `Bearer ${store.token}` } })
+    ))
+  } catch { /* silencieux : ne jamais casser la navigation */ }
+  return res.status(200).json({ ok: true })
+}
+
 export default async function handler(req, res) {
+  if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Origin', '*'); return res.status(200).end() }
+  if (req.method === 'POST') return track(req, res) // mesure d'audience (public)
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
   const secret = process.env.COCKPIT_SECRET

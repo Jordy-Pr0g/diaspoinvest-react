@@ -34,8 +34,8 @@
         function send(name) {
           try {
             var body = JSON.stringify(name ? { e: name } : {})
-            if (navigator.sendBeacon) navigator.sendBeacon('/api/track', body)
-            else fetch('/api/track', { method: 'POST', body: body, keepalive: true })
+            if (navigator.sendBeacon) navigator.sendBeacon('/api/stats', body)
+            else fetch('/api/stats', { method: 'POST', body: body, keepalive: true })
           } catch (_) {}
         }
         send() // vue de page

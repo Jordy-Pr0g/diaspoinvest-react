@@ -83,7 +83,7 @@ export default async function handler(req, res) {
   // 2) Compte l'event "achat" dans la mesure maison (même base que quiz_termine).
   //    -> ratio quiz -> achat lisible directement dans le tableau de bord.
   try {
-    await fetch('https://diaspoinvest.fr/api/track', {
+    await fetch('https://diaspoinvest.fr/api/stats', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ e: 'achat' }),
