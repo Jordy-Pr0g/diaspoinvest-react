@@ -80,31 +80,16 @@ export default async function handler(req, res) {
     // On continue : mieux vaut au moins tracker l'achat dans Plausible.
   }
 
-  // 2) Event serveur "achat" vers Plausible (même dashboard que quiz_termine).
-  //    -> ratio quiz -> achat lisible directement, sans croiser Gumroad à la main.
+  // 2) Compte l'event "achat" dans la mesure maison (même base que quiz_termine).
+  //    -> ratio quiz -> achat lisible directement dans le tableau de bord.
   try {
-    const domain = (process.env.PLAUSIBLE_DOMAIN || 'diaspoinvest.fr').trim()
-    await fetch('https://plausible.io/api/event', {
+    await fetch('https://diaspoinvest.fr/api/track', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Plausible exige un User-Agent et une IP ; on relaie ceux de la requête.
-        'User-Agent': req.headers['user-agent'] || 'DiaspoInvest-Gumroad-Webhook',
-        'X-Forwarded-For': (req.headers['x-forwarded-for'] || '0.0.0.0').split(',')[0].trim(),
-      },
-      body: JSON.stringify({
-        name: 'achat',
-        domain,
-        url: `https://${domain}/merci`, // URL logique de conversion
-        props: {
-          produit: productName || productPermalink || 'inconnu',
-          montant: typeof price !== 'undefined' ? String(price) : '',
-          devise: currency,
-        },
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ e: 'achat' }),
     })
   } catch (e) {
-    console.error('Plausible event échec:', e.message)
+    console.error('track achat échec:', e.message)
   }
 
   return res.status(200).json({ success: true })

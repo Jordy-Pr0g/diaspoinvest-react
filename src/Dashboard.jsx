@@ -59,8 +59,8 @@ function Kpi({ label, value, sub, variation, primary }) {
   )
 }
 
-// Courbe (aire + ligne) interactive : survol = lecture du cours à ce point
-function AreaChart({ data }) {
+// Courbe (aire + ligne) interactive : survol = lecture de la valeur à ce point
+function AreaChart({ data, unit = 'FCFA' }) {
   const [hover, setHover] = useState(null) // index survolé
   if (!data || data.length < 2) return <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>Courbe indisponible.</div>
   const W = 640, H = 220, PT = 10, PB = 10
@@ -110,14 +110,14 @@ function AreaChart({ data }) {
             fontSize: 12, whiteSpace: 'nowrap', pointerEvents: 'none', boxShadow: '0 6px 18px rgba(0,0,0,0.4)',
           }}>
             <div style={{ color: 'rgba(255,255,255,0.5)' }}>{pt.date}</div>
-            <div style={{ fontWeight: 800, fontSize: 14 }}>{fmt(pt.close)} <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>FCFA</span></div>
+            <div style={{ fontWeight: 800, fontSize: 14 }}>{fmt(pt.close)} <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>{unit}</span></div>
           </div>
         )}
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
-        <span>{data[0].date} · {fmt(first)} FCFA</span>
+        <span>{data[0].date} · {fmt(first)} {unit}</span>
         <span style={{ color: couleur(perf), fontWeight: 700 }}>{arrow(perf)} {pct(perf)} sur la période</span>
-        <span>{data[data.length - 1].date} · {fmt(last)} FCFA</span>
+        <span>{data[data.length - 1].date} · {fmt(last)} {unit}</span>
       </div>
     </div>
   )
@@ -319,14 +319,40 @@ export default function Dashboard() {
               </div>
             </Card>
 
-            {/* Plausible — emplacement */}
-            <SectionTitle>Visites & conversions (Plausible)</SectionTitle>
-            <Card style={{ borderStyle: 'dashed' }}>
-              <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
-                Emplacement réservé. Active un <b style={{ color: '#fff' }}>lien de partage Plausible</b> (Site Settings → Visibility → Shared Links)
-                et donne-le-moi : j'intègre ici les courbes de visites, quiz terminés et achats.
-              </div>
-            </Card>
+            {/* Visites & conversions — mesure maison */}
+            <SectionTitle>Visites & conversions</SectionTitle>
+            {stats.analytics?.disponible ? (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14 }}>
+                  <Kpi label="Vues de page (total)" value={fmt(stats.analytics.totaux.pv)} />
+                  <Kpi label="Quiz terminés" value={fmt(stats.analytics.totaux.quiz_termine)} />
+                  <Kpi label="Clics produit" value={fmt(stats.analytics.totaux.clic_produit)} />
+                  <Kpi primary label="Taux quiz → achat"
+                    value={stats.analytics.ratio == null ? '—' : `${stats.analytics.ratio.toFixed(1)} %`}
+                    sub={`${fmt(stats.analytics.totaux.achat)} achat(s)`} />
+                </div>
+                <Card style={{ marginTop: 14 }}>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Vues de page · 30 derniers jours</div>
+                  <AreaChart unit="vues" data={stats.analytics.jours.map(j => ({ date: j.date.slice(5), close: j.pv }))} />
+                </Card>
+                <Card style={{ marginTop: 14 }}>
+                  <Funnel steps={[
+                    { label: 'Vues de page', value: stats.analytics.totaux.pv },
+                    { label: 'Quiz terminés', value: stats.analytics.totaux.quiz_termine },
+                    { label: 'Clics produit', value: stats.analytics.totaux.clic_produit },
+                    { label: 'Achats', value: stats.analytics.totaux.achat },
+                  ]} />
+                </Card>
+              </>
+            ) : (
+              <Card style={{ borderStyle: 'dashed' }}>
+                <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
+                  ⏳ En attente d'activation du stockage. Crée un store <b style={{ color: '#fff' }}>KV (Upstash)</b> dans Vercel
+                  (onglet <b style={{ color: '#fff' }}>Storage → Create Database → KV</b>, gratuit) : les variables s'ajoutent toutes seules,
+                  et dès le prochain déploiement, tes visites et conversions s'afficheront ici automatiquement.
+                </div>
+              </Card>
+            )}
 
             {/* BRVM — courbe */}
             <SectionTitle>Marché BRVM{brvm?.genere_le ? ` · clôture du ${new Date(brvm.genere_le).toLocaleDateString('fr-FR')}` : ''}</SectionTitle>
