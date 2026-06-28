@@ -146,8 +146,10 @@ function buildBrvmData(json) {
     if (divs.length) {
       lines.push('Dividendes à venir (détachements confirmés, dates futures uniquement) :')
       divs.forEach(d => lines.push(`  ${d.nom} : le ${d.date_detachement}, ${d.montant_fcfa} FCFA${d.rendement_pct ? ` (rdt ${d.rendement_pct}%)` : ''}`))
+      lines.push('Sources dividendes (À CITER quand tu mentionnes un dividende) : calendrier Sikafinance https://www.sikafinance.com/marches/dividendes · BRVM officiel https://www.brvm.org/fr/esv/paiement-de-dividendes')
     } else {
       lines.push('Dividendes à venir : aucun détachement futur confirmé dans les données actuelles (ne pas annoncer de dividende futur).')
+      lines.push('Pour vérifier le calendrier des dividendes : https://www.sikafinance.com/marches/dividendes · https://www.brvm.org/fr/esv/paiement-de-dividendes')
     }
     lines.push('Taux fixe : 1€ = 655,957 FCFA · Flat Tax France : 31,4%')
     return `${dateContext}\n\n${lines.join('\n')}`
