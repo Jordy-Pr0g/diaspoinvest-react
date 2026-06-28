@@ -29,18 +29,26 @@ function renderBody(text) {
     const trimmed = block.trim()
     if (!trimmed) continue
 
-    // Bloc CTA Gumroad
+    // Bloc CTA Gumroad — carte produit illustrée (image + bouton)
     const ctaMatch = trimmed.match(/^\[([^\]]*https?:\/\/diaspoinvest\.gumroad[^\]]*)\]$/)
     if (ctaMatch) {
       const inner = ctaMatch[1]
       const urlMatch = inner.match(/(https?:\/\/[^\s\]]+)/)
       const url = urlMatch ? urlMatch[1] : '#'
       const label = esc(inner.replace(/(https?:\/\/[^\s\]]+)/g, '').replace(/[→>]/g, '').trim())
+      const permMatch = url.match(/gumroad\.com\/l\/(\w+)/)
+      const key = permMatch ? permMatch[1] : ''
+      const IMG = { oxxzda: 'produit-guide.jpg', dpqvqo: 'produit-guide.jpg', tocir: 'produit-tracker.jpg', ecspxh: 'produit-pack.jpg', cvkcwo: 'produit-pack.jpg' }
+      const img = IMG[key]
+      const imgRow = img
+        ? `<tr><td style="padding:0;"><a href="${url}"><img src="https://diaspoinvest.fr/${img}" width="100%" style="display:block;width:100%;max-width:520px;height:auto;border:0;" alt="Produit DiaspoInvest" /></a></td></tr>`
+        : ''
       html += `
-        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:32px 0;">
-          <tr><td align="center">
-            <a href="${url}" style="display:inline-block;background:#C9A84C;color:#0D1525;font-weight:800;font-size:15px;padding:14px 32px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;letter-spacing:0.2px;">
-              ${label || 'Accéder au produit'} &rarr;
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:34px 0;border:1px solid #ece7d8;border-radius:14px;overflow:hidden;background:#fbf9f3;">
+          ${imgRow}
+          <tr><td align="center" style="padding:22px 24px;">
+            <a href="${url}" style="display:inline-block;background:#0D2B1E;color:#C9A84C;font-weight:800;font-size:15px;padding:15px 34px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;letter-spacing:0.2px;">
+              ${label || 'Découvrir'} &rarr;
             </a>
           </td></tr>
         </table>`
@@ -53,6 +61,14 @@ function renderBody(text) {
         <div style="margin-top:32px;padding-top:24px;border-top:1px solid #f0f0f0;">
           <p style="margin:0;font-size:15px;color:#555;font-family:Georgia,serif;line-height:1.7;">${esc(trimmed).replace(/\n/g, '<br>')}</p>
         </div>`
+      continue
+    }
+
+    // Sous-titre de dossier : ligne courte unique, sans lien, sans ponctuation de fin
+    // (ex : "Ce que tu possèdes vraiment ?", "Pour qui, dans quels cas ?")
+    const estSousTitre = !trimmed.includes('\n') && trimmed.length <= 72 && !/https?:\/\//.test(trimmed) && (trimmed.endsWith('?') || !/[.!:]$/.test(trimmed))
+    if (estSousTitre) {
+      html += `<h3 style="margin:30px 0 12px;font-family:Georgia,serif;font-size:19px;font-weight:700;color:#0D2B1E;padding-left:12px;border-left:3px solid #C9A84C;line-height:1.4;">${esc(trimmed)}</h3>`
       continue
     }
 
@@ -70,8 +86,15 @@ function renderBody(text) {
   return html
 }
 
-function textToHtml(text) {
+function textToHtml(text, chartImg = '') {
   const bodyHtml = renderBody(text)
+
+  const chartSection = chartImg ? `
+    <div style="padding:4px 40px 28px;">
+      <div style="font-family:Georgia,serif;font-size:13px;color:#888;margin:0 0 10px;">Le marché en bref &mdash; variation des secteurs BRVM</div>
+      <img src="${chartImg}" width="100%" style="display:block;width:100%;max-width:520px;height:auto;border:1px solid #eee;border-radius:10px;" alt="Variation des secteurs BRVM" />
+      <div style="font-size:11px;color:#bbb;font-family:Arial,sans-serif;margin-top:6px;">Source : brvm.org / sikafinance.com</div>
+    </div>` : ''
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -80,18 +103,19 @@ function textToHtml(text) {
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>DiaspoInvest Newsletter</title>
 </head>
-<body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,serif;">
-  <div style="max-width:600px;margin:24px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+<body style="margin:0;padding:0;background:#eceae4;font-family:Georgia,serif;">
+  <div style="max-width:600px;margin:24px auto;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 6px 28px rgba(0,0,0,0.10);">
 
-    <!-- Header avec logo -->
-    <div style="background:#0D1525;padding:20px 32px;text-align:center;">
-      <img src="https://diaspoinvest.fr/logo-email.jpg" alt="DiaspoInvest" width="180" style="display:block;margin:0 auto;max-width:180px;height:auto;" />
+    <!-- Header : logo doré sur fond vert de marque (le carré du logo se fond dans le fond) -->
+    <div style="background:#0D2B1E;padding:22px 32px 18px;text-align:center;border-bottom:3px solid #C9A84C;">
+      <img src="https://diaspoinvest.fr/logo-512.png" alt="DiaspoInvest" width="104" style="display:block;margin:0 auto;width:104px;max-width:104px;height:auto;border-radius:12px;" />
     </div>
 
     <!-- Corps lettre -->
-    <div style="padding:36px 40px 28px;">
+    <div style="padding:36px 40px 20px;">
       ${bodyHtml}
     </div>
+    ${chartSection}
 
     <!-- Footer légal -->
     <div style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee;">
@@ -109,6 +133,38 @@ function textToHtml(text) {
   </div>
 </body>
 </html>`
+}
+
+// Construit l'URL d'un graphique BRVM (secteurs) via QuickChart, à partir des données live.
+// L'image est rendue par QuickChart côté serveur : on n'a qu'à fournir l'URL.
+async function buildBrvmChartUrl() {
+  try {
+    const r = await fetch('https://diaspoinvest.fr/api/brvm-data')
+    if (!r.ok) return ''
+    const d = await r.json()
+    const idx = d.indices || {}
+    const exclus = ['BRVM - COMPOSITE', 'BRVM - PRESTIGE', 'BRVM - PRINCIPAL', 'BRVM – COMPOSITE TOTAL RETURN']
+    const sect = Object.entries(idx)
+      .filter(([k]) => k.startsWith('BRVM - ') && !exclus.includes(k))
+      .map(([k, v]) => ({ n: k.replace('BRVM - ', ''), v: Number(v.variation_pct) }))
+      .filter(s => !Number.isNaN(s.v))
+      .sort((a, b) => b.v - a.v)
+      .slice(0, 7)
+    if (!sect.length) return ''
+    const config = {
+      type: 'horizontalBar',
+      data: {
+        labels: sect.map(s => s.n),
+        datasets: [{ data: sect.map(s => s.v), backgroundColor: sect.map(s => (s.v >= 0 ? '#3FB870' : '#E5484D')) }],
+      },
+      options: {
+        legend: { display: false },
+        title: { display: true, text: 'Variation des secteurs (%)' },
+        scales: { xAxes: [{ ticks: { fontColor: '#666' } }], yAxes: [{ ticks: { fontColor: '#333' } }] },
+      },
+    }
+    return 'https://quickchart.io/chart?w=560&h=300&bkg=white&c=' + encodeURIComponent(JSON.stringify(config))
+  } catch { return '' }
 }
 
 function extractSubject(text) {
@@ -137,7 +193,8 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: 'BREVO_API_KEY non configurée.' })
 
   const subject = subjectOverride || extractSubject(content)
-  const htmlContent = textToHtml(content)
+  const chartUrl = await buildBrvmChartUrl()
+  const htmlContent = textToHtml(content, chartUrl)
 
   // Mode test : envoi transactionnel direct sans créer de campagne
   if (testEmail) {
