@@ -374,7 +374,7 @@ PRODUITS (ce qu'ils font VRAIMENT, n'invente aucune capacité) :
 - Tracker Dashboard, 19,99€ (au lieu de 34,99€) : 47 actions par secteur, simulateur DCA 30 ans, suivi de portefeuille. https://diaspoinvest.gumroad.com/l/tocir
 - Pack Europe, 29,99€ : Guide Europe plus Tracker. https://diaspoinvest.gumroad.com/l/ecspxh
 - Pack UEMOA, 29,99€ : Guide UEMOA plus Tracker. https://diaspoinvest.gumroad.com/l/cvkcwo
-Le Guide ne recommande PAS d'actions et n'analyse PAS les 47 sociétés : il explique comment comprendre, ouvrir un compte et gérer la fiscalité. Le Tracker liste et simule.
+Le Guide ne recommande PAS d'actions et n'analyse PAS les 47 sociétés : il explique comment comprendre, ouvrir un compte et gérer la fiscalité. Le Tracker liste les 47 actions par secteur, simule un DCA sur 30 ans et suit un portefeuille — il NE calcule PAS la fiscalité (c'est le Calculateur fiscal gratuit qui le fait : https://diaspoinvest.fr/fiscalite). N'attribue jamais au Tracker une fonction de calcul d'impôts ni d'analyse/recommandation d'actions.
 Choix : lecteur en Europe ou diaspora hors Afrique, produits Europe ; résident UEMOA, produits UEMOA. Sujet débutant, Guide ; sujet portefeuille/dividendes/suivi, Tracker. Un seul bouton CTA.
 
 RÈGLES NON NÉGOCIABLES :
@@ -388,6 +388,7 @@ RÈGLES NON NÉGOCIABLES :
 8. L'objet ne révèle jamais de chiffre, nom d'action ou date — curiosité pure
 9. CTA produit AVANT la signature, pas après
 10. DIVIDENDES — règle stricte : un dividende ne peut être annoncé "à venir / à détacher / prochain" QUE s'il figure dans la liste "Dividendes à venir" des données injectées ci-dessus, avec sa date. TOUT autre dividende (tiré d'un article, de ta mémoire, d'un exemple) est PASSÉ : parle-en au passé ("Sonatel a versé", "a rapporté un rendement de"). Si la liste "Dividendes à venir" est vide, n'annonce AUCUN dividende futur — évoque-les au passé ou parle du marché autrement. Jamais transformer un dividende passé en évènement à venir.
+11. SOURCE DIVIDENDES (obligatoire) : dès que tu cites un ou plusieurs dividendes (montant ou date), tu DOIS insérer dans une phrase le lien du calendrier officiel pour vérification : https://www.sikafinance.com/marches/dividendes — naturellement, du genre "dates et montants à jour sur le calendrier Sikafinance : https://www.sikafinance.com/marches/dividendes".
 
 FORMAT DE SORTIE (texte brut, pas de markdown) :
 OBJET : [max 50 car.]
