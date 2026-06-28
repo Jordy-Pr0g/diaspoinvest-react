@@ -119,10 +119,15 @@ function buildBrvmData(json) {
     top3.forEach(a => lines.push(`  ${a.symbole} (${a.nom}) : ${a.cours_cloture.toLocaleString('fr-FR')} FCFA (${a.variation_pct > 0 ? '+' : ''}${a.variation_pct}%)`))
     lines.push('Top baisses :')
     bot3.forEach(a => lines.push(`  ${a.symbole} (${a.nom}) : ${a.cours_cloture.toLocaleString('fr-FR')} FCFA (${a.variation_pct}%)`))
-    const divs = json.dividendes_a_venir || []
+    // On ne garde QUE les détachements encore à venir (la donnée peut dater de quelques jours).
+    const auj = new Date(); auj.setHours(0, 0, 0, 0)
+    const parseDate = (s) => { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ''); return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null }
+    const divs = (json.dividendes_a_venir || []).filter(d => { const dt = parseDate(d.date_detachement); return dt && dt >= auj })
     if (divs.length) {
-      lines.push('Dividendes à venir (détachements confirmés) :')
+      lines.push('Dividendes à venir (détachements confirmés, dates futures uniquement) :')
       divs.forEach(d => lines.push(`  ${d.nom} : le ${d.date_detachement}, ${d.montant_fcfa} FCFA${d.rendement_pct ? ` (rdt ${d.rendement_pct}%)` : ''}`))
+    } else {
+      lines.push('Dividendes à venir : aucun détachement futur confirmé dans les données actuelles (ne pas annoncer de dividende futur).')
     }
     lines.push('Taux fixe : 1€ = 655,957 FCFA · Flat Tax France : 31,4%')
     return lines.join('\n')
