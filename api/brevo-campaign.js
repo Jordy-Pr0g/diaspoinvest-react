@@ -41,27 +41,31 @@ function renderBody(text, chartImg = '') {
     const trimmed = block.trim()
     if (!trimmed) continue
 
-    // Bloc CTA Gumroad — carte produit illustrée (image + bouton)
+    // Bloc CTA Gumroad — carte produit illustrée. Gère 1 OU 2 versions (Europe ET UEMOA),
+    // séparées par "|", pour ne jamais exclure une partie de l'audience.
     const ctaMatch = trimmed.match(/^\[([^\]]*https?:\/\/diaspoinvest\.gumroad[^\]]*)\]$/)
     if (ctaMatch) {
       const inner = ctaMatch[1]
-      const urlMatch = inner.match(/(https?:\/\/[^\s\]]+)/)
-      const url = urlMatch ? urlMatch[1] : '#'
-      const label = esc(inner.replace(/(https?:\/\/[^\s\]]+)/g, '').replace(/[→>]/g, '').trim())
-      const permMatch = url.match(/gumroad\.com\/l\/(\w+)/)
-      const key = permMatch ? permMatch[1] : ''
       const IMG = { oxxzda: 'produit-guide.jpg', dpqvqo: 'produit-guide.jpg', tocir: 'produit-tracker.jpg', ecspxh: 'produit-pack.jpg', cvkcwo: 'produit-pack.jpg' }
-      const img = IMG[key]
+      const parts = inner.split('|').map(s => s.trim()).filter(p => /https?:\/\//.test(p))
+      const firstKey = (inner.match(/gumroad\.com\/l\/(\w+)/) || [])[1] || ''
+      const img = IMG[firstKey]
       const imgRow = img
-        ? `<tr><td style="padding:0;"><a href="${url}"><img src="https://diaspoinvest.fr/${img}" width="100%" style="display:block;width:100%;max-width:520px;height:auto;border:0;" alt="Produit DiaspoInvest" /></a></td></tr>`
+        ? `<tr><td style="padding:0;"><img src="https://diaspoinvest.fr/${img}" width="100%" style="display:block;width:100%;max-width:520px;height:auto;border:0;" alt="Produit DiaspoInvest" /></td></tr>`
+        : ''
+      const buttons = parts.map(p => {
+        const u = (p.match(/https?:\/\/[^\s\]]+/) || ['#'])[0]
+        const lbl = esc(p.replace(/https?:\/\/[^\s\]]+/g, '').replace(/[→>]/g, '').trim()) || 'Découvrir'
+        return `<a href="${u}" style="display:inline-block;margin:6px;background:#0D2B1E;color:#C9A84C;font-weight:800;font-size:15px;padding:14px 28px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;letter-spacing:0.2px;">${lbl} &rarr;</a>`
+      }).join('')
+      const note = parts.length > 1
+        ? `<div style="font-size:13px;color:#666;font-family:Arial,sans-serif;margin-bottom:12px;">Choisis ta version selon où tu vis :</div>`
         : ''
       html += `
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:34px 0;border:1px solid #ece7d8;border-radius:14px;overflow:hidden;background:#fbf9f3;">
           ${imgRow}
           <tr><td align="center" style="padding:22px 24px;">
-            <a href="${url}" style="display:inline-block;background:#0D2B1E;color:#C9A84C;font-weight:800;font-size:15px;padding:15px 34px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;letter-spacing:0.2px;">
-              ${label || 'Découvrir'} &rarr;
-            </a>
+            ${note}${buttons}
           </td></tr>
         </table>`
       continue
