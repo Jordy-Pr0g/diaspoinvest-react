@@ -117,6 +117,35 @@ function buildDateContext() {
   ].join('\n')
 }
 
+// État d'avancement RÉEL, lu en direct depuis /api/stats (abonnés, visites, ventes, CA).
+// Dégrade en silence si la clé est absente ou l'API indisponible.
+async function buildLiveStatus() {
+  try {
+    const secret = localStorage.getItem('di_cockpit_secret') || ''
+    const r = await fetch('/api/stats', { headers: { 'x-cockpit-secret': secret } })
+    if (!r.ok) return ''
+    const d = await r.json()
+    const b = d.brevo || {}
+    const a = d.analytics || {}
+    const li = id => (b.listes || []).find(x => x.id === id)?.abonnes ?? 0
+    const days = a.jours || []
+    const sum = (arr, k) => arr.reduce((s, x) => s + (x[k] || 0), 0)
+    const lines = [
+      "=== ÉTAT D'AVANCEMENT (chiffres RÉELS, mis à jour en direct) ===",
+      `Contacts Brevo : ${b.totalContacts ?? '?'} au total (Newsletter ${li(3)}, Intéressés ${li(7)}, Acheteurs ${li(6)}).`,
+    ]
+    if (a.disponible) {
+      lines.push(`Audience : ${sum(days.slice(-7), 'pv')} vues sur 7 jours, ${sum(days, 'pv')} sur 30 jours. Quiz terminés : ${a.totaux?.quiz_termine || 0}. Clics produit : ${a.totaux?.clic_produit || 0}.`)
+      lines.push(`Ventes : ${a.totaux?.achat || 0} achat(s), chiffre d'affaires cumulé ${Math.round(a.totaux?.revenu || 0)} €. Taux quiz vers achat : ${a.ratio == null ? 'pas encore mesurable' : a.ratio.toFixed(1) + ' %'}.`)
+      if ((a.sources || []).length) lines.push(`Principales sources de trafic : ${a.sources.slice(0, 3).map(s => `${s.source} (${s.visites})`).join(', ')}.`)
+    } else {
+      lines.push("Mesure d'audience pas encore active (visites/ventes non disponibles).")
+    }
+    lines.push("Appuie tes recommandations sur ces chiffres réels. Ne les invente jamais, ne les arrondis pas à la hausse.")
+    return '\n\n' + lines.join('\n')
+  } catch { return '' }
+}
+
 function buildBrvmData(json) {
   const dateContext = buildDateContext()
   if (!json) return `${dateContext}\n\n${BRVM_DATA_FALLBACK}`
@@ -762,7 +791,8 @@ function AgentWorkspace({ agent, context, onBack }) {
     const base = [...messages, userMsg]
     setMessages(base); saveChat(agent.id, base); setLoading(true)
     try {
-      const text = await callClaudeChat(agent.systemPrompt(context) + KNOWLEDGE_BLOCK + (DOCTRINE[agent.id] || '') + FINANCE_DOCTRINE, base)
+      const live = await buildLiveStatus()
+      const text = await callClaudeChat(agent.systemPrompt(context) + live + KNOWLEDGE_BLOCK + (DOCTRINE[agent.id] || '') + FINANCE_DOCTRINE, base)
       const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
       setMessages(full); saveChat(agent.id, full)
       const url = await saveToNotion({ agentNom: agent.nom, agentId: agent.id, sujet: q, result: text })
@@ -1050,7 +1080,8 @@ function SupervisorPanel({ context, onOpenAgent, onRouted, agents }) {
     const base = [...messages, userMsg]
     setMessages(base); saveChat('jordan', base); setLoading(true)
     try {
-      const text = await callClaudeChat(JORDAN_PROMPT(context) + '\n\n' + buildDateContext() + KNOWLEDGE_BLOCK + JORDAN_DOCTRINE + FINANCE_DOCTRINE, base)
+      const live = await buildLiveStatus()
+      const text = await callClaudeChat(JORDAN_PROMPT(context) + '\n\n' + buildDateContext() + live + KNOWLEDGE_BLOCK + JORDAN_DOCTRINE + FINANCE_DOCTRINE, base)
       const full = [...base, { id: Date.now() + 1, role: 'assistant', content: text }]
       setMessages(full); saveChat('jordan', full)
     } catch (e) { setError(e.message); setMessages(base) }

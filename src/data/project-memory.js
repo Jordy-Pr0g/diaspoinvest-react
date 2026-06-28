@@ -33,7 +33,15 @@ CHIFFRES CLÉS VÉRIFIÉS (juin 2026)
 - Livret A : 1,5 % (depuis fév. 2026). BRVM Composite 2024 : +28,89 % (vs CAC 40 +0,92 %).
 - BRVM : créée 1998, CREPMF depuis 1996, 8 pays UEMOA, 47 actions, 1 € = 655,957 FCFA (fixe).
 
-ÉTAT & PROCHAINES PRIORITÉS
-- Site en ligne (Vercel, auto-deploy sur push). Tracking conversion actif (Plausible : quiz_termine, quiz_email, clic_produit + clics Gumroad).
-- À FAIRE : amener du trafic (social), optimiser la landing pour la conversion, fermer la boucle vente Gumroad → CRM → tracking (ex : n8n), consolider les automations Brevo (doublons à pauser).
-- Mesure clé à suivre : ratio quiz_termine → achat (Plausible × ventes Gumroad). Sous 5 % = problème de conversion, pas de trafic.`
+CE QUI EXISTE DÉJÀ (état du produit, juin 2026)
+- Site en ligne (Vercel, auto-deploy sur push). Landing + blog (15 articles) + pages légales (mentions, CGU, CGV, confidentialité).
+- Outils gratuits : Screener BRVM (47 actions), Backtest DCA, Simulateur DCA, Calculateur fiscal, et PORTEFEUILLE VIRTUEL (/portefeuille : argent fictif, achat/vente aux vrais cours, suivi des gains).
+- Mesure d'audience MAISON (sans cookie, sans Plausible) : visites, quiz, clics, ventes, sources, visiteurs uniques. Boucle de vente Gumroad → Brevo (liste Acheteurs) → tracking FERMÉE (webhook + event "achat").
+- Tableau de bord de pilotage interne (/dashboard.html) : North Star = CA du mois, objectif, courbes, entonnoir, sources, marché BRVM.
+- Newsletter : Malik rédige (format dossier éducatif), envoi via Cockpit + Brevo. LinkedIn : 12 posts prêts (planning auto en pause, publication manuelle pour l'instant).
+- Les vrais chiffres (abonnés, visites, ventes, CA, conversion) sont injectés EN DIRECT aux agents via le bloc "ÉTAT D'AVANCEMENT".
+
+PROCHAINES PRIORITÉS
+- Amener du TRAFIC (social, surtout LinkedIn/TikTok via Imani). C'est le goulot n°1.
+- Optimiser la landing pour la conversion.
+- Suivre le ratio quiz_termine → achat. Sous 5 % = problème de conversion ; au-dessus avec peu de ventes = problème de trafic.`
