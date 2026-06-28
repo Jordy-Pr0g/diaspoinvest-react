@@ -67,6 +67,12 @@ function renderBody(text, chartImg = '') {
       continue
     }
 
+    // Repère de placement du graphique : Malik écrit [GRAPHIQUE] où il veut le voir
+    if (/^\[graphique\]$/i.test(trimmed)) {
+      if (chartImg && !chartDone) { html += chartBlock; chartDone = true }
+      continue
+    }
+
     // Question interactive de fin : "SONDAGE: question | option A | option B | option C"
     // Chaque option ouvre une réponse pré-remplie (les réponses boostent l'engagement et la délivrabilité).
     const sondageMatch = trimmed.match(/^SONDAGE\s*:\s*(.+)$/is)
