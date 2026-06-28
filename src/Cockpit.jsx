@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { ARTICLES } from './data/articles.js'
 import { PRODUITS, PRODUITS_UEMOA, FAQ_ITEMS } from './data.js'
 import { PROJECT_MEMORY } from './data/project-memory.js'
+import { PROJECT_STATE } from './data/project-state.generated.js'
 
 // ── BASE DE CONNAISSANCE (tirée de la source de vérité, toujours à jour) ──
 const ARTICLES_CATALOG = ARTICLES
@@ -28,7 +29,8 @@ FAQ OFFICIELLE (réponses validées, à réutiliser) :
 ${FAQ_CATALOG}
 
 RECHERCHE WEB : tu as accès au web. Sers-t'en pour les tendances, l'actualité, les bonnes pratiques de ton domaine et pour vérifier des faits externes — TOUJOURS en citant la source. Mais pour les chiffres BRVM (cours, dividendes), la source de vérité reste les données injectées plus haut, jamais le web. Zéro chiffre inventé.
-${PROJECT_MEMORY}`
+${PROJECT_MEMORY}
+${PROJECT_STATE}`
 
 // ── DOCTRINES (principes distillés des grands ouvrages du domaine, à appliquer) ──
 const FINANCE_DOCTRINE = `
