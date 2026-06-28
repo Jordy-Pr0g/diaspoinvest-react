@@ -59,33 +59,61 @@ function Kpi({ label, value, sub, variation, primary }) {
   )
 }
 
-// Courbe (aire + ligne) à partir d'un historique de cours
+// Courbe (aire + ligne) interactive : survol = lecture du cours à ce point
 function AreaChart({ data }) {
+  const [hover, setHover] = useState(null) // index survolé
   if (!data || data.length < 2) return <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>Courbe indisponible.</div>
-  const W = 640, H = 220, P = 8
+  const W = 640, H = 220, PT = 10, PB = 10
   const closes = data.map(d => d.close)
   const min = Math.min(...closes), max = Math.max(...closes)
   const span = max - min || 1
-  const x = (i) => P + (i / (data.length - 1)) * (W - 2 * P)
-  const y = (v) => P + (1 - (v - min) / span) * (H - 2 * P)
+  const x = (i) => (i / (data.length - 1)) * W // pleine largeur (aligne l'overlay HTML)
+  const y = (v) => PT + (1 - (v - min) / span) * (H - PT - PB)
   const line = data.map((d, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(d.close).toFixed(1)}`).join(' ')
-  const area = `${line} L${x(data.length - 1).toFixed(1)},${H - P} L${x(0).toFixed(1)},${H - P} Z`
+  const area = `${line} L${W},${H} L0,${H} Z`
   const first = data[0].close, last = data[data.length - 1].close
   const perf = ((last - first) / first) * 100
   const stroke = perf >= 0 ? UP : DOWN
+
+  function onMove(e) {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const frac = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
+    setHover(Math.round(frac * (data.length - 1)))
+  }
+  const pt = hover != null ? data[hover] : null
+  const fracHover = hover != null ? hover / (data.length - 1) : 0
+
   return (
     <div>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }} preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={stroke} stopOpacity="0.35" />
-            <stop offset="100%" stopColor={stroke} stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path d={area} fill="url(#grad)" />
-        <path d={line} fill="none" stroke={stroke} strokeWidth="2.2" strokeLinejoin="round" />
-        <circle cx={x(data.length - 1)} cy={y(last)} r="4" fill={stroke} />
-      </svg>
+      <div style={{ position: 'relative', cursor: 'crosshair' }}
+        onMouseMove={onMove} onMouseLeave={() => setHover(null)}
+        onTouchStart={onMove} onTouchMove={onMove}>
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }} preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={stroke} stopOpacity="0.35" />
+              <stop offset="100%" stopColor={stroke} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path d={area} fill="url(#grad)" />
+          <path d={line} fill="none" stroke={stroke} strokeWidth="2.2" strokeLinejoin="round" />
+          <circle cx={x(data.length - 1)} cy={y(last)} r="4" fill={stroke} />
+          {pt && <line x1={x(hover)} y1="0" x2={x(hover)} y2={H} stroke="rgba(255,255,255,0.35)" strokeWidth="1" strokeDasharray="3 3" />}
+          {pt && <circle cx={x(hover)} cy={y(pt.close)} r="4.5" fill="#fff" stroke={stroke} strokeWidth="2" />}
+        </svg>
+        {/* Infobulle HTML positionnée en pourcentage (aligne avec la courbe) */}
+        {pt && (
+          <div style={{
+            position: 'absolute', top: -4, left: `${fracHover * 100}%`,
+            transform: `translateX(${fracHover > 0.8 ? '-100%' : fracHover < 0.2 ? '0' : '-50%'})`,
+            background: '#1a2740', border: `1px solid ${BORDER}`, borderRadius: 8, padding: '6px 10px',
+            fontSize: 12, whiteSpace: 'nowrap', pointerEvents: 'none', boxShadow: '0 6px 18px rgba(0,0,0,0.4)',
+          }}>
+            <div style={{ color: 'rgba(255,255,255,0.5)' }}>{pt.date}</div>
+            <div style={{ fontWeight: 800, fontSize: 14 }}>{fmt(pt.close)} <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>FCFA</span></div>
+          </div>
+        )}
+      </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
         <span>{data[0].date} · {fmt(first)} FCFA</span>
         <span style={{ color: couleur(perf), fontWeight: 700 }}>{arrow(perf)} {pct(perf)} sur la période</span>
