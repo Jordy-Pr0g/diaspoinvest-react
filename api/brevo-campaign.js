@@ -2,20 +2,32 @@
 // Utilisé par le Cockpit (outil interne) pour envoyer la newsletter rédigée par Malik.
 // Protégé par COCKPIT_SECRET pour éviter tout appel non autorisé.
 
-const SENDER = { name: 'Jordan — DiaspoInvest', email: 'contact@diaspoinvest.fr' }
+const SENDER = { name: 'Jordan de DiaspoInvest', email: 'contact@diaspoinvest.fr' }
 const LIST_IDS = [3] // "Newsletter DiaspoInvest"
 
 function esc(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-function renderBody(text) {
+function renderBody(text, chartImg = '') {
   // Supprime les lignes OBJET/PREHEADER et le séparateur ---
-  const cleaned = text
+  let cleaned = text
     .replace(/^OBJET\s*:.+$/im, '')
     .replace(/^PREHEADER\s*:.+$/im, '')
     .replace(/^---+$/m, '')
     .trim()
+
+  // Filet de sécurité : aucun tiret long/moyen ne doit subsister dans le texte
+  cleaned = cleaned.replace(/\s*[—–]\s*/g, ', ').replace(/,\s*,/g, ',')
+
+  // Graphique BRVM, inséré juste avant la signature (pas tout à la fin)
+  const chartBlock = chartImg ? `
+    <div style="margin:30px 0 8px;">
+      <div style="font-family:Georgia,serif;font-size:13px;color:#888;margin:0 0 10px;">Le marché en bref, variation des secteurs BRVM</div>
+      <img src="${chartImg}" width="100%" style="display:block;width:100%;max-width:520px;height:auto;border:1px solid #eee;border-radius:10px;" alt="Variation des secteurs BRVM" />
+      <div style="font-size:11px;color:#bbb;font-family:Arial,sans-serif;margin-top:6px;">Source : brvm.org et sikafinance.com, sur diaspoinvest.fr</div>
+    </div>` : ''
+  let chartDone = false
 
   // Détecte le bloc CTA : ligne entre crochets contenant une URL Gumroad
   // Ex: [Faire mon propre calcul (19,99 €) → https://...]
@@ -55,11 +67,32 @@ function renderBody(text) {
       continue
     }
 
-    // Signature "À très vite" ou "Jordan,"
+    // Question interactive de fin : "SONDAGE: question | option A | option B | option C"
+    // Chaque option ouvre une réponse pré-remplie (les réponses boostent l'engagement et la délivrabilité).
+    const sondageMatch = trimmed.match(/^SONDAGE\s*:\s*(.+)$/is)
+    if (sondageMatch) {
+      const parts = sondageMatch[1].split('|').map(s => s.trim()).filter(Boolean)
+      const question = parts.shift() || 'Et toi, où en es-tu ?'
+      const buttons = parts.slice(0, 4).map(o => {
+        const mailto = `mailto:contact@diaspoinvest.fr?subject=${encodeURIComponent('Sondage newsletter')}&body=${encodeURIComponent(o)}`
+        return `<a href="${mailto}" style="display:inline-block;margin:6px 8px 0 0;background:#ffffff;border:1px solid #C9A84C;color:#0D2B1E;font-weight:700;font-size:14px;padding:11px 18px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;">${esc(o)} &rarr;</a>`
+      }).join('')
+      html += `
+        <div style="margin:34px 0;padding:24px;background:#f6f4ec;border:1px solid #ece7d8;border-radius:12px;">
+          <p style="margin:0 0 14px;font-size:17px;font-weight:700;color:#0D2B1E;font-family:Georgia,serif;line-height:1.5;">${esc(question)}</p>
+          <div>${buttons}</div>
+          <p style="margin:16px 0 0;font-size:12px;color:#999;font-family:Arial,sans-serif;">Clique, ça ouvre ta messagerie. Un mot suffit, je lis chaque réponse.</p>
+        </div>`
+      continue
+    }
+
+    // Signature "À très vite" ou "Jordan," — on insère le graphique juste avant
     if (/^(À très vite|A très vite|Jordan,)/i.test(trimmed)) {
+      if (chartImg && !chartDone) { html += chartBlock; chartDone = true }
       html += `
         <div style="margin-top:32px;padding-top:24px;border-top:1px solid #f0f0f0;">
           <p style="margin:0;font-size:15px;color:#555;font-family:Georgia,serif;line-height:1.7;">${esc(trimmed).replace(/\n/g, '<br>')}</p>
+          <p style="margin:10px 0 0;font-size:13px;color:#C9A84C;font-family:Arial,sans-serif;font-weight:700;">diaspoinvest.fr</p>
         </div>`
       continue
     }
@@ -83,18 +116,12 @@ function renderBody(text) {
     html += `<p style="margin:0 0 18px;font-size:16px;line-height:1.8;color:#2d2d2d;font-family:Georgia,serif;">${lines}</p>`
   }
 
+  if (chartImg && !chartDone) html += chartBlock
   return html
 }
 
 function textToHtml(text, chartImg = '') {
-  const bodyHtml = renderBody(text)
-
-  const chartSection = chartImg ? `
-    <div style="padding:4px 40px 28px;">
-      <div style="font-family:Georgia,serif;font-size:13px;color:#888;margin:0 0 10px;">Le marché en bref &mdash; variation des secteurs BRVM</div>
-      <img src="${chartImg}" width="100%" style="display:block;width:100%;max-width:520px;height:auto;border:1px solid #eee;border-radius:10px;" alt="Variation des secteurs BRVM" />
-      <div style="font-size:11px;color:#bbb;font-family:Arial,sans-serif;margin-top:6px;">Source : brvm.org / sikafinance.com</div>
-    </div>` : ''
+  const bodyHtml = renderBody(text, chartImg)
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -106,16 +133,16 @@ function textToHtml(text, chartImg = '') {
 <body style="margin:0;padding:0;background:#eceae4;font-family:Georgia,serif;">
   <div style="max-width:600px;margin:24px auto;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 6px 28px rgba(0,0,0,0.10);">
 
-    <!-- Header : logo doré sur fond vert de marque (le carré du logo se fond dans le fond) -->
-    <div style="background:#0D2B1E;padding:22px 32px 18px;text-align:center;border-bottom:3px solid #C9A84C;">
-      <img src="https://diaspoinvest.fr/logo-512.png" alt="DiaspoInvest" width="104" style="display:block;margin:0 auto;width:104px;max-width:104px;height:auto;border-radius:12px;" />
+    <!-- Header : logo horizontal foncé sur fond blanc (pas de rectangle), + nom de domaine -->
+    <div style="background:#ffffff;padding:26px 32px 18px;text-align:center;border-bottom:3px solid #C9A84C;">
+      <img src="https://diaspoinvest.fr/logo-email.jpg" alt="DiaspoInvest" width="220" style="display:block;margin:0 auto;width:220px;max-width:80%;height:auto;" />
+      <div style="margin-top:10px;font-family:Arial,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#0D2B1E;font-weight:700;">diaspoinvest.fr</div>
     </div>
 
     <!-- Corps lettre -->
     <div style="padding:36px 40px 20px;">
       ${bodyHtml}
     </div>
-    ${chartSection}
 
     <!-- Footer légal -->
     <div style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee;">
