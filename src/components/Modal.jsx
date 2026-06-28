@@ -11,6 +11,11 @@ const CONTENU = {
           étudiant en Finance d'Entreprise et Ingénierie Financière, Paris (France).
         </p>
         <p>Contact : contact@diaspoinvest.fr</p>
+        <p>
+          DiaspoInvest est édité par une personne physique indépendante. Le site ne traite
+          aucun paiement directement : les éventuels produits sont vendus via la plateforme
+          Gumroad, qui agit comme vendeur de référence (« merchant of record »).
+        </p>
 
         <h4>Objet</h4>
         <p>
@@ -166,10 +171,14 @@ const CONTENU = {
     titre: 'Conditions Générales de Vente',
     corps: (
       <>
-        <h4>Vendeur</h4>
+        <h4>Édition et vente</h4>
         <p>
-          Jordan DJIOKAP — DiaspoInvest, Paris (France).
-          Contact : contact@diaspoinvest.fr
+          Les produits sont conçus et édités par Jordan DJIOKAP (DiaspoInvest), France.
+          Les ventes sont opérées via la plateforme Gumroad (Gumroad, Inc.), qui agit en
+          qualité de vendeur de référence (« merchant of record ») : c'est Gumroad qui conclut
+          la transaction avec l'acheteur et qui collecte puis reverse les taxes applicables.
+          DiaspoInvest fournit le contenu, n'encaisse pas directement les paiements et ne
+          stocke aucune donnée bancaire. Contact : contact@diaspoinvest.fr
         </p>
 
         <h4>Produits</h4>
@@ -179,18 +188,18 @@ const CONTENU = {
           ne constituent pas un conseil en investissement.
         </p>
 
-        <h4>Prix</h4>
+        <h4>Prix et taxes</h4>
         <p>
-          Les prix sont indiqués en euros TTC. DiaspoInvest n'est pas assujetti à la TVA
-          (seuil de franchise non atteint). Les prix peuvent être modifiés à tout moment,
-          sans effet sur les commandes déjà confirmées.
+          Les prix sont affichés en euros. En tant que vendeur de référence, Gumroad calcule,
+          collecte et reverse la TVA ou la taxe applicable selon le pays de l'acheteur. Les
+          prix peuvent être modifiés à tout moment, sans effet sur les commandes déjà confirmées.
         </p>
 
-        <h4>Commande et paiement</h4>
+        <h4>Commande et livraison</h4>
         <p>
-          Les achats sont effectués via la plateforme Gumroad. Le paiement est exigible
-          à la commande. Après confirmation du paiement, le produit est livré immédiatement
-          par email à l'adresse fournie lors de la commande.
+          Les achats s'effectuent sur Gumroad. Le paiement est exigible à la commande. Après
+          confirmation, le produit est livré immédiatement par email à l'adresse fournie lors
+          de la commande.
         </p>
 
         <h4>Droit de rétractation</h4>
