@@ -73,7 +73,7 @@
         function pv() {
           if (location.pathname === dernier) return
           dernier = location.pathname
-          post({})
+          post({ p: location.pathname })
         }
         pv() // 1re vue
 

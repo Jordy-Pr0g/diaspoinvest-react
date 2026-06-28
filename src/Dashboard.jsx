@@ -483,6 +483,7 @@ export default function Dashboard() {
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14, marginTop: 14 }}>
                     <Kpi label="Vues · 7 jours" value={fmtC(last7)} variation={delta7} sub="vs 7 jours précédents" spark={spark} />
+                    <Kpi label="Visiteurs uniques" value={fmtC(A.totaux.uniques)} sub="total (dédupliqués)" />
                     <Kpi label="Vues · 30 jours" value={fmtC(last30)} />
                     <Kpi label="Quiz terminés" value={fmt(A.totaux.quiz_termine)} sub={`${fmt(A.totaux.clic_produit)} clics produit`} />
                     <Kpi primary label="Taux quiz → achat"
@@ -517,6 +518,14 @@ export default function Dashboard() {
                         <Funnel steps={A.sources.map(s => ({ label: SOURCE_LABEL[s.source] || s.source, value: s.visites }))} />
                       ) : (
                         <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Aucune source enregistrée pour l'instant (les visiteurs arriveront avec leur provenance).</div>
+                      )}
+                    </Card>
+                    <Card>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Pages les plus vues</div>
+                      {(A.pages && A.pages.length) ? (
+                        <Funnel steps={A.pages.map(p => ({ label: p.path === '/' ? 'Accueil' : p.path, value: p.vues }))} />
+                      ) : (
+                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Pas encore de pages comptabilisées.</div>
                       )}
                     </Card>
                   </div>

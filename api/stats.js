@@ -2,6 +2,8 @@
 // Protégé par COCKPIT_SECRET (même clé que le Cockpit). Source : Brevo (abonnés par liste).
 // Les données BRVM et la boucle de conversion sont lues côté front (api/brvm-data + Plausible).
 
+import crypto from 'node:crypto'
+
 const LISTES = {
   3: 'Newsletter',
   7: 'Intéressés',
@@ -12,6 +14,21 @@ function kvStore() {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
   return url && token ? { url, token } : null
+}
+
+// Exécute une liste de commandes Redis en un appel (PFCOUNT, ZREVRANGE, etc.)
+async function kvPipeline(store, cmds) {
+  if (!cmds.length) return []
+  try {
+    const r = await fetch(`${store.url}/pipeline`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${store.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(cmds),
+    })
+    if (!r.ok) return []
+    const d = await r.json()
+    return Array.isArray(d) ? d.map(x => x.result) : []
+  } catch { return [] }
 }
 
 async function kvMget(store, keys) {
@@ -58,12 +75,27 @@ async function buildAnalytics() {
     .filter(x => x.visites > 0)
     .sort((a, b) => b.visites - a.visites)
 
+  // Visiteurs uniques (HyperLogLog) + pages les plus vues (sorted set)
+  const piped = await kvPipeline(store, [
+    ['PFCOUNT', 'uv:total'],
+    ...dates.map(d => ['PFCOUNT', `uv:${d}`]),
+    ['ZREVRANGE', 'pages', '0', '9', 'WITHSCORES'],
+  ])
+  const uvTotal = Number(piped[0] || 0)
+  dates.forEach((d, i) => { jours[i].uniques = Number(piped[1 + i] || 0) })
+  const uniques7 = dates.slice(-7).reduce((s, d, i) => s + Number(piped[1 + (dates.length - 7) + i] || 0), 0)
+  const pagesRaw = piped[1 + dates.length] || []
+  const pages = []
+  for (let i = 0; i < pagesRaw.length; i += 2) pages.push({ path: pagesRaw[i], vues: Number(pagesRaw[i + 1]) })
+
   return {
     disponible: true,
     jours,
-    totaux: { pv: pvTotal, quiz_termine: quiz, achat, clic_produit: clic, revenu: revTotal / 100 },
+    totaux: { pv: pvTotal, uniques: uvTotal, quiz_termine: quiz, achat, clic_produit: clic, revenu: revTotal / 100 },
+    uniques7,
     ratio,
     sources,
+    pages,
   }
 }
 
@@ -82,11 +114,11 @@ async function track(req, res) {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
     const SRC = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
-    const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total']
+    const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total', 'uv:total', 'pages']
     SRC.forEach(s => keys.push(`src:${s}:total`))
     for (let i = 0; i < 60; i++) {
       const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
-      keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`, `rev:${d}`)
+      keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`, `rev:${d}`, `uv:${d}`)
       SRC.forEach(s => keys.push(`src:${s}:${d}`))
     }
     try {
@@ -115,10 +147,26 @@ async function track(req, res) {
     return res.status(200).json({ ok: true })
   }
 
+  // Filtrage des robots (ne pollue pas les chiffres réels)
+  const ua = req.headers['user-agent'] || ''
+  if (/bot|crawl|spider|slurp|bingbot|preview|monitor|headless|lighthouse|pingdom|uptime|facebookexternalhit|embed/i.test(ua)) {
+    return res.status(200).json({ ok: true, bot: true })
+  }
+
   const e = (body.e || '').toString().slice(0, 40).replace(/[^a-z0-9_]/gi, '')
   const keys = e ? [`ev:${e}:${day}`, `ev:${e}:total`] : [`pv:${day}`, `pv:total`]
-  // Montant d'un achat (en centimes) -> revenu cumulé
   const montant = Math.max(0, Math.round(Number(body.montant) || 0))
+
+  // Identifiant visiteur anonyme (haché, jamais stocké en clair) : IP + UA
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
+  const vid = crypto.createHash('sha256').update(`${ip}|${ua}`).digest('hex').slice(0, 20)
+
+  // Chemin de la page (seulement pour une vue de page)
+  let pagePath = ''
+  if (!e && body.p) {
+    pagePath = String(body.p).toLowerCase().slice(0, 120).replace(/[^a-z0-9/_-]/g, '') || '/'
+  }
+
   try {
     await Promise.all([
       ...keys.map(k =>
@@ -127,15 +175,74 @@ async function track(req, res) {
       ...(montant > 0 ? [`rev:${day}`, 'rev:total'].map(k =>
         fetch(`${store.url}/incrby/${encodeURIComponent(k)}/${montant}`, { headers: { Authorization: `Bearer ${store.token}` } })
       ) : []),
+      // Visiteur unique (HyperLogLog : total + du jour)
+      fetch(`${store.url}/pfadd/uv:total/${vid}`, { headers: { Authorization: `Bearer ${store.token}` } }),
+      fetch(`${store.url}/pfadd/${encodeURIComponent('uv:' + day)}/${vid}`, { headers: { Authorization: `Bearer ${store.token}` } }),
+      // Page vue (classement)
+      ...(pagePath ? [fetch(`${store.url}/zincrby/pages/1/${encodeURIComponent(pagePath)}`, { headers: { Authorization: `Bearer ${store.token}` } })] : []),
     ])
   } catch { /* silencieux : ne jamais casser la navigation */ }
   return res.status(200).json({ ok: true })
+}
+
+// Résumé hebdomadaire envoyé par email (déclenché par le cron Vercel le lundi).
+async function sendDigest(res) {
+  const apiKey = (process.env.BREVO_API_KEY || '').trim()
+  if (!apiKey) return res.status(500).json({ error: 'BREVO_API_KEY manquante' })
+  const a = await buildAnalytics()
+  if (!a.disponible) return res.status(200).json({ ok: true, skipped: 'kv-non-configure' })
+
+  const j = a.jours || []
+  const s7 = (key) => j.slice(-7).reduce((s, d) => s + (d[key] || 0), 0)
+  const vues7 = s7('pv'), uniques7 = a.uniques7 || 0, ventes7 = s7('achat'), ca7 = s7('revenu')
+  const topSource = (a.sources || [])[0]
+  const topPage = (a.pages || [])[0]
+  const euro = (n) => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
+
+  const html = `
+    <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#1a2740">
+      <h2 style="color:#0D1525">Ta semaine DiaspoInvest</h2>
+      <p style="color:#555">Résumé des 7 derniers jours (${new Date().toLocaleDateString('fr-FR')}).</p>
+      <table style="width:100%;border-collapse:collapse;font-size:15px">
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">👀 Vues de page</td><td style="text-align:right;font-weight:700">${vues7}</td></tr>
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">🧍 Visiteurs uniques</td><td style="text-align:right;font-weight:700">${uniques7}</td></tr>
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">🛒 Ventes</td><td style="text-align:right;font-weight:700">${ventes7}</td></tr>
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">💶 Chiffre d'affaires</td><td style="text-align:right;font-weight:700">${euro(ca7)}</td></tr>
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">🔗 Source n°1</td><td style="text-align:right;font-weight:700">${topSource ? topSource.source : '—'}</td></tr>
+        <tr><td style="padding:8px 0">📄 Page la plus vue</td><td style="text-align:right;font-weight:700">${topPage ? topPage.path : '—'}</td></tr>
+      </table>
+      <p style="margin-top:24px"><a href="https://diaspoinvest.fr/dashboard.html" style="background:#C9A84C;color:#0D1525;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700">Ouvrir le tableau de bord</a></p>
+    </div>`
+
+  try {
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': apiKey, 'Content-Type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({
+        sender: { name: 'DiaspoInvest Pilotage', email: 'contact@diaspoinvest.fr' },
+        to: [{ email: 'djiokapjordan@gmail.com' }],
+        subject: `Ta semaine DiaspoInvest — ${ventes7} vente(s), ${euro(ca7)}`,
+        htmlContent: html,
+      }),
+    })
+  } catch (e) {
+    return res.status(502).json({ error: 'Envoi échoué : ' + e.message })
+  }
+  return res.status(200).json({ ok: true, sent: true })
 }
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Origin', '*'); return res.status(200).end() }
   if (req.method === 'POST') return track(req, res) // mesure d'audience (public)
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
+
+  // Résumé hebdo (cron Vercel quotidien -> on n'envoie que le lundi).
+  if (req.query.cron === 'digest') {
+    const cs = process.env.CRON_SECRET
+    if (cs && (req.headers['authorization'] || '') !== `Bearer ${cs}`) return res.status(401).json({ error: 'unauthorized' })
+    if (new Date().getUTCDay() !== 1 && req.query.force !== '1') return res.status(200).json({ ok: true, skipped: 'pas lundi' })
+    return sendDigest(res)
+  }
 
   const secret = process.env.COCKPIT_SECRET
   const authHeader = req.headers['x-cockpit-secret'] || ''
