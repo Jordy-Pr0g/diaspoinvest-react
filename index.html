@@ -28,19 +28,66 @@
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <!-- Mesure d'audience maison (sans cookie, RGPD) — compte visites + events -->
+    <!-- Mesure d'audience maison (sans cookie, RGPD) — visites SPA + sources + events -->
     <script>
       (function () {
-        function send(name) {
+        // Exclusion : si cet appareil est marqué "admin", on ne compte rien.
+        try { if (localStorage.getItem('di_admin') === '1') { window.plausible = function () {}; return } } catch (_) {}
+
+        function post(payload) {
           try {
-            var body = JSON.stringify(name ? { e: name } : {})
+            var body = JSON.stringify(payload || {})
             if (navigator.sendBeacon) navigator.sendBeacon('/api/stats', body)
             else fetch('/api/stats', { method: 'POST', body: body, keepalive: true })
           } catch (_) {}
         }
-        send() // vue de page
+
+        // Source du visiteur (une seule fois par session, sur la 1re page)
+        function classer() {
+          try {
+            var r = document.referrer
+            if (!r) return 'direct'
+            var h = new URL(r).hostname.replace(/^www\./, '')
+            if (h.indexOf('diaspoinvest') > -1) return ''      // navigation interne, on ignore
+            if (/google\./.test(h)) return 'google'
+            if (/bing\./.test(h)) return 'bing'
+            if (/tiktok/.test(h)) return 'tiktok'
+            if (/instagram/.test(h)) return 'instagram'
+            if (/facebook|fb\./.test(h)) return 'facebook'
+            if (/linkedin/.test(h)) return 'linkedin'
+            if (/youtube|youtu\.be/.test(h)) return 'youtube'
+            if (/t\.co|twitter|x\.com/.test(h)) return 'twitter'
+            if (/whatsapp/.test(h)) return 'whatsapp'
+            return 'autre'
+          } catch (_) { return 'direct' }
+        }
+        try {
+          if (!sessionStorage.getItem('di_src')) {
+            sessionStorage.setItem('di_src', '1')
+            var s = classer(); if (s) post({ src: s })
+          }
+        } catch (_) {}
+
+        // Vue de page, dédupliquée par chemin (compte aussi la navigation SPA)
+        var dernier = null
+        function pv() {
+          if (location.pathname === dernier) return
+          dernier = location.pathname
+          post({})
+        }
+        pv() // 1re vue
+
+        // Intercepte les navigations React Router (history API) sans recharger
+        function hook(type) {
+          var orig = history[type]
+          return function () { var r = orig.apply(this, arguments); setTimeout(pv, 0); return r }
+        }
+        history.pushState = hook('pushState')
+        history.replaceState = hook('replaceState')
+        window.addEventListener('popstate', pv)
+
         // Conserve les appels d'events existants : window.plausible('quiz_termine', {...})
-        window.plausible = function (eventName) { send(eventName) }
+        window.plausible = function (eventName) { post({ e: eventName }) }
       })()
     </script>
     <!-- Données structurées (SEO) -->

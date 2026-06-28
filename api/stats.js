@@ -51,11 +51,19 @@ async function buildAnalytics() {
   ])
   const ratio = quiz > 0 ? (achat / quiz) * 100 : null
 
+  // Sources de trafic (whitelist)
+  const SRC = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
+  const srcVals = await kvMget(store, SRC.map(s => `src:${s}:total`))
+  const sources = SRC.map((s, i) => ({ source: s, visites: srcVals[i] || 0 }))
+    .filter(x => x.visites > 0)
+    .sort((a, b) => b.visites - a.visites)
+
   return {
     disponible: true,
     jours,
     totaux: { pv: pvTotal, quiz_termine: quiz, achat, clic_produit: clic, revenu: revTotal / 100 },
     ratio,
+    sources,
   }
 }
 
@@ -73,10 +81,13 @@ async function track(req, res) {
   if (body && body.reset === true) {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
+    const SRC = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
     const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total']
+    SRC.forEach(s => keys.push(`src:${s}:total`))
     for (let i = 0; i < 60; i++) {
       const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
       keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`, `rev:${d}`)
+      SRC.forEach(s => keys.push(`src:${s}:${d}`))
     }
     try {
       await fetch(`${store.url}/pipeline`, {
@@ -88,8 +99,23 @@ async function track(req, res) {
     return res.status(200).json({ ok: true, reset: true })
   }
 
-  const e = (body.e || '').toString().slice(0, 40).replace(/[^a-z0-9_]/gi, '')
   const day = new Date().toISOString().slice(0, 10)
+
+  // Source de trafic (whitelist pour éviter toute clé parasite)
+  const SOURCES = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
+  if (body && body.src) {
+    const src = SOURCES.includes(String(body.src)) ? String(body.src) : null
+    if (src) {
+      try {
+        await Promise.all([`src:${src}:total`, `src:${src}:${day}`].map(k =>
+          fetch(`${store.url}/incr/${encodeURIComponent(k)}`, { headers: { Authorization: `Bearer ${store.token}` } })
+        ))
+      } catch { /* silencieux */ }
+    }
+    return res.status(200).json({ ok: true })
+  }
+
+  const e = (body.e || '').toString().slice(0, 40).replace(/[^a-z0-9_]/gi, '')
   const keys = e ? [`ev:${e}:${day}`, `ev:${e}:total`] : [`pv:${day}`, `pv:total`]
   // Montant d'un achat (en centimes) -> revenu cumulé
   const montant = Math.max(0, Math.round(Number(body.montant) || 0))

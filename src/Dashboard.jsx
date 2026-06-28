@@ -15,6 +15,12 @@ const DOWN = '#E5484D'
 
 const OBJECTIF_CA_MOIS = 300 // € — objectif de chiffre d'affaires mensuel (ajustable)
 
+const SOURCE_LABEL = {
+  direct: 'Accès direct', google: 'Google', bing: 'Bing', tiktok: 'TikTok',
+  instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn',
+  youtube: 'YouTube', twitter: 'X / Twitter', whatsapp: 'WhatsApp', autre: 'Autre',
+}
+
 const fmt = (n) => (n == null ? '—' : n.toLocaleString('fr-FR'))
 const fmtC = (n) => (n == null ? '—' : Math.abs(n) >= 10000 ? n.toLocaleString('fr-FR', { notation: 'compact', maximumFractionDigits: 1 }) : n.toLocaleString('fr-FR'))
 const eur = (n) => (n == null ? '—' : n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }))
@@ -248,6 +254,13 @@ export default function Dashboard() {
   const [histo, setHisto] = useState(null)
   const [erreur, setErreur] = useState('')
   const [chargement, setChargement] = useState(false)
+  const [admin, setAdmin] = useState(() => { try { return localStorage.getItem('di_admin') === '1' } catch { return false } })
+
+  function toggleAdmin() {
+    const v = !admin
+    setAdmin(v)
+    try { localStorage.setItem('di_admin', v ? '1' : '0') } catch { /* ignore */ }
+  }
 
   async function charger() {
     setErreur(''); setChargement(true)
@@ -337,6 +350,14 @@ export default function Dashboard() {
               {chargement ? '…' : 'Actualiser'}
             </button>
           </div>
+        </div>
+
+        {/* Exclusion de mes propres visites (cet appareil) */}
+        <div style={{ marginTop: 12 }}>
+          <button onClick={toggleAdmin}
+            style={{ background: admin ? 'rgba(63,184,112,0.12)' : 'transparent', border: `1px solid ${admin ? 'rgba(63,184,112,0.4)' : BORDER}`, color: admin ? UP : 'rgba(255,255,255,0.5)', borderRadius: 8, padding: '7px 12px', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', minHeight: 40 }}>
+            {admin ? '✓ Mes visites sur cet appareil sont exclues du comptage' : 'M\'exclure du comptage (cet appareil)'}
+          </button>
         </div>
 
         {erreur && (
@@ -480,15 +501,25 @@ export default function Dashboard() {
                     </Card>
                   )}
 
-                  <Card style={{ marginTop: 14 }}>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Entonnoir de conversion</div>
-                    <Funnel steps={[
-                      { label: 'Vues de page', value: A.totaux.pv },
-                      { label: 'Quiz terminés', value: A.totaux.quiz_termine },
-                      { label: 'Clics produit', value: A.totaux.clic_produit },
-                      { label: 'Achats', value: A.totaux.achat },
-                    ]} />
-                  </Card>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 14, marginTop: 14 }}>
+                    <Card>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Entonnoir de conversion</div>
+                      <Funnel steps={[
+                        { label: 'Vues de page', value: A.totaux.pv },
+                        { label: 'Quiz terminés', value: A.totaux.quiz_termine },
+                        { label: 'Clics produit', value: A.totaux.clic_produit },
+                        { label: 'Achats', value: A.totaux.achat },
+                      ]} />
+                    </Card>
+                    <Card>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Sources de trafic</div>
+                      {(A.sources && A.sources.length) ? (
+                        <Funnel steps={A.sources.map(s => ({ label: SOURCE_LABEL[s.source] || s.source, value: s.visites }))} />
+                      ) : (
+                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Aucune source enregistrée pour l'instant (les visiteurs arriveront avec leur provenance).</div>
+                      )}
+                    </Card>
+                  </div>
                 </>
               )
             })()}
