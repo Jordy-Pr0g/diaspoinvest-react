@@ -1,17 +1,30 @@
 import { useState, useEffect } from 'react'
 
 // ── Tableau de bord de pilotage DiaspoInvest ──
-// Vue unique : abonnés Brevo, marché BRVM, état de la boucle de conversion.
-// Accès protégé par la même clé que le Cockpit (COCKPIT_SECRET / di_cockpit_secret).
+// Vue unique : audience Brevo, marché BRVM (vraies courbes), boucle de conversion.
+// Design : KPI primaire en haut à gauche, variations fléchées + colorées, courbe
+// de tendance, entonnoir, barres sectorielles divergentes, donut, horodatage.
+// Accès : même clé que le Cockpit (COCKPIT_SECRET / di_cockpit_secret).
 
 const GOLD = '#C9A84C'
 const BG = '#0D1525'
 const CARD = 'rgba(255,255,255,0.04)'
 const BORDER = 'rgba(255,255,255,0.08)'
+const UP = '#3FB870'
+const DOWN = '#E5484D'
 
 const fmt = (n) => (n == null ? '—' : n.toLocaleString('fr-FR'))
 const pct = (v) => `${v > 0 ? '+' : ''}${v.toFixed(2)} %`
-const couleurVar = (v) => (v > 0 ? '#4CAF50' : v < 0 ? '#E5484D' : 'rgba(255,255,255,0.5)')
+const arrow = (v) => (v > 0 ? '▲' : v < 0 ? '▼' : '◆')
+const couleur = (v) => (v > 0 ? UP : v < 0 ? DOWN : 'rgba(255,255,255,0.5)')
+
+const TICKERS = [
+  { code: 'SNTS', nom: 'Sonatel' },
+  { code: 'SGBC', nom: 'Société Générale CI' },
+  { code: 'BOAB', nom: 'BOA Bénin' },
+  { code: 'ETIT', nom: 'Ecobank' },
+  { code: 'ONTBF', nom: 'Onatel' },
+]
 
 function Card({ children, style }) {
   return (
@@ -23,9 +36,138 @@ function Card({ children, style }) {
 
 function SectionTitle({ children }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '36px 0 16px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '38px 0 16px' }}>
       <div style={{ width: 4, height: 18, background: GOLD, borderRadius: 2 }} />
-      <h2 style={{ margin: 0, fontSize: 14, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)' }}>{children}</h2>
+      <h2 style={{ margin: 0, fontSize: 13, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)' }}>{children}</h2>
+    </div>
+  )
+}
+
+// KPI card : valeur + variation fléchée et colorée (le signal porte sur l'écart)
+function Kpi({ label, value, sub, variation, primary }) {
+  return (
+    <Card style={primary ? { borderColor: 'rgba(201,168,76,0.35)', background: 'rgba(201,168,76,0.06)' } : {}}>
+      <div style={{ fontSize: 12, color: primary ? GOLD : 'rgba(255,255,255,0.45)', fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: primary ? 40 : 30, fontWeight: 800, marginTop: 6, lineHeight: 1.1 }}>{value}</div>
+      {variation != null && (
+        <div style={{ fontSize: 13, fontWeight: 700, color: couleur(variation), marginTop: 4 }}>
+          {arrow(variation)} {pct(variation)}
+        </div>
+      )}
+      {sub && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{sub}</div>}
+    </Card>
+  )
+}
+
+// Courbe (aire + ligne) à partir d'un historique de cours
+function AreaChart({ data }) {
+  if (!data || data.length < 2) return <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>Courbe indisponible.</div>
+  const W = 640, H = 220, P = 8
+  const closes = data.map(d => d.close)
+  const min = Math.min(...closes), max = Math.max(...closes)
+  const span = max - min || 1
+  const x = (i) => P + (i / (data.length - 1)) * (W - 2 * P)
+  const y = (v) => P + (1 - (v - min) / span) * (H - 2 * P)
+  const line = data.map((d, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(d.close).toFixed(1)}`).join(' ')
+  const area = `${line} L${x(data.length - 1).toFixed(1)},${H - P} L${x(0).toFixed(1)},${H - P} Z`
+  const first = data[0].close, last = data[data.length - 1].close
+  const perf = ((last - first) / first) * 100
+  const stroke = perf >= 0 ? UP : DOWN
+  return (
+    <div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }} preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={stroke} stopOpacity="0.35" />
+            <stop offset="100%" stopColor={stroke} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={area} fill="url(#grad)" />
+        <path d={line} fill="none" stroke={stroke} strokeWidth="2.2" strokeLinejoin="round" />
+        <circle cx={x(data.length - 1)} cy={y(last)} r="4" fill={stroke} />
+      </svg>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
+        <span>{data[0].date} · {fmt(first)} FCFA</span>
+        <span style={{ color: couleur(perf), fontWeight: 700 }}>{arrow(perf)} {pct(perf)} sur la période</span>
+        <span>{data[data.length - 1].date} · {fmt(last)} FCFA</span>
+      </div>
+    </div>
+  )
+}
+
+// Entonnoir d'audience (barres horizontales proportionnelles)
+function Funnel({ steps }) {
+  const max = Math.max(1, ...steps.map(s => s.value))
+  return (
+    <div>
+      {steps.map((s, i) => (
+        <div key={s.label} style={{ marginBottom: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 5, color: 'rgba(255,255,255,0.7)' }}>
+            <span>{s.label}</span>
+            <span style={{ fontWeight: 700 }}>{fmt(s.value)}{i > 0 && steps[0].value > 0 ? ` · ${((s.value / steps[0].value) * 100).toFixed(0)} %` : ''}</span>
+          </div>
+          <div style={{ height: 14, background: 'rgba(255,255,255,0.05)', borderRadius: 7, overflow: 'hidden' }}>
+            <div style={{ width: `${Math.max(2, (s.value / max) * 100)}%`, height: '100%', background: `linear-gradient(90deg, ${GOLD}, rgba(201,168,76,0.6))`, borderRadius: 7, transition: 'width .5s' }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// Barres divergentes (performance sectorielle, zéro au centre)
+function DivergingBars({ items }) {
+  const maxAbs = Math.max(0.5, ...items.map(i => Math.abs(i.value)))
+  return (
+    <div>
+      {items.map(it => {
+        const w = (Math.abs(it.value) / maxAbs) * 50
+        const positif = it.value >= 0
+        return (
+          <div key={it.label} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 9, fontSize: 12 }}>
+            <span style={{ width: 150, textAlign: 'right', color: 'rgba(255,255,255,0.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.label}</span>
+            <div style={{ flex: 1, position: 'relative', height: 16 }}>
+              <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: 'rgba(255,255,255,0.12)' }} />
+              <div style={{ position: 'absolute', left: positif ? '50%' : `${50 - w}%`, width: `${w}%`, top: 2, height: 12, background: positif ? UP : DOWN, borderRadius: 3 }} />
+            </div>
+            <span style={{ width: 56, color: couleur(it.value), fontWeight: 700 }}>{pct(it.value)}</span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// Donut (répartition hausses / baisses / stables)
+function Donut({ segments }) {
+  const total = segments.reduce((s, x) => s + x.value, 0) || 1
+  const R = 60, C = 2 * Math.PI * R
+  let acc = 0
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
+      <svg viewBox="0 0 160 160" style={{ width: 150, height: 150 }}>
+        <g transform="translate(80,80) rotate(-90)">
+          <circle r={R} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="20" />
+          {segments.map(seg => {
+            const frac = seg.value / total
+            const dash = `${frac * C} ${C}`
+            const el = <circle key={seg.label} r={R} fill="none" stroke={seg.color} strokeWidth="20" strokeDasharray={dash} strokeDashoffset={-acc * C} />
+            acc += frac
+            return el
+          })}
+        </g>
+        <text x="80" y="76" textAnchor="middle" fontSize="26" fontWeight="800" fill="#fff">{total}</text>
+        <text x="80" y="96" textAnchor="middle" fontSize="11" fill="rgba(255,255,255,0.5)">actions</text>
+      </svg>
+      <div style={{ fontSize: 13 }}>
+        {segments.map(seg => (
+          <div key={seg.label} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <span style={{ width: 12, height: 12, borderRadius: 3, background: seg.color, display: 'inline-block' }} />
+            <span style={{ color: 'rgba(255,255,255,0.75)' }}>{seg.label}</span>
+            <span style={{ fontWeight: 700 }}>{seg.value}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -34,6 +176,8 @@ export default function Dashboard() {
   const [secret, setSecret] = useState(() => localStorage.getItem('di_cockpit_secret') || '')
   const [stats, setStats] = useState(null)
   const [brvm, setBrvm] = useState(null)
+  const [ticker, setTicker] = useState('SNTS')
+  const [histo, setHisto] = useState(null)
   const [erreur, setErreur] = useState('')
   const [chargement, setChargement] = useState(false)
 
@@ -54,37 +198,50 @@ export default function Dashboard() {
     setChargement(false)
   }
 
+  async function chargerHisto(t) {
+    setHisto(null)
+    try {
+      const r = await fetch(`/api/brvm-history?ticker=${t}`)
+      if (r.ok) { const d = await r.json(); setHisto((d.data || []).slice(-48)) } // ~4 ans
+    } catch { /* silencieux */ }
+  }
+
   useEffect(() => { if (secret) charger() /* eslint-disable-next-line */ }, [])
+  useEffect(() => { if (stats) chargerHisto(ticker) /* eslint-disable-next-line */ }, [ticker, stats])
 
-  // ── Calculs dérivés BRVM ──
-  const actions = brvm?.actions || []
-  const hausses = [...actions].filter(a => a.variation_pct > 0).sort((a, b) => b.variation_pct - a.variation_pct).slice(0, 5)
-  const baisses = [...actions].filter(a => a.variation_pct < 0).sort((a, b) => a.variation_pct - b.variation_pct).slice(0, 5)
-  const indices = brvm?.indices || {}
-  const composite = indices['BRVM - COMPOSITE'] || indices['BRVM-30']
-
+  // ── Dérivés ──
   const listes = stats?.brevo?.listes || []
-  const maxAbo = Math.max(1, ...listes.map(l => l.abonnes))
+  const getAbo = (id) => listes.find(l => l.id === id)?.abonnes || 0
+  const actions = brvm?.actions || []
+  const indices = brvm?.indices || {}
+  const composite = indices['BRVM - COMPOSITE']
+  const hausses = [...actions].filter(a => a.variation_pct > 0).sort((a, b) => b.variation_pct - a.variation_pct).slice(0, 6)
+  const baisses = [...actions].filter(a => a.variation_pct < 0).sort((a, b) => a.variation_pct - b.variation_pct).slice(0, 6)
+  const nbHausse = actions.filter(a => a.variation_pct > 0).length
+  const nbBaisse = actions.filter(a => a.variation_pct < 0).length
+  const nbStable = actions.filter(a => a.variation_pct === 0).length
+  const secteurs = Object.entries(indices)
+    .filter(([k]) => k.includes(' - ') && !k.includes('TOTAL'))
+    .map(([k, v]) => ({ label: k.replace('BRVM - ', ''), value: v.variation_pct }))
+    .sort((a, b) => b.value - a.value)
 
   return (
     <div style={{ minHeight: '100vh', background: BG, color: '#fff', fontFamily: 'DM Sans, system-ui, sans-serif' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px 80px' }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto', padding: '32px 24px 90px' }}>
 
         {/* En-tête */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           <div>
             <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>Tableau de bord <span style={{ color: GOLD }}>DiaspoInvest</span></h1>
             <p style={{ margin: '6px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>
-              Pilotage en un coup d'œil {stats?.genere_le ? `· maj ${new Date(stats.genere_le).toLocaleString('fr-FR')}` : ''}
+              Pilotage en un coup d'œil{stats?.genere_le ? ` · données à jour le ${new Date(stats.genere_le).toLocaleString('fr-FR')}` : ''}
             </p>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <input
-              type="password" value={secret}
+            <input type="password" value={secret}
               onChange={e => { setSecret(e.target.value); localStorage.setItem('di_cockpit_secret', e.target.value) }}
               placeholder="Clé d'accès"
-              style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '9px 12px', color: '#fff', fontSize: 13, width: 150, fontFamily: 'inherit' }}
-            />
+              style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '9px 12px', color: '#fff', fontSize: 13, width: 150, fontFamily: 'inherit' }} />
             <button onClick={charger} disabled={chargement || !secret}
               style={{ background: GOLD, color: BG, border: 'none', borderRadius: 10, padding: '9px 18px', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', opacity: chargement || !secret ? 0.5 : 1 }}>
               {chargement ? '…' : 'Actualiser'}
@@ -94,103 +251,111 @@ export default function Dashboard() {
 
         {erreur && (
           <Card style={{ marginTop: 20, borderColor: 'rgba(229,72,77,0.4)', background: 'rgba(229,72,77,0.08)' }}>
-            <span style={{ color: '#E5484D', fontSize: 14 }}>{erreur}</span>
+            <span style={{ color: DOWN, fontSize: 14 }}>{erreur}</span>
           </Card>
         )}
 
         {!stats && !erreur && (
           <Card style={{ marginTop: 24, textAlign: 'center', padding: 40 }}>
-            <p style={{ margin: 0, color: 'rgba(255,255,255,0.5)' }}>
-              Entre ta clé d'accès (la même que le Cockpit) puis clique « Actualiser ».
-            </p>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.5)' }}>Entre ta clé d'accès puis clique « Actualiser ».</p>
           </Card>
         )}
 
         {stats && (
           <>
-            {/* ── Audience Brevo ── */}
-            <SectionTitle>Audience · abonnés email</SectionTitle>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 14 }}>
-              {listes.map(l => (
-                <Card key={l.id}>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>{l.nom}</div>
-                  <div style={{ fontSize: 32, fontWeight: 800, marginTop: 6 }}>{fmt(l.abonnes)}</div>
-                </Card>
-              ))}
-              <Card style={{ borderColor: 'rgba(201,168,76,0.3)' }}>
-                <div style={{ fontSize: 12, color: GOLD, fontWeight: 600 }}>Total contacts</div>
-                <div style={{ fontSize: 32, fontWeight: 800, marginTop: 6 }}>{fmt(stats.brevo.totalContacts)}</div>
-              </Card>
+            {/* KPI — primaire en premier (F-pattern) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14, marginTop: 24 }}>
+              <Kpi primary label="Contacts au total" value={fmt(stats.brevo.totalContacts)} sub="tous emails confondus" />
+              <Kpi label="Acheteurs" value={fmt(getAbo(6))} sub="liste clients" />
+              <Kpi label="Newsletter" value={fmt(getAbo(3))} sub="abonnés actifs" />
+              {composite && <Kpi label="BRVM Composite" value={fmt(composite.fermeture)} variation={composite.variation_pct} />}
             </div>
 
-            {/* Barres comparatives */}
-            <Card style={{ marginTop: 14 }}>
-              {listes.map(l => (
-                <div key={l.id} style={{ marginBottom: 12 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4, color: 'rgba(255,255,255,0.6)' }}>
-                    <span>{l.nom}</span><span>{fmt(l.abonnes)}</span>
-                  </div>
-                  <div style={{ height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
-                    <div style={{ width: `${(l.abonnes / maxAbo) * 100}%`, height: '100%', background: GOLD, borderRadius: 4, transition: 'width .4s' }} />
-                  </div>
-                </div>
-              ))}
+            {/* Audience : entonnoir */}
+            <SectionTitle>Audience · entonnoir email</SectionTitle>
+            <Card>
+              <Funnel steps={[
+                { label: 'Contacts au total', value: stats.brevo.totalContacts || 0 },
+                { label: 'Newsletter', value: getAbo(3) },
+                { label: 'Intéressés', value: getAbo(7) },
+                { label: 'Acheteurs', value: getAbo(6) },
+              ]} />
             </Card>
 
-            {/* ── Boucle de conversion ── */}
+            {/* Boucle de conversion */}
             <SectionTitle>Boucle de conversion</SectionTitle>
             <Card>
               <div style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.75)' }}>
-                Chaque vente Gumroad ajoute l'acheteur à la liste <b style={{ color: '#fff' }}>Acheteurs</b> ({fmt(listes.find(l => l.id === 6)?.abonnes)}) et envoie un event « achat » à Plausible.
-                <br />Le ratio <b style={{ color: GOLD }}>quiz terminé → achat</b> se lit dans Plausible (visites).
+                Chaque vente Gumroad ajoute l'acheteur à la liste <b style={{ color: '#fff' }}>Acheteurs</b> ({fmt(getAbo(6))}) et envoie un event « achat » à Plausible.
+                Le ratio <b style={{ color: GOLD }}>quiz terminé → achat</b> se lira dans la zone Plausible ci-dessous une fois branchée.
               </div>
             </Card>
 
-            {/* ── Emplacement Plausible ── */}
+            {/* Plausible — emplacement */}
             <SectionTitle>Visites & conversions (Plausible)</SectionTitle>
             <Card style={{ borderStyle: 'dashed' }}>
               <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
-                Emplacement réservé. Pour afficher ici les courbes de visites, quiz terminés et achats,
-                active un <b style={{ color: '#fff' }}>lien de partage Plausible</b> (Plausible → Site Settings → Visibility → Shared Links)
-                et donne-le-moi : je l'intègre directement dans cette zone.
+                Emplacement réservé. Active un <b style={{ color: '#fff' }}>lien de partage Plausible</b> (Site Settings → Visibility → Shared Links)
+                et donne-le-moi : j'intègre ici les courbes de visites, quiz terminés et achats.
               </div>
             </Card>
 
-            {/* ── Marché BRVM ── */}
-            <SectionTitle>Marché BRVM {brvm?.genere_le ? `· ${new Date(brvm.genere_le).toLocaleDateString('fr-FR')}` : ''}</SectionTitle>
-            {composite && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 14, marginBottom: 14 }}>
-                {['BRVM - COMPOSITE', 'BRVM-30', 'BRVM - PRESTIGE'].filter(k => indices[k]).map(k => (
-                  <Card key={k}>
-                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>{k}</div>
-                    <div style={{ fontSize: 26, fontWeight: 800, marginTop: 6 }}>{indices[k].fermeture}</div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: couleurVar(indices[k].variation_pct) }}>{pct(indices[k].variation_pct)}</div>
-                  </Card>
-                ))}
+            {/* BRVM — courbe */}
+            <SectionTitle>Marché BRVM{brvm?.genere_le ? ` · clôture du ${new Date(brvm.genere_le).toLocaleDateString('fr-FR')}` : ''}</SectionTitle>
+            <Card>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, marginBottom: 14 }}>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>Cours mensuel (FCFA)</div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  {TICKERS.map(t => (
+                    <button key={t.code} onClick={() => setTicker(t.code)}
+                      style={{ background: ticker === t.code ? GOLD : 'rgba(255,255,255,0.06)', color: ticker === t.code ? BG : 'rgba(255,255,255,0.6)', border: 'none', borderRadius: 8, padding: '6px 12px', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      {t.nom}
+                    </button>
+                  ))}
+                </div>
               </div>
-            )}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+              {histo ? <AreaChart data={histo} /> : <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, padding: '40px 0', textAlign: 'center' }}>Chargement de la courbe…</div>}
+            </Card>
+
+            {/* BRVM — secteurs + donut */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 14, marginTop: 14 }}>
               <Card>
-                <div style={{ fontSize: 12, color: '#4CAF50', fontWeight: 700, marginBottom: 10 }}>▲ Top hausses</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Performance par secteur (jour)</div>
+                {secteurs.length ? <DivergingBars items={secteurs} /> : <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>—</span>}
+              </Card>
+              <Card>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: 14 }}>Hausses / baisses du jour</div>
+                <Donut segments={[
+                  { label: 'En hausse', value: nbHausse, color: UP },
+                  { label: 'En baisse', value: nbBaisse, color: DOWN },
+                  { label: 'Stables', value: nbStable, color: 'rgba(255,255,255,0.3)' },
+                ]} />
+              </Card>
+            </div>
+
+            {/* Top movers */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14, marginTop: 14 }}>
+              <Card>
+                <div style={{ fontSize: 12, color: UP, fontWeight: 700, marginBottom: 10 }}>▲ Top hausses</div>
                 {hausses.map(a => (
                   <div key={a.symbole} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, padding: '5px 0', borderBottom: `1px solid ${BORDER}` }}>
                     <span style={{ color: 'rgba(255,255,255,0.8)' }}>{a.symbole}</span>
-                    <span style={{ color: '#4CAF50', fontWeight: 700 }}>{pct(a.variation_pct)}</span>
+                    <span style={{ color: UP, fontWeight: 700 }}>{pct(a.variation_pct)}</span>
                   </div>
                 ))}
               </Card>
               <Card>
-                <div style={{ fontSize: 12, color: '#E5484D', fontWeight: 700, marginBottom: 10 }}>▼ Top baisses</div>
+                <div style={{ fontSize: 12, color: DOWN, fontWeight: 700, marginBottom: 10 }}>▼ Top baisses</div>
                 {baisses.map(a => (
                   <div key={a.symbole} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, padding: '5px 0', borderBottom: `1px solid ${BORDER}` }}>
                     <span style={{ color: 'rgba(255,255,255,0.8)' }}>{a.symbole}</span>
-                    <span style={{ color: '#E5484D', fontWeight: 700 }}>{pct(a.variation_pct)}</span>
+                    <span style={{ color: DOWN, fontWeight: 700 }}>{pct(a.variation_pct)}</span>
                   </div>
                 ))}
               </Card>
             </div>
 
-            <div style={{ marginTop: 36, textAlign: 'center' }}>
+            <div style={{ marginTop: 40, textAlign: 'center' }}>
               <a href="/cockpit.html" style={{ color: GOLD, fontSize: 13, textDecoration: 'none' }}>→ Aller au Cockpit (agents IA)</a>
             </div>
           </>
