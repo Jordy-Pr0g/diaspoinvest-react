@@ -149,7 +149,7 @@ function Funnel({ steps }) {
             <span style={{ fontWeight: 700 }}>{fmt(s.value)}{i > 0 && steps[0].value > 0 ? ` · ${((s.value / steps[0].value) * 100).toFixed(0)} %` : ''}</span>
           </div>
           <div style={{ height: 14, background: 'rgba(255,255,255,0.05)', borderRadius: 7, overflow: 'hidden' }}>
-            <div style={{ width: `${Math.max(2, (s.value / max) * 100)}%`, height: '100%', background: `linear-gradient(90deg, ${GOLD}, rgba(201,168,76,0.6))`, borderRadius: 7, transition: 'width .5s' }} />
+            <div style={{ width: `${Math.max(2, (s.value / max) * 100)}%`, height: '100%', background: `linear-gradient(90deg, ${GOLD}, rgba(201,168,76,0.6))`, borderRadius: 7, transition: 'width .25s ease-out' }} />
           </div>
         </div>
       ))}
@@ -279,6 +279,13 @@ export default function Dashboard() {
     .map(([k, v]) => ({ label: k.replace('BRVM - ', ''), value: v.variation_pct }))
     .sort((a, b) => b.value - a.value)
 
+  // North Star = les clients (acheteurs). Le reste = métriques d'entrée.
+  const A = stats?.analytics
+  const aDays = A?.jours || []
+  const visites7 = aDays.slice(-7).reduce((s, d) => s + (d.pv || 0), 0)
+  const ratioConv = A?.ratio
+  const clients = getAbo(6)
+
   return (
     <div style={{ minHeight: '100vh', background: BG, color: '#fff', fontFamily: 'DM Sans, system-ui, sans-serif' }}>
       <div style={{ maxWidth: 1120, margin: '0 auto', padding: '32px 24px 90px' }}>
@@ -317,12 +324,35 @@ export default function Dashboard() {
 
         {stats && (
           <>
-            {/* KPI — primaire en premier (F-pattern) */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14, marginTop: 24 }}>
-              <Kpi primary label="Contacts au total" value={fmt(stats.brevo.totalContacts)} sub="tous emails confondus" />
-              <Kpi label="Acheteurs" value={fmt(getAbo(6))} sub="liste clients" />
+            {/* ⭐ North Star : les clients. Tout le reste sert à faire grimper ce chiffre. */}
+            <Card style={{ marginTop: 24, background: 'linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.03))', borderColor: 'rgba(201,168,76,0.4)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+                <div>
+                  <div style={{ fontSize: 12, color: GOLD, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>⭐ Étoile polaire · clients</div>
+                  <div style={{ fontSize: 52, fontWeight: 800, lineHeight: 1, marginTop: 8 }}>{fmt(clients)}</div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 6 }}>
+                    Le seul chiffre qui compte vraiment. Visites et conversion ne sont que les leviers pour le faire monter.
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
+                  <div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>Visites · 7 j</div>
+                    <div style={{ fontSize: 24, fontWeight: 800, marginTop: 2 }}>{A?.disponible ? fmt(visites7) : '—'}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>Taux quiz → achat</div>
+                    <div style={{ fontSize: 24, fontWeight: 800, marginTop: 2, color: ratioConv != null && ratioConv >= 5 ? UP : '#fff' }}>{ratioConv == null ? '—' : `${ratioConv.toFixed(1)} %`}</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Métriques d'entrée (audience) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14, marginTop: 14 }}>
               <Kpi label="Newsletter" value={fmt(getAbo(3))} sub="abonnés actifs" />
-              {composite && <Kpi label="BRVM Composite" value={fmt(composite.fermeture)} variation={composite.variation_pct} />}
+              <Kpi label="Intéressés" value={fmt(getAbo(7))} sub="prospects" />
+              <Kpi label="Contacts au total" value={fmt(stats.brevo.totalContacts)} sub="tous emails confondus" />
+              {composite && <Kpi label="BRVM Composite" value={fmt(composite.fermeture)} variation={composite.variation_pct} sub="contexte marché" />}
             </div>
 
             {/* Audience : entonnoir */}
@@ -427,7 +457,7 @@ export default function Dashboard() {
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {TICKERS.map(t => (
                     <button key={t.code} onClick={() => setTicker(t.code)}
-                      style={{ background: ticker === t.code ? GOLD : 'rgba(255,255,255,0.06)', color: ticker === t.code ? BG : 'rgba(255,255,255,0.6)', border: 'none', borderRadius: 8, padding: '6px 12px', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      style={{ background: ticker === t.code ? GOLD : 'rgba(255,255,255,0.06)', color: ticker === t.code ? BG : 'rgba(255,255,255,0.6)', border: 'none', borderRadius: 8, padding: '10px 14px', minHeight: 40, fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
                       {t.nom}
                     </button>
                   ))}
