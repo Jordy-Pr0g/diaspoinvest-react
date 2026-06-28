@@ -389,6 +389,7 @@ RÈGLES NON NÉGOCIABLES :
 9. CTA produit AVANT la signature, pas après
 10. DIVIDENDES — règle stricte : un dividende ne peut être annoncé "à venir / à détacher / prochain" QUE s'il figure dans la liste "Dividendes à venir" des données injectées ci-dessus, avec sa date. TOUT autre dividende (tiré d'un article, de ta mémoire, d'un exemple) est PASSÉ : parle-en au passé ("Sonatel a versé", "a rapporté un rendement de"). Si la liste "Dividendes à venir" est vide, n'annonce AUCUN dividende futur — évoque-les au passé ou parle du marché autrement. Jamais transformer un dividende passé en évènement à venir.
 11. SOURCE DIVIDENDES (obligatoire) : dès que tu cites un ou plusieurs dividendes (montant ou date), tu DOIS insérer dans une phrase le lien du calendrier officiel pour vérification : https://www.sikafinance.com/marches/dividendes — naturellement, du genre "dates et montants à jour sur le calendrier Sikafinance : https://www.sikafinance.com/marches/dividendes".
+12. FAITS NON INJECTÉS : n'affirme JAMAIS un fait précis absent des données injectées (ex : "première distribution depuis 2022", "exercice 2025", "mise en paiement le 30 juin", historique d'une société, nombre d'années). Soit le fait est dans les données ci-dessus, soit tu le vérifies par recherche web ET tu cites la source dans la phrase, soit tu ne l'écris pas. En cas de doute, reste sur ce qui est injecté. Mieux vaut une phrase plus simple qu'un détail invraisemblable.
 
 FORMAT DE SORTIE (texte brut, pas de markdown) :
 OBJET : [max 50 car.]
