@@ -19,7 +19,8 @@ jobs:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
         run: |
-          python marketing/post_linkedin_action.py "Tu mets ton épargne sur un Livret A à 1,5% ?
+          python marketing/post_linkedin_document.py \
+            "Tu mets ton épargne sur un Livret A à 1,5% ?
 
 Il existe une bourse africaine qui verse jusqu'à 6,13% de dividende par an.
 
@@ -33,13 +34,10 @@ Sauvegarde-le. Tu en auras besoin.
 
 Et toi, tu en étais où avec ton épargne avant de découvrir ça ? Dis-moi en commentaire.
 
+diaspoinvest.fr
+
 Contenu éducatif. Non affilié à la bourse ni au CREPMF.
 
-#BourseAfricaine #Diaspora #Investissement"
-      - name: Poster carrousel PDF en commentaire
-        env:
-          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
-          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
-        run: |
-          POST_ID=$(cat post_id.txt)
-          python marketing/post_linkedin_comment.py "$POST_ID" "content/carrousels/DiaspoInvest Carrousel LinkedIn BRVM.pdf"
+#BourseAfricaine #Diaspora #Investissement" \
+            "content/carrousels/DiaspoInvest Carrousel LinkedIn BRVM.pdf" \
+            "La bourse africaine expliquée"
