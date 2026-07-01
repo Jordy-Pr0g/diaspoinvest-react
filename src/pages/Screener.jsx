@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { getMeta, SECTEURS, PAYS_LABEL } from '../data/brvm-meta.js'
+import { useMeta } from '../hooks/useMeta.js'
 
 const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
@@ -43,8 +44,13 @@ export default function Screener() {
   const [rendMin,       setRendMin]       = useState(0)
   const [sortBy,        setSortBy]        = useState('rendement_desc')
 
+  useMeta({
+    title: 'Screener BRVM — Cours et dividendes en temps réel | DiaspoInvest',
+    description: 'Consulte les cours, dividendes et rendements des 47 actions cotées sur la BRVM en temps réel. Filtre par secteur, pays et rendement minimum.',
+    url: 'https://diaspoinvest.fr/screener',
+  })
+
   useEffect(() => {
-    document.title = 'Screener BRVM — DiaspoInvest'
     fetch('/api/brvm-data')
       .then(r => r.ok ? r.json() : null)
       .then(data => {

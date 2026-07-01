@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { getMeta } from '../data/brvm-meta.js'
+import { useMeta } from '../hooks/useMeta.js'
 
 const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
@@ -181,10 +182,14 @@ export default function Backtest() {
     }
   }, [])
 
+  useMeta({
+    title: `Backtest DCA ${ticker} — Simulateur BRVM | DiaspoInvest`,
+    description: `Simule un investissement mensuel régulier sur ${ticker} depuis 1998. Vois ce qu'aurait rapporté ton épargne sur la BRVM avec la stratégie DCA.`,
+    url: `https://diaspoinvest.fr/backtest?ticker=${ticker}`,
+  })
+
   useEffect(() => {
-    document.title = `Backtest DCA ${ticker} — DiaspoInvest`
     loadHistory(ticker)
-    return () => { document.title = 'DiaspoInvest — Investir sur la bourse africaine' }
   }, [ticker])
 
   useEffect(() => {

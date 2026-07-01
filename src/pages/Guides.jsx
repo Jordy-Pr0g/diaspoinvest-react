@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
+import { useMeta } from '../hooks/useMeta.js'
 
 const OR   = '#C9A84C'
 const GRIS = 'rgba(241,245,249,0.5)'
@@ -38,6 +39,11 @@ const OUTILS = [
 ]
 
 export default function Guides() {
+  useMeta({
+    title: 'Outils gratuits BRVM — Screener, Backtest, Fiscalité | DiaspoInvest',
+    description: 'Tous les outils gratuits pour investir sur la BRVM : screener temps réel, simulateur DCA, calculateur fiscal et articles éducatifs.',
+    url: 'https://diaspoinvest.fr/guides',
+  })
   return (
     <>
       <Navbar />

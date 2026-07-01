@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
+import { useMeta } from '../hooks/useMeta.js'
 
 const OR = '#C9A84C'
 const VERT = '#2ECC8B'
@@ -55,8 +56,13 @@ export default function Portefeuille() {
   const [qty, setQty] = useState('')
   const [flash, setFlash] = useState('')
 
+  useMeta({
+    title: 'Portefeuille virtuel BRVM — DiaspoInvest',
+    description: 'Simule ton portefeuille BRVM sans risque. Ajoute des actions, suis tes plus/moins-values et visualise ton allocation par secteur.',
+    url: 'https://diaspoinvest.fr/portefeuille',
+  })
+
   useEffect(() => {
-    document.title = 'Portefeuille virtuel — DiaspoInvest'
     fetch('/api/brvm-data')
       .then(r => r.ok ? r.json() : null)
       .then(d => {

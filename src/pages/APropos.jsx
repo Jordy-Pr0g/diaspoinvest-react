@@ -1,16 +1,17 @@
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useMeta } from '../hooks/useMeta.js'
 
 const OR   = '#C9A84C'
 const GRIS = 'rgba(232,238,246,0.5)'
 
 export default function APropos() {
-  useEffect(() => {
-    document.title = 'À propos — DiaspoInvest'
-    return () => { document.title = 'DiaspoInvest — Investir sur la bourse africaine' }
-  }, [])
+  useMeta({
+    title: 'À propos — DiaspoInvest par Jordan Djiokap',
+    description: 'DiaspoInvest est un projet éducatif indépendant créé par Jordan Djiokap, étudiant en Finance à l\'INSEEC Paris, pour aider la diaspora africaine à investir sur la BRVM.',
+    url: 'https://diaspoinvest.fr/a-propos',
+  })
 
   return (
     <>
