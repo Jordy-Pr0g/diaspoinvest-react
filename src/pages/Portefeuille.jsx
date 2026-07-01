@@ -55,6 +55,8 @@ export default function Portefeuille() {
   const [sel, setSel] = useState('')
   const [qty, setQty] = useState('')
   const [flash, setFlash] = useState('')
+  const [editCapital, setEditCapital] = useState(false)
+  const [capitalInput, setCapitalInput] = useState('')
 
   useMeta({
     title: 'Portefeuille virtuel BRVM — DiaspoInvest',
@@ -110,6 +112,15 @@ export default function Portefeuille() {
   function reset() {
     if (!window.confirm('Réinitialiser ton portefeuille virtuel ?')) return
     sauver({ cash: INITIAL, depot: INITIAL, positions: {} })
+  }
+
+  function appliquerCapital() {
+    const montant = parseInt(capitalInput.replace(/\s/g, '')) || 0
+    if (montant < 10000) { notif('Montant minimum : 10 000 FCFA.'); return }
+    sauver({ cash: montant, depot: montant, positions: {} })
+    setEditCapital(false)
+    setCapitalInput('')
+    notif(`Capital réinitialisé à ${montant.toLocaleString('fr-FR')} FCFA.`)
   }
 
   function exportCSV() {
@@ -174,10 +185,37 @@ export default function Portefeuille() {
                   <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4, color: couleur(perfGlobale) }}>{pct(perfGlobale)}</div>
                   <div style={{ fontSize: 12, color: GRIS }}>depuis le départ</div>
                 </div>
-                <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 20 }}>
-                  <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>Liquidités</div>
-                  <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4 }}>{fmt(port.cash)}</div>
-                  <div style={{ fontSize: 12, color: GRIS }}>FCFA disponibles</div>
+                <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 20, position: 'relative' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>Liquidités</div>
+                    <button onClick={() => { setEditCapital(v => !v); setCapitalInput('') }}
+                      style={{ fontSize: 11, color: OR, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700, padding: 0 }}>
+                      {editCapital ? 'Annuler' : 'Modifier'}
+                    </button>
+                  </div>
+                  {editCapital ? (
+                    <div style={{ marginTop: 10 }}>
+                      <input
+                        type="number"
+                        placeholder="Ex : 500000"
+                        value={capitalInput}
+                        onChange={e => setCapitalInput(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && appliquerCapital()}
+                        style={{ ...inputStyle, marginBottom: 8, fontSize: 15, fontWeight: 700 }}
+                        autoFocus
+                      />
+                      <div style={{ fontSize: 10, color: GRIS, marginBottom: 8 }}>FCFA · réinitialise les positions</div>
+                      <button onClick={appliquerCapital}
+                        style={{ background: OR, color: '#0D1525', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 800, fontSize: 13, cursor: 'pointer', width: '100%' }}>
+                        Appliquer
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4 }}>{fmt(port.cash)}</div>
+                      <div style={{ fontSize: 12, color: GRIS }}>FCFA disponibles</div>
+                    </>
+                  )}
                 </div>
                 <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 20 }}>
                   <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>Valeur des titres</div>
