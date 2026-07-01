@@ -112,6 +112,19 @@ export default function Portefeuille() {
     sauver({ cash: INITIAL, depot: INITIAL, positions: {} })
   }
 
+  function exportCSV() {
+    const rows = [['Symbole', 'Nom', 'Quantite', 'PRU (FCFA)', 'Cours (FCFA)', 'Valeur (FCFA)', 'Gain/Perte (FCFA)', 'Performance (%)']]
+    lignes.forEach(l => rows.push([l.sym, l.nom, l.qty, Math.round(l.pru), Math.round(l.cours), Math.round(l.valeur), Math.round(l.gain), l.gainPct.toFixed(2)]))
+    rows.push([])
+    rows.push(['Liquidites', '', '', '', '', Math.round(port.cash), '', ''])
+    rows.push(['Valeur totale', '', '', '', '', Math.round(valeurTotale), '', ''])
+    const csv = rows.map(r => r.join(';')).join('\n')
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' }))
+    a.download = `portefeuille-brvm-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+  }
+
   // ── Calculs ──
   const lignes = useMemo(() => Object.entries(port.positions).map(([sym, p]) => {
     const a = actions.find(x => x.symbole === sym)
@@ -263,6 +276,9 @@ export default function Portefeuille() {
 
               <div style={{ marginTop: 24, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <button onClick={reset} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Réinitialiser</button>
+                {lignes.length > 0 && (
+                  <button onClick={exportCSV} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Exporter CSV</button>
+                )}
                 <Link to="/screener" style={{ color: OR, fontSize: 13 }}>Explorer les 47 actions →</Link>
               </div>
             </>

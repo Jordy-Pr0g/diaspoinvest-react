@@ -357,8 +357,19 @@ export default function Screener() {
                       )}
                     </div>
 
-                    {/* Colonne droite : CTA */}
-                    <div>
+                    {/* Colonne droite : CTAs */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+                      <Link
+                        to={`/screener/${a.symbole}`}
+                        style={{
+                          display: 'inline-block', fontSize: 12, fontWeight: 700, color: '#F1F5F9',
+                          background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+                          borderRadius: 8, padding: '8px 14px', transition: 'all .15s', whiteSpace: 'nowrap',
+                        }}
+                        onClick={e => e.stopPropagation()}
+                      >
+                        Détail →
+                      </Link>
                       <Link
                         to={`/backtest?ticker=${a.symbole}`}
                         style={{

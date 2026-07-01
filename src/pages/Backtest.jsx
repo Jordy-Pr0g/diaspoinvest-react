@@ -158,15 +158,20 @@ export default function Backtest() {
   const [searchParams] = useSearchParams()
   const [modal, setModal] = useState(null)
 
-  const [ticker,   setTicker]   = useState(searchParams.get('ticker') || 'SNTS')
-  const [apport,   setApport]   = useState(50000)
-  const [debut,    setDebut]    = useState('2020-01-01')
-  const [history,  setHistory]  = useState(null)
-  const [loading,  setLoading]  = useState(false)
-  const [error,    setError]    = useState(null)
-  const [result,   setResult]   = useState(null)
+  const [ticker,    setTicker]    = useState(searchParams.get('ticker') || 'SNTS')
+  const [ticker2,   setTicker2]   = useState('')
+  const [apport,    setApport]    = useState(50000)
+  const [debut,     setDebut]     = useState('2020-01-01')
+  const [history,   setHistory]   = useState(null)
+  const [history2,  setHistory2]  = useState(null)
+  const [loading,   setLoading]   = useState(false)
+  const [loading2,  setLoading2]  = useState(false)
+  const [error,     setError]     = useState(null)
+  const [result,    setResult]    = useState(null)
+  const [result2,   setResult2]   = useState(null)
 
-  const meta = getMeta(ticker)
+  const meta  = getMeta(ticker)
+  const meta2 = getMeta(ticker2)
 
   const loadHistory = useCallback(async (t) => {
     setLoading(true); setError(null); setHistory(null); setResult(null)
@@ -182,21 +187,39 @@ export default function Backtest() {
     }
   }, [])
 
+  const loadHistory2 = useCallback(async (t) => {
+    if (!t) { setHistory2(null); setResult2(null); return }
+    setLoading2(true)
+    try {
+      const r = await fetch(`/api/brvm-history?ticker=${t}`)
+      if (!r.ok) throw new Error()
+      const data = await r.json()
+      setHistory2(data.data)
+    } catch {
+      setHistory2(null)
+    } finally {
+      setLoading2(false)
+    }
+  }, [])
+
   useMeta({
     title: `Backtest DCA ${ticker} — Simulateur BRVM | DiaspoInvest`,
     description: `Simule un investissement mensuel régulier sur ${ticker} depuis 1998. Vois ce qu'aurait rapporté ton épargne sur la BRVM avec la stratégie DCA.`,
     url: `https://diaspoinvest.fr/backtest?ticker=${ticker}`,
   })
 
-  useEffect(() => {
-    loadHistory(ticker)
-  }, [ticker])
+  useEffect(() => { loadHistory(ticker) }, [ticker])
+  useEffect(() => { loadHistory2(ticker2) }, [ticker2])
 
   useEffect(() => {
     if (!history || !apport || !debut) return
-    const res = runBacktest(history, apport, debut)
-    setResult(res)
+    setResult(runBacktest(history, apport, debut))
   }, [history, apport, debut])
+
+  useEffect(() => {
+    if (!history2 || !apport || !debut) { setResult2(null); return }
+    setResult2(runBacktest(history2, apport, debut))
+  }, [history2, apport, debut])
 
   // Années disponibles dans l'historique
   const yearMin = history && history.length > 0
@@ -245,7 +268,7 @@ export default function Backtest() {
           {/* Sélection ticker */}
           <div style={{ ...card, marginBottom: 16 }}>
             <div style={{ fontSize: 11, color: GRIS, textTransform: 'uppercase', letterSpacing: 1, fontWeight: 700, marginBottom: 12 }}>
-              Action
+              Action principale
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 14 }}>
               {TICKERS_POPULAIRES.map(t => (
@@ -274,6 +297,30 @@ export default function Backtest() {
               onBlur={() => ticker && loadHistory(ticker)}
               style={{ ...input, fontSize: 15, fontWeight: 600 }}
             />
+          </div>
+
+          {/* Comparer avec une 2e action */}
+          <div style={{ ...card, marginBottom: 16, borderStyle: ticker2 ? 'solid' : 'dashed', borderColor: ticker2 ? 'rgba(99,179,237,0.4)' : BDR }}>
+            <div style={{ fontSize: 11, color: GRIS, textTransform: 'uppercase', letterSpacing: 1, fontWeight: 700, marginBottom: 8 }}>
+              Comparer avec (optionnel)
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <input
+                type="text"
+                placeholder="Ex: ORAC, PALC, SGBC…"
+                value={ticker2}
+                onChange={e => setTicker2(e.target.value.toUpperCase().trim())}
+                onBlur={() => loadHistory2(ticker2)}
+                style={{ ...input, fontSize: 15, fontWeight: 600, flex: 1 }}
+              />
+              {ticker2 && (
+                <button onClick={() => { setTicker2(''); setHistory2(null); setResult2(null) }}
+                  style={{ background: 'none', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '0 14px', cursor: 'pointer', fontSize: 13 }}>
+                  ✕
+                </button>
+              )}
+            </div>
+            {loading2 && <div style={{ fontSize: 12, color: GRIS, marginTop: 8 }}>Chargement {ticker2}…</div>}
           </div>
 
           {/* Paramètres */}
@@ -394,6 +441,38 @@ export default function Backtest() {
                   </div>
                 ))}
               </div>
+
+              {/* Bloc comparaison */}
+              {result2 && (
+                <div style={{ background: 'rgba(99,179,237,0.06)', border: '1px solid rgba(99,179,237,0.25)', borderRadius: 16, padding: '20px 24px', marginBottom: 16 }}>
+                  <div style={{ fontSize: 12, color: '#63B3ED', textTransform: 'uppercase', letterSpacing: 1.2, fontWeight: 700, marginBottom: 14 }}>
+                    Comparaison {ticker} vs {ticker2}
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    {[
+                      { label: ticker, res: result, color: OR },
+                      { label: ticker2, res: result2, color: '#63B3ED' },
+                    ].map(({ label, res, color }) => (
+                      <div key={label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 12, padding: '16px' }}>
+                        <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 13, fontWeight: 900, color, marginBottom: 10 }}>{label}</div>
+                        {[
+                          { k: 'Performance', v: `${res.performance >= 0 ? '+' : ''}${res.performance.toFixed(1).replace('.', ',')} %`, c: res.performance >= 0 ? VERT3 : RED },
+                          { k: 'Valeur finale', v: `${fmt(res.valeurFinale)} FCFA`, c: '#F1F5F9' },
+                          { k: 'Plus-value', v: `${res.plusValue >= 0 ? '+' : ''}${fmt(res.plusValue)} FCFA`, c: res.plusValue >= 0 ? VERT3 : RED },
+                        ].map(({ k, v, c }) => (
+                          <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
+                            <span style={{ fontSize: 11, color: GRIS }}>{k}</span>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: c, fontFamily: 'DM Mono,monospace' }}>{v}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 10, fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>
+                    Même apport ({fmt(apport)} FCFA/mois) · même période · mêmes conditions
+                  </div>
+                </div>
+              )}
 
               {/* Graphique */}
               {result.courbe.length > 3 && (
