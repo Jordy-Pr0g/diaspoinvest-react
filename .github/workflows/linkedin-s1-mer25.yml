@@ -2,7 +2,7 @@ name: LinkedIn S1 Mer 01/07 — Carrousel BRVM
 
 on:
   schedule:
-    - cron: '45 9 1 7 *'  # 1er juillet 2026 à 11h45 Paris (9h45 UTC)
+    - cron: '45 9 1 7 *'  # 1er juillet 2026 a 11h45 Paris (9h45 UTC)
   workflow_dispatch:
 
 jobs:
@@ -18,26 +18,28 @@ jobs:
         env:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+          POST_TEXT: |
+            Tu mets ton epargne sur un Livret A a 1,5% ?
+
+            Il existe une bourse africaine qui verse jusqu'a 6,13% de dividende par an.
+
+            Fais defiler pour tout comprendre.
+
+            8 pays. 47 actions. Ouverte a la diaspora depuis Paris, Montreal ou Dakar.
+
+            Ce carrousel explique ce qu'est la bourse ouest-africaine, les actions qui versent le plus, et comment ouvrir un compte.
+
+            Sauvegarde-le. Tu en auras besoin.
+
+            Et toi, tu en etais ou avec ton epargne avant de decouvrir ca ? Dis-moi en commentaire.
+
+            diaspoinvest.fr
+
+            Contenu educatif. Non affilie a la bourse ni au CREPMF.
+
+            #BourseAfricaine #Diaspora #Investissement
         run: |
           python marketing/post_linkedin_document.py \
-            "Tu mets ton épargne sur un Livret A à 1,5% ?
-
-Il existe une bourse africaine qui verse jusqu'à 6,13% de dividende par an.
-
-Fais défiler pour tout comprendre. 👇
-
-8 pays. 47 actions. Ouverte à la diaspora depuis Paris, Montréal ou Dakar.
-
-Ce carrousel explique ce qu'est la bourse ouest-africaine, les actions qui versent le plus, et comment ouvrir un compte.
-
-Sauvegarde-le. Tu en auras besoin.
-
-Et toi, tu en étais où avec ton épargne avant de découvrir ça ? Dis-moi en commentaire.
-
-diaspoinvest.fr
-
-Contenu éducatif. Non affilié à la bourse ni au CREPMF.
-
-#BourseAfricaine #Diaspora #Investissement" \
+            "$POST_TEXT" \
             "content/carrousels/DiaspoInvest Carrousel LinkedIn BRVM.pdf" \
-            "La bourse africaine expliquée"
+            "La bourse africaine expliquee"
