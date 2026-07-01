@@ -67,6 +67,34 @@ export const META = {
   SLBC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.HAUT_DIV,   dividende: 2000 },
   STBC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.HAUT_DIV,   dividende: 4800 },
   CABC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: 200  },
+  UNXC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: null },
+  SAFC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: null },
+  SMBC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: null },
+
+  // Transport & Logistique
+  SDSC:  { pays: 'CI', secteur: 'Transport',              label: LABELS.STABLE,     dividende: null },
+  STAC:  { pays: 'CI', secteur: 'Transport',              label: LABELS.STABLE,     dividende: null },
+  CFAC:  { pays: 'CI', secteur: 'Transport',              label: LABELS.STABLE,     dividende: null },
+
+  // Distribution & Énergie (compléments)
+  SHEC:  { pays: 'CI', secteur: 'Distribution & Énergie', label: LABELS.STABLE,    dividende: null },
+  SEMC:  { pays: 'CI', secteur: 'Distribution & Énergie', label: LABELS.STABLE,    dividende: null },
+  SOGC:  { pays: 'CI', secteur: 'Distribution & Énergie', label: LABELS.STABLE,    dividende: null },
+
+  // Banque (compléments)
+  ABJC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+  BNBC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+  LNBB:  { pays: 'BJ', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+  PRSC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+  SCRC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+
+  // Autres / Industrie
+  ETIT:  { pays: 'TG', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+  FTSC:  { pays: 'CI', secteur: 'Autres',                 label: LABELS.STABLE,     dividende: null },
+  NEIC:  { pays: 'CI', secteur: 'Autres',                 label: LABELS.STABLE,     dividende: null },
+  SICC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: null },
+  SIVC:  { pays: 'CI', secteur: 'Autres',                 label: LABELS.STABLE,     dividende: null },
+  TTLS:  { pays: 'SN', secteur: 'Distribution & Énergie', label: LABELS.HAUT_DIV,  dividende: 180  },
 }
 
 export function getMeta(symbole) {
