@@ -94,7 +94,6 @@ export const META = {
   NEIC:  { pays: 'CI', secteur: 'Autres',                 label: LABELS.STABLE,     dividende: null },
   SICC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: null },
   SIVC:  { pays: 'CI', secteur: 'Autres',                 label: LABELS.STABLE,     dividende: null },
-  TTLS:  { pays: 'SN', secteur: 'Distribution & Énergie', label: LABELS.HAUT_DIV,  dividende: 180  },
 }
 
 export function getMeta(symbole) {
