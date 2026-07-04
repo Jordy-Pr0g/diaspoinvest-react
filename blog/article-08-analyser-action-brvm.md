@@ -89,7 +89,7 @@ Ne te fie jamais à un chiffre non sourcé. Pour les fondamentaux d'une sociét�
 - Les fiches valeur avec PER et BNPA déjà calculés sur des services spécialisés comme FluxBourse ou sikafinance.
 - Les cours officiels en temps réel sur [brvm.org](https://www.brvm.org).
 
-Et pour t'entraîner sans inventer : le [Screener DiaspoInvest](https://diaspoinvest.fr/screener) liste les 47 actions avec leurs cours et rendements, et le [Backtest](https://diaspoinvest.fr/backtest) te montre ce qu'aurait donné une stratégie passée sur cours réels. Pour suivre tes ratios et ton portefeuille dans la durée, le Tracker Dashboard (19,99 €) regroupe les 47 actions par secteur.
+Et pour t'entraîner sans inventer : le [Screener DiaspoInvest](https://diaspoinvest.fr/screener) liste les 47 actions avec leurs cours et rendements, et le [Backtest](https://diaspoinvest.fr/backtest) te montre ce qu'aurait donné une stratégie passée sur cours réels. Pour suivre tes ratios et ton portefeuille dans la durée, le Tracker Dashboard regroupe les 47 actions par secteur.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

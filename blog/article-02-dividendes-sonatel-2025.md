@@ -139,7 +139,7 @@ Et la convention fiscale France/CI peut changer ton calcul. Si ta SGI est en Cô
 
 Avant d'acheter quoi que ce soit, teste avec tes propres chiffres : le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) estime ce que ton épargne pourrait rapporter, et le [Backtest](https://diaspoinvest.fr/backtest) montre ce que tu aurais gagné en investissant plus tôt.
 
-Et pour aller plus loin, le Guide DiaspoInvest (14,99 €) explique comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité, étape par étape. Le Tracker (19,99 €), lui, suit ton portefeuille et projette tes versements sur 30 ans.
+Et pour aller plus loin, le Guide DiaspoInvest explique comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité, étape par étape. Le Tracker, lui, suit ton portefeuille et projette tes versements sur 30 ans.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

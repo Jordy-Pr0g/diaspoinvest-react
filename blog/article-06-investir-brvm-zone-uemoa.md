@@ -92,7 +92,7 @@ Avant de te lancer, tu peux tout essayer gratuitement sur le site.
 
 Regarde les 47 entreprises et ce qu'elles versent chaque année avec le [Screener](https://diaspoinvest.fr/screener). Vois combien tu aurais gagné en investissant plus tôt avec le [Backtest](https://diaspoinvest.fr/backtest). Et estime ce que ton épargne pourrait te rapporter avec le [simulateur](https://diaspoinvest.fr/#calculateur).
 
-Si tu vis en zone UEMOA et que tu veux une méthode complète, le Guide DiaspoInvest Résident (14,99 €) explique comment comprendre la bourse, ouvrir ton compte dans ton pays et gérer les impôts. Et où que tu sois, le Tracker (19,99 €) te permet de suivre ton portefeuille et de projeter tes versements sur 30 ans.
+Si tu vis en zone UEMOA et que tu veux une méthode complète, le Guide DiaspoInvest Résident explique comment comprendre la bourse, ouvrir ton compte dans ton pays et gérer les impôts. Et où que tu sois, le Tracker te permet de suivre ton portefeuille et de projeter tes versements sur 30 ans.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

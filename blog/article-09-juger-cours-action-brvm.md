@@ -78,7 +78,7 @@ Garde aussi un horizon long, au moins cinq ans, et un rythme régulier d'achats 
 
 Aucune décision sans chiffres vérifiés. Les fondamentaux et les volumes sont publics sur [brvm.org](https://www.brvm.org), et des fiches valeur (PER, BNPA) sont disponibles sur des services comme FluxBourse ou sikafinance.
 
-Pour t'exercer concrètement : compare les 47 actions par rendement et secteur sur le [Screener](https://diaspoinvest.fr/screener), et teste une stratégie passée sur cours réels avec le [Backtest](https://diaspoinvest.fr/backtest). Pour suivre tes positions et tes ratios dans la durée, le Tracker Dashboard (19,99 €) regroupe les 47 actions par secteur et projette tes versements.
+Pour t'exercer concrètement : compare les 47 actions par rendement et secteur sur le [Screener](https://diaspoinvest.fr/screener), et teste une stratégie passée sur cours réels avec le [Backtest](https://diaspoinvest.fr/backtest). Pour suivre tes positions et tes ratios dans la durée, le Tracker Dashboard regroupe les 47 actions par secteur et projette tes versements.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

@@ -82,7 +82,7 @@ Et si tu revends un jour tes actions Sonatel plus cher que ton prix d'achat ? La
 - **Aucune démarche** : tu reçois le net, l'impôt est déjà prélevé.
 - C'est le pays de la **société** qui détermine le taux, pas forcément ton pays de résidence.
 
-Tu peux déjà voir ce qu'il te reste après impôts avec le [calculateur gratuit](https://diaspoinvest.fr/fiscalite). Pour suivre tes dividendes et projeter tes versements sur 30 ans, le Tracker Dashboard (19,99 €) intègre la fiscalité UEMOA. Le Guide Résident (14,99 €) explique, lui, comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité.
+Tu peux déjà voir ce qu'il te reste après impôts avec le [calculateur gratuit](https://diaspoinvest.fr/fiscalite). Pour suivre tes dividendes et projeter tes versements sur 30 ans, le Tracker Dashboard intègre la fiscalité UEMOA. Le Guide Résident explique, lui, comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

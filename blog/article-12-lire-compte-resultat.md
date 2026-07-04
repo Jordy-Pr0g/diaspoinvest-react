@@ -86,7 +86,7 @@ Les comptes de résultat et bilans des sociétés cotées sont publics. Tu les t
 - Les rapports annuels sur [brvm.org](https://www.brvm.org/fr/rapports-societes-cotees) (source officielle).
 - Les fiches valeur synthétiques (PER, BPA) sur des services comme FluxBourse ou sikafinance, utiles pour un premier coup d'œil avant de plonger dans le rapport complet.
 
-Pour relier tout ça à des actions concrètes, le [Screener DiaspoInvest](https://diaspoinvest.fr/screener) liste les 47 sociétés par secteur, et le Tracker Dashboard (19,99 €) t'aide à suivre tes titres et leurs indicateurs dans la durée.
+Pour relier tout ça à des actions concrètes, le [Screener DiaspoInvest](https://diaspoinvest.fr/screener) liste les 47 sociétés par secteur, et le Tracker Dashboard t'aide à suivre tes titres et leurs indicateurs dans la durée.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
