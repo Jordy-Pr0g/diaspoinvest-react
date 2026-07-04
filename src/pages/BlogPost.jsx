@@ -7,33 +7,6 @@ import Footer from '../components/Footer.jsx'
 
 const OR = '#C9A84C'
 
-// Illustrations d'en-tête (SVG inline, thème du site, aucune image externe)
-const HERO = {
-  skyline: `<svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131E30"/><stop offset="1" stop-color="#0D1525"/></linearGradient></defs><rect width="600" height="180" fill="url(#hs)"/><circle cx="500" cy="55" r="34" fill="#C9A84C" opacity="0.18"/><circle cx="500" cy="55" r="20" fill="#C9A84C" opacity="0.35"/><g fill="#1d2c44"><rect x="40" y="96" width="46" height="84"/><rect x="98" y="70" width="40" height="110"/><rect x="150" y="110" width="34" height="70"/><rect x="196" y="58" width="48" height="122"/><rect x="256" y="92" width="38" height="88"/><rect x="306" y="120" width="30" height="60"/><rect x="348" y="78" width="44" height="102"/><rect x="404" y="104" width="34" height="76"/><rect x="450" y="64" width="46" height="116"/><rect x="508" y="100" width="40" height="80"/><rect x="560" y="118" width="30" height="62"/></g><g fill="#C9A84C" opacity="0.55"><rect x="208" y="72" width="6" height="6"/><rect x="222" y="72" width="6" height="6"/><rect x="208" y="88" width="6" height="6"/><rect x="222" y="88" width="6" height="6"/><rect x="462" y="80" width="6" height="6"/><rect x="476" y="80" width="6" height="6"/><rect x="462" y="96" width="6" height="6"/></g><rect x="0" y="176" width="600" height="4" fill="#C9A84C" opacity="0.5"/></svg>`,
-  growth: `<svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131E30"/><stop offset="1" stop-color="#0D1525"/></linearGradient></defs><rect width="600" height="180" fill="url(#hg)"/><g fill="#1d2c44"><rect x="120" y="120" width="34" height="40"/><rect x="172" y="96" width="34" height="64"/><rect x="224" y="104" width="34" height="56"/><rect x="276" y="72" width="34" height="88"/><rect x="328" y="84" width="34" height="76"/><rect x="380" y="50" width="34" height="110"/></g><polyline points="137,128 189,104 241,112 293,80 345,92 397,58 449,40" fill="none" stroke="#2ECC8B" stroke-width="3"/><circle cx="449" cy="40" r="6" fill="#2ECC8B"/><path d="M438 56 L449 40 L460 56 Z" fill="#2ECC8B"/><rect x="0" y="160" width="600" height="2" fill="#C9A84C" opacity="0.4"/></svg>`,
-  coins: `<svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="hc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131E30"/><stop offset="1" stop-color="#0D1525"/></linearGradient></defs><rect width="600" height="180" fill="url(#hc)"/><g><g transform="translate(150,0)"><ellipse cx="0" cy="140" rx="48" ry="14" fill="#C9A84C"/><rect x="-48" y="116" width="96" height="24" fill="#C9A84C"/><ellipse cx="0" cy="116" rx="48" ry="14" fill="#E8C46A"/><ellipse cx="0" cy="104" rx="48" ry="14" fill="#C9A84C"/><rect x="-48" y="92" width="96" height="12" fill="#C9A84C"/><ellipse cx="0" cy="92" rx="48" ry="14" fill="#E8C46A"/></g><g transform="translate(280,0)"><ellipse cx="0" cy="150" rx="44" ry="13" fill="#C9A84C"/><rect x="-44" y="120" width="88" height="30" fill="#C9A84C"/><ellipse cx="0" cy="120" rx="44" ry="13" fill="#E8C46A"/></g><text x="400" y="100" fill="#2ECC8B" font-family="Arial" font-size="40" font-weight="bold">FCFA</text></g></svg>`,
-  tax: `<svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="ht" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131E30"/><stop offset="1" stop-color="#0D1525"/></linearGradient></defs><rect width="600" height="180" fill="url(#ht)"/><g transform="translate(210,30)"><rect x="0" y="0" width="120" height="130" rx="6" fill="#e8eef6" opacity="0.92"/><rect x="0" y="0" width="120" height="130" rx="6" fill="none" stroke="#C9A84C" stroke-width="2"/><rect x="16" y="20" width="60" height="7" rx="3" fill="#94a3b8"/><rect x="16" y="38" width="88" height="6" rx="3" fill="#cbd5e1"/><rect x="16" y="52" width="88" height="6" rx="3" fill="#cbd5e1"/><rect x="16" y="66" width="64" height="6" rx="3" fill="#cbd5e1"/><rect x="16" y="86" width="40" height="20" rx="3" fill="#C9A84C" opacity="0.3"/></g><circle cx="360" cy="120" r="34" fill="#2ECC8B" opacity="0.9"/><text x="360" y="132" fill="#0D1525" font-family="Arial" font-size="30" font-weight="bold" text-anchor="middle">%</text></svg>`,
-  compare: `<svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="hcp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131E30"/><stop offset="1" stop-color="#0D1525"/></linearGradient></defs><rect width="600" height="180" fill="url(#hcp)"/><line x1="300" y1="36" x2="300" y2="150" stroke="#C9A84C" stroke-width="4"/><polygon points="270,150 330,150 320,160 280,160" fill="#C9A84C"/><line x1="180" y1="60" x2="420" y2="60" stroke="#C9A84C" stroke-width="4"/><g><line x1="180" y1="60" x2="180" y2="92" stroke="#C9A84C" stroke-width="2"/><rect x="146" y="92" width="68" height="40" rx="6" fill="#2ECC8B" opacity="0.85"/></g><g><line x1="420" y1="60" x2="420" y2="80" stroke="#C9A84C" stroke-width="2"/><rect x="392" y="80" width="56" height="28" rx="6" fill="#C9A84C" opacity="0.7"/></g><circle cx="300" cy="36" r="7" fill="#C9A84C"/></svg>`,
-  account: `<svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="ha" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131E30"/><stop offset="1" stop-color="#0D1525"/></linearGradient></defs><rect width="600" height="180" fill="url(#ha)"/><g transform="translate(200,52)"><rect x="0" y="0" width="170" height="100" rx="12" fill="#1d2c44" stroke="#C9A84C" stroke-width="2"/><rect x="0" y="22" width="170" height="16" fill="#C9A84C" opacity="0.35"/><rect x="16" y="56" width="60" height="8" rx="4" fill="#94a3b8"/><rect x="16" y="72" width="90" height="8" rx="4" fill="#64748b"/><circle cx="140" cy="74" r="14" fill="#2ECC8B"/><path d="M133 74 l5 5 l9 -11" fill="none" stroke="#0D1525" stroke-width="3"/></g></svg>`,
-}
-const SLUG_HERO = {
-  'investir-brvm-depuis-france': 'skyline',
-  'investir-brvm-zone-uemoa': 'skyline',
-  'bourses-africaines-panorama': 'skyline',
-  'analyser-action-brvm': 'growth',
-  'juger-cours-action-brvm': 'growth',
-  'brvm-vs-livret-a': 'growth',
-  'dividendes-sonatel-2025': 'coins',
-  'sgi-frais-brvm': 'coins',
-  'fiscalite-dividendes-brvm-uemoa': 'tax',
-  'declarer-compte-brvm-impots-france': 'tax',
-  'lire-compte-resultat': 'tax',
-  'brvm-vs-pea-etf': 'compare',
-  'ouvrir-compte-sgi-depuis-etranger': 'account',
-  'indices-brvm': 'growth',
-  'erreurs-debutant-brvm': 'account',
-}
-
 // Événement analytics Plausible (sans cookie)
 const fireEvent = (name, props) => {
   try { if (typeof window !== 'undefined' && window.plausible) window.plausible(name, props ? { props } : undefined) } catch {}
@@ -262,8 +235,6 @@ export default function BlogPost() {
             <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{article.date}</span>
             <span style={{ fontSize: 13, color: OR, fontWeight: 600 }}>· {article.lecture} de lecture</span>
           </div>
-
-          <div className="blog-hero" dangerouslySetInnerHTML={{ __html: HERO[SLUG_HERO[slug]] || HERO.growth }} />
 
           <div style={{
             background: 'rgba(201,168,76,0.07)',
