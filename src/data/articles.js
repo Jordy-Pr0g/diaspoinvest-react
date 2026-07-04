@@ -1,10 +1,10 @@
 export const ARTICLES = [
   {
     slug: 'choisir-sa-sgi-comparatif',
-    titre: 'Comment choisir sa SGI : les 5 critères, les frais réels, le piège XOF/XAF',
-    description: 'Capital minimum réglementaire, décomposition d\'un ordre de 500 000 FCFA, l\'écart de 300 000 FCFA sur 10 ans que cache la commission de conservation, et la confusion XOF/XAF pour l\'Afrique hors UEMOA.',
+    titre: 'Comment choisir sa SGI pour investir sur la BRVM : les 5 critères et les frais réels (2026)',
+    description: 'Qu\'est-ce qu\'une SGI, comment comparer leurs frais (courtage et conservation), le graphique de l\'écart de 300 000 FCFA sur 10 ans, et le piège XOF/XAF pour l\'Afrique hors UEMOA. Guide complet et sourcé.',
     date: '4 juillet 2026',
-    lecture: '8 min',
+    lecture: '10 min',
     file: () => import('../../blog/article-17-choisir-sa-sgi-comparatif.md?raw'),
   },
   {
