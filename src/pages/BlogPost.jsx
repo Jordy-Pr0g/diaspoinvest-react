@@ -7,6 +7,26 @@ import Footer from '../components/Footer.jsx'
 
 const OR = '#C9A84C'
 
+// Photo d'en-tete par article (fichiers dans public/img/blog, source Pexels, licence libre)
+const HERO_ALT = {
+  'investir-brvm-depuis-france': 'Le Plateau, quartier des affaires d’Abidjan',
+  'investir-brvm-zone-uemoa': 'Vue aerienne d’Abidjan',
+  'bourses-africaines-panorama': 'Skyline de Johannesburg au coucher du soleil',
+  'calendrier-dividendes-brvm-2026': 'Piles de pieces de monnaie',
+  'dividendes-sonatel-2025': 'Pieces alignees en croissance',
+  'fiscalite-dividendes-brvm-uemoa': 'Calculatrice et documents fiscaux',
+  'declarer-compte-brvm-impots-france': 'Dossier d’impots et calculatrice',
+  'lire-compte-resultat': 'Documents financiers et loupe',
+  'analyser-action-brvm': 'Graphiques boursiers sur ecran',
+  'juger-cours-action-brvm': 'Courbe de marche en gros plan',
+  'indices-brvm': 'Graphique de donnees sur moniteur',
+  'brvm-vs-pea-etf': 'Ecran de suivi des marches',
+  'brvm-vs-livret-a': 'Piece deposee dans une tirelire',
+  'sgi-frais-brvm': 'Documents comptables et smartphone',
+  'ouvrir-compte-sgi-depuis-etranger': 'Personne travaillant sur ordinateur portable',
+  'erreurs-debutant-brvm': 'Loupe sur des donnees de marche',
+}
+
 // Événement analytics Plausible (sans cookie)
 const fireEvent = (name, props) => {
   try { if (typeof window !== 'undefined' && window.plausible) window.plausible(name, props ? { props } : undefined) } catch {}
@@ -230,6 +250,14 @@ export default function BlogPost() {
           <div className="blog-post-back">
             <Link to="/blog">← Tous les articles</Link>
           </div>
+
+          {HERO_ALT[slug] && (
+            <img
+              src={`/img/blog/${slug}.webp`}
+              alt={HERO_ALT[slug]}
+              style={{ width: '100%', aspectRatio: '16/7', objectFit: 'cover', borderRadius: 16, margin: '8px 0 4px', display: 'block' }}
+            />
+          )}
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, margin: '8px 0 24px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{article.date}</span>
