@@ -1,10 +1,3 @@
-# Déclarer un compte BRVM aux impôts français : ce que personne ne t'explique
-
-**Temps de lecture : 7 minutes**
-**Dernière mise à jour : juin 2026**
-
----
-
 Réponse rapide : Tout résident fiscal français qui détient un compte SGI (BRVM) doit le déclarer chaque année via le formulaire 3916 sur impots.gouv.fr. Amende en cas d'oubli : 1 500 euros par compte, par an. Les dividendes sont soumis à la flat tax de 31,4 % et se déclarent en case 2DC. La SGI ne fait rien de ton côté, tu es seul responsable.
 
 ---

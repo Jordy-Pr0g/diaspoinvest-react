@@ -1,11 +1,3 @@
-# Comprendre les indices de la BRVM : Composite, BRVM 30, Prestige
-
-**Temps de lecture : 6 minutes**
-**Dernière mise à jour : juin 2026**
-**Source : brvm.org (officiel)**
-
----
-
 Quand on dit "la bourse a monté de tant", on parle d'un indice. Un indice est un panier d'actions qui sert de thermomètre du marché. La BRVM en publie plusieurs : savoir lequel regarder évite les confusions. Cet article les explique simplement.
 
 ---

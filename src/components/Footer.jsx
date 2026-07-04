@@ -50,7 +50,7 @@ export default function Footer({ onOpenModal }) {
               ✉ contact@diaspoinvest.fr
             </a>
             <div className="footer-badges">
-              <span>🇫🇷 Paris</span>
+              <span>Paris</span>
               <span>BRVM · 8 pays UEMOA</span>
             </div>
           </div>

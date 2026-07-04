@@ -1,11 +1,3 @@
-# Les bourses africaines au-delà de la BRVM : le panorama
-
-**Temps de lecture : 7 minutes**
-**Dernière mise à jour : juin 2026**
-**Sources : african-markets.com, brvm.org, données de marché 2026**
-
----
-
 La BRVM est la bourse de l'Afrique de l'Ouest francophone, mais ce n'est pas la seule bourse du continent. Si tu es curieux, ou si tu vis dans un pays comme le Nigeria, le Cameroun ou l'Afrique du Sud, ce tour d'horizon te situe le paysage. Les chiffres cités datent du début 2026 et évoluent : considère-les comme des ordres de grandeur, pas comme des valeurs figées.
 
 ---

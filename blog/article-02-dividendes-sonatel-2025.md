@@ -1,11 +1,3 @@
-# Dividendes Sonatel 2025 : combien ça rapporte vraiment depuis la France ?
-
-**Temps de lecture : 8 minutes**
-**Dernière mise à jour : juin 2026**
-**Source des données : brvm.org (officiel), sikafinance.com**
-
----
-
 Réponse rapide : Sonatel a versé 1 740 FCFA de dividende par action, soit un rendement brut d'environ 6,13 %. Pour un résident en France après flat tax de 31,4 %, le rendement net est de 4,20 %, soit près de 3 fois ce que rapporte le Livret A (1,5 %). Les dividendes sont versés automatiquement une fois par an sur ton compte SGI.
 
 ---
@@ -175,3 +167,7 @@ C'est la plus connue et l'une des plus liquides. Ce n'est pas nécessairement la
 Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les dividendes passés ne préjugent pas des dividendes futurs. Les simulations sont des projections mathématiques illustratives.
 
 Données : brvm.org, sikafinance.com, 19 juin 2026.
+
+---
+
+*Sources : brvm.org (officiel), sikafinance.com.*

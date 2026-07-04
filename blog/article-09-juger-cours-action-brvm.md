@@ -1,6 +1,3 @@
-# Juger un cours : une action est-elle chère ou bon marché ?
-
-**Temps de lecture : 8 minutes**
 **Niveau : intermédiaire à confirmé**
 **Dernière mise à jour : juin 2026**
 **Sources : brvm.org, sikafinance.com, fluxbourse.com**

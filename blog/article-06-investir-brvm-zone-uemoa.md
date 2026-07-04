@@ -1,11 +1,3 @@
-# Investir sur la bourse africaine quand on vit en Afrique : le guide simple
-
-**Temps de lecture : 7 minutes**
-**Dernière mise à jour : juin 2026**
-**Source des données : brvm.org (officiel), sikafinance.com**
-
----
-
 Réponse rapide : oui, tu peux acheter des parts de grandes entreprises africaines et toucher de l'argent chaque année. Si tu vis dans un pays d'Afrique de l'Ouest (Côte d'Ivoire, Sénégal, Bénin et les autres pays de l'UEMOA), c'est le plus simple : tu ouvres un compte près de chez toi. Et si tu vis ailleurs en Afrique, tu peux aussi le faire, à distance.
 
 ---
@@ -125,3 +117,7 @@ Cela dépend de la SGI et de ton dossier. Un dossier complet est traité plus vi
 Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Vérifie toujours les informations à jour auprès des sources officielles et de ta SGI. Investir comporte un risque de perte en capital.
 
 Données de marché : brvm.org, sikafinance.com, juin 2026.
+
+---
+
+*Sources : brvm.org (officiel), sikafinance.com.*

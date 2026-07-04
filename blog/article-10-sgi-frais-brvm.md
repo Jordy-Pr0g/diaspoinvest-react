@@ -1,11 +1,3 @@
-# SGI et frais : ce que les coûts font vraiment à ton rendement
-
-**Temps de lecture : 8 minutes**
-**Dernière mise à jour : juin 2026**
-**Sources : brvm.org (frais et liste des SGI), sikafinance.com, fluxbourse.com**
-
----
-
 Tout le monde regarde le rendement d'une action. Presque personne ne regarde ce que les frais lui retirent. Pourtant, sur vingt ou trente ans, un écart de frais d'apparence minuscule change le résultat final. Cet article explique le rôle des SGI, les frais à connaître, et comment les coûts pèsent sur une stratégie de long terme. Il s'adresse aussi bien au débutant qu'à l'investisseur confirmé.
 
 Une précision : cet article ne recommande aucune SGI en particulier. Il t'indique où trouver la liste officielle et quoi comparer.

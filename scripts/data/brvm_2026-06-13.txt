@@ -1,0 +1,83 @@
+============================================================
+  RAPPORT BRVM — 13/06/2026 10:22
+  Source : brvm.org (officiel) + sikafinance (contrôle)
+============================================================
+
+🟢 Données vérifiées et propres (3 titres recoupés avec sika).
+
+── INDICES ──
+   BRVM-30                                    203.69  (-0.07%)
+   BRVM - COMPOSITE                            436.6  (-0.09%)
+   BRVM - PRESTIGE                            171.72  (+0.02%)
+   BRVM - PRINCIPAL                           310.17  (-0.32%)
+   BRVM - CONSOMMATION DE BASE                281.91  (+0.36%)
+   BRVM - CONSOMMATION DISCRETIONNAIRE        193.33  (+0.05%)
+   BRVM - ENERGIE                             154.99  (+0.43%)
+   BRVM - INDUSTRIELS                         205.53  (-0.34%)
+   BRVM - SERVICES FINANCIERS                 199.71  (-0.44%)
+   BRVM - SERVICES PUBLICS                    223.73  (+0.15%)
+   BRVM - TELECOMMUNICATIONS                  103.79  (+0.1%)
+   BRVM – COMPOSITE TOTAL RETURN              172.54  (-0.03%)
+
+── TOP 5 HAUSSES ──
+   NEIC   NEI-CEDA COTE D'IVOIRE             2115 FCFA  (+4.44%)
+   SCRC   SUCRIVOIRE COTE D'IVOIRE           3195 FCFA  (+3.9%)
+   SPHC   SAPH COTE D'IVOIRE                 7685 FCFA  (+2.47%)
+   SLBC   SOLIBRA COTE D'IVOIRE             39000 FCFA  (+1.3%)
+   PALC   PALM COTE D'IVOIRE                 8780 FCFA  (+1.09%)
+
+── TOP 5 BAISSES ──
+   SICC   SICOR COTE D'IVOIRE                4480 FCFA  (-7.05%)
+   ONTBF  ONATEL BURKINA FASO                2815 FCFA  (-4.58%)
+   ETIT   Ecobank Transnational Incorpor       32 FCFA  (-3.03%)
+   ORGT   ORAGROUP TOGO                      2710 FCFA  (-2.52%)
+   NTLC   NESTLE COTE D'IVOIRE              15000 FCFA  (-2.12%)
+
+── 47 ACTIONS (clôture officielle) ──
+   ABJC       3350 FCFA  (-0.3%)  vol 6978
+   BICB       5540 FCFA  (+0.64%)  vol 3666
+   BICC      28495 FCFA  (+0.16%)  vol 170
+   BNBC       1880 FCFA  (+0.0%)  vol 2933
+   BOAB       8780 FCFA  (+0.34%)  vol 7122
+   BOABF      5585 FCFA  (+0.63%)  vol 8937
+   BOAC       8950 FCFA  (+0.56%)  vol 10358
+   BOAM       4630 FCFA  (+0.0%)  vol 4744
+   BOAN       3700 FCFA  (+0.0%)  vol 6030
+   BOAS       7325 FCFA  (-0.2%)  vol 19592
+   CABC       4000 FCFA  (+0.0%)  vol 1078
+   CBIBF     21800 FCFA  (-1.25%)  vol 1528
+   CFAC       1600 FCFA  (+0.0%)  vol 3584
+   CIEC       4995 FCFA  (-0.1%)  vol 6701
+   ECOC      16795 FCFA  (-0.03%)  vol 438
+   ETIT         32 FCFA  (-3.03%)  vol 411535
+   FTSC       2230 FCFA  (+0.45%)  vol 5948
+   LNBB       3835 FCFA  (+0.0%)  vol 1344
+   NEIC       2115 FCFA  (+4.44%)  vol 3956
+   NSBC      19150 FCFA  (-1.79%)  vol 7790
+   NTLC      15000 FCFA  (-2.12%)  vol 1981
+   ONTBF      2815 FCFA  (-4.58%)  vol 1813
+   ORAC      15650 FCFA  (+0.61%)  vol 1897
+   ORGT       2710 FCFA  (-2.52%)  vol 2123
+   PALC       8780 FCFA  (+1.09%)  vol 3880
+   PRSC       4075 FCFA  (-1.81%)  vol 670
+   SAFC       3700 FCFA  (+0.0%)  vol 37997
+   SCRC       3195 FCFA  (+3.9%)  vol 4351
+   SDCC      12195 FCFA  (+0.79%)  vol 398
+   SDSC       1980 FCFA  (-0.5%)  vol 32057
+   SEMC       1570 FCFA  (-1.26%)  vol 11482
+   SGBC      38995 FCFA  (-0.01%)  vol 5604
+   SHEC       2080 FCFA  (+0.24%)  vol 1908
+   SIBC       8820 FCFA  (+0.23%)  vol 9109
+   SICC       4480 FCFA  (-7.05%)  vol 35
+   SIVC       2830 FCFA  (-0.18%)  vol 2645
+   SLBC      39000 FCFA  (+1.3%)  vol 238
+   SMBC      16250 FCFA  (+0.0%)  vol 616
+   SNTS      28400 FCFA  (+0.0%)  vol 5490
+   SOGC       8495 FCFA  (-0.35%)  vol 1551
+   SPHC       7685 FCFA  (+2.47%)  vol 4855
+   STAC       3550 FCFA  (+0.0%)  vol 9259
+   STBC      21900 FCFA  (+0.0%)  vol 13423
+   TTLC       2870 FCFA  (+0.7%)  vol 1859
+   TTLS       3425 FCFA  (+0.74%)  vol 2019
+   UNLC      58000 FCFA  (+0.0%)  vol 17
+   UNXC       1970 FCFA  (+0.0%)  vol 5986

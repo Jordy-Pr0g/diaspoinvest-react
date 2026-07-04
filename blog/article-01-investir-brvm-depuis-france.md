@@ -1,11 +1,3 @@
-# Comment investir sur la BRVM depuis la France en 2026 (guide complet)
-
-**Temps de lecture : 10 minutes**
-**Dernière mise à jour : juin 2026**
-**Source des données : brvm.org (officiel), sikafinance.com**
-
----
-
 Réponse rapide : Oui, tu peux investir sur la BRVM depuis la France sans te déplacer. Tu passes par une SGI agréée (courtier officiel), tu ouvres un compte en ligne en 5 à 10 jours, et tu commences avec aussi peu que 43 EUR. Les dividendes arrivent chaque année directement sur ton compte.
 
 ---
@@ -205,3 +197,7 @@ Oui. L'obligation du formulaire 3916 s'applique dès que le compte existe, actif
 Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
 
 Données de marché : brvm.org, sikafinance.com, 19 juin 2026.
+
+---
+
+*Sources : brvm.org (officiel), sikafinance.com.*

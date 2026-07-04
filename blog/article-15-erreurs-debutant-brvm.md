@@ -1,10 +1,3 @@
-# 5 erreurs fréquentes quand on débute sur la BRVM
-
-**Temps de lecture : 6 minutes**
-**Dernière mise à jour : juin 2026**
-
----
-
 Investir sur la BRVM n'est pas compliqué, mais les débutants tombent souvent dans les mêmes pièges. En voici cinq, et comment les éviter. Aucun de ces conseils ne remplace ta propre réflexion : ce sont des principes de bon sens, pas des recettes magiques.
 
 ---

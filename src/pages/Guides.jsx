@@ -10,28 +10,24 @@ const BDR  = 'rgba(255,255,255,0.08)'
 const OUTILS = [
   {
     to: '/screener',
-    emoji: '🔍',
     titre: 'Screener BRVM',
     desc: "Filtre toutes les actions cotées par rendement, secteur, pays. Identifie les meilleures opportunités en un coup d'œil.",
     cta: 'Ouvrir le screener →',
   },
   {
     to: '/backtest',
-    emoji: '📈',
     titre: 'Backtest DCA',
     desc: "Simule un investissement mensuel régulier sur n'importe quelle action BRVM depuis 1998. Données officielles réelles.",
     cta: 'Lancer un backtest →',
   },
   {
     to: '/fiscalite',
-    emoji: '🧾',
     titre: 'Calculateur Fiscal',
     desc: 'Calcule ton imposition réelle sur les dividendes BRVM selon ton pays de résidence. France, Belgique, Canada, UEMOA...',
     cta: 'Calculer mon impôt →',
   },
   {
     to: '/blog',
-    emoji: '📚',
     titre: 'Blog & Analyses',
     desc: "Articles sur l'investissement en BRVM, la fiscalité de la diaspora, et les stratégies DCA pour l'Afrique.",
     cta: 'Lire les articles →',
@@ -61,7 +57,7 @@ export default function Guides() {
               Tous les outils DiaspoInvest
             </h1>
             <p style={{ fontSize: 15, color: GRIS, marginTop: 12, lineHeight: 1.6 }}>
-              Screener, backtest, fiscalité — tout ce qu'il faut pour investir sur la BRVM depuis l'étranger.
+              Screener, backtest, fiscalité : tout ce qu'il faut pour investir sur la BRVM depuis l'étranger.
             </p>
           </div>
 

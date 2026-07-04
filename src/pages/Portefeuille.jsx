@@ -25,6 +25,18 @@ const charger = () => {
 
 const PALETTE = ['#C9A84C', '#2ECC8B', '#63B3ED', '#E27BB0', '#F0A35E', '#9B8AE6', '#5BC0BE', '#E5707E']
 
+// Panier v4 — plan d'investissement réel audité (02/07/2026), exécution août-déc 2026
+const PLAN_V4 = {
+  depot: 1049532,
+  positions: {
+    SNTS: { qty: 7, pru: 29300 },   // Sonatel — ancre, PER 7,1x, div. 1740 net
+    ORAC: { qty: 12, pru: 16700 },  // Orange CI — div. 704 régulier
+    PALC: { qty: 20, pru: 8730 },   // Palm CI — agro, +4% vs MM12
+    TTLC: { qty: 55, pru: 2950 },   // TotalEnergies CI — énergie
+    ONTBF: { qty: 38, pru: 2800 },  // Moov BF — limité à 10% (risque pays)
+  },
+}
+
 function Donut({ parts }) {
   const total = parts.reduce((s, p) => s + p.val, 0) || 1
   const R = 54, C = 2 * Math.PI * R
@@ -112,6 +124,13 @@ export default function Portefeuille() {
   function reset() {
     if (!window.confirm('Réinitialiser ton portefeuille virtuel ?')) return
     sauver({ cash: INITIAL, depot: INITIAL, positions: {} })
+  }
+
+  function chargerPlanV4() {
+    if (Object.keys(port.positions).length > 0 && !window.confirm('Remplacer le portefeuille actuel par le plan v4 (5 lignes, 1 049 532 FCFA) ?')) return
+    const investi = Object.values(PLAN_V4.positions).reduce((s, p) => s + p.qty * p.pru, 0)
+    sauver({ depot: PLAN_V4.depot, cash: PLAN_V4.depot - investi, positions: { ...PLAN_V4.positions } })
+    notif('Plan v4 chargé : 5 lignes + coussin de liquidités.')
   }
 
   function appliquerCapital() {
@@ -313,6 +332,7 @@ export default function Portefeuille() {
               )}
 
               <div style={{ marginTop: 24, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                <button onClick={chargerPlanV4} style={{ background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.4)', color: OR, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700 }}>Charger mon plan v4</button>
                 <button onClick={reset} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Réinitialiser</button>
                 {lignes.length > 0 && (
                   <button onClick={exportCSV} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Exporter CSV</button>

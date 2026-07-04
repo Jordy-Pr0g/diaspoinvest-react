@@ -1,11 +1,3 @@
-# BRVM vs Livret A : comparaison honnête pour la diaspora africaine (2026)
-
-**Temps de lecture : 7 minutes**
-**Dernière mise à jour : juin 2026**
-**Sources : brvm.org (officiel), economie.gouv.fr (Livret A)**
-
----
-
 Réponse rapide : le Livret A rapporte 1,5 % net, garanti, plafonné à 22 950 EUR. Sonatel verse un dividende d'environ 6,13 % brut (4,20 % net France après flat tax 31,4 %). L'écart est réel, mais la BRVM comporte un risque en capital que le Livret A n'a pas. Les deux ont des rôles différents et complémentaires.
 
 ---
@@ -124,3 +116,7 @@ Le Livret A resterait plafonné à 22 950 EUR et sans potentiel de plus-value. L
 Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.
 
 Données BRVM : brvm.org, sikafinance.com, juin 2026. Données Livret A : economie.gouv.fr, février 2026.
+
+---
+
+*Sources : brvm.org (officiel), economie.gouv.fr (Livret A).*

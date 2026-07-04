@@ -1,6 +1,3 @@
-# Lire un compte de résultat : décrypter une entreprise cotée
-
-**Temps de lecture : 8 minutes**
 **Niveau : intermédiaire à confirmé**
 **Dernière mise à jour : juin 2026**
 **Sources : rapports annuels des sociétés (brvm.org)**

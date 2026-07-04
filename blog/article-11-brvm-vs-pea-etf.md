@@ -1,11 +1,3 @@
-# BRVM, PEA ou ETF World : comment choisir quand on vit à l'étranger
-
-**Temps de lecture : 9 minutes**
-**Dernière mise à jour : juin 2026**
-**Sources : economie.gouv.fr, service-public.fr, brvm.org, MSCI**
-
----
-
 Si tu vis en France ou ailleurs en Europe, tu as déjà entendu parler du PEA et des ETF World. Tu te demandes peut-être : faut-il choisir entre eux et la BRVM ? La réponse courte : ce ne sont pas des concurrents, ce sont des outils différents. Le mieux est souvent de comprendre ce que chacun fait, puis de combiner. Cet article compare les trois honnêtement.
 
 ---

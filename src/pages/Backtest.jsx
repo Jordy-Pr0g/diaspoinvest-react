@@ -19,23 +19,26 @@ const fmtDate = d => { const dt = new Date(d); return dt.toLocaleDateString('fr-
 
 const TICKERS_POPULAIRES = ['SNTS', 'ORAC', 'SGBC', 'CBIBF', 'STBC', 'NTLC', 'SLBC', 'BOAB']
 
-function runBacktest(history, apport, debut) {
+function runBacktest(history, apport, debut, reportSolde = false) {
   const mois = history.filter(h => h.date >= debut).sort((a, b) => a.date.localeCompare(b.date))
   if (mois.length < 2) return null
-  let actions = 0, capitalInvesti = 0
+  let actions = 0, capitalInvesti = 0, solde = 0
   const courbe = []
   for (const m of mois) {
     if (!m.close || m.close <= 0) continue
-    const achetees = Math.floor(apport / m.close)
+    const budget = apport + (reportSolde ? solde : 0)
+    const achetees = Math.floor(budget / m.close)
+    const depense = achetees * m.close
     actions += achetees
-    capitalInvesti += achetees * m.close
+    capitalInvesti += depense
+    solde = budget - depense
     courbe.push({ date: m.date, cours: m.close, actionsTotal: actions, valeur: actions * m.close, investi: capitalInvesti })
   }
   const dernierCours = mois[mois.length - 1]?.close || 0
   const valeurFinale = actions * dernierCours
   const plusValue = valeurFinale - capitalInvesti
   const performance = capitalInvesti > 0 ? (plusValue / capitalInvesti) * 100 : 0
-  return { actions, capitalInvesti, valeurFinale, plusValue, performance, courbe, nbMois: mois.length }
+  return { actions, capitalInvesti, valeurFinale, plusValue, performance, courbe, nbMois: mois.length, soldeRestant: Math.round(solde) }
 }
 
 function MiniChart({ courbe }) {
@@ -115,8 +118,9 @@ export default function Backtest() {
   const [lignes, setLignes] = useState([
     { sym: searchParams.get('ticker') || 'SNTS', apport: 50000 }
   ])
-  const [newSym, setNewSym] = useState('')
-  const [debut, setDebut]   = useState('2020-01-01')
+  const [newSym, setNewSym]       = useState('')
+  const [debut, setDebut]         = useState('2020-01-01')
+  const [reportSolde, setReportSolde] = useState(false)
 
   // histories et results sont des objets { [sym]: data }
   const [histories, setHistories] = useState({})
@@ -161,10 +165,10 @@ export default function Backtest() {
     const next = {}
     lignes.forEach(l => {
       const hist = histories[l.sym]
-      if (hist && l.apport && debut) next[l.sym] = runBacktest(hist, l.apport, debut)
+      if (hist && l.apport && debut) next[l.sym] = runBacktest(hist, l.apport, debut, reportSolde)
     })
     setResults(next)
-  }, [histories, lignes, debut])
+  }, [histories, lignes, debut, reportSolde])
 
   const yearMin = (() => {
     const all = Object.values(histories).flat().map(h => parseInt(h.date.slice(0, 4))).filter(Boolean)
@@ -320,6 +324,31 @@ export default function Backtest() {
             </select>
           </div>
 
+          {/* Option report de solde */}
+          <div style={{ ...card, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 2 }}>Reporter le solde non utilisé</div>
+              <div style={{ fontSize: 12, color: GRIS, lineHeight: 1.5 }}>
+                Le reste non investi chaque mois s'ajoute au budget du mois suivant.
+              </div>
+            </div>
+            <button
+              onClick={() => setReportSolde(v => !v)}
+              style={{
+                flexShrink: 0, width: 52, height: 28, borderRadius: 14,
+                background: reportSolde ? OR : 'rgba(255,255,255,0.1)',
+                border: 'none', cursor: 'pointer', position: 'relative', transition: 'background .2s',
+              }}
+            >
+              <span style={{
+                position: 'absolute', top: 3, left: reportSolde ? 26 : 3,
+                width: 22, height: 22, borderRadius: 11,
+                background: reportSolde ? '#0D2B1E' : 'rgba(255,255,255,0.5)',
+                transition: 'left .2s',
+              }} />
+            </button>
+          </div>
+
           {/* Chargement / erreur action principale */}
           {mainLoading && <div style={{ textAlign: 'center', padding: '40px 0', color: GRIS }}>Chargement {mainSym}…</div>}
           {mainError && <div style={{ background: 'rgba(255,100,100,0.08)', border: '1px solid rgba(255,100,100,0.2)', borderRadius: 12, padding: '16px 20px', color: RED, fontSize: 14 }}>{mainError}</div>}
@@ -365,7 +394,9 @@ export default function Backtest() {
                 {[
                   { label: 'Titres accumulés', val: `${mainResult.actions.toLocaleString('fr-FR')} titres` },
                   { label: 'Durée', val: `${mainResult.nbMois} mois` },
-                  { label: 'Dividende annuel', val: mainMeta.dividende && mainResult.actions ? `${fmt(mainResult.actions * mainMeta.dividende)} FCFA/an` : '—' },
+                  reportSolde
+                    ? { label: 'Solde en attente', val: `${fmt(mainResult.soldeRestant)} FCFA` }
+                    : { label: 'Dividende annuel', val: mainMeta.dividende && mainResult.actions ? `${fmt(mainResult.actions * mainMeta.dividende)} FCFA/an` : '—' },
                 ].map(({ label, val }) => (
                   <div key={label} style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${BDR}`, borderRadius: 14, padding: '14px', textAlign: 'center' }}>
                     <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 14, fontWeight: 900, color: VERT3, display: 'block', lineHeight: 1, marginBottom: 6 }}>{val}</div>

@@ -1,5 +1,13 @@
 export const ARTICLES = [
   {
+    slug: 'calendrier-dividendes-brvm-2026',
+    titre: 'Calendrier des dividendes BRVM 2026 : dates, montants et mode d\'emploi',
+    description: 'Sonatel, SIB, Ecobank CI, Orange CI... Les dividendes versés et annoncés en 2026, la mécanique du détachement expliquée, et pourquoi acheter juste avant le dividende est rarement une bonne idée.',
+    date: '4 juillet 2026',
+    lecture: '7 min',
+    file: () => import('../../blog/article-16-calendrier-dividendes-brvm-2026.md?raw'),
+  },
+  {
     slug: 'erreurs-debutant-brvm',
     titre: '5 erreurs fréquentes quand on débute sur la BRVM',
     description: 'Tout miser sur une action, vendre dans la panique, ignorer les frais, attendre le bon moment... Les pièges classiques du débutant, et comment les éviter.',

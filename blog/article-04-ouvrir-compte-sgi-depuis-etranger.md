@@ -1,10 +1,3 @@
-# Ouvrir un compte SGI depuis l'étranger : le guide pas à pas pour la diaspora
-
-**Temps de lecture : 8 minutes**
-**Dernière mise à jour : juin 2026**
-
----
-
 Réponse rapide : Oui, tu peux ouvrir un compte SGI depuis la France, la Belgique, le Canada ou n'importe où dans le monde, entièrement à distance, sans te déplacer. Tu envoies tes documents par email, tu signes le formulaire en ligne, et tu vires tes premiers fonds via Wise. Délai moyen : 5 à 10 jours ouvrables pour un dossier complet.
 
 ---

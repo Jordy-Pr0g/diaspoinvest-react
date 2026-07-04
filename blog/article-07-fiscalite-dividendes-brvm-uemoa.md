@@ -1,11 +1,3 @@
-# Fiscalité BRVM en zone UEMOA : ce que tu paies vraiment sur tes dividendes
-
-**Temps de lecture : 6 minutes**
-**Dernière mise à jour : juin 2026**
-**Sources : Directive 02/2010/CM/UEMOA, sikafinance.com, brvm.org**
-
----
-
 Réponse rapide : si tu résides dans l'UEMOA, tes **plus-values** boursières sont exonérées d'impôt. Tes **dividendes**, eux, supportent l'IRVM, un impôt retenu directement à la source par l'entreprise. Le taux dépend de ton pays : 10 % en Côte d'Ivoire et au Sénégal, 5 % au Bénin, 7 % au Mali et au Togo, 12,5 % au Burkina Faso.
 
 ---

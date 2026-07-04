@@ -1,6 +1,3 @@
-# Comment analyser une action de la BRVM : la méthode, ratio par ratio
-
-**Temps de lecture : 9 minutes**
 **Niveau : intermédiaire à confirmé**
 **Dernière mise à jour : juin 2026**
 **Sources : brvm.org (rapports officiels), sikafinance.com, fluxbourse.com**
