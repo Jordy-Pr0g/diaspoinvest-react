@@ -1,0 +1,22 @@
+name: Alertes BRVM quotidiennes
+
+on:
+  schedule:
+    # 17h20 UTC = 19h20 Paris (heure d'ete) / 18h20 (hiver), apres cloture BRVM et MAJ des donnees
+    - cron: '20 17 * * 1-5'
+  workflow_dispatch: {}
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scan BRVM et alerte email si signal
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          ALERTE_EMAIL: djiokapjordan@gmail.com
+        run: python scripts/brvm_alertes.py
