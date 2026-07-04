@@ -48,7 +48,7 @@ Voici les SGI qui ont une procédure d'ouverture à distance pour les non-résid
 | Bridge Securities | Côte d'Ivoire | Oui |
 | BSIC Capital | Multinational | Oui |
 
-Liste indicative. Vérifie toujours sur brvm.org la liste officielle des SGI agréées à jour.
+Liste indicative établie à partir des présentations publiques de ces SGI et de retours d'investisseurs de la diaspora, non exhaustive. Vérifie toujours sur brvm.org la liste officielle des SGI agréées à jour, et leur politique actuelle envers les non-résidents avant tout envoi de document.
 
 Ce tableau te donne les noms. Ce qu'il ne te dit pas : les frais exacts de chaque SGI, leur délai réel de traitement des dossiers, la qualité de leur interface client, et leur réactivité par email. Ce sont ces détails qui font la différence entre une expérience fluide et des semaines de frustration.
 
@@ -105,6 +105,8 @@ Le délai de J1 à J30 est réaliste pour un dossier complet envoyé du premier 
 Ce guide t'explique le processus général. Il ne te dit pas quelle SGI choisir pour ta situation précise : les frais varient entre 0,5 % et 1,5 % selon la SGI et le montant, certaines ont des frais de tenue de compte annuels, certaines ont des interfaces utilisables sur mobile et d'autres non.
 
 Certains investisseurs ont ouvert leur compte dans une SGI avec de mauvais délais de réponse, des frais cachés découverts après les premiers ordres, ou une interface client qui rend le suivi du portefeuille compliqué. Ce genre d'erreur se corrige difficilement une fois le compte ouvert.
+
+Il ne remplace pas non plus le [comparatif des 5 critères pour choisir sa SGI](/blog/choisir-sa-sgi-comparatif) : frais réels, minimum d'ouverture, et le piège XOF/XAF si tu vis en Afrique hors zone UEMOA.
 
 Le Guide DiaspoInvest (14,99 €) t'accompagne pas à pas : comprendre la bourse, ouvrir un compte chez une SGI à distance, et la fiscalité expliquée simplement. Format PDF, accès immédiat.
 

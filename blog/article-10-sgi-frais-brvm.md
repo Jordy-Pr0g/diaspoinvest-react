@@ -85,7 +85,7 @@ Avant tout, vérifie que la SGI est bien agréée par le CREPMF. La liste offici
 - Le détail des frais applicables sur [brvm.org](https://www.brvm.org/fr/node/312).
 - Des comparateurs indépendants comme FluxBourse ou sikafinance, qui regroupent les SGI par pays.
 
-Pour aller plus loin une fois ta SGI choisie, le Guide DiaspoInvest (14,99 €) explique comment ouvrir ton compte et démarrer, et le Tracker (19,99 €) t'aide à suivre ton portefeuille et tes frais dans la durée.
+Pour un comparatif détaillé des 5 critères qui comptent (frais, minimum d'ouverture, ouverture à distance, plateforme, réactivité) et la décomposition complète d'un ordre, lis [comment choisir sa SGI](/blog/choisir-sa-sgi-comparatif). Pour aller plus loin une fois ta SGI choisie, le Guide DiaspoInvest (14,99 €) explique comment ouvrir ton compte et démarrer, et le Tracker (24,99 €) t'aide à suivre ton portefeuille et tes frais dans la durée.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

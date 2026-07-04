@@ -1,5 +1,13 @@
 export const ARTICLES = [
   {
+    slug: 'choisir-sa-sgi-comparatif',
+    titre: 'Comment choisir sa SGI : les 5 critères, les frais réels, le piège XOF/XAF',
+    description: 'Capital minimum réglementaire, décomposition d\'un ordre de 500 000 FCFA, l\'écart de 300 000 FCFA sur 10 ans que cache la commission de conservation, et la confusion XOF/XAF pour l\'Afrique hors UEMOA.',
+    date: '4 juillet 2026',
+    lecture: '8 min',
+    file: () => import('../../blog/article-17-choisir-sa-sgi-comparatif.md?raw'),
+  },
+  {
     slug: 'calendrier-dividendes-brvm-2026',
     titre: 'Calendrier des dividendes BRVM 2026 : dates, montants et mode d\'emploi',
     description: 'Sonatel, SIB, Ecobank CI, Orange CI... Les dividendes versés et annoncés en 2026, la mécanique du détachement expliquée, et pourquoi acheter juste avant le dividende est rarement une bonne idée.',
