@@ -10,8 +10,16 @@
  * Cache 30 min côté CDN Vercel pour limiter les appels GitHub.
  */
 
-const RAW_URL =
-  'https://raw.githubusercontent.com/Jordy-Pr0g/diaspoinvest-automation/main/scripts/data/brvm_latest.json'
+const RAW_BASE =
+  'https://raw.githubusercontent.com/Jordy-Pr0g/diaspoinvest-automation/main/scripts/data/'
+
+// Une seule fonction sert plusieurs jeux de données (limite Vercel : 12 fonctions).
+//   /api/brvm-data                       -> cours BRVM
+//   /api/brvm-data?dataset=dividendes    -> dividendes croisés multi-sources
+const DATASETS = {
+  default: 'brvm_latest.json',
+  dividendes: 'dividendes_latest.json',
+}
 
 const ALLOWED_ORIGINS = [
   'https://diaspoinvest.fr',
@@ -30,6 +38,9 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
   try {
+    const ds = req.query?.dataset === 'dividendes' ? 'dividendes' : 'default'
+    const RAW_URL = RAW_BASE + DATASETS[ds]
+
     const token = (process.env.GITHUB_TOKEN || '').replace(/^﻿/, '').trim()
     const headers = { 'User-Agent': 'DiaspoInvest-Cockpit/1.0' }
     if (token) headers['Authorization'] = `token ${token}`

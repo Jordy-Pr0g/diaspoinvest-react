@@ -54,7 +54,7 @@ export default function CalendrierDividendes() {
   })
 
   useEffect(() => {
-    fetch('/api/dividendes')
+    fetch('/api/brvm-data?dataset=dividendes')
       .then(r => (r.ok ? r.json() : Promise.reject()))
       .then(d => { setData(d); setLoading(false) })
       .catch(() => { setErreur(true); setLoading(false) })
