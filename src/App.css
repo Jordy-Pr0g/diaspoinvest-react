@@ -512,6 +512,14 @@ input[type='range']::-moz-range-thumb {
   font-size: 1rem;
 }
 
+/* Menus deroulants (theme sombre) : options lisibles partout au lieu de blanc sur blanc.
+   Couvre tous les <select> du site (Screener, Backtest, Portefeuille, Calculateur, Temoignages). */
+select option,
+select optgroup {
+  background-color: #131E30;
+  color: #F1F5F9;
+}
+
 .calc-result {
   background: var(--blanc);
   color: var(--texte);
