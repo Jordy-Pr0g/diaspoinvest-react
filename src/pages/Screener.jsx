@@ -15,9 +15,17 @@ const RED   = '#FF7676'
 const fmt = v => Math.round(v).toLocaleString('fr-FR')
 const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(2).replace('.', ',') + ' %'
 
-// "16/07/2026" -> nombre triable ; sinon null (ex : "A préciser")
+// "16/07/2026" -> AAAAMMJJ triable ; sinon null (ex : "A préciser")
 const dateKey = s => { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ''); return m ? Number(m[3] + m[2] + m[1]) : null }
 const estDate = s => dateKey(s) != null
+const todayKey = () => Number(new Date().toISOString().slice(0, 10).replace(/-/g, ''))
+// Rang pour le tri "prochains détachements" : à venir d'abord (plus proche en tête),
+// puis les passés (plus récent d'abord), puis les sans date.
+const rangDetachement = a => {
+  const k = dateKey(a.dateEx)
+  if (k == null) return [2, 0]
+  return k >= todayKey() ? [0, k] : [1, -k]
+}
 
 const LABEL_COLORS = {
   'Blue Chip':      { bg: 'rgba(201,168,76,0.15)',  border: 'rgba(201,168,76,0.4)',  color: OR     },
@@ -115,11 +123,10 @@ export default function Screener() {
 
     res.sort((a, b) => {
       if (sortBy === 'date_asc') {
-        const ka = dateKey(a.dateEx), kb = dateKey(b.dateEx)
-        if (ka && kb) return ka - kb          // les deux ont une date : chronologique
-        if (ka) return -1                     // celui qui a une date passe devant
-        if (kb) return 1
-        return (b.rendement ?? -1) - (a.rendement ?? -1)   // aucun : par rendement
+        const [ga, ka] = rangDetachement(a), [gb, kb] = rangDetachement(b)
+        if (ga !== gb) return ga - gb          // à venir < passé < sans date
+        if (ka !== kb) return ka - kb          // dans le groupe : par date
+        return (b.rendement ?? -1) - (a.rendement ?? -1)   // sans date : par rendement
       }
       if (sortBy === 'rendement_desc') return (b.rendement ?? -1) - (a.rendement ?? -1)
       if (sortBy === 'cours_asc')      return a.cours - b.cours
