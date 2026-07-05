@@ -15,6 +15,10 @@ const RED   = '#FF7676'
 const fmt = v => Math.round(v).toLocaleString('fr-FR')
 const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(2).replace('.', ',') + ' %'
 
+// "16/07/2026" -> nombre triable ; sinon null (ex : "A préciser")
+const dateKey = s => { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ''); return m ? Number(m[3] + m[2] + m[1]) : null }
+const estDate = s => dateKey(s) != null
+
 const LABEL_COLORS = {
   'Blue Chip':      { bg: 'rgba(201,168,76,0.15)',  border: 'rgba(201,168,76,0.4)',  color: OR     },
   'Haut Dividende': { bg: 'rgba(46,204,139,0.12)',  border: 'rgba(46,204,139,0.4)',  color: VERT3  },
@@ -23,6 +27,7 @@ const LABEL_COLORS = {
 }
 
 const SORT_OPTIONS = [
+  { value: 'date_asc',       label: 'Prochains détachements' },
   { value: 'rendement_desc', label: 'Rendement ↓' },
   { value: 'cours_asc',      label: 'Cours ↑' },
   { value: 'cours_desc',     label: 'Cours ↓' },
@@ -46,35 +51,47 @@ export default function Screener() {
 
   useMeta({
     title: 'Screener BRVM — Cours et dividendes en temps réel | DiaspoInvest',
-    description: 'Consulte les cours, dividendes et rendements des 47 actions cotées sur la BRVM en temps réel. Filtre par secteur, pays et rendement minimum.',
+    description: 'Consulte les cours, dividendes, rendements et dates de détachement des 47 actions cotées sur la BRVM. Données croisées entre BRVM.org, Sikafinance et Fluxbourse. Filtre par secteur, pays et rendement.',
     url: 'https://diaspoinvest.fr/screener',
   })
 
   useEffect(() => {
-    fetch('/api/brvm-data')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
+    Promise.all([
+      fetch('/api/brvm-data').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/api/brvm-data?dataset=dividendes').then(r => r.ok ? r.json() : null).catch(() => null),
+    ])
+      .then(([data, div]) => {
         if (!data?.actions) { setLoading(false); return }
         if (data.genere_le) {
           const d = new Date(data.genere_le)
           setDateData(d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }))
         }
+        // Dividendes croisés multi-sources, indexés par symbole (dates + fiabilité).
+        const divBySym = {}
+        ;(div?.societes || []).forEach(s => { if (s.symbole) divBySym[s.symbole] = s })
+
         const enriched = data.actions
           .filter(a => a.cours_cloture > 0)
           .map(a => {
             const meta = getMeta(a.symbole)
-            const rendement = meta.dividende ? (meta.dividende / a.cours_cloture) * 100 : null
+            const d = divBySym[a.symbole]
+            // Dividende cross-checké prioritaire (ex : SIB 425 officiel) ; sinon méta statique.
+            const dividende = d && d.montant_retenu != null ? d.montant_retenu : meta.dividende
+            const rendement = dividende ? (dividende / a.cours_cloture) * 100 : null
             return {
               symbole:    a.symbole,
               nom:        a.nom,
               cours:      a.cours_cloture,
               variation:  a.variation_hebdo ?? null,
               volume:     a.volume ?? 0,
-              dividende:  meta.dividende,
+              dividende,
               rendement,
               secteur:    meta.secteur,
               pays:       meta.pays,
               label:      meta.label,
+              dateEx:       estDate(d?.date_ex) ? d.date_ex : null,
+              datePaiement: d?.date_paiement || null,
+              officiel:     d?.concordance === 'CONFIRME_OFFICIEL',
             }
           })
         setActions(enriched)
@@ -97,6 +114,13 @@ export default function Screener() {
     if (rendMin > 0) res = res.filter(a => a.rendement !== null && a.rendement >= rendMin)
 
     res.sort((a, b) => {
+      if (sortBy === 'date_asc') {
+        const ka = dateKey(a.dateEx), kb = dateKey(b.dateEx)
+        if (ka && kb) return ka - kb          // les deux ont une date : chronologique
+        if (ka) return -1                     // celui qui a une date passe devant
+        if (kb) return 1
+        return (b.rendement ?? -1) - (a.rendement ?? -1)   // aucun : par rendement
+      }
       if (sortBy === 'rendement_desc') return (b.rendement ?? -1) - (a.rendement ?? -1)
       if (sortBy === 'cours_asc')      return a.cours - b.cours
       if (sortBy === 'cours_desc')     return b.cours - a.cours
@@ -329,6 +353,13 @@ export default function Screener() {
                             {a.label}
                           </span>
                         )}
+                        {a.officiel && (
+                          <span title="Dividende confirmé par la source officielle BRVM"
+                            style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                            background: 'rgba(46,204,139,0.12)', border: '1px solid rgba(46,204,139,0.35)', color: VERT3 }}>
+                            ✓ officiel
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -352,6 +383,15 @@ export default function Screener() {
                           <div style={{ fontSize: 10, color: GRIS, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 3 }}>Dividende</div>
                           <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 14, fontWeight: 700, color: VERT3 }}>
                             {fmt(a.dividende)} F
+                          </div>
+                        </div>
+                      )}
+                      {a.dateEx && (
+                        <div>
+                          <div style={{ fontSize: 10, color: GRIS, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 3 }}>Détachement</div>
+                          <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 14, fontWeight: 700, color: '#F1F5F9' }}>
+                            {a.dateEx}
+                            {a.datePaiement && <span style={{ fontSize: 10, color: GRIS, fontWeight: 400 }}> · versé {a.datePaiement}</span>}
                           </div>
                         </div>
                       )}
@@ -389,9 +429,9 @@ export default function Screener() {
           )}
 
           <div style={{ textAlign: 'center', fontSize: 10, color: 'rgba(255,255,255,0.18)', marginTop: 40, lineHeight: 1.7 }}>
-            DiaspoInvest · Données éducatives uniquement · Source : BRVM.org + Sikafinance<br />
+            DiaspoInvest · Données éducatives uniquement · Sources croisées : BRVM.org (officiel) + Sikafinance + Fluxbourse<br />
             {dateData && <>Cours du {dateData} · </>}
-            Dividendes : dernier exercice fiscal connu · Ne constitue pas un conseil en investissement
+            Dividendes et dates de détachement recoupés entre plusieurs sources · Ne constitue pas un conseil en investissement
           </div>
         </div>
       </main>
