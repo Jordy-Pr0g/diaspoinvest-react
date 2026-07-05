@@ -220,6 +220,8 @@ export default function Screener() {
             border-color: ${OR};
             color: #0B1120;
           }
+          .scr-select { color: #fff; }
+          .scr-select option { background: #131E30; color: #F1F5F9; }
           @media(max-width:768px){
             .action-card { grid-template-columns: 1fr; gap: 10px; }
           }
@@ -263,12 +265,13 @@ export default function Screener() {
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
               <input
                 type="text"
+                className="scr-select"
                 placeholder="Rechercher (nom ou code)…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 style={{ ...select, flex: 1, minWidth: 180 }}
               />
-              <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ ...select, width: 'auto', minWidth: 160 }}>
+              <select className="scr-select" value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ ...select, width: 'auto', minWidth: 160 }}>
                 {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
               {(search || secteur !== 'Tous' || pays !== 'Tous' || labelFilter !== 'Tous' || rendMin > 0) && (
