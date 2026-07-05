@@ -115,7 +115,7 @@ export default function ActionDetail() {
                 <div style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.18)', borderRadius: 14, padding: '16px 20px', marginBottom: 28, fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
                   Dividende de <b style={{ color: OR }}>{fmt(meta.dividende)} FCFA</b> par action (dernier exercice fiscal connu).
                   Pour {fmt(action.cours_cloture)} FCFA investis (1 action), le rendement brut est de <b style={{ color: OR }}>{rendement?.toFixed(2).replace('.', ',')} %</b>.
-                  En France, ce dividende est soumis à la flat tax de 30 % (12,8 % IR + 17,2 % prélèvements sociaux).
+                  En France, ce dividende est soumis à la flat tax de 31,4 % (12,8 % IR + 18,6 % prélèvements sociaux depuis 2026).
                 </div>
               )}
 

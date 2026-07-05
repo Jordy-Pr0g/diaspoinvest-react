@@ -4,10 +4,11 @@ import { LIENS, DISCLAIMER } from '../data.js'
 import Modal from './Modal.jsx'
 
 const OUTILS = [
-  { to: '/screener',  label: 'Screener BRVM'       },
-  { to: '/backtest',  label: 'Backtest DCA'         },
-  { to: '/fiscalite', label: 'Calculateur fiscal'   },
-  { to: '/guides',    label: 'Tous les outils'      },
+  { to: '/screener',   label: 'Screener BRVM'          },
+  { to: '/dividendes', label: 'Calendrier dividendes'  },
+  { to: '/backtest',   label: 'Backtest DCA'           },
+  { to: '/fiscalite',  label: 'Calculateur fiscal'     },
+  { to: '/guides',     label: 'Tous les outils'        },
 ]
 
 const RESSOURCES = [
