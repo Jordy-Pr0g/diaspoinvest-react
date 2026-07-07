@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { LIENS, DISCLAIMER } from '../data.js'
 import Modal from './Modal.jsx'
 
@@ -26,6 +27,7 @@ const PRODUITS = [
 ]
 
 export default function Footer({ onOpenModal }) {
+  const { t } = useTranslation()
   // Footer autonome : si la page ne fournit pas de gestion de modal, on gère la nôtre,
   // pour que les liens légaux soient accessibles depuis TOUTES les pages.
   const [localModal, setLocalModal] = useState(null)
@@ -44,7 +46,7 @@ export default function Footer({ onOpenModal }) {
               Diaspo<span className="dot">Invest</span>
             </div>
             <p className="footer-tagline">
-              La première plateforme dédiée à l'investissement sur la bourse africaine pour la diaspora et les résidents UEMOA.
+              {t('footer.tagline')}
             </p>
             <a href="mailto:contact@diaspoinvest.fr" className="footer-email">
               ✉ contact@diaspoinvest.fr
@@ -57,7 +59,7 @@ export default function Footer({ onOpenModal }) {
 
           {/* Colonne 2 — Outils */}
           <div>
-            <h4 className="footer-h4">Outils gratuits</h4>
+            <h4 className="footer-h4">{t('footer.outilsGratuits')}</h4>
             <ul className="footer-ul">
               {OUTILS.map(o => (
                 <li key={o.to}><Link to={o.to}>{o.label}</Link></li>
@@ -67,7 +69,7 @@ export default function Footer({ onOpenModal }) {
 
           {/* Colonne 3 — Produits */}
           <div>
-            <h4 className="footer-h4">Produits</h4>
+            <h4 className="footer-h4">{t('footer.produits')}</h4>
             <ul className="footer-ul">
               {PRODUITS.map(p => (
                 <li key={p.href}>
@@ -79,7 +81,7 @@ export default function Footer({ onOpenModal }) {
 
           {/* Colonne 4 — Ressources */}
           <div>
-            <h4 className="footer-h4">Ressources</h4>
+            <h4 className="footer-h4">{t('footer.ressources')}</h4>
             <ul className="footer-ul">
               {RESSOURCES.map(r => (
                 <li key={r.to}><Link to={r.to}>{r.label}</Link></li>
@@ -89,15 +91,15 @@ export default function Footer({ onOpenModal }) {
 
           {/* Colonne 5 — Légal */}
           <div>
-            <h4 className="footer-h4">Légal</h4>
+            <h4 className="footer-h4">{t('footer.legal')}</h4>
             <ul className="footer-ul">
-              <li><button className="linklike" onClick={() => open('mentions')}>Mentions légales</button></li>
+              <li><button className="linklike" onClick={() => open('mentions')}>{t('footer.mentionsLegales')}</button></li>
               <li><button className="linklike" onClick={() => open('cgu')}>CGU</button></li>
               <li><button className="linklike" onClick={() => open('cgv')}>CGV</button></li>
-              <li><button className="linklike" onClick={() => open('confidentialite')}>Confidentialité</button></li>
-              <li><Link to="/a-propos">À propos</Link></li>
+              <li><button className="linklike" onClick={() => open('confidentialite')}>{t('footer.confidentialite')}</button></li>
+              <li><Link to="/a-propos">{t('footer.apropos')}</Link></li>
               <li><a href="#faq">FAQ</a></li>
-              <li><a href="mailto:contact@diaspoinvest.fr">Contact</a></li>
+              <li><a href="mailto:contact@diaspoinvest.fr">{t('footer.contact')}</a></li>
             </ul>
           </div>
 
@@ -111,9 +113,9 @@ export default function Footer({ onOpenModal }) {
 
         {/* Barre de bas */}
         <div className="footer-bottom">
-          <span>© 2026 DiaspoInvest · Jordan DJIOKAP · Paris</span>
+          <span>{t('footer.copyright')}</span>
           <span className="footer-bottom-legal">
-            Non affilié à la BRVM ni au CREPMF · Ceci n'est pas un conseil en investissement
+            {t('footer.disclaimerBas')}
           </span>
         </div>
 

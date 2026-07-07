@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { LIENS } from '../data.js'
 
-const NAV = [
-  { to: '/screener',  label: 'Screener'  },
-  { to: '/portefeuille', label: 'Portefeuille' },
-  { to: '/backtest',  label: 'Backtest'  },
-  { to: '/fiscalite', label: 'Fiscalité' },
-  { to: '/blog',      label: 'Blog'      },
-  { to: '/a-propos',  label: 'À propos'  },
-]
-
 export default function Navbar() {
+  const { t, i18n } = useTranslation()
+  const NAV = [
+    { to: '/screener',  label: t('nav.screener')  },
+    { to: '/portefeuille', label: t('nav.portefeuille') },
+    { to: '/backtest',  label: t('nav.backtest')  },
+    { to: '/fiscalite', label: t('nav.fiscalite') },
+    { to: '/blog',      label: t('nav.blog')      },
+    { to: '/a-propos',  label: t('nav.apropos')  },
+  ]
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
@@ -57,7 +58,7 @@ export default function Navbar() {
               }}
               onMouseEnter={e => { e.currentTarget.style.color = activeColor }}
               onMouseLeave={e => { e.currentTarget.style.color = location.pathname === '/' ? activeColor : linkColor }}>
-              Accueil
+              {t('nav.accueil')}
             </Link>
             {NAV.map(({ to, label }) => (
               <Link key={to} to={to}
@@ -75,14 +76,24 @@ export default function Navbar() {
           </div>
         </nav>
 
-        <div className="nav-cta">
+        <div className="nav-cta" style={{ display:'flex', alignItems:'center', gap:14 }}>
+          <button
+            onClick={() => i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr')}
+            aria-label="Switch language"
+            style={{
+              background:'transparent', border:'1px solid rgba(241,245,249,0.25)', borderRadius:8,
+              color:'rgba(241,245,249,0.75)', fontSize:'0.8rem', fontWeight:700, padding:'6px 10px',
+              cursor:'pointer', letterSpacing:0.5,
+            }}>
+            {i18n.language === 'fr' ? 'EN' : 'FR'}
+          </button>
           <a className="btn btn-or" href={LIENS.pack} target="_blank" rel="noreferrer"
             style={{ padding: '10px 20px', fontSize: '0.88rem' }}>
-            Pack
+            {t('nav.pack')}
           </a>
         </div>
 
-        <button className="hamburger" aria-label={open ? 'Fermer' : 'Menu'}
+        <button className="hamburger" aria-label={open ? t('nav.fermer') : t('nav.menu')}
           aria-expanded={open}
           onClick={e => { e.stopPropagation(); setOpen(v => !v) }}>
           <span /><span /><span />
@@ -91,16 +102,25 @@ export default function Navbar() {
 
       <div className={`mobile-drawer${open ? ' open' : ''}`} onClick={e => e.stopPropagation()}>
         <nav>
-          <Link to="/" onClick={() => setOpen(false)} style={{ color: location.pathname === '/' ? '#C9A84C' : undefined }}>Accueil</Link>
+          <Link to="/" onClick={() => setOpen(false)} style={{ color: location.pathname === '/' ? '#C9A84C' : undefined }}>{t('nav.accueil')}</Link>
           {NAV.map(({ to, label }) => (
             <Link key={to} to={to} onClick={() => setOpen(false)}
               style={{ color: isActive(to) ? '#C9A84C' : undefined }}>
               {label}
             </Link>
           ))}
+          <button
+            onClick={() => i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr')}
+            style={{
+              background:'transparent', border:'1px solid rgba(241,245,249,0.25)', borderRadius:8,
+              color:'rgba(241,245,249,0.75)', fontSize:'0.85rem', fontWeight:700, padding:'8px 12px',
+              cursor:'pointer', letterSpacing:0.5, marginTop:8, alignSelf:'flex-start',
+            }}>
+            {i18n.language === 'fr' ? 'English' : 'Français'}
+          </button>
           <a className="btn btn-or mobile-drawer-cta" href={LIENS.pack}
             target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
-            Voir le Pack
+            {t('nav.voirPack')}
           </a>
         </nav>
       </div>

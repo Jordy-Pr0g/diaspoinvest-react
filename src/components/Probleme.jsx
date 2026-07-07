@@ -1,30 +1,20 @@
-const POINTS = [
-  {
-    stat: '1,5 %',
-    context: 'c\'est le rendement de ton épargne actuellement',
-    texte: 'Le Livret A plafonne à 1,5 % quand des entreprises africaines solides versent plus de 6 % de dividendes par an. Ton argent perd du pouvoir d\'achat chaque mois.',
-  },
-  {
-    stat: '1 500 €',
-    context: 'd\'amende par compte non déclaré',
-    texte: 'Le formulaire 3916 est obligatoire pour tout compte-titres à l\'étranger. Pourtant la plupart des investisseurs de la diaspora l\'ignorent — et risquent une sanction chaque année.',
-  },
-  {
-    stat: '0',
-    context: 'mode d\'emploi clair pour investir depuis la diaspora',
-    texte: 'Pas de guide simple, pas de tutoriel en français qui explique comment ouvrir un compte chez une SGI depuis Paris ou Montréal, et quoi acheter en premier.',
-  },
-]
+import { useTranslation } from 'react-i18next'
 
 export default function Probleme() {
+  const { t } = useTranslation()
+  const POINTS = [
+    { stat: '1,5 %',   context: t('probleme.point1Context'), texte: t('probleme.point1Texte') },
+    { stat: '1 500 €', context: t('probleme.point2Context'), texte: t('probleme.point2Texte') },
+    { stat: '0',       context: t('probleme.point3Context'), texte: t('probleme.point3Texte') },
+  ]
   return (
     <section className="section probleme" id="probleme" style={{ padding: '120px 0' }}>
       <div className="container">
 
         <div style={{ maxWidth: 640, marginBottom: 80 }}>
-          <span className="eyebrow">Le constat</span>
+          <span className="eyebrow">{t('probleme.eyebrow')}</span>
           <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', lineHeight: 1.08, marginTop: 12, marginBottom: 0 }}>
-            Ton argent perd de la valeur pendant que tu hésites.
+            {t('probleme.titre')}
           </h2>
         </div>
 

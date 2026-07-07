@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function Histoire() {
+  const { t } = useTranslation()
   return (
     <section className="section histoire" id="histoire">
       <div className="container">
@@ -12,51 +14,35 @@ export default function Histoire() {
             </div>
             <div className="histoire-badge-card">
               <div className="hbc-chiffre">6,11 %</div>
-              <div className="hbc-label">Rendement Sonatel &mdash; BRVM</div>
+              <div className="hbc-label">{t('histoire.rendementLabel')}</div>
             </div>
           </div>
 
           <div className="histoire-texte">
-            <span className="eyebrow">À propos</span>
-            <h2>La d&eacute;couverte</h2>
+            <span className="eyebrow">{t('histoire.eyebrow')}</span>
+            <h2>{t('histoire.titre')}</h2>
 
-            <p className="histoire-intro">
-              &Eacute;tudiant en Finance d&apos;Entreprise et Ing&eacute;nierie Financi&egrave;re,
-              j&apos;&eacute;tudie au quotidien les mod&egrave;les d&apos;investissement europ&eacute;ens :
-              valorisation d&apos;actifs, gestion de portefeuille, ETF, produits d&eacute;riv&eacute;s.
-            </p>
-            <p className="histoire-intro">
-              Quand j&apos;ai voulu diversifier mon portefeuille, j&apos;ai cherch&eacute;. ETF, PEA, MSCI World,
-              indices europ&eacute;ens&hellip; tout pointait vers les m&ecirc;mes march&eacute;s occidentaux.
-              Alors j&apos;ai pos&eacute; une question simple&nbsp;: est-ce qu&apos;il existe quelque chose li&eacute; &agrave; l&apos;Afrique&nbsp;?
-            </p>
-            <p className="histoire-intro">
-              La bourse ouest-africaine existe depuis 1998. Elle regroupe les principales entreprises
-              de huit pays de la zone UEMOA et verse des dividendes chaque ann&eacute;e. Pourtant, presque
-              personne n&apos;en parle, m&ecirc;me au sein de la diaspora.
-            </p>
+            <p className="histoire-intro">{t('histoire.p1')}</p>
+            <p className="histoire-intro">{t('histoire.p2')}</p>
+            <p className="histoire-intro">{t('histoire.p3')}</p>
 
             <div className="histoire-stats-inline">
               <div>
                 <strong>+28,89&nbsp;%</strong>
                 <span>BRVM Composite 2024</span>
               </div>
-              <div className="hsi-vs">vs</div>
+              <div className="hsi-vs">{t('histoire.statVs')}</div>
               <div>
                 <strong>+0,92&nbsp;%</strong>
                 <span>CAC&nbsp;40 2024</span>
               </div>
             </div>
 
-            <p className="histoire-intro">
-              Avec ma formation, j&apos;avais les outils pour analyser ce march&eacute;. Les ressources
-              en fran&ccedil;ais pens&eacute;es pour la diaspora n&apos;existaient pas. J&apos;ai cr&eacute;&eacute; DiaspoInvest
-              pour les construire.
-            </p>
+            <p className="histoire-intro">{t('histoire.p4')}</p>
 
             <div className="histoire-signature">
               <strong>Jordan DJIOKAP</strong>
-              <span>Finance d&apos;Entreprise &amp; Ing&eacute;nierie Financi&egrave;re &middot; DiaspoInvest</span>
+              <span>{t('histoire.signatureRole')}</span>
             </div>
 
             <Link to="/a-propos" style={{
@@ -64,7 +50,7 @@ export default function Histoire() {
               marginTop: 24, fontSize: 14, fontWeight: 700,
               color: '#C9A84C', textDecoration: 'none',
             }}>
-              En savoir plus &rarr;
+              {t('histoire.enSavoirPlus')}
             </Link>
           </div>
 

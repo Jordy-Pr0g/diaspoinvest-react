@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PRODUITS, PRODUITS_UEMOA } from '../data.js'
 
 export default function Pricing() {
+  const { t } = useTranslation()
   const [segment, setSegment] = useState('europe') // 'europe' | 'uemoa'
 
   const produits = segment === 'europe' ? PRODUITS : PRODUITS_UEMOA
@@ -10,24 +12,24 @@ export default function Pricing() {
     <section className="section pricing" id="pricing">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow">Tarifs de lancement</span>
-          <h2>Les produits</h2>
-          <p>Satisfait ou remboursé 14 jours.</p>
+          <span className="eyebrow">{t('pricing.eyebrow')}</span>
+          <h2>{t('pricing.titre')}</h2>
+          <p>{t('pricing.garantie')}</p>
         </div>
 
         {/* Toggle segment */}
-        <div className="segment-toggle" role="group" aria-label="Choisir ton profil">
+        <div className="segment-toggle" role="group" aria-label="Choose your profile">
           <button
             className={`seg-btn${segment === 'europe' ? ' active' : ''}`}
             onClick={() => setSegment('europe')}
           >
-            Diaspora Europe
+            {t('pricing.segmentEurope')}
           </button>
           <button
             className={`seg-btn${segment === 'uemoa' ? ' active' : ''}`}
             onClick={() => setSegment('uemoa')}
           >
-            Résident UEMOA
+            {t('pricing.segmentUemoa')}
           </button>
         </div>
 
@@ -51,7 +53,7 @@ export default function Pricing() {
                 : { background: '#111C13', border: '1.5px solid #2A3E2D', borderRadius: 16 }
               }
             >
-              {p.populaire && <div className="plan-tag">Le plus complet</div>}
+              {p.populaire && <div className="plan-tag">{t('pricing.leplusComplet')}</div>}
               {img && (
                 <div className="plan-img-wrap">
                   <img src={img} alt={p.nom} className="plan-img" loading="lazy" />
@@ -79,7 +81,7 @@ export default function Pricing() {
                   disabled
                   style={{ opacity: 0.45, cursor: 'not-allowed', color: 'rgba(255,248,231,0.5)', borderColor: 'rgba(255,248,231,0.15)' }}
                 >
-                  Bientôt disponible
+                  {t('pricing.bientotDisponible')}
                 </button>
               ) : (
                 <a
@@ -88,11 +90,11 @@ export default function Pricing() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Obtenir · {p.prix}
+                  {t('pricing.obtenir')} · {p.prix}
                 </a>
               )}
               <p className="plan-garantie">
-                {p.bientot ? 'Disponible prochainement' : 'Satisfait ou remboursé 14 jours'}
+                {p.bientot ? t('pricing.disponibleProchainement') : t('pricing.garantie')}
               </p>
             </div>
           )})}

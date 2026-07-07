@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next'
+
 export default function Stats() {
+  const { t } = useTranslation()
   const items = [
-    { chiffre: '47', label: 'actions BRVM analysées', sub: 'zone UEMOA · 8 pays' },
-    { chiffre: '6 %', label: 'rendement dividende moyen', sub: 'vs 1,5 % Livret A' },
-    { chiffre: '30 ans', label: 'de données historiques', sub: 'simulation DCA réelle' },
+    { chiffre: '47', label: t('stats.item1Label'), sub: t('stats.item1Sub') },
+    { chiffre: '6 %', label: t('stats.item2Label'), sub: t('stats.item2Sub') },
+    { chiffre: '30 ans', label: t('stats.item3Label'), sub: t('stats.item3Sub') },
   ]
 
   return (

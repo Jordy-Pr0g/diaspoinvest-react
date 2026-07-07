@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "accueil": "Home",
+    "screener": "Screener",
+    "portefeuille": "Portfolio",
+    "backtest": "Backtest",
+    "fiscalite": "Taxation",
+    "blog": "Blog",
+    "apropos": "About",
+    "pack": "Pack",
+    "voirPack": "See the Pack",
+    "menu": "Menu",
+    "fermer": "Close"
+  },
+  "hero": {
+    "titrePart1": "Put your savings to work on the",
+    "titreAccent": "African stock market",
+    "lead": "DiaspoInvest teaches you how to invest on the BRVM from France or from Africa — pick your stocks, simulate your returns, and stay fully compliant when declaring your account.",
+    "ctaScreener": "Explore the Screener",
+    "ctaProduits": "See the products",
+    "statBrvm": "BRVM Composite 2024",
+    "statCac": "CAC 40 2024",
+    "statDividende": "average BRVM dividend"
+  },
+  "stats": {
+    "item1Label": "BRVM stocks analyzed",
+    "item1Sub": "UEMOA zone · 8 countries",
+    "item2Label": "average dividend yield",
+    "item2Sub": "vs 1.5% French savings account",
+    "item3Label": "years of historical data",
+    "item3Sub": "real DCA simulation"
+  },
+  "probleme": {
+    "eyebrow": "The reality",
+    "titre": "Your money is losing value while you hesitate.",
+    "point1Context": "the current return on standard savings accounts",
+    "point1Texte": "The typical French savings account caps at 1.5% while solid African companies pay out more than 6% in annual dividends. Your money loses purchasing power every month.",
+    "point2Context": "fine per undeclared foreign account",
+    "point2Texte": "French residents are legally required to declare any foreign securities account. Yet most diaspora investors don't know this — and risk a penalty every year.",
+    "point3Context": "clear instructions for investing from the diaspora",
+    "point3Texte": "There's no simple guide, no tutorial explaining how to open a brokerage account from Paris or Montreal, and what to buy first."
+  },
+  "histoire": {
+    "eyebrow": "About",
+    "titre": "The discovery",
+    "rendementLabel": "Sonatel yield — BRVM",
+    "p1": "As a student in Corporate Finance and Financial Engineering, I study European investment models every day: asset valuation, portfolio management, ETFs, derivatives.",
+    "p2": "When I wanted to diversify my portfolio, I looked around. ETFs, French tax-advantaged accounts, MSCI World, European indices… everything pointed to the same Western markets. So I asked a simple question: is there anything connected to Africa?",
+    "p3": "The West African stock exchange has existed since 1998. It brings together the leading companies of eight UEMOA countries and pays dividends every year. Yet almost no one talks about it, even within the diaspora.",
+    "statVs": "vs",
+    "p4": "With my background, I had the tools to analyze this market. French-language resources built for the diaspora simply didn't exist. I created DiaspoInvest to build them.",
+    "signatureRole": "Corporate Finance & Financial Engineering · DiaspoInvest",
+    "enSavoirPlus": "Learn more →"
+  },
+  "faq": {
+    "eyebrow": "Frequently asked questions",
+    "titre": "Everything you're wondering about",
+    "sousTitre": "Direct answers, no jargon, on how to invest on the BRVM from abroad.",
+    "questionNonCouverte": "Question not covered?",
+    "ecrisNous": "Write to us"
+  },
+  "pricing": {
+    "eyebrow": "Launch pricing",
+    "titre": "The products",
+    "garantie": "14-day money-back guarantee.",
+    "segmentEurope": "Diaspora in Europe",
+    "segmentUemoa": "UEMOA resident",
+    "leplusComplet": "Most complete",
+    "obtenir": "Get",
+    "bientotDisponible": "Coming soon",
+    "disponibleProchainement": "Available soon"
+  },
+  "footer": {
+    "tagline": "The first platform dedicated to investing on the African stock market for the diaspora and UEMOA residents.",
+    "outilsGratuits": "Free tools",
+    "produits": "Products",
+    "ressources": "Resources",
+    "legal": "Legal",
+    "mentionsLegales": "Legal notice",
+    "confidentialite": "Privacy",
+    "apropos": "About",
+    "contact": "Contact",
+    "copyright": "© 2026 DiaspoInvest · Jordan DJIOKAP · Paris",
+    "disclaimerBas": "Not affiliated with the BRVM or the CREPMF · This is not investment advice"
+  }
+}

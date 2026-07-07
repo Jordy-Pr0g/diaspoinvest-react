@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "accueil": "Accueil",
+    "screener": "Screener",
+    "portefeuille": "Portefeuille",
+    "backtest": "Backtest",
+    "fiscalite": "Fiscalité",
+    "blog": "Blog",
+    "apropos": "À propos",
+    "pack": "Pack",
+    "voirPack": "Voir le Pack",
+    "menu": "Menu",
+    "fermer": "Fermer"
+  },
+  "hero": {
+    "titrePart1": "Fais travailler ton épargne sur la",
+    "titreAccent": "bourse africaine",
+    "lead": "DiaspoInvest t'apprend à investir sur la BRVM depuis la France ou le continent — choisir tes actions, simuler ton rendement, déclarer en toute légalité.",
+    "ctaScreener": "Explorer le Screener",
+    "ctaProduits": "Voir les produits",
+    "statBrvm": "BRVM Composite 2024",
+    "statCac": "CAC 40 2024",
+    "statDividende": "dividende moyen BRVM"
+  },
+  "stats": {
+    "item1Label": "actions BRVM analysées",
+    "item1Sub": "zone UEMOA · 8 pays",
+    "item2Label": "rendement dividende moyen",
+    "item2Sub": "vs 1,5 % Livret A",
+    "item3Label": "de données historiques",
+    "item3Sub": "simulation DCA réelle"
+  },
+  "probleme": {
+    "eyebrow": "Le constat",
+    "titre": "Ton argent perd de la valeur pendant que tu hésites.",
+    "point1Context": "c'est le rendement de ton épargne actuellement",
+    "point1Texte": "Le Livret A plafonne à 1,5 % quand des entreprises africaines solides versent plus de 6 % de dividendes par an. Ton argent perd du pouvoir d'achat chaque mois.",
+    "point2Context": "d'amende par compte non déclaré",
+    "point2Texte": "Le formulaire 3916 est obligatoire pour tout compte-titres à l'étranger. Pourtant la plupart des investisseurs de la diaspora l'ignorent — et risquent une sanction chaque année.",
+    "point3Context": "mode d'emploi clair pour investir depuis la diaspora",
+    "point3Texte": "Pas de guide simple, pas de tutoriel en français qui explique comment ouvrir un compte chez une SGI depuis Paris ou Montréal, et quoi acheter en premier."
+  },
+  "histoire": {
+    "eyebrow": "À propos",
+    "titre": "La découverte",
+    "rendementLabel": "Rendement Sonatel — BRVM",
+    "p1": "Étudiant en Finance d'Entreprise et Ingénierie Financière, j'étudie au quotidien les modèles d'investissement européens : valorisation d'actifs, gestion de portefeuille, ETF, produits dérivés.",
+    "p2": "Quand j'ai voulu diversifier mon portefeuille, j'ai cherché. ETF, PEA, MSCI World, indices européens… tout pointait vers les mêmes marchés occidentaux. Alors j'ai posé une question simple : est-ce qu'il existe quelque chose lié à l'Afrique ?",
+    "p3": "La bourse ouest-africaine existe depuis 1998. Elle regroupe les principales entreprises de huit pays de la zone UEMOA et verse des dividendes chaque année. Pourtant, presque personne n'en parle, même au sein de la diaspora.",
+    "statVs": "vs",
+    "p4": "Avec ma formation, j'avais les outils pour analyser ce marché. Les ressources en français pensées pour la diaspora n'existaient pas. J'ai créé DiaspoInvest pour les construire.",
+    "signatureRole": "Finance d'Entreprise & Ingénierie Financière · DiaspoInvest",
+    "enSavoirPlus": "En savoir plus →"
+  },
+  "faq": {
+    "eyebrow": "Questions fréquentes",
+    "titre": "Tout ce que tu te demandes",
+    "sousTitre": "Des réponses directes, sans jargon, sur comment investir sur la BRVM depuis l'étranger.",
+    "questionNonCouverte": "Une question non couverte ?",
+    "ecrisNous": "Écris-nous"
+  },
+  "pricing": {
+    "eyebrow": "Tarifs de lancement",
+    "titre": "Les produits",
+    "garantie": "Satisfait ou remboursé 14 jours.",
+    "segmentEurope": "Diaspora Europe",
+    "segmentUemoa": "Résident UEMOA",
+    "leplusComplet": "Le plus complet",
+    "obtenir": "Obtenir",
+    "bientotDisponible": "Bientôt disponible",
+    "disponibleProchainement": "Disponible prochainement"
+  },
+  "footer": {
+    "tagline": "La première plateforme dédiée à l'investissement sur la bourse africaine pour la diaspora et les résidents UEMOA.",
+    "outilsGratuits": "Outils gratuits",
+    "produits": "Produits",
+    "ressources": "Ressources",
+    "legal": "Légal",
+    "mentionsLegales": "Mentions légales",
+    "confidentialite": "Confidentialité",
+    "apropos": "À propos",
+    "contact": "Contact",
+    "copyright": "© 2026 DiaspoInvest · Jordan DJIOKAP · Paris",
+    "disclaimerBas": "Non affilié à la BRVM ni au CREPMF · Ceci n'est pas un conseil en investissement"
+  }
+}

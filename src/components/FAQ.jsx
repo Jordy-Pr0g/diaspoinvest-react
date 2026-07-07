@@ -1,17 +1,19 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FAQ_ITEMS } from '../data.js'
 
 export default function FAQ() {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(null)
 
   return (
     <section className="section faq" id="faq">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow">Questions fréquentes</span>
-          <h2>Tout ce que tu te demandes</h2>
+          <span className="eyebrow">{t('faq.eyebrow')}</span>
+          <h2>{t('faq.titre')}</h2>
           <p style={{ color: 'rgba(241,245,249,0.5)', fontSize: '1.05rem', lineHeight: 1.6 }}>
-            Des réponses directes, sans jargon, sur comment investir sur la BRVM depuis l'étranger.
+            {t('faq.sousTitre')}
           </p>
         </div>
 
@@ -45,9 +47,9 @@ export default function FAQ() {
         </div>
 
         <p style={{ textAlign: 'center', marginTop: 32, fontSize: 14, color: 'rgba(241,245,249,0.35)' }}>
-          Une question non couverte ?{' '}
+          {t('faq.questionNonCouverte')}{' '}
           <a href="mailto:contact@diaspoinvest.fr" style={{ color: '#C9A84C', fontWeight: 600 }}>
-            Écris-nous
+            {t('faq.ecrisNous')}
           </a>
         </p>
       </div>
