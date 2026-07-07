@@ -98,22 +98,31 @@ export default function Calculateur() {
   const [locked,      setLocked]      = useState('divann')
   const [vals,        setVals]        = useState({ apport:30000, duree:10, divann:219356 })
 
-  /* ── Fetch données BRVM ── */
+  /* ── Fetch données BRVM (cours + dividendes en direct) ── */
   useEffect(() => {
-    fetch('/api/brvm-data')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
+    Promise.all([
+      fetch('/api/brvm-data').then(r => r.ok ? r.json() : null),
+      fetch('/api/brvm-data?dataset=dividendes').then(r => r.ok ? r.json() : null).catch(() => null),
+    ])
+      .then(([data, divData]) => {
         if (!data?.actions) { setLoadState('error'); return }
         if (data.genere_le) {
           const d = new Date(data.genere_le)
           setDateData(d.toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'}))
         }
+        // Dividendes en direct si disponibles, sinon repli sur le tableau codé en dur
+        const divMap = {}
+        if (divData?.societes?.length) {
+          divData.societes.forEach(s => { divMap[s.symbole] = s.montant_retenu })
+        } else {
+          Object.entries(DIVIDENDES).forEach(([s, v]) => { divMap[s] = v.div })
+        }
         const avecDiv=[], sansDiv=[]
         data.actions.forEach(a => {
           const s=a.symbole, c=a.cours_cloture
           if (!c || c<=0) return
-          if (DIVIDENDES[s]) {
-            const div=DIVIDENDES[s].div
+          if (divMap[s] != null) {
+            const div=divMap[s]
             avecDiv.push({symbole:s,nom:a.nom,cours:c,dividende:div,taux:(div/c)*100,hasDividende:true})
           } else {
             sansDiv.push({symbole:s,nom:a.nom,cours:c,dividende:null,taux:null,hasDividende:false})
@@ -147,20 +156,20 @@ export default function Calculateur() {
 
     if (locked==='divann') {
       r=simForward(a,d,taux,cours)
-      mainVal=r.divAnn; label='Tu recevras chaque année'; unit='FCFA / AN'
-      context=`${fmtFull(a)} FCFA/mois pendant ${d} ans sur ${nom} (${taux.toFixed(2)}% brut)`
+      mainVal=r.divAnn; label="Voici le revenu annuel que tu recevrais en dividendes"; unit='FCFA CHAQUE ANNÉE'
+      context=`En investissant ${fmtFull(a)} FCFA chaque mois pendant ${d} ans dans l'action ${nom} (rendement brut de ${taux.toFixed(2)}%)`
       dvDisplay=r.divAnn
     } else if (locked==='apport') {
       const ap=simInverse_apport(dv,d,taux,cours)
       r=simForward(ap,d,taux,cours)
-      mainVal=ap; label='Il te faut investir chaque mois'; unit='FCFA / MOIS'
-      context=`Pour obtenir ${fmtFull(dv)} FCFA/an de dividendes en ${d} ans sur ${nom}`
+      mainVal=ap; label="Voici le montant à investir chaque mois"; unit='FCFA CHAQUE MOIS'
+      context=`Pour obtenir ${fmtFull(dv)} FCFA de dividendes chaque année, au bout de ${d} ans, avec l'action ${nom}`
       apDisplay=ap
     } else {
       const dr=simInverse_duree(dv,a,taux,cours)
       r=simForward(a,dr,taux,cours)
-      mainVal=dr; label='Il te faudra'; unit='ANS'
-      context=`${fmtFull(a)} FCFA/mois pour atteindre ${fmtFull(dv)} FCFA/an sur ${nom}`
+      mainVal=dr; label="Voici le nombre d'années qu'il te faudra"; unit=dr>1?'ANNÉES':'ANNÉE'
+      context=`En investissant ${fmtFull(a)} FCFA chaque mois dans l'action ${nom}, pour atteindre ${fmtFull(dv)} FCFA de dividendes par an`
       dDisplay=dr
     }
     return {
@@ -185,9 +194,9 @@ export default function Calculateur() {
   function updateVal(key, v) { setVals(prev=>({...prev,[key]:parseFloat(v)})) }
 
   const SLIDERS = {
-    apport: { min:5000,  max:500000, step:5000, label:'Apport mensuel',         unit:'FCFA' },
-    duree:  { min:1,     max:30,     step:1,    label:'Durée',                  unit:'ans'  },
-    divann: { min:10000, max:2000000,step:5000, label:'Dividende annuel cible', unit:'FCFA/an' },
+    apport: { min:5000,  max:500000, step:5000, label:'Combien investis-tu chaque mois ?',              unit:'FCFA' },
+    duree:  { min:1,     max:30,     step:1,    label:'Sur combien d\'années ?',                        unit:'ans'  },
+    divann: { min:10000, max:2000000,step:5000, label:'Quel revenu annuel de dividendes vises-tu ?',    unit:'FCFA/an' },
   }
 
   /* ── Styles ── */
@@ -220,12 +229,24 @@ export default function Calculateur() {
 
       <div className="container" style={{ maxWidth:520, margin:'0 auto' }}>
         <div className="section-head">
-          <span className="eyebrow" style={{ color:'#E8C46A' }}>Simulateur DCA</span>
-          <h2>Combien pourrait te rapporter ton épargne ?</h2>
-          <p style={{ color:'rgba(255,248,231,0.6)', fontSize:13 }}>
-            Clique sur la case que tu veux calculer.
-            {dateData && <span style={{ color:'rgba(255,255,255,0.3)', marginLeft:6 }}>Cours du {dateData}</span>}
+          <span className="eyebrow" style={{ color:'#E8C46A' }}>Simulateur d'investissement</span>
+          <h2>Combien pourrait te rapporter ton épargne investie en bourse ?</h2>
+          <p style={{ color:'rgba(255,248,231,0.7)', fontSize:14, lineHeight:1.6 }}>
+            Ce simulateur répond à 3 questions différentes. Choisis d'abord celle qui t'intéresse
+            (étape 2 ci-dessous), puis remplis les informations demandées : le résultat apparaît
+            automatiquement en bas.
+            {dateData && <span style={{ display:'block', color:'rgba(255,255,255,0.35)', marginTop:6, fontSize:12 }}>Cours de bourse mis à jour le {dateData}</span>}
           </p>
+        </div>
+
+        <div style={{ ...card, padding:'14px 18px', marginBottom:16, borderColor:'rgba(201,168,76,0.25)' }}>
+          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
+            Étape 1 — Choisis une entreprise
+          </div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
+            Cherche dans la liste ci-dessous une entreprise cotée à la bourse régionale d'Afrique de l'Ouest.
+            Son cours (le prix d'une part de l'entreprise) et son rendement se remplissent automatiquement.
+          </div>
         </div>
 
         {/* Sélection titre */}
@@ -279,10 +300,13 @@ export default function Calculateur() {
         </div>
 
         {/* Cours */}
-        <div style={{ ...card, padding:'16px 18px', marginBottom:12 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:8 }}>
-            <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1 }}>Cours de l'action</span>
+        <div style={{ ...card, padding:'16px 18px', marginBottom:8 }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
+            <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1 }}>Prix actuel d'une action (le "cours")</span>
             <span style={{ fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR }}>{fmtFull(cours)} FCFA</span>
+          </div>
+          <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', marginBottom:10, lineHeight:1.5 }}>
+            C'est le prix qu'il faut payer aujourd'hui pour acheter une seule action de cette entreprise. Rempli automatiquement, modifiable si besoin.
           </div>
           <input type="number" value={cours} min="1" step="50" onChange={e=>onCoursChange(e.target.value)}
             style={{ width:'100%', background:'#161616', border:'1px solid #2a2a2a', borderRadius:10,
@@ -290,27 +314,41 @@ export default function Calculateur() {
         </div>
 
         {/* Taux */}
-        <div style={{ ...card, padding:'16px 18px', marginBottom:20 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
-            <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1 }}>Rendement brut</span>
-            <span style={{ fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR }}>{taux.toFixed(2).replace('.',',')} %</span>
+        <div style={{ ...card, padding:'16px 18px', marginBottom:24 }}>
+          <div style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
+            Rendement : ce que rapporte chaque année une action
           </div>
-          <input type="range" min="0.5" max="20" step="0.01" value={taux}
-            onChange={e=>setTaux(parseFloat(e.target.value))} style={{ width:'100%' }} />
-          <div style={{ display:'flex', justifyContent:'space-between', fontSize:10, color:'rgba(255,255,255,0.25)', fontFamily:'DM Mono,monospace', marginTop:6 }}>
-            <span>0,5%</span><span>20%</span>
+          <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', marginBottom:10, lineHeight:1.5 }}>
+            C'est le pourcentage du prix de l'action que l'entreprise reverse chaque année à ses actionnaires,
+            sous forme de dividende. Plus ce chiffre est élevé, plus l'action rapporte, proportionnellement à son prix.
+          </div>
+          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <input type="number" min="0.5" max="20" step="0.01" value={taux}
+              onChange={e=>setTaux(parseFloat(e.target.value)||0)}
+              style={{ ...input, fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR, textAlign:'center', maxWidth:140 }} />
+            <span style={{ fontFamily:'DM Mono,monospace', fontSize:14, color:'rgba(255,255,255,0.4)' }}>% par an</span>
           </div>
           {selTitre && !selTitre.hasDividende && (
-            <div style={{ fontSize:11, color:'rgba(201,168,76,0.6)', marginTop:6 }}>Aucun dividende connu — ajuste le taux manuellement.</div>
+            <div style={{ fontSize:11, color:'rgba(201,168,76,0.6)', marginTop:8 }}>Cette entreprise n'a pas de dividende connu — entre un taux toi-même pour simuler.</div>
           )}
+        </div>
+
+        <div style={{ ...card, padding:'14px 18px', marginBottom:14, borderColor:'rgba(201,168,76,0.25)' }}>
+          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
+            Étape 2 — Choisis la question à laquelle tu veux une réponse
+          </div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
+            Clique sur l'une des 3 cases ci-dessous. Celle que tu choisis devient le résultat que le
+            simulateur va calculer pour toi ; les deux autres deviennent les informations que tu dois renseigner.
+          </div>
         </div>
 
         {/* Trio */}
         <div className="calc-trio">
           {[
-            { key:'apport', label:'Apport/mois', unit:'FCFA', val:fmtShort(vals.apport) },
-            { key:'duree',  label:'Durée',        unit:'ans',  val:vals.duree+' ans' },
-            { key:'divann', label:'Div. annuel',  unit:'FCFA/an', val:result ? fmtShort(locked==='divann'?result.divAnn:vals.divann) : '—' },
+            { key:'apport', label:"Combien investir chaque mois", unit:'FCFA', val:fmtShort(vals.apport) },
+            { key:'duree',  label:"Pendant combien d'années",        unit:'ans',  val:vals.duree+' ans' },
+            { key:'divann', label:"Quel revenu annuel obtenir",  unit:'FCFA/an', val:result ? fmtShort(locked==='divann'?result.divAnn:vals.divann) : '—' },
           ].map(({key,label,unit,val})=>(
             <div key={key} className={`trio-card${locked===key?' locked':''}`} onClick={()=>setLock(key)}>
               <div className="trio-lbl">{label}</div>
@@ -319,22 +357,43 @@ export default function Calculateur() {
             </div>
           ))}
         </div>
+        <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', textAlign:'center', marginTop:-10, marginBottom:20, lineHeight:1.5 }}>
+          La case entourée en or ci-dessus, c'est ce que le simulateur va calculer pour toi.
+        </div>
 
-        {/* Sliders des variables non-locked */}
+        <div style={{ ...card, padding:'14px 18px', marginBottom:14, borderColor:'rgba(201,168,76,0.25)' }}>
+          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
+            Étape 3 — Renseigne les informations demandées
+          </div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
+            Tape directement un montant dans les champs ci-dessous, comme dans une calculatrice normale.
+          </div>
+        </div>
+
+        {/* Champs des variables non-locked */}
         <div style={{ display:'flex', flexDirection:'column', gap:16, marginBottom:20 }}>
           {Object.entries(SLIDERS).filter(([k])=>k!==locked).map(([key,s])=>(
             <div key={key} style={{ ...card, padding:'16px 18px' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
-                <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1 }}>{s.label}</span>
-                <span style={{ fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR }}>{fmtFull(vals[key])} {s.unit}</span>
+              <div style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1, marginBottom:10 }}>
+                {s.label}
               </div>
-              <input type="range" min={s.min} max={s.max} step={s.step} value={vals[key]}
-                onChange={e=>updateVal(key,e.target.value)} style={{ width:'100%' }} />
-              <div style={{ display:'flex', justifyContent:'space-between', fontSize:10, color:'rgba(255,255,255,0.25)', fontFamily:'DM Mono,monospace', marginTop:6 }}>
-                <span>{fmtShort(s.min)}</span><span>{fmtShort(s.max)}</span>
+              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                <input type="number" min={s.min} max={s.max} step={s.step} value={vals[key]}
+                  onChange={e=>updateVal(key,e.target.value)}
+                  style={{ ...input, fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR, textAlign:'center', maxWidth:180 }} />
+                <span style={{ fontFamily:'DM Mono,monospace', fontSize:13, color:'rgba(255,255,255,0.4)' }}>{s.unit}</span>
               </div>
             </div>
           ))}
+        </div>
+
+        <div style={{ ...card, padding:'14px 18px', marginBottom:14, borderColor:'rgba(201,168,76,0.25)' }}>
+          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
+            Résultat
+          </div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
+            Voici la réponse calculée à partir de ce que tu as choisi et rempli ci-dessus.
+          </div>
         </div>
 
         {/* Résultat principal */}
@@ -360,40 +419,52 @@ export default function Calculateur() {
 
         {/* KPIs */}
         {result && (
-          <div className="kpi-grid">
-            {[
-              { val:kpis.actions,   label:'Actions',        fmt:v=>Math.round(v).toLocaleString('fr-FR') },
-              { val:kpis.portef,    label:'Valeur portef.',  fmt:fmtShort },
-              { val:kpis.capital,   label:'Capital investi', fmt:fmtShort },
-              { val:kpis.divCumul,  label:'Div. cumulés',   fmt:fmtShort },
-            ].map(({val,label,fmt})=>(
-              <div key={label} className="kpi-card">
-                <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:VERT3, display:'block', lineHeight:1 }}>{fmt(val)}</span>
-                <span style={{ fontSize:10, color:GRIS, textTransform:'uppercase', letterSpacing:0.5, marginTop:5, display:'block' }}>{label}</span>
-              </div>
-            ))}
-          </div>
+          <>
+            <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', textAlign:'center', marginBottom:12, lineHeight:1.6 }}>
+              Le détail derrière ce résultat :
+            </div>
+            <div className="kpi-grid">
+              {[
+                { val:kpis.actions,   label:"Nombre d'actions possédées à la fin",        fmt:v=>Math.round(v).toLocaleString('fr-FR') },
+                { val:kpis.portef,    label:'Valeur totale de ces actions à la fin',  fmt:fmtShort },
+                { val:kpis.capital,   label:'Total que tu auras versé au fil du temps', fmt:fmtShort },
+                { val:kpis.divCumul,  label:'Total des dividendes reçus sur la période',   fmt:fmtShort },
+              ].map(({val,label,fmt})=>(
+                <div key={label} className="kpi-card">
+                  <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:VERT3, display:'block', lineHeight:1 }}>{fmt(val)}</span>
+                  <span style={{ fontSize:10, color:GRIS, letterSpacing:0.3, marginTop:6, display:'block', lineHeight:1.4 }}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
         {/* Comparaison Livret A vs BRVM */}
         {result && (
-          <div className="cmp-grid">
-            <div className="cmp bad">
-              <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:'#FF7676', display:'block', marginBottom:8 }}>Livret A 1,5%</span>
-              <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:'#FF7676', display:'block' }}>{fmtShort(livret)}</span>
-              <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>intérêts cumulés</span>
+          <>
+            <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', textAlign:'center', margin:'20px 0 12px', lineHeight:1.6 }}>
+              Pour comparer : voici ce que les mêmes versements auraient rapporté sur un Livret A à 1,5%,
+              le placement d'épargne classique en France, sur la même durée.
             </div>
-            <div className="cmp good">
-              <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:VERT3, display:'block', marginBottom:8 }}>{selTitre?.symbole||'BRVM'}</span>
-              <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:VERT3, display:'block' }}>{fmtShort(kpis.divCumul)}</span>
-              <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>dividendes cumulés</span>
+            <div className="cmp-grid">
+              <div className="cmp bad">
+                <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:'#FF7676', display:'block', marginBottom:8 }}>Épargne classique (Livret A, 1,5%)</span>
+                <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:'#FF7676', display:'block' }}>{fmtShort(livret)}</span>
+                <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>d'intérêts gagnés au total</span>
+              </div>
+              <div className="cmp good">
+                <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:VERT3, display:'block', marginBottom:8 }}>Action {selTitre?.symbole||'choisie'}</span>
+                <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:VERT3, display:'block' }}>{fmtShort(kpis.divCumul)}</span>
+                <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>de dividendes gagnés au total</span>
+              </div>
             </div>
-          </div>
+          </>
         )}
 
-        <div style={{ textAlign:'center', fontSize:10, color:'rgba(255,255,255,0.18)', lineHeight:1.7 }}>
-          DiaspoInvest · Simulation mathématique illustrative · Ne constitue pas un conseil en investissement<br/>
-          {dateData && <>Cours BRVM du {dateData} · Sources : BRVM.org + sikafinance.com<br/></>}
+        <div style={{ textAlign:'center', fontSize:11, color:'rgba(255,255,255,0.25)', lineHeight:1.8, marginTop:20 }}>
+          Ce simulateur fait une projection mathématique à partir du cours et du dividende actuels,
+          en supposant qu'ils restent stables. Ce n'est ni une garantie ni un conseil en investissement personnalisé.<br/>
+          {dateData && <>Cours de bourse du {dateData} · Sources : BRVM.org + sikafinance.com<br/></>}
           DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF
         </div>
       </div>
