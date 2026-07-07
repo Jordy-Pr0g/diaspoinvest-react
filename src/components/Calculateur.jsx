@@ -53,15 +53,17 @@ function shortNom(nom) {
 function simForward(apport, duree, tauxPct, cours) {
   const divBrut = cours * tauxPct / 100
   const frais   = 0.005
-  let actions=0, reste=0, divCumul=0
+  let actions=0, reste=0, divCumul=0, fraisCumul=0
   for (let m=1; m<=duree*12; m++) {
-    const dispo = reste + apport*(1-frais)
+    const verse = apport*(1-frais)
+    fraisCumul += apport*frais
+    const dispo = reste + verse
     const n = Math.floor(dispo/cours)
     reste = dispo - n*cours
     actions += n
     divCumul += actions*divBrut/12
   }
-  return { actions, portef:actions*cours, capital:apport*duree*12, divAnn:actions*divBrut, divCumul }
+  return { actions, portef:actions*cours, capital:apport*duree*12, divAnn:actions*divBrut, divCumul, reste, fraisCumul }
 }
 
 function simInverse_apport(divCible, duree, tauxPct, cours) {
@@ -174,7 +176,8 @@ export default function Calculateur() {
     }
     return {
       result:r, resLabel:label, resUnit:unit, resContext:context, resVal:mainVal,
-      kpis:{ actions:r?.actions||0, portef:r?.portef||0, capital:r?.capital||0, divCumul:r?.divCumul||0 },
+      kpis:{ actions:r?.actions||0, portef:r?.portef||0, capital:r?.capital||0, divCumul:r?.divCumul||0,
+             reste:r?.reste||0, fraisCumul:r?.fraisCumul||0 },
       livret: livretA(apDisplay, dDisplay),
     }
   })()
@@ -435,6 +438,12 @@ export default function Calculateur() {
                   <span style={{ fontSize:10, color:GRIS, letterSpacing:0.3, marginTop:6, display:'block', lineHeight:1.4 }}>{label}</span>
                 </div>
               ))}
+            </div>
+            <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', textAlign:'center', marginTop:14, lineHeight:1.7 }}>
+              Pourquoi la valeur des actions ({fmtShort(kpis.portef)} FCFA) est un peu inférieure au total versé ({fmtShort(kpis.capital)} FCFA) ?
+              Deux raisons : environ <strong style={{color:'rgba(255,255,255,0.5)'}}>{fmtShort(kpis.fraisCumul)} FCFA</strong> sont
+              partis en frais de courtage (0,5% par versement), et <strong style={{color:'rgba(255,255,255,0.5)'}}>{fmtShort(kpis.reste)} FCFA</strong> restent
+              en attente d'achat à la fin de la simulation (on ne peut acheter que des actions entières, jamais de fraction).
             </div>
           </>
         )}
