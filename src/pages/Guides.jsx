@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { useMeta } from '../hooks/useMeta.js'
@@ -7,34 +8,14 @@ const OR   = '#C9A84C'
 const GRIS = 'rgba(241,245,249,0.5)'
 const BDR  = 'rgba(255,255,255,0.08)'
 
-const OUTILS = [
-  {
-    to: '/screener',
-    titre: 'Screener BRVM',
-    desc: "Filtre toutes les actions cotées par rendement, secteur, pays. Identifie les meilleures opportunités en un coup d'œil.",
-    cta: 'Ouvrir le screener →',
-  },
-  {
-    to: '/backtest',
-    titre: 'Backtest DCA',
-    desc: "Simule un investissement mensuel régulier sur n'importe quelle action BRVM depuis 1998. Données officielles réelles.",
-    cta: 'Lancer un backtest →',
-  },
-  {
-    to: '/fiscalite',
-    titre: 'Calculateur Fiscal',
-    desc: 'Calcule ton imposition réelle sur les dividendes BRVM selon ton pays de résidence. France, Belgique, Canada, UEMOA...',
-    cta: 'Calculer mon impôt →',
-  },
-  {
-    to: '/blog',
-    titre: 'Blog & Analyses',
-    desc: "Articles sur l'investissement en BRVM, la fiscalité de la diaspora, et les stratégies DCA pour l'Afrique.",
-    cta: 'Lire les articles →',
-  },
-]
-
 export default function Guides() {
+  const { t } = useTranslation()
+  const OUTILS = [
+    { to: '/screener',  titre: t('pages.guides.screenerTitre'), desc: t('pages.guides.screenerDesc'), cta: t('pages.guides.screenerCta') },
+    { to: '/backtest',  titre: t('pages.guides.backtestTitre'), desc: t('pages.guides.backtestDesc'), cta: t('pages.guides.backtestCta') },
+    { to: '/fiscalite', titre: t('pages.guides.fiscalTitre'),   desc: t('pages.guides.fiscalDesc'),   cta: t('pages.guides.fiscalCta')   },
+    { to: '/blog',      titre: t('pages.guides.blogTitre'),     desc: t('pages.guides.blogDesc'),     cta: t('pages.guides.blogCta')     },
+  ]
   useMeta({
     title: 'Outils gratuits BRVM — Screener, Backtest, Fiscalité | DiaspoInvest',
     description: 'Tous les outils gratuits pour investir sur la BRVM : screener temps réel, simulateur DCA, calculateur fiscal et articles éducatifs.',
@@ -48,16 +29,16 @@ export default function Guides() {
 
           <div style={{ marginBottom: 48 }}>
             <Link to="/" style={{ fontSize: 13, color: GRIS, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 20 }}>
-              ← Accueil
+              {t('pages.retourAccueil')}
             </Link>
             <span style={{ fontSize: 11, fontWeight: 700, color: OR, textTransform: 'uppercase', letterSpacing: 1.5, display: 'block', marginBottom: 8 }}>
-              Outils & Ressources
+              {t('pages.guides.eyebrow')}
             </span>
             <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: '#F1F5F9', fontFamily: 'Playfair Display,serif', margin: 0, lineHeight: 1.2 }}>
-              Tous les outils DiaspoInvest
+              {t('pages.guides.titre')}
             </h1>
             <p style={{ fontSize: 15, color: GRIS, marginTop: 12, lineHeight: 1.6 }}>
-              Screener, backtest, fiscalité : tout ce qu'il faut pour investir sur la BRVM depuis l'étranger.
+              {t('pages.guides.sousTitre')}
             </p>
           </div>
 

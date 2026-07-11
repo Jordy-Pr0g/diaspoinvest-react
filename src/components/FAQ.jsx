@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { FAQ_ITEMS } from '../data.js'
 
 export default function FAQ() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(null)
+  const items = i18n.language === 'en' ? t('data.faq', { returnObjects: true }) : FAQ_ITEMS
 
   return (
     <section className="section faq" id="faq">
@@ -18,7 +19,7 @@ export default function FAQ() {
         </div>
 
         <div className="faq-list">
-          {FAQ_ITEMS.map((item, i) => {
+          {items.map((item, i) => {
             const isOpen = open === i
             return (
               <div className={`faq-item${isOpen ? ' open' : ''}`} key={item.q}>

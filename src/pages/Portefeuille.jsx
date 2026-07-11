@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation, Trans } from 'react-i18next'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { useMeta } from '../hooks/useMeta.js'
@@ -38,6 +39,7 @@ const PLAN_V4 = {
 }
 
 function Donut({ parts }) {
+  const { t } = useTranslation()
   const total = parts.reduce((s, p) => s + p.val, 0) || 1
   const R = 54, C = 2 * Math.PI * R
   let acc = 0
@@ -54,12 +56,13 @@ function Donut({ parts }) {
         })}
       </g>
       <text x="70" y="66" textAnchor="middle" fontSize="13" fontWeight="700" fill="#fff">{parts.length}</text>
-      <text x="70" y="82" textAnchor="middle" fontSize="9" fill={GRIS}>ligne(s)</text>
+      <text x="70" y="82" textAnchor="middle" fontSize="9" fill={GRIS}>{t('pages.portefeuille.ligneLabel')}</text>
     </svg>
   )
 }
 
 export default function Portefeuille() {
+  const { t } = useTranslation()
   const [actions, setActions] = useState([])
   const [dateData, setDateData] = useState('')
   const [loading, setLoading] = useState(true)
@@ -101,12 +104,12 @@ export default function Portefeuille() {
 
   function acheter() {
     if (!action || nQty <= 0) return
-    if (coutEstime > port.cash) { notif('Liquidités insuffisantes.'); return }
+    if (coutEstime > port.cash) { notif(t('pages.portefeuille.notifInsuffisant')); return }
     const pos = port.positions[sel] || { qty: 0, pru: 0 }
     const newQty = pos.qty + nQty
     const newPru = (pos.pru * pos.qty + coursSel * nQty) / newQty
     sauver({ ...port, cash: port.cash - coutEstime, positions: { ...port.positions, [sel]: { qty: newQty, pru: newPru } } })
-    notif(`Acheté : ${nQty} ${sel} à ${fmt(coursSel)} FCFA.`)
+    notif(t('pages.portefeuille.notifAchete', { qty: nQty, sym: sel, cours: fmt(coursSel) }))
     setQty('')
   }
 
@@ -118,28 +121,28 @@ export default function Portefeuille() {
     if (q >= pos.qty) delete positions[sym]
     else positions[sym] = { ...pos, qty: pos.qty - q }
     sauver({ ...port, cash: port.cash + q * cours, positions })
-    notif(`Vendu : ${q} ${sym} à ${fmt(cours)} FCFA.`)
+    notif(t('pages.portefeuille.notifVendu', { qty: q, sym, cours: fmt(cours) }))
   }
 
   function reset() {
-    if (!window.confirm('Réinitialiser ton portefeuille virtuel ?')) return
+    if (!window.confirm(t('pages.portefeuille.confirmReset'))) return
     sauver({ cash: INITIAL, depot: INITIAL, positions: {} })
   }
 
   function chargerPlanV4() {
-    if (Object.keys(port.positions).length > 0 && !window.confirm('Remplacer le portefeuille actuel par le plan v4 (5 lignes, 1 049 532 FCFA) ?')) return
+    if (Object.keys(port.positions).length > 0 && !window.confirm(t('pages.portefeuille.confirmPlan'))) return
     const investi = Object.values(PLAN_V4.positions).reduce((s, p) => s + p.qty * p.pru, 0)
     sauver({ depot: PLAN_V4.depot, cash: PLAN_V4.depot - investi, positions: { ...PLAN_V4.positions } })
-    notif('Plan v4 chargé : 5 lignes + coussin de liquidités.')
+    notif(t('pages.portefeuille.notifPlan'))
   }
 
   function appliquerCapital() {
     const montant = parseInt(capitalInput.replace(/\s/g, '')) || 0
-    if (montant < 10000) { notif('Montant minimum : 10 000 FCFA.'); return }
+    if (montant < 10000) { notif(t('pages.portefeuille.notifMin')); return }
     sauver({ cash: montant, depot: montant, positions: {} })
     setEditCapital(false)
     setCapitalInput('')
-    notif(`Capital réinitialisé à ${montant.toLocaleString('fr-FR')} FCFA.`)
+    notif(t('pages.portefeuille.notifCapital', { montant: montant.toLocaleString('fr-FR') }))
   }
 
   function exportCSV() {
@@ -178,68 +181,68 @@ export default function Portefeuille() {
       <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0D1525 0%, #131E30 100%)', paddingTop: 80, color: '#fff', fontFamily: 'DM Sans, system-ui, sans-serif' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto', padding: '40px 20px 90px' }}>
 
-          <Link to="/" style={{ fontSize: 13, color: GRIS, marginBottom: 24, display: 'inline-block' }}>← Accueil</Link>
-          <span style={{ fontSize: 11, fontWeight: 700, color: OR, textTransform: 'uppercase', letterSpacing: 1.5, display: 'block', marginBottom: 8 }}>Portefeuille virtuel</span>
-          <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', margin: '0 0 10px' }}>Entraîne-toi avec de l'argent fictif</h1>
+          <Link to="/" style={{ fontSize: 13, color: GRIS, marginBottom: 24, display: 'inline-block' }}>{t('pages.retourAccueil')}</Link>
+          <span style={{ fontSize: 11, fontWeight: 700, color: OR, textTransform: 'uppercase', letterSpacing: 1.5, display: 'block', marginBottom: 8 }}>{t('pages.portefeuille.eyebrow')}</span>
+          <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', margin: '0 0 10px' }}>{t('pages.portefeuille.titre')}</h1>
           <p style={{ color: GRIS, fontSize: 15, maxWidth: 640, lineHeight: 1.6, margin: '0 0 8px' }}>
-            Tu démarres avec <b style={{ color: '#fff' }}>{fmt(INITIAL)} FCFA virtuels</b>. Achète et vends de vraies actions de la BRVM aux cours réels, suis tes gains, sans risquer un centime. Tout reste sur ton appareil.
+            <Trans i18nKey="pages.portefeuille.intro" values={{ montant: fmt(INITIAL) }} components={{ b: <b style={{ color: '#fff' }} /> }} />
           </p>
           <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12, marginBottom: 28 }}>
-            Cours de clôture {dateData ? `du ${dateData}` : '(BRVM)'}, mis à jour chaque jour. Argent fictif, à but pédagogique. Ce n'est pas un conseil en investissement.
+            {t('pages.portefeuille.note', { when: dateData ? t('pages.portefeuille.dateOf', { date: dateData }) : t('pages.portefeuille.dateBrvm') })}
           </p>
 
           {loading ? (
-            <div style={{ color: GRIS, padding: 40 }}>Chargement des cours…</div>
+            <div style={{ color: GRIS, padding: 40 }}>{t('pages.portefeuille.loading')}</div>
           ) : (
             <>
               {/* Synthèse */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14, marginBottom: 14 }}>
                 <div style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.04))', border: `1px solid rgba(201,168,76,0.35)`, borderRadius: 16, padding: 20 }}>
-                  <div style={{ fontSize: 12, color: OR, fontWeight: 600 }}>Valeur totale</div>
+                  <div style={{ fontSize: 12, color: OR, fontWeight: 600 }}>{t('pages.portefeuille.valeurTotale')}</div>
                   <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4 }}>{fmt(valeurTotale)}</div>
-                  <div style={{ fontSize: 12, color: GRIS }}>FCFA</div>
+                  <div style={{ fontSize: 12, color: GRIS }}>{t('pages.portefeuille.fcfa')}</div>
                 </div>
                 <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 20 }}>
-                  <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>Performance</div>
+                  <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>{t('pages.portefeuille.performance')}</div>
                   <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4, color: couleur(perfGlobale) }}>{pct(perfGlobale)}</div>
-                  <div style={{ fontSize: 12, color: GRIS }}>depuis le départ</div>
+                  <div style={{ fontSize: 12, color: GRIS }}>{t('pages.portefeuille.depuisDepart')}</div>
                 </div>
                 <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 20, position: 'relative' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>Liquidités</div>
+                    <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>{t('pages.portefeuille.liquidites')}</div>
                     <button onClick={() => { setEditCapital(v => !v); setCapitalInput('') }}
                       style={{ fontSize: 11, color: OR, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700, padding: 0 }}>
-                      {editCapital ? 'Annuler' : 'Modifier'}
+                      {editCapital ? t('pages.portefeuille.annuler') : t('pages.portefeuille.modifier')}
                     </button>
                   </div>
                   {editCapital ? (
                     <div style={{ marginTop: 10 }}>
                       <input
                         type="number"
-                        placeholder="Ex : 500000"
+                        placeholder={t('pages.portefeuille.capitalPlaceholder')}
                         value={capitalInput}
                         onChange={e => setCapitalInput(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && appliquerCapital()}
                         style={{ ...inputStyle, marginBottom: 8, fontSize: 15, fontWeight: 700 }}
                         autoFocus
                       />
-                      <div style={{ fontSize: 10, color: GRIS, marginBottom: 8 }}>FCFA · réinitialise les positions</div>
+                      <div style={{ fontSize: 10, color: GRIS, marginBottom: 8 }}>{t('pages.portefeuille.capitalHint')}</div>
                       <button onClick={appliquerCapital}
                         style={{ background: OR, color: '#0D1525', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 800, fontSize: 13, cursor: 'pointer', width: '100%' }}>
-                        Appliquer
+                        {t('pages.portefeuille.appliquer')}
                       </button>
                     </div>
                   ) : (
                     <>
                       <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4 }}>{fmt(port.cash)}</div>
-                      <div style={{ fontSize: 12, color: GRIS }}>FCFA disponibles</div>
+                      <div style={{ fontSize: 12, color: GRIS }}>{t('pages.portefeuille.fcfaDispo')}</div>
                     </>
                   )}
                 </div>
                 <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 20 }}>
-                  <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>Valeur des titres</div>
+                  <div style={{ fontSize: 12, color: GRIS, fontWeight: 600 }}>{t('pages.portefeuille.valeurTitres')}</div>
                   <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4 }}>{fmt(valeurTitres)}</div>
-                  <div style={{ fontSize: 12, color: GRIS }}>{lignes.length} ligne(s)</div>
+                  <div style={{ fontSize: 12, color: GRIS }}>{t('pages.portefeuille.lignes', { count: lignes.length })}</div>
                 </div>
               </div>
 
@@ -247,28 +250,28 @@ export default function Portefeuille() {
 
               {/* Passer un ordre */}
               <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 20, marginBottom: 14 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 14 }}>Passer un ordre d'achat</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 14 }}>{t('pages.portefeuille.passerOrdre')}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
                   <select value={sel} onChange={e => { setSel(e.target.value); setQty('') }} style={inputStyle}>
-                    <option value="" style={{ background: '#15243a', color: '#fff' }}>Choisis une action…</option>
+                    <option value="" style={{ background: '#15243a', color: '#fff' }}>{t('pages.portefeuille.choisir')}</option>
                     {actions.map(a => (
                       <option key={a.symbole} value={a.symbole} style={{ background: '#15243a', color: '#fff' }}>
-                        {a.nom} ({a.symbole}) — {fmt(a.cours_cloture)} FCFA
+                        {a.nom} ({a.symbole}) — {fmt(a.cours_cloture)} {t('pages.portefeuille.fcfa')}
                       </option>
                     ))}
                   </select>
                   {action && (
                     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end' }}>
                       <div style={{ flex: '1 1 140px' }}>
-                        <label style={{ fontSize: 12, color: GRIS, display: 'block', marginBottom: 4 }}>Quantité</label>
-                        <input type="number" min="0" value={qty} onChange={e => setQty(e.target.value)} placeholder="ex : 10" style={inputStyle} />
+                        <label style={{ fontSize: 12, color: GRIS, display: 'block', marginBottom: 4 }}>{t('pages.portefeuille.quantite')}</label>
+                        <input type="number" min="0" value={qty} onChange={e => setQty(e.target.value)} placeholder={t('pages.portefeuille.qtyPlaceholder')} style={inputStyle} />
                       </div>
                       <button onClick={() => setQty(String(Math.floor(port.cash / coursSel)))}
-                        style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '11px 14px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Max</button>
+                        style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '11px 14px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>{t('pages.portefeuille.max')}</button>
                       <button onClick={acheter} disabled={nQty <= 0 || coutEstime > port.cash}
-                        style={{ background: OR, color: '#0D1525', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 800, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit', opacity: (nQty <= 0 || coutEstime > port.cash) ? 0.5 : 1 }}>Acheter</button>
+                        style={{ background: OR, color: '#0D1525', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 800, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit', opacity: (nQty <= 0 || coutEstime > port.cash) ? 0.5 : 1 }}>{t('pages.portefeuille.acheter')}</button>
                       <div style={{ fontSize: 13, color: GRIS, flexBasis: '100%' }}>
-                        Cours : <b style={{ color: '#fff' }}>{fmt(coursSel)} FCFA</b>{nQty > 0 && <> · Coût : <b style={{ color: coutEstime > port.cash ? RED : OR }}>{fmt(coutEstime)} FCFA</b></>}
+                        {t('pages.portefeuille.coursLabel')} <b style={{ color: '#fff' }}>{fmt(coursSel)} {t('pages.portefeuille.fcfa')}</b>{nQty > 0 && <> · {t('pages.portefeuille.coutLabel')} <b style={{ color: coutEstime > port.cash ? RED : OR }}>{fmt(coutEstime)} {t('pages.portefeuille.fcfa')}</b></>}
                       </div>
                     </div>
                   )}
@@ -278,7 +281,7 @@ export default function Portefeuille() {
               {/* Positions */}
               {lignes.length === 0 ? (
                 <div style={{ background: CARD, border: `1px dashed ${BDR}`, borderRadius: 16, padding: 36, textAlign: 'center', color: GRIS }}>
-                  Ton portefeuille est vide. Choisis une action ci-dessus et passe ton premier ordre.
+                  {t('pages.portefeuille.vide')}
                 </div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2.4fr) minmax(0, 1fr)', gap: 14 }}>
@@ -286,12 +289,12 @@ export default function Portefeuille() {
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 540 }}>
                       <thead>
                         <tr style={{ color: GRIS, textAlign: 'right' }}>
-                          <th style={{ textAlign: 'left', padding: '10px 8px' }}>Action</th>
-                          <th style={{ padding: '10px 8px' }}>Qté</th>
-                          <th style={{ padding: '10px 8px' }}>PRU</th>
-                          <th style={{ padding: '10px 8px' }}>Cours</th>
-                          <th style={{ padding: '10px 8px' }}>Valeur</th>
-                          <th style={{ padding: '10px 8px' }}>+/-</th>
+                          <th style={{ textAlign: 'left', padding: '10px 8px' }}>{t('pages.portefeuille.thAction')}</th>
+                          <th style={{ padding: '10px 8px' }}>{t('pages.portefeuille.thQte')}</th>
+                          <th style={{ padding: '10px 8px' }}>{t('pages.portefeuille.thPru')}</th>
+                          <th style={{ padding: '10px 8px' }}>{t('pages.portefeuille.thCours')}</th>
+                          <th style={{ padding: '10px 8px' }}>{t('pages.portefeuille.thValeur')}</th>
+                          <th style={{ padding: '10px 8px' }}>{t('pages.portefeuille.thVar')}</th>
                           <th style={{ padding: '10px 8px' }}></th>
                         </tr>
                       </thead>
@@ -308,7 +311,7 @@ export default function Portefeuille() {
                             <td style={{ padding: '11px 8px', fontWeight: 700 }}>{fmt(l.valeur)}</td>
                             <td style={{ padding: '11px 8px', color: couleur(l.gainPct), fontWeight: 700 }}>{pct(l.gainPct)}</td>
                             <td style={{ padding: '11px 8px' }}>
-                              <button onClick={() => vendre(l.sym, l.qty)} style={{ background: 'rgba(255,118,118,0.1)', border: '1px solid rgba(255,118,118,0.3)', color: RED, borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>Vendre</button>
+                              <button onClick={() => vendre(l.sym, l.qty)} style={{ background: 'rgba(255,118,118,0.1)', border: '1px solid rgba(255,118,118,0.3)', color: RED, borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>{t('pages.portefeuille.vendre')}</button>
                             </td>
                           </tr>
                         ))}
@@ -316,7 +319,7 @@ export default function Portefeuille() {
                     </table>
                   </div>
                   <div style={{ background: CARD, border: `1px solid ${BDR}`, borderRadius: 16, padding: 18, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <div style={{ fontSize: 12, color: GRIS, fontWeight: 600, alignSelf: 'flex-start', marginBottom: 8 }}>Répartition</div>
+                    <div style={{ fontSize: 12, color: GRIS, fontWeight: 600, alignSelf: 'flex-start', marginBottom: 8 }}>{t('pages.portefeuille.repartition')}</div>
                     <Donut parts={lignes.map(l => ({ label: l.sym, val: l.valeur }))} />
                     <div style={{ marginTop: 12, width: '100%' }}>
                       {lignes.map((l, i) => (
@@ -332,12 +335,12 @@ export default function Portefeuille() {
               )}
 
               <div style={{ marginTop: 24, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-                <button onClick={chargerPlanV4} style={{ background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.4)', color: OR, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700 }}>Charger mon plan v4</button>
-                <button onClick={reset} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Réinitialiser</button>
+                <button onClick={chargerPlanV4} style={{ background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.4)', color: OR, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700 }}>{t('pages.portefeuille.chargerPlan')}</button>
+                <button onClick={reset} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>{t('pages.portefeuille.reinitialiser')}</button>
                 {lignes.length > 0 && (
-                  <button onClick={exportCSV} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Exporter CSV</button>
+                  <button onClick={exportCSV} style={{ background: 'transparent', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '9px 16px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>{t('pages.portefeuille.exporterCsv')}</button>
                 )}
-                <Link to="/screener" style={{ color: OR, fontSize: 13 }}>Explorer les 47 actions →</Link>
+                <Link to="/screener" style={{ color: OR, fontSize: 13 }}>{t('pages.portefeuille.explorer')}</Link>
               </div>
             </>
           )}

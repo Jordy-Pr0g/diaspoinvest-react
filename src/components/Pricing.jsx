@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { PRODUITS, PRODUITS_UEMOA } from '../data.js'
 
 export default function Pricing() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const en = i18n.language === 'en'
   const [segment, setSegment] = useState('europe') // 'europe' | 'uemoa'
 
   const produits = segment === 'europe' ? PRODUITS : PRODUITS_UEMOA
@@ -40,10 +41,13 @@ export default function Pricing() {
               guideUemoa: '/produit-guide.jpg',
               calculateur: '/produit-tracker.jpg',
               trackerUemoa: '/produit-tracker.jpg',
-              pack:     '/produit-pack.jpg',
-              packUemoa: '/produit-pack.jpg',
+              pack:     '/produit-pack-europe.jpg',
+              packUemoa: '/produit-pack-uemoa.jpg',
             }
             const img = IMG[p.id]
+            const nom       = en ? t(`data.products.${p.id}.nom`) : p.nom
+            const sousTitre = en ? t(`data.products.${p.id}.sousTitre`) : p.sousTitre
+            const points    = en ? t(`data.products.${p.id}.points`, { returnObjects: true }) : p.points
             return (
             <div
               className={`plan${p.populaire ? ' featured' : ''}`}
@@ -56,18 +60,18 @@ export default function Pricing() {
               {p.populaire && <div className="plan-tag">{t('pricing.leplusComplet')}</div>}
               {img && (
                 <div className="plan-img-wrap">
-                  <img src={img} alt={p.nom} className="plan-img" loading="lazy" />
+                  <img src={img} alt={nom} className="plan-img" loading="lazy" />
                 </div>
               )}
-              <h3>{p.nom}</h3>
-              <div className="plan-sub">{p.sousTitre}</div>
+              <h3>{nom}</h3>
+              <div className="plan-sub">{sousTitre}</div>
               <div className="plan-price">
                 {p.prixBarre && <s style={{ opacity: 0.45, fontSize: '0.75em', marginRight: 6 }}>{p.prixBarre}</s>}
                 {p.prix}
               </div>
 
               <ul>
-                {p.points.map((pt) => (
+                {points.map((pt) => (
                   <li key={pt}>
                     <span className="check">✓</span>
                     {pt}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { useTranslation, Trans } from 'react-i18next'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { getMeta, PAYS_LABEL } from '../data/brvm-meta.js'
@@ -23,11 +24,16 @@ const LABEL_COLORS = {
 
 export default function ActionDetail() {
   const { symbole } = useParams()
+  const { t } = useTranslation()
   const ticker = symbole?.toUpperCase() || ''
   const [action, setAction] = useState(null)
   const [loading, setLoading] = useState(true)
   const meta = getMeta(ticker)
   const lc = meta.label ? LABEL_COLORS[meta.label] : null
+  // Traductions des métadonnées partagées (EN via namespace meta.*, repli FR par defaultValue)
+  const trSect = s => t(`meta.secteurs.${s}`, { defaultValue: s })
+  const trLabel = l => t(`meta.labels.${l}`, { defaultValue: l })
+  const trPays = c => t(`meta.pays.${c}`, { defaultValue: PAYS_LABEL[c] || c })
 
   useMeta({
     title: `${ticker} — Cours, dividende et rendement BRVM | DiaspoInvest`,
@@ -51,12 +57,12 @@ export default function ActionDetail() {
   const rendement = action && meta.dividende ? (meta.dividende / action.cours_cloture) * 100 : null
 
   const kpis = action ? [
-    { label: 'Cours de clôture', val: `${fmt(action.cours_cloture)} FCFA`, color: '#F1F5F9' },
-    { label: 'Variation hebdo', val: action.variation_hebdo != null ? `${action.variation_hebdo >= 0 ? '+' : ''}${action.variation_hebdo.toFixed(2).replace('.', ',')} %` : '—', color: action.variation_hebdo > 0 ? VERT : action.variation_hebdo < 0 ? RED : GRIS },
-    { label: 'Dividende', val: meta.dividende ? `${fmt(meta.dividende)} FCFA` : 'Non connu', color: meta.dividende ? VERT : GRIS },
-    { label: 'Rendement', val: rendement ? `${rendement.toFixed(2).replace('.', ',')} %` : '—', color: rendement ? OR : GRIS },
-    { label: 'Secteur', val: meta.secteur, color: '#F1F5F9' },
-    { label: 'Pays', val: PAYS_LABEL[meta.pays] || meta.pays, color: '#F1F5F9' },
+    { label: t('pages.actionDetail.coursCloture'), val: `${fmt(action.cours_cloture)} FCFA`, color: '#F1F5F9' },
+    { label: t('pages.actionDetail.variationHebdo'), val: action.variation_hebdo != null ? `${action.variation_hebdo >= 0 ? '+' : ''}${action.variation_hebdo.toFixed(2).replace('.', ',')} %` : '—', color: action.variation_hebdo > 0 ? VERT : action.variation_hebdo < 0 ? RED : GRIS },
+    { label: t('pages.actionDetail.dividende'), val: meta.dividende ? `${fmt(meta.dividende)} FCFA` : t('pages.actionDetail.nonConnu'), color: meta.dividende ? VERT : GRIS },
+    { label: t('pages.actionDetail.rendement'), val: rendement ? `${rendement.toFixed(2).replace('.', ',')} %` : '—', color: rendement ? OR : GRIS },
+    { label: t('pages.actionDetail.secteur'), val: trSect(meta.secteur), color: '#F1F5F9' },
+    { label: t('pages.actionDetail.pays'), val: trPays(meta.pays), color: '#F1F5F9' },
   ] : []
 
   return (
@@ -66,22 +72,22 @@ export default function ActionDetail() {
         <div style={{ maxWidth: 800, margin: '0 auto', padding: '32px 20px 80px' }}>
 
           <Link to="/screener" style={{ fontSize: 13, color: GRIS, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 28 }}>
-            ← Screener BRVM
+            {t('pages.actionDetail.back')}
           </Link>
 
           {loading ? (
-            <div style={{ color: GRIS, padding: 40 }}>Chargement…</div>
+            <div style={{ color: GRIS, padding: 40 }}>{t('pages.actionDetail.chargement')}</div>
           ) : !action ? (
             <div style={{ color: GRIS, padding: 40 }}>
-              Action {ticker} introuvable.{' '}
-              <Link to="/screener" style={{ color: OR }}>Retour au screener</Link>
+              {t('pages.actionDetail.introuvable', { ticker })}{' '}
+              <Link to="/screener" style={{ color: OR }}>{t('pages.actionDetail.retourScreener')}</Link>
             </div>
           ) : (
             <>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 36 }}>
                 <div>
                   <span style={{ fontSize: 11, fontWeight: 700, color: OR, textTransform: 'uppercase', letterSpacing: 1.5, display: 'block', marginBottom: 6 }}>
-                    {meta.secteur}
+                    {trSect(meta.secteur)}
                   </span>
                   <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 5vw, 3rem)', color: '#F1F5F9', margin: 0, lineHeight: 1.1 }}>
                     {ticker}
@@ -91,11 +97,11 @@ export default function ActionDetail() {
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                   {lc && (
                     <span style={{ fontSize: 12, fontWeight: 700, padding: '5px 14px', borderRadius: 20, background: lc.bg, border: `1px solid ${lc.border}`, color: lc.color }}>
-                      {meta.label}
+                      {trLabel(meta.label)}
                     </span>
                   )}
                   <span style={{ fontSize: 12, fontWeight: 700, padding: '5px 14px', borderRadius: 20, background: CARD, border: `1px solid ${BDR}`, color: GRIS }}>
-                    {PAYS_LABEL[meta.pays]?.split(' ')[0] || meta.pays}
+                    {trPays(meta.pays).split(' ')[0] || meta.pays}
                   </span>
                 </div>
               </div>
@@ -113,9 +119,11 @@ export default function ActionDetail() {
               {/* Note dividende */}
               {meta.dividende && (
                 <div style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.18)', borderRadius: 14, padding: '16px 20px', marginBottom: 28, fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
-                  Dividende de <b style={{ color: OR }}>{fmt(meta.dividende)} FCFA</b> par action (dernier exercice fiscal connu).
-                  Pour {fmt(action.cours_cloture)} FCFA investis (1 action), le rendement brut est de <b style={{ color: OR }}>{rendement?.toFixed(2).replace('.', ',')} %</b>.
-                  En France, ce dividende est soumis à la flat tax de 31,4 % (12,8 % IR + 18,6 % prélèvements sociaux depuis 2026).
+                  <Trans
+                    i18nKey="pages.actionDetail.noteDiv"
+                    values={{ div: fmt(meta.dividende), cours: fmt(action.cours_cloture), rendement: rendement?.toFixed(2).replace('.', ',') }}
+                    components={[<b style={{ color: OR }} />, <b style={{ color: OR }} />]}
+                  />
                 </div>
               )}
 
@@ -125,18 +133,18 @@ export default function ActionDetail() {
                   to={`/backtest?ticker=${ticker}`}
                   style={{ background: OR, color: '#0D2B1E', fontWeight: 700, fontSize: 14, padding: '12px 24px', borderRadius: 12, textDecoration: 'none', display: 'inline-block' }}
                 >
-                  Simuler un DCA sur {ticker} →
+                  {t('pages.actionDetail.simulerDca', { ticker })}
                 </Link>
                 <Link
                   to="/screener"
                   style={{ background: CARD, color: '#F1F5F9', fontWeight: 600, fontSize: 14, padding: '12px 24px', borderRadius: 12, textDecoration: 'none', display: 'inline-block', border: `1px solid ${BDR}` }}
                 >
-                  Voir toutes les actions
+                  {t('pages.actionDetail.voirToutes')}
                 </Link>
               </div>
 
               <div style={{ marginTop: 40, fontSize: 11, color: 'rgba(255,255,255,0.2)', lineHeight: 1.7 }}>
-                Source : BRVM.org · Dividende : dernier exercice fiscal connu · Données éducatives, ne constituent pas un conseil en investissement.
+                {t('pages.actionDetail.source')}
               </div>
             </>
           )}

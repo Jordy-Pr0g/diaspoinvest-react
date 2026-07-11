@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const CLE = 'diaspoinvest_cookies_acceptes'
 
 export default function CookieBanner() {
+  const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -22,21 +24,20 @@ export default function CookieBanner() {
   if (!visible) return null
 
   return (
-    <div className="cookie-banner" role="dialog" aria-label="Gestion des cookies">
+    <div className="cookie-banner" role="dialog" aria-label={t('cookie.aria')}>
       <div className="cookie-inner">
         <p>
-          Ce site utilise Plausible Analytics, un outil sans cookie conforme RGPD, pour mesurer
-          l'audience de façon anonyme. Aucune donnée personnelle n'est collectée.{' '}
+          {t('cookie.texte')}{' '}
           <button className="linklike" onClick={() => window.open('https://plausible.io/data-policy', '_blank')}>
-            En savoir plus
+            {t('cookie.enSavoirPlus')}
           </button>
         </p>
         <div className="cookie-actions">
           <button className="btn btn-or cookie-btn" onClick={accepter}>
-            Accepter
+            {t('cookie.accepter')}
           </button>
           <button className="btn btn-ghost cookie-btn cookie-refuser" onClick={refuser}>
-            Refuser
+            {t('cookie.refuser')}
           </button>
         </div>
       </div>

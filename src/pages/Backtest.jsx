@@ -472,7 +472,7 @@ export default function Backtest() {
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Prêt à investir pour de vrai ?</div>
                   <div style={{ fontSize: 12, color: GRIS }}>Le Tracker Dashboard te permet de suivre ton portefeuille réel et simuler ton DCA.</div>
                 </div>
-                <a href="https://diaspoinvest.gumroad.com/l/tocir" target="_blank" rel="noreferrer"
+                <a href="https://pay.hotmart.com/I106628667V" target="_blank" rel="noreferrer"
                   style={{ background: OR, color: '#0D2B1E', fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 10, whiteSpace: 'nowrap', textDecoration: 'none' }}>
                   Voir le Tracker →
                 </a>

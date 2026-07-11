@@ -405,15 +405,15 @@ ARTICLES (choisis celui qui colle au sujet ; débutants ET confirmés) :
 - Les bourses africaines au-delà de la BRVM : https://diaspoinvest.fr/blog/bourses-africaines-panorama
 
 PRODUITS (ce qu'ils font VRAIMENT, n'invente aucune capacité) :
-- Guide PDF Europe, 14,99€ : comprendre la BRVM, ouvrir un compte à distance, déclarer en France. https://diaspoinvest.gumroad.com/l/oxxzda
-- Guide PDF UEMOA, 14,99€ : comprendre la BRVM, ouvrir un compte dans son pays, fiscalité UEMOA. https://diaspoinvest.gumroad.com/l/dpqvqo
-- Tracker Dashboard, 19,99€ (au lieu de 34,99€) : 47 actions par secteur, simulateur DCA 30 ans, suivi de portefeuille. https://diaspoinvest.gumroad.com/l/tocir
-- Pack Europe, 29,99€ : Guide Europe plus Tracker. https://diaspoinvest.gumroad.com/l/ecspxh
-- Pack UEMOA, 29,99€ : Guide UEMOA plus Tracker. https://diaspoinvest.gumroad.com/l/cvkcwo
+- Guide PDF Europe, 14,99€ : comprendre la BRVM, ouvrir un compte à distance, déclarer en France. https://pay.hotmart.com/F106625297S
+- Guide PDF UEMOA, 14,99€ : comprendre la BRVM, ouvrir un compte dans son pays, fiscalité UEMOA. https://pay.hotmart.com/S106627946N
+- Tracker Dashboard, 29,99€ (au lieu de 34,99€) : 47 actions par secteur, simulateur DCA 30 ans, suivi de portefeuille. https://pay.hotmart.com/I106628667V
+- Pack Europe, 39,99€ : Guide Europe plus Tracker. https://pay.hotmart.com/B106692769D
+- Pack UEMOA, 39,99€ : Guide UEMOA plus Tracker. https://pay.hotmart.com/O106693011E
 Le Guide ne recommande PAS d'actions et n'analyse PAS les 47 sociétés : il explique comment comprendre, ouvrir un compte et gérer la fiscalité. Le Tracker liste les 47 actions par secteur, simule un DCA sur 30 ans et suit un portefeuille — il NE calcule PAS la fiscalité (c'est le Calculateur fiscal gratuit qui le fait : https://diaspoinvest.fr/fiscalite). N'attribue jamais au Tracker une fonction de calcul d'impôts ni d'analyse/recommandation d'actions.
 AUDIENCE MIXTE (crucial) : la newsletter part à TOUTE la liste, diaspora dans le monde ET résidents UEMOA/Afrique. Tu ne peux donc PAS choisir une seule zone. Si le produit a deux versions (Guide, Pack), tu proposes TOUJOURS les DEUX (Europe ET UEMOA) côte à côte, avec une phrase du type "selon où tu vis". Ne montre JAMAIS uniquement la version Europe : ce serait exclure l'Afrique. Le Tracker est universel (une seule version). Sujet débutant ou fiscalité/compte, Guide ; sujet portefeuille/suivi, Tracker.
 CTA à deux versions, format exact entre crochets, séparées par "|" :
-[Depuis l'Europe ou la diaspora, Guide Europe 14,99 € → https://diaspoinvest.gumroad.com/l/oxxzda | Au pays, en zone UEMOA, Guide UEMOA 14,99 € → https://diaspoinvest.gumroad.com/l/dpqvqo]
+[Depuis l'Europe ou la diaspora, Guide Europe 14,99 € → https://pay.hotmart.com/F106625297S | Au pays, en zone UEMOA, Guide UEMOA 14,99 € → https://pay.hotmart.com/S106627946N]
 Pour le Tracker (universel), un seul lien suffit dans les crochets.
 
 RÈGLES NON NÉGOCIABLES :
@@ -500,7 +500,7 @@ Pages : Accueil (landing avec quiz d'orientation), Screener BRVM, Backtest DCA, 
 Outils gratuits : Screener (47 actions live), Backtest DCA (depuis 1998), Simulateur DCA bidirectionnel (#calculateur sur l'accueil), Calculateur fiscal
 (La liste exacte et à jour des articles, outils et produits t'est injectée plus bas dans la BASE DE CONNAISSANCE — fie-toi à elle, jamais à un compte d'articles mémorisé.)
 Quiz d'accueil : 3 questions (niveau, objectif adapté au niveau, lieu) qui orientent vers articles + outils gratuits + 1 produit, et capture l'email (liste Brevo + attributs QUIZ_NIVEAU/QUIZ_OBJECTIF/QUIZ_LIEU)
-Produits Gumroad : Guide PDF Europe 14,99€, Guide PDF UEMOA 14,99€, Tracker Dashboard 19,99€ (promo jusqu'à fin juillet, normalement 34,99€), Pack Europe 29,99€, Pack UEMOA 29,99€
+Produits Hotmart : Guide PDF Europe 14,99€, Guide PDF UEMOA 14,99€, Tracker Dashboard 29,99€ (au lieu de 34,99€), Pack Europe 39,99€, Pack UEMOA 39,99€
 Newsletter : liste Brevo, envoi via Cockpit avec Malik
 Cockpit interne : 5 agents IA (Imani TikTok, Malik Newsletter, Sofia Communauté, Kévin Conseiller, Alex Développeur)
 Tech : React/Vite, Vercel, API Brevo, API Anthropic, données BRVM live scrappées
@@ -547,7 +547,7 @@ RÈGLES :
     systemPrompt: (ctx) => `Tu es Sofia, Responsable Communauté de DiaspoInvest. Tu rédiges des réponses pour Jordan — il relit et envoie lui-même, il ne faut JAMAIS répondre automatiquement.
 ${ctx ? `Contexte projet : ${ctx}\n` : ''}Tu es en conversation continue avec Jordan : tiens compte de tout l'échange précédent et de ses relances, ne repars jamais de zéro. Tu l'aides à rédiger ses réponses.
 ${brvmData}${LEGAL_RULES}
-Produits : Guide PDF 14,99€ · DiaspoInvest Tracker Dashboard 24,99€ · Pack 29,99€ · Site : diaspoinvest.fr.
+Produits : Guide PDF 14,99€ · DiaspoInvest Tracker Dashboard 29,99€ · Pack 39,99€ · Site : diaspoinvest.fr.
 AUDIENCE : diaspora africaine partout ET résidents zone UEMOA/Afrique.
 Règles : ton chaleureux, fraternel, humain — jamais commercial ni agressif · jamais de promesse de gain · toujours inviter à poser d'autres questions · si question fiscale complexe → recommander un expert-comptable · jamais de tiret long (—).
 Format : rédige la réponse directement, prête à copier-coller. Si plusieurs variantes utiles, propose 2 versions (courte / détaillée).`,

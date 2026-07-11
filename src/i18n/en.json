@@ -81,6 +81,609 @@
     "apropos": "About",
     "contact": "Contact",
     "copyright": "© 2026 DiaspoInvest · Jordan DJIOKAP · Paris",
-    "disclaimerBas": "Not affiliated with the BRVM or the CREPMF · This is not investment advice"
+    "disclaimerBas": "Not affiliated with the BRVM or the CREPMF · This is not investment advice",
+    "badgeBrvm": "BRVM · 8 UEMOA countries",
+    "outilScreener": "Screener & dividends",
+    "outilBacktest": "DCA backtest",
+    "outilFiscal": "Tax calculator",
+    "outilTous": "All the tools",
+    "ressInvestir": "Investing from France",
+    "ressVsLivret": "BRVM vs a savings account",
+    "ressOuvrir": "Open a broker (SGI) account",
+    "ressDeclarer": "Declaring your account for tax",
+    "prodGuideEurope": "Europe PDF Guide · €14.99",
+    "prodGuideUemoa": "UEMOA PDF Guide · €14.99",
+    "prodTracker": "Tracker Dashboard · €29.99",
+    "prodPack": "Complete Pack · €39.99"
+  },
+  "cookie": {
+    "texte": "This site uses Plausible Analytics, a cookie-free, GDPR-compliant tool, to measure traffic anonymously. No personal data is collected.",
+    "enSavoirPlus": "Learn more",
+    "accepter": "Accept",
+    "refuser": "Decline",
+    "aria": "Cookie management"
+  },
+  "pages": {
+    "retourAccueil": "← Home",
+    "notFound": {
+      "titre": "This page doesn't exist",
+      "texte": "Maybe the URL changed, or the link is broken. In the meantime, the BRVM Composite keeps climbing.",
+      "accueil": "Back to home",
+      "blog": "Read the blog"
+    },
+    "blogIndex": {
+      "titre": "The DiaspoInvest blog",
+      "sousTitre": "Everything you need to know to invest on the BRVM from the diaspora. Real figures, no jargon."
+    },
+    "guides": {
+      "eyebrow": "Tools & Resources",
+      "titre": "All the DiaspoInvest tools",
+      "sousTitre": "Screener, backtest, taxation: everything you need to invest on the BRVM from abroad.",
+      "screenerTitre": "BRVM Screener",
+      "screenerDesc": "Filter every listed stock by yield, sector, country. Spot the best opportunities at a glance.",
+      "screenerCta": "Open the screener →",
+      "backtestTitre": "DCA Backtest",
+      "backtestDesc": "Simulate a regular monthly investment on any BRVM stock since 1998. Real official data.",
+      "backtestCta": "Run a backtest →",
+      "fiscalTitre": "Tax Calculator",
+      "fiscalDesc": "Calculate your real tax on BRVM dividends based on your country of residence. France, Belgium, Canada, UEMOA...",
+      "fiscalCta": "Calculate my tax →",
+      "blogTitre": "Blog & Analysis",
+      "blogDesc": "Articles on investing in the BRVM, diaspora taxation, and DCA strategies for Africa.",
+      "blogCta": "Read the articles →"
+    },
+    "apropos": {
+      "eyebrow": "About",
+      "quote": "\"Making the African stock market as accessible as investing in Europe.\"",
+      "quoteAuthor": "Jordan DJIOKAP — DiaspoInvest",
+      "contactPrefix": "For any question or feedback, write to",
+      "paragraphs": [
+        "I'm Jordan DJIOKAP, a student in Corporate Finance and Financial Engineering. My daily work is analyzing European investment models: asset valuation, portfolio management, ETFs, derivatives.",
+        "When I wanted to diversify my own portfolio, I looked for where to invest. ETFs, French tax-advantaged accounts, MSCI World, European indices... everything pointed to the same Western markets. So I asked a simple question: is there anything connected to Africa?",
+        "The answer surprised me. The BRVM, the West African regional stock exchange, has existed since 1998. It brings together the leading companies of eight UEMOA countries and pays dividends to its shareholders every year. The average yield is around 6% per year. The BRVM Composite rose 28.89% in 2024 while the CAC 40 posted 0.92%. Yet almost no one talks about it, even within the diaspora.",
+        "With my background, I had the tools to analyze this market. What was missing were French-language resources built for someone living outside the UEMOA zone: how to open an account remotely, how to declare income to the tax authorities in France, which stocks to look at first, how to build a long-term regular investment strategy.",
+        "I created DiaspoInvest to fill that gap. The Screener lists the 47 listed stocks with their real-time prices and yields. The DCA backtest lets you simulate what a regular monthly investment on any stock since 1998 would have given. The tax calculator estimates the real tax based on the country of residence. The blog covers the topics no one documents in French.",
+        "I run this project alone. No conflict of interest with a broker, an SGI or a financial institution. The online tools are free. The guides and the Tracker go further for those who want a complete method.",
+        "If you've been looking for a way to invest back home without ever finding a clear answer, you're in the right place."
+      ]
+    },
+    "actionDetail": {
+      "back": "← BRVM Screener",
+      "chargement": "Loading…",
+      "introuvable": "Stock {{ticker}} not found.",
+      "retourScreener": "Back to the screener",
+      "coursCloture": "Closing price",
+      "variationHebdo": "Weekly change",
+      "dividende": "Dividend",
+      "nonConnu": "Not known",
+      "rendement": "Yield",
+      "secteur": "Sector",
+      "pays": "Country",
+      "noteDiv": "Dividend of <0>{{div}} FCFA</0> per share (last known fiscal year). For {{cours}} FCFA invested (1 share), the gross yield is <1>{{rendement}}%</1>. In France, this dividend is subject to the flat tax of 31.4% (12.8% income tax + 18.6% social levies since 2026).",
+      "simulerDca": "Simulate a DCA on {{ticker}} →",
+      "voirToutes": "See all stocks",
+      "source": "Source: BRVM.org · Dividend: last known fiscal year · Educational data, does not constitute investment advice."
+    },
+    "portefeuille": {
+      "eyebrow": "Virtual portfolio",
+      "titre": "Practice with play money",
+      "intro": "You start with <b>{{montant}} virtual FCFA</b>. Buy and sell real BRVM stocks at live prices, track your gains, without risking a cent. Everything stays on your device.",
+      "dateOf": "as of {{date}}",
+      "dateBrvm": "(BRVM)",
+      "note": "Closing prices {{when}}, updated daily. Play money, for educational purposes. This is not investment advice.",
+      "loading": "Loading prices…",
+      "valeurTotale": "Total value",
+      "fcfa": "FCFA",
+      "performance": "Performance",
+      "depuisDepart": "since the start",
+      "liquidites": "Cash",
+      "modifier": "Edit",
+      "annuler": "Cancel",
+      "capitalPlaceholder": "e.g. 500000",
+      "capitalHint": "FCFA · resets your positions",
+      "appliquer": "Apply",
+      "fcfaDispo": "FCFA available",
+      "valeurTitres": "Holdings value",
+      "lignes": "{{count}} holding(s)",
+      "ligneLabel": "holding(s)",
+      "passerOrdre": "Place a buy order",
+      "choisir": "Choose a stock…",
+      "quantite": "Quantity",
+      "qtyPlaceholder": "e.g. 10",
+      "max": "Max",
+      "acheter": "Buy",
+      "coursLabel": "Price:",
+      "coutLabel": "Cost:",
+      "vide": "Your portfolio is empty. Choose a stock above and place your first order.",
+      "thAction": "Stock",
+      "thQte": "Qty",
+      "thPru": "Avg cost",
+      "thCours": "Price",
+      "thValeur": "Value",
+      "thVar": "+/-",
+      "vendre": "Sell",
+      "repartition": "Allocation",
+      "chargerPlan": "Load my v4 plan",
+      "reinitialiser": "Reset",
+      "exporterCsv": "Export CSV",
+      "explorer": "Explore the 47 stocks →",
+      "notifInsuffisant": "Not enough cash.",
+      "notifAchete": "Bought: {{qty}} {{sym}} at {{cours}} FCFA.",
+      "notifVendu": "Sold: {{qty}} {{sym}} at {{cours}} FCFA.",
+      "confirmReset": "Reset your virtual portfolio?",
+      "confirmPlan": "Replace the current portfolio with the v4 plan (5 lines, 1,049,532 FCFA)?",
+      "notifPlan": "v4 plan loaded: 5 lines + cash cushion.",
+      "notifMin": "Minimum amount: 10,000 FCFA.",
+      "notifCapital": "Capital reset to {{montant}} FCFA."
+    }
+  },
+  "meta": {
+    "secteurs": {
+      "Banque": "Banking",
+      "Télécoms": "Telecoms",
+      "Distribution & Énergie": "Distribution & Energy",
+      "Agro-industrie": "Agribusiness",
+      "Transport": "Transport",
+      "Immobilier": "Real estate",
+      "Autres": "Other"
+    },
+    "labels": {
+      "Blue Chip": "Blue Chip",
+      "Haut Dividende": "High Dividend",
+      "Stable": "Stable",
+      "Croissance": "Growth"
+    },
+    "pays": {
+      "CI": "Ivory Coast 🇨🇮",
+      "SN": "Senegal 🇸🇳",
+      "BF": "Burkina Faso 🇧🇫",
+      "ML": "Mali 🇲🇱",
+      "BJ": "Benin 🇧🇯",
+      "TG": "Togo 🇹🇬",
+      "NE": "Niger 🇳🇪",
+      "GW": "Guinea-Bissau 🇬🇼"
+    }
+  },
+  "blogPost": {
+    "back": "← All articles",
+    "noteStrong": "Please note.",
+    "notice": "Article published on {{date}}. Stock prices, yield rates and tax rules change over time: these figures were accurate at the time of writing but may have changed since. Always check up-to-date information with official sources (<0>brvm.org</0>, <1>impots.gouv.fr</1>, your broker) before any decision. Educational content, which does not constitute investment advice. Investing carries a risk of capital loss.",
+    "bodyInFrench": "The English translation of this article is coming soon. Here is the French version in the meantime.",
+    "ctaEyebrow": "To go further",
+    "partager": "Share",
+    "aLireAussi": "Read also",
+    "articlePrecedent": "Previous article",
+    "articleSuivant": "Next article",
+    "products": {
+      "guideEurope": {
+        "nom": "Diaspora PDF Guide",
+        "prix": "€14.99"
+      },
+      "guideUemoa": {
+        "nom": "Resident PDF Guide",
+        "prix": "€14.99"
+      },
+      "tracker": {
+        "nom": "Tracker Dashboard",
+        "prix": "€29.99"
+      }
+    },
+    "pitchDefault": "To go further and take action on the BRVM, step by step.",
+    "pitches": {
+      "investir-brvm-depuis-france": "You know it's possible. The Guide shows you how to open your account remotely and declare it in France, step by step.",
+      "investir-brvm-zone-uemoa": "To take action from your country: open your account with a local broker and handle UEMOA taxation, explained simply.",
+      "erreurs-debutant-brvm": "To avoid these mistakes from the start: a clear method to understand the market and get off on the right foot.",
+      "indices-brvm": "To have the 47 stocks grouped by sector and track your portfolio over time.",
+      "ouvrir-compte-sgi-depuis-etranger": "To open your account without fumbling: the remote steps and the taxation explained from A to Z.",
+      "dividendes-sonatel-2025": "To track your dividends and project your contributions over 30 years, stock by stock.",
+      "brvm-vs-livret-a": "To put numbers on your own strategy: portfolio tracking and simulation of your contributions over the long term.",
+      "fiscalite-dividendes-brvm-uemoa": "To understand taxation from your country in full, with no nasty surprises.",
+      "declarer-compte-brvm-impots-france": "To declare stress-free: French taxation and form 3916 explained step by step.",
+      "sgi-frais-brvm": "To keep an eye on your fees and your portfolio month after month.",
+      "brvm-vs-pea-etf": "To invest concretely on the BRVM, alongside your PEA and your ETFs.",
+      "analyser-action-brvm": "To have the 47 stocks by sector at hand and track your holdings over time.",
+      "juger-cours-action-brvm": "To track your holdings and their sectors, and simulate your contributions over 30 years.",
+      "lire-compte-resultat": "To track your holdings by sector and keep tabs on your portfolio.",
+      "bourses-africaines-panorama": "To get started concretely on the BRVM: understand it, open an account and begin."
+    }
+  },
+  "stickyCta": {
+    "sub": "Complete Pack · Guide + Tracker",
+    "cta": "Get the Pack"
+  },
+  "leadmagnet": {
+    "eyebrow": "Free newsletter",
+    "titre": "Every Monday, the BRVM prices in your inbox",
+    "intro": "A weekly BRVM recap: closing prices, stock movements and practical reminders for diaspora investors.",
+    "point1": "Closing prices updated after each trading session",
+    "point2": "A clear summary, no jargon and no investment advice",
+    "point3": "Practical info on taxation and the steps to take",
+    "disclaimer": "Educational content · Not affiliated with the BRVM or the CREPMF · Unsubscribe anytime",
+    "labelPrenom": "Your first name",
+    "placeholderPrenom": "First name",
+    "labelEmail": "Your email address",
+    "placeholderEmail": "email@example.com",
+    "btn": "Subscribe for free",
+    "btnLoading": "Subscribing...",
+    "succesTitre": "You're subscribed.",
+    "succesTexte": "Check your inbox. This week's selection is waiting for you.",
+    "errCaptcha": "Please tick the \"I'm not a robot\" box above first.",
+    "errEchec": "Oops, the sign-up failed. Try again in a moment or write to us: contact@diaspoinvest.fr"
+  },
+  "temoignages": {
+    "eyebrow": "Customer reviews",
+    "titre": "What they're saying",
+    "note": "/ 5 · {{n}} reviews",
+    "laisserAvis": "✏ Leave a review",
+    "annuler": "✕ Cancel",
+    "partageTitre": "Share your experience",
+    "chargement": "Loading reviews…",
+    "videTitre": "Be the first to leave a review",
+    "videTexte": "Your feedback will help the next readers take the leap.",
+    "laisserMonAvis": "✏ Leave my review",
+    "reponseJordan": "Jordan's reply",
+    "noteLabel": "Your rating *",
+    "paysLabel": "Country *",
+    "paysPlaceholder": "Select your country",
+    "emailLabel": "Email *",
+    "produitLabel": "Product purchased",
+    "produitPlaceholder": "Select a product",
+    "avisLabel": "Your review *",
+    "avisHint": "(10-800 characters)",
+    "avisPlaceholder": "Share your honest experience…",
+    "publier": "Publish my review",
+    "envoi": "Sending…",
+    "merci": "Thanks for your review!",
+    "merciSous": "It's now visible on the site.",
+    "alertNote": "Please choose a rating.",
+    "alertTexte": "Write at least 10 characters.",
+    "erreurPrefix": "Error:",
+    "erreurSuffix": "Try again or write to contact@diaspoinvest.fr",
+    "inconnue": "Unknown",
+    "produits": [
+      "Europe PDF Guide",
+      "UEMOA PDF Guide",
+      "Tracker Dashboard",
+      "Complete Europe Pack",
+      "Complete UEMOA Pack"
+    ]
+  },
+  "quiz": {
+    "welcome": "Welcome to DiaspoInvest",
+    "welcomeSub": "3 quick questions to show you what will truly be useful to you (20 seconds).",
+    "readAlso": "Read also",
+    "allArticles": "See all articles →",
+    "emailDone": "✓ Noted, you're subscribed. Talk soon by email.",
+    "emailLabel": "Get our tips on the African stock market by email (optional):",
+    "emailPlaceholder": "your@email.com",
+    "emailError": "Something went wrong, please try again.",
+    "close": "Close and explore the site",
+    "legal": "DiaspoInvest · Never any spam · You can unsubscribe whenever you want",
+    "fermer": "Close",
+    "qExperience": "Do you already know the African stock market?",
+    "expBeginner": "No, I'm discovering it",
+    "expJunior": "A little, I'm getting started",
+    "expAdvanced": "Yes, I already invest",
+    "goalBeginner": "What are you looking for here?",
+    "goalBeginnerLearn": "Understand how all of this works",
+    "goalBeginnerAnalyze": "Find out if it's right for me",
+    "goalBeginnerOptimize": "Avoid the pitfalls (fees, taxes)",
+    "goalJunior": "What do you want to improve on?",
+    "goalJuniorLearn": "Strengthen my basics",
+    "goalJuniorAnalyze": "Learn to pick my stocks",
+    "goalJuniorOptimize": "Cut my fees and my taxes",
+    "goalAdvanced": "What interests you most?",
+    "goalAdvancedLearn": "Go deeper into fundamental analysis",
+    "goalAdvancedAnalyze": "Select and value stocks",
+    "goalAdvancedOptimize": "Optimize taxes, fees and allocation",
+    "qLocation": "Where do you live right now?",
+    "locUemoa": "In West Africa (Ivory Coast, Senegal, Benin…)",
+    "locAfrique": "Elsewhere in Africa (Cameroon, Gabon, Morocco…)",
+    "locMonde": "In Europe, Canada, or elsewhere",
+    "titleBeginner": "Just starting out? Here's where to begin",
+    "titleJunior": "Know the basics? Here's what comes next",
+    "titleAdvanced": "Already familiar? Let's get to the point",
+    "introLearn": "Enough to really understand how it all works.",
+    "introAnalyze": "Enough to pick and analyze stocks on your own.",
+    "introOptimize": "Enough to optimize your fees, taxes and strategy.",
+    "items": {
+      "artUemoa": {
+        "title": "Investing in the African stock market when you live in Africa",
+        "text": "The resident's guide, explained simply."
+      },
+      "artImpotsUemoa": {
+        "title": "The taxes on your gains, made clear",
+        "text": "What you really pay depending on your country."
+      },
+      "artDepuisEtranger": {
+        "title": "Investing in the African stock market from abroad",
+        "text": "How it works, step by step."
+      },
+      "artOuvrir": {
+        "title": "Open your account remotely",
+        "text": "The documents and the steps, without taking a flight."
+      },
+      "artVsLivret": {
+        "title": "African stock market or a savings account?",
+        "text": "The simple comparison, without drowning you in detail."
+      },
+      "artImpotsFr": {
+        "title": "Declaring your account to the French tax office",
+        "text": "The form not to forget, stress-free."
+      },
+      "artSonatel": {
+        "title": "How much a stock actually pays",
+        "text": "The Sonatel example, with the numbers to back it up."
+      },
+      "artAnalyse": {
+        "title": "Analyzing a stock: the ratios that matter",
+        "text": "P/E, EPS, payout, ROE, liquidity. The method to judge a company."
+      },
+      "artValo": {
+        "title": "Judging a price: expensive or cheap?",
+        "text": "Valuation, sustainable dividend, stock liquidity."
+      },
+      "artCompteResultat": {
+        "title": "Reading an income statement",
+        "text": "Revenue, margins, net income: decoding a company."
+      },
+      "artSgiFrais": {
+        "title": "Brokers and fees: their impact on your returns",
+        "text": "How to pick a broker and why fees matter over 20 years."
+      },
+      "artVsPea": {
+        "title": "BRVM, tax-advantaged account or World ETF: how to choose",
+        "text": "What the diaspora should understand before deciding."
+      },
+      "artBourses": {
+        "title": "African stock markets beyond the BRVM",
+        "text": "Nigeria, South Africa, Morocco… an overview of the continent."
+      },
+      "toolScreener": {
+        "title": "See the 47 companies on the exchange",
+        "text": "Their prices and what they pay out each year. Free."
+      },
+      "toolBacktest": {
+        "title": "How much you'd have earned by investing earlier",
+        "text": "Pick a company and an amount, the calculation runs. Free."
+      },
+      "toolCalc": {
+        "title": "Estimate what your savings could earn",
+        "text": "Enter an amount, see the result. Free."
+      },
+      "toolFisc": {
+        "title": "See what's left after taxes",
+        "text": "Compare based on your country. Free."
+      },
+      "guideUemoa": {
+        "title": "Resident PDF Guide (€14.99)",
+        "text": "Understand the market, open your account in your country and handle taxes."
+      },
+      "guideEurope": {
+        "title": "Diaspora PDF Guide (€14.99)",
+        "text": "Understand the market, open an account remotely and declare it in France."
+      },
+      "tracker": {
+        "title": "Tracker Dashboard (€29.99)",
+        "text": "The 47 stocks by sector, a 30-year projection and portfolio tracking."
+      },
+      "packUemoa": {
+        "title": "Complete Resident Pack (€39.99)",
+        "text": "The resident guide plus the Tracker to track and project your savings."
+      },
+      "packEurope": {
+        "title": "Complete Diaspora Pack (€39.99)",
+        "text": "The diaspora guide plus the Tracker to track and project your savings."
+      }
+    }
+  },
+  "calc": {
+    "eyebrow": "Investment simulator",
+    "titre": "How much could your savings earn if invested in the stock market?",
+    "intro": "This simulator answers 3 different questions. First choose the one you're interested in (step 2 below), then fill in the requested information: the result appears automatically at the bottom.",
+    "coursUpdated": "Stock prices updated on {{date}}",
+    "step1Title": "Step 1 — Choose a company",
+    "step1Desc": "Search the list below for a company listed on the West African regional stock exchange. Its price (the cost of one share of the company) and its yield fill in automatically.",
+    "searchPlaceholder": "Search for a stock (name or code)…",
+    "loading": "Loading BRVM prices…",
+    "error": "Data not available.",
+    "groupDividende": "── Dividend-paying stocks ──────────",
+    "groupAutres": "── Other stocks ────────────────────",
+    "coursLabel": "Current price of one share (the \"quote\")",
+    "coursDesc": "This is the price you'd pay today to buy a single share of this company. Filled in automatically, editable if needed.",
+    "rendementLabel": "Yield: what a share pays out each year",
+    "rendementDesc": "This is the percentage of the share price that the company pays out to its shareholders each year, as a dividend. The higher this figure, the more the share pays relative to its price.",
+    "parAn": "% per year",
+    "noDividende": "This company has no known dividend — enter a rate yourself to simulate.",
+    "step2Title": "Step 2 — Choose the question you want answered",
+    "step2Desc": "Click one of the 3 boxes below. The one you choose becomes the result the simulator will calculate for you; the other two become the information you need to fill in.",
+    "trioApport": "How much to invest each month",
+    "trioDuree": "For how many years",
+    "trioDivann": "What annual income to reach",
+    "unitFcfa": "FCFA",
+    "unitAns": "years",
+    "unitFcfaAn": "FCFA/yr",
+    "valAns": "{{n}} years",
+    "trioHint": "The box outlined in gold above is what the simulator will calculate for you.",
+    "step3Title": "Step 3 — Fill in the requested information",
+    "step3Desc": "Type an amount directly into the fields below, just like on a regular calculator.",
+    "sliderApport": "How much do you invest each month?",
+    "sliderDuree": "Over how many years?",
+    "sliderDivann": "What annual dividend income are you aiming for?",
+    "resultTitle": "Result",
+    "resultDesc": "Here is the answer calculated from what you chose and filled in above.",
+    "custom": "Custom",
+    "labelDivann": "Here is the annual income you'd receive in dividends",
+    "unitDivann": "FCFA EACH YEAR",
+    "contextDivann": "By investing {{apport}} FCFA every month for {{duree}} years in {{nom}} shares (gross yield of {{taux}}%)",
+    "labelApport": "Here is the amount to invest each month",
+    "unitApport": "FCFA EACH MONTH",
+    "contextApport": "To earn {{div}} FCFA in dividends every year, after {{duree}} years, with {{nom}} shares",
+    "labelDuree": "Here is the number of years you'll need",
+    "unitDureePlural": "YEARS",
+    "unitDureeSingular": "YEAR",
+    "contextDuree": "By investing {{apport}} FCFA every month in {{nom}} shares, to reach {{div}} FCFA in dividends per year",
+    "detailIntro": "The detail behind this result:",
+    "kpiActions": "Number of shares owned at the end",
+    "kpiPortef": "Total value of those shares at the end",
+    "kpiCapital": "Total you will have paid in over time",
+    "kpiDivCumul": "Total dividends received over the period",
+    "ecartExpl": "Why is the value of the shares ({{portef}} FCFA) slightly lower than the total paid in ({{capital}} FCFA)? Two reasons: about <0>{{frais}} FCFA</0> went to brokerage fees (0.5% per contribution), and <1>{{reste}} FCFA</1> remain waiting to be invested at the end of the simulation (you can only buy whole shares, never a fraction).",
+    "livretIntro": "For comparison: here's what the same contributions would have earned in a standard 1.5% savings account over the same period.",
+    "livretLabel": "Standard savings (1.5%)",
+    "livretSub": "in interest earned in total",
+    "actionLabel": "{{sym}} shares",
+    "actionDefault": "selected",
+    "actionSub": "in dividends earned in total",
+    "disclaimer1": "This simulator makes a mathematical projection from the current price and dividend, assuming they stay stable. It is neither a guarantee nor personalized investment advice.",
+    "disclaimerSource": "Stock prices as of {{date}} · Sources: BRVM.org + sikafinance.com",
+    "disclaimerAffil": "DiaspoInvest is not affiliated with the BRVM or the CREPMF"
+  },
+  "data": {
+    "avertTitre": "Legal disclaimer",
+    "disclaimer": "Independent educational guide, not affiliated with the BRVM or the CREPMF. This content does not constitute investment advice. Prices, yields and tax rules change over time: always check up-to-date data with official sources (brvm.org, impots.gouv.fr, your broker) before any decision. Investing carries a risk of capital loss.",
+    "solutionHead": {
+      "eyebrow": "The DiaspoInvest method",
+      "titre": "From zero to your first investment",
+      "sousTitre": "A clear, concrete path built for beginners, no jargon, with real BRVM figures."
+    },
+    "solutions": [
+      {
+        "titre": "Understand the BRVM",
+        "texte": "The basics of the UEMOA regional stock market explained simply, without needless jargon."
+      },
+      {
+        "titre": "Choose your stocks",
+        "texte": "47 stocks analyzed by sector, with Blue Chip, Stable and High Dividend labels."
+      },
+      {
+        "titre": "Simulate before investing",
+        "texte": "A 30-year DCA calculator that separates price growth from dividend growth."
+      },
+      {
+        "titre": "Master the taxation",
+        "texte": "Flat tax 31.4%, forms 3916 / 2047 / 2074 and tax treaties explained."
+      },
+      {
+        "titre": "Take action",
+        "texte": "A clear method to open an account with a broker (SGI) and start your first DCA plan."
+      }
+    ],
+    "blogPreview": {
+      "eyebrow": "Free resources",
+      "titre": "Our latest articles",
+      "sousTitre": "Real figures, no jargon. Everything you need to know to invest on the BRVM.",
+      "lecture": "read",
+      "lireLarticle": "Read the article →",
+      "voirTous": "See all articles →"
+    },
+    "faq": [
+      {
+        "q": "What if it's not right for me?",
+        "r": "Money-back guarantee, no conditions, for 14 days. Email contact@diaspoinvest.fr and you're refunded within 48 hours. No questions asked."
+      },
+      {
+        "q": "I know nothing about the stock market, is this for me?",
+        "r": "Yes, it's exactly for you. The guide starts from scratch: what the BRVM is, how to open an account from the diaspora, which stocks to look at first. Everything is explained in plain language, no financial jargon."
+      },
+      {
+        "q": "What's the minimum needed to start investing on the BRVM?",
+        "r": "There's no legal minimum. In practice, with 50,000 to 100,000 FCFA (75 to 150 €) you can buy your first share. Brokerage fees are around 0.5% per order. It's better to start small and regular than to wait until you have a large sum."
+      },
+      {
+        "q": "How do I send money from France to invest?",
+        "r": "You use an international SWIFT bank transfer to your broker's account, or services like Wave, Orange Money or Wise depending on the broker chosen. The guide details the cheapest and fastest options for the diaspora."
+      },
+      {
+        "q": "Which broker (SGI) do you recommend for the diaspora?",
+        "r": "I don't recommend any particular broker because this isn't investment advice. The guide compares the criteria to check (digital access, fees, diaspora support) so you can make your own informed choice."
+      },
+      {
+        "q": "Can I invest from France (or abroad)?",
+        "r": "Yes. Some brokers offer 100% digital access suited to the diaspora. The guide explains the account-opening steps and, above all, how to declare that account in France to stay compliant."
+      },
+      {
+        "q": "Do I have to declare my account to the French tax authorities?",
+        "r": "Yes, it's mandatory. An account held abroad must be declared via form 3916, or you risk a 1,500 € fine per year. Dividends are taxed under the flat tax (PFU) of 31.4%. The guide details the whole process."
+      },
+      {
+        "q": "Are capital gains taxed in France?",
+        "r": "Yes, capital gains from selling BRVM shares are taxable in France at 31.4% (flat tax, since 2026). However, they are exempt from tax in the UEMOA zone. The guide explains how to declare them correctly via form 2074."
+      },
+      {
+        "q": "Are the figures up to date?",
+        "r": "BRVM data is retrieved automatically every trading day from brvm.org. Prices and yields change: always check the latest information with your broker before any decision."
+      },
+      {
+        "q": "Is this investment advice?",
+        "r": "No. DiaspoInvest provides educational content only. Nothing on this site constitutes personalized investment advice. Investing carries a risk of capital loss."
+      }
+    ],
+    "products": {
+      "guide": {
+        "nom": "Europe PDF Guide",
+        "sousTitre": "Investing from France",
+        "points": [
+          "Understand the BRVM step by step",
+          "Open an account with a broker (SGI) remotely",
+          "Declare your account in France (form 3916)",
+          "French taxation explained (flat tax 31.4%)",
+          "PDF format · instant access"
+        ]
+      },
+      "pack": {
+        "nom": "Complete Europe Pack",
+        "sousTitre": "Guide + Tracker Dashboard",
+        "points": [
+          "The full Europe Diaspora PDF Guide",
+          "The Tracker Dashboard (13 tabs)",
+          "30-year DCA simulator + France / UEMOA taxation",
+          "6 months of price updates included",
+          "Best value for money"
+        ]
+      },
+      "calculateur": {
+        "nom": "Tracker Dashboard",
+        "sousTitre": "13 tabs · Excel",
+        "points": [
+          "47 BRVM stocks by sector",
+          "30-year DCA simulator + France / UEMOA taxation",
+          "Personal portfolio tracking",
+          "6 months of price updates included"
+        ]
+      },
+      "guideUemoa": {
+        "nom": "UEMOA PDF Guide",
+        "sousTitre": "Investing from the UEMOA zone",
+        "points": [
+          "Understand the BRVM and its 47 stocks",
+          "Open a broker (SGI) account in your country",
+          "UEMOA taxation (capital gains exempt)",
+          "DCA strategy tailored to residents",
+          "PDF format · instant access"
+        ]
+      },
+      "trackerUemoa": {
+        "nom": "Tracker Dashboard",
+        "sousTitre": "13 tabs · Excel",
+        "points": [
+          "47 BRVM stocks by sector",
+          "30-year DCA simulator with UEMOA taxation",
+          "Personal portfolio tracking",
+          "6 months of price updates included"
+        ]
+      },
+      "packUemoa": {
+        "nom": "Complete UEMOA Pack",
+        "sousTitre": "UEMOA Guide + Tracker Dashboard",
+        "points": [
+          "The full UEMOA Resident PDF Guide",
+          "The Tracker Dashboard (13 tabs)",
+          "UEMOA taxation country by country",
+          "6 months of price updates included",
+          "Best value for money"
+        ]
+      }
+    }
   }
 }

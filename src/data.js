@@ -1,13 +1,13 @@
 // Données centralisées DiaspoInvest — source unique de vérité.
 // Données BRVM factuelles (Juin 2026). Référence éducative uniquement.
-// Non affilié à la BRVM ni au CREPMF.
+// Non affilié à la BRVM ni à l'Autorité des Marchés Financiers de l'UMOA (AMF-UMOA, ex-CREPMF).
 
 export const LIENS = {
-  guide:      "https://diaspoinvest.gumroad.com/l/oxxzda",
-  guideUemoa: "https://diaspoinvest.gumroad.com/l/dpqvqo",
-  calculateur:"https://diaspoinvest.gumroad.com/l/tocir",
-  pack:       "https://diaspoinvest.gumroad.com/l/ecspxh",
-  packUemoa:  "https://diaspoinvest.gumroad.com/l/cvkcwo",
+  guide:      "https://pay.hotmart.com/F106625297S", // Guide PDF Europe
+  guideUemoa: "https://pay.hotmart.com/S106627946N", // Guide PDF UEMOA
+  calculateur:"https://pay.hotmart.com/I106628667V", // Tracker Dashboard
+  pack:       "https://pay.hotmart.com/B106692769D", // Pack Complet Europe
+  packUemoa:  "https://pay.hotmart.com/O106693011E", // Pack Complet UEMOA
 }
 
 // Données BRVM — 16/06/2026 · Source : scraper brvm_scraper.py (brvm.org + sikafinance.com)
@@ -47,7 +47,7 @@ export const PRODUITS = [
     id: "pack",
     nom: "Pack Complet Europe",
     sousTitre: "Guide + Tracker Dashboard",
-    prix: "29,99 €",
+    prix: "39,99 €",
     lien: LIENS.pack,
     populaire: true,
     points: [
@@ -62,7 +62,7 @@ export const PRODUITS = [
     id: "calculateur",
     nom: "Tracker Dashboard",
     sousTitre: "13 onglets · Excel",
-    prix: "19,99 €",
+    prix: "29,99 €",
     prixBarre: "34,99 €",
     lien: LIENS.calculateur,
     populaire: false,
@@ -96,7 +96,7 @@ export const PRODUITS_UEMOA = [
     id: "trackerUemoa",
     nom: "Tracker Dashboard",
     sousTitre: "13 onglets · Excel",
-    prix: "19,99 €",
+    prix: "29,99 €",
     prixBarre: "34,99 €",
     lien: LIENS.calculateur,
     populaire: false,
@@ -111,7 +111,7 @@ export const PRODUITS_UEMOA = [
     id: "packUemoa",
     nom: "Pack Complet UEMOA",
     sousTitre: "Guide UEMOA + Tracker Dashboard",
-    prix: "29,99 €",
+    prix: "39,99 €",
     lien: LIENS.packUemoa,
     populaire: true,
     points: [

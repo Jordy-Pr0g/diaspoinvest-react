@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const OR    = '#C9A84C'
 const VERT3 = '#2ECC8B'
@@ -37,14 +38,6 @@ const PAYS_LIST = [
   "Zambie","Zimbabwe",
 ]
 
-const PRODUITS_OPTIONS = [
-  'Guide PDF Europe',
-  'Guide PDF UEMOA',
-  'Tracker Dashboard',
-  'Pack Complet Europe',
-  'Pack Complet UEMOA',
-]
-
 function Etoiles({ n, onClick, interactive = false }) {
   return (
     <span style={{ display: 'inline-flex', gap: 2 }}>
@@ -66,6 +59,7 @@ function Etoiles({ n, onClick, interactive = false }) {
 }
 
 function AvisCard({ avis }) {
+  const { t } = useTranslation()
   return (
     <div style={{
       background: '#0F1A12',
@@ -122,7 +116,7 @@ function AvisCard({ avis }) {
           borderRadius: 10, padding: '12px 14px', marginTop: 4,
         }}>
           <div style={{ fontSize: 10, fontWeight: 700, color: VERT3, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
-            Réponse de Jordan
+            {t('temoignages.reponseJordan')}
           </div>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.6 }}>
             {avis.reponse}
@@ -134,6 +128,8 @@ function AvisCard({ avis }) {
 }
 
 function FormulaireAvis({ onSuccess }) {
+  const { t } = useTranslation()
+  const PRODUITS = t('temoignages.produits', { returnObjects: true })
   const [email,   setEmail]   = useState('')
   const [pays,    setPays]    = useState('')
   const [produit, setProduit] = useState('')
@@ -145,8 +141,8 @@ function FormulaireAvis({ onSuccess }) {
 
   async function soumettre(e) {
     e.preventDefault()
-    if (etoiles === 0) { alert('Merci de choisir une note.'); return }
-    if (texte.trim().length < 10) { alert('Écris au moins 10 caractères.'); return }
+    if (etoiles === 0) { alert(t('temoignages.alertNote')); return }
+    if (texte.trim().length < 10) { alert(t('temoignages.alertTexte')); return }
     setStatut('loading')
     setErrMsg('')
     try {
@@ -171,9 +167,9 @@ function FormulaireAvis({ onSuccess }) {
 
   if (statut === 'succes') return (
     <div style={{ textAlign: 'center', padding: '32px 0' }}>
-      <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 6 }}>Merci pour ton avis !</div>
+      <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 6 }}>{t('temoignages.merci')}</div>
       <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>
-        Il est maintenant visible sur le site.
+        {t('temoignages.merciSous')}
       </div>
     </div>
   )
@@ -183,7 +179,7 @@ function FormulaireAvis({ onSuccess }) {
       {/* Note étoiles */}
       <div>
         <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-          Ta note *
+          {t('temoignages.noteLabel')}
         </div>
         <div
           style={{ display: 'inline-flex', gap: 4 }}
@@ -205,34 +201,34 @@ function FormulaireAvis({ onSuccess }) {
 
       {/* Champs */}
       <div>
-        <label style={lblStyle}>Pays *</label>
+        <label style={lblStyle}>{t('temoignages.paysLabel')}</label>
         <select style={{...inputStyle, backgroundImage:'none', color: pays ? '#fff' : 'rgba(255,255,255,0.4)'}} value={pays} onChange={e=>setPays(e.target.value)} required>
-          <option value="" style={{background:'#1A2E1D', color:'rgba(255,255,255,0.5)'}}>Sélectionne ton pays</option>
+          <option value="" style={{background:'#1A2E1D', color:'rgba(255,255,255,0.5)'}}>{t('temoignages.paysPlaceholder')}</option>
           {PAYS_LIST.map(p=><option key={p} value={p} style={{background:'#1A2E1D', color:'#fff'}}>{p}</option>)}
         </select>
       </div>
 
       <div>
-        <label style={lblStyle}>Email *</label>
+        <label style={lblStyle}>{t('temoignages.emailLabel')}</label>
         <input style={inputStyle} type="email" value={email} onChange={e => setEmail(e.target.value)}
           placeholder="ton@email.com" required />
       </div>
 
       <div>
-        <label style={lblStyle}>Produit acheté</label>
+        <label style={lblStyle}>{t('temoignages.produitLabel')}</label>
         <select style={{...inputStyle, backgroundImage: 'none', color: produit ? '#fff' : 'rgba(255,255,255,0.4)'}} value={produit} onChange={e => setProduit(e.target.value)}>
-          <option value="" style={{background:'#1A2E1D', color:'rgba(255,255,255,0.5)'}}>Sélectionne un produit</option>
-          {PRODUITS_OPTIONS.map(p => <option key={p} value={p} style={{background:'#1A2E1D', color:'#fff'}}>{p}</option>)}
+          <option value="" style={{background:'#1A2E1D', color:'rgba(255,255,255,0.5)'}}>{t('temoignages.produitPlaceholder')}</option>
+          {PRODUITS.map(p => <option key={p} value={p} style={{background:'#1A2E1D', color:'#fff'}}>{p}</option>)}
         </select>
       </div>
 
       <div>
-        <label style={lblStyle}>Ton avis * <span style={{ color: 'rgba(255,255,255,0.25)', fontWeight: 400 }}>(10-800 caractères)</span></label>
+        <label style={lblStyle}>{t('temoignages.avisLabel')} <span style={{ color: 'rgba(255,255,255,0.25)', fontWeight: 400 }}>{t('temoignages.avisHint')}</span></label>
         <textarea
           style={{ ...inputStyle, minHeight: 100, resize: 'vertical', lineHeight: 1.6 }}
           value={texte}
           onChange={e => setTexte(e.target.value)}
-          placeholder="Partage ton expérience sincère…"
+          placeholder={t('temoignages.avisPlaceholder')}
           required minLength={10} maxLength={800}
         />
         <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', textAlign: 'right', marginTop: 3 }}>
@@ -251,12 +247,12 @@ function FormulaireAvis({ onSuccess }) {
           opacity: statut === 'loading' ? 0.7 : 1, width: '100%',
         }}
       >
-        {statut === 'loading' ? 'Envoi…' : 'Publier mon avis'}
+        {statut === 'loading' ? t('temoignages.envoi') : t('temoignages.publier')}
       </button>
 
       {statut === 'erreur' && (
         <p style={{ fontSize: 12, color: '#FF7676', textAlign: 'center' }}>
-          Erreur : {errMsg || 'Inconnue'}. Réessaie ou écris à contact@diaspoinvest.fr
+          {t('temoignages.erreurPrefix')} {errMsg || t('temoignages.inconnue')}. {t('temoignages.erreurSuffix')}
         </p>
       )}
     </form>
@@ -278,6 +274,7 @@ const lblStyle = {
 }
 
 export default function Temoignages() {
+  const { t } = useTranslation()
   const [avis,         setAvis]         = useState([])
   const [chargement,   setChargement]   = useState(true)
   const [showForm,     setShowForm]     = useState(false)
@@ -326,13 +323,13 @@ export default function Temoignages() {
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 36 }}>
           <div>
-            <span className="eyebrow">Avis clients</span>
-            <h2 style={{ marginTop: 6, marginBottom: 6 }}>Ce qu'ils en disent</h2>
+            <span className="eyebrow">{t('temoignages.eyebrow')}</span>
+            <h2 style={{ marginTop: 6, marginBottom: 6 }}>{t('temoignages.titre')}</h2>
             {nb > 0 && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
                 <Etoiles n={Math.round(parseFloat(moy))} />
                 <span style={{ fontFamily: 'DM Mono, monospace', fontWeight: 900, fontSize: 18, color: OR }}>{moy}</span>
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>/ 5 · {nb} avis</span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{t('temoignages.note', { n: nb })}</span>
               </div>
             )}
           </div>
@@ -348,7 +345,7 @@ export default function Temoignages() {
               cursor: 'pointer', transition: 'all 0.2s',
             }}
           >
-            {showForm ? '✕ Annuler' : '✏ Laisser un avis'}
+            {showForm ? t('temoignages.annuler') : t('temoignages.laisserAvis')}
           </button>
         </div>
 
@@ -360,7 +357,7 @@ export default function Temoignages() {
             borderRadius: 18, padding: '28px 24px',
             marginBottom: 32,
           }}>
-            <h3 style={{ marginBottom: 20, fontSize: 18 }}>Partage ton expérience</h3>
+            <h3 style={{ marginBottom: 20, fontSize: 18 }}>{t('temoignages.partageTitre')}</h3>
             <FormulaireAvis onSuccess={onSuccess} />
           </div>
         )}
@@ -368,7 +365,7 @@ export default function Temoignages() {
         {/* Liste des avis */}
         {chargement ? (
           <div style={{ textAlign: 'center', padding: '40px 0', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
-            Chargement des avis…
+            {t('temoignages.chargement')}
           </div>
         ) : nb === 0 ? (
           <div style={{
@@ -376,9 +373,9 @@ export default function Temoignages() {
             background: '#0F1A12', border: '1px dashed rgba(255,255,255,0.1)',
             borderRadius: 16,
           }}>
-            <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Sois le premier à laisser un avis</div>
+            <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>{t('temoignages.videTitre')}</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', marginBottom: 20 }}>
-              Ton retour aidera les prochains lecteurs à franchir le pas.
+              {t('temoignages.videTexte')}
             </div>
             <button
               onClick={() => setShowForm(true)}
@@ -389,7 +386,7 @@ export default function Temoignages() {
                 border: 'none', padding: '12px 24px',
                 borderRadius: 10, cursor: 'pointer',
               }}
-            >✏ Laisser mon avis</button>
+            >{t('temoignages.laisserMonAvis')}</button>
           </div>
         ) : (
           <div className="avis-grid">

@@ -4,30 +4,32 @@ import { useTranslation } from 'react-i18next'
 import { LIENS, DISCLAIMER } from '../data.js'
 import Modal from './Modal.jsx'
 
-const OUTILS = [
-  { to: '/screener',  label: 'Screener & dividendes' },
-  { to: '/backtest',  label: 'Backtest DCA'          },
-  { to: '/fiscalite', label: 'Calculateur fiscal'    },
-  { to: '/guides',    label: 'Tous les outils'       },
-]
-
-const RESSOURCES = [
-  { to: '/blog',                                          label: 'Blog'                             },
-  { to: '/blog/investir-brvm-depuis-france',              label: 'Investir depuis la France'        },
-  { to: '/blog/brvm-vs-livret-a',                         label: 'BRVM vs Livret A'                 },
-  { to: '/blog/ouvrir-compte-sgi-depuis-etranger',        label: 'Ouvrir un compte SGI'             },
-  { to: '/blog/declarer-compte-brvm-impots-france',       label: 'Déclarer son compte aux impôts'   },
-]
-
-const PRODUITS = [
-  { href: LIENS.guide,      label: 'Guide PDF Europe · 14,99 €'  },
-  { href: LIENS.guideUemoa, label: 'Guide PDF UEMOA · 14,99 €'   },
-  { href: LIENS.calculateur,label: 'Tracker Dashboard · 19,99 €' },
-  { href: LIENS.pack,       label: 'Pack Complet · 29,99 €'      },
-]
-
 export default function Footer({ onOpenModal }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const en = i18n.language === 'en'
+
+  const OUTILS = [
+    { to: '/screener',  label: t('footer.outilScreener') },
+    { to: '/backtest',  label: t('footer.outilBacktest') },
+    { to: '/fiscalite', label: t('footer.outilFiscal')   },
+    { to: '/guides',    label: t('footer.outilTous')     },
+  ]
+
+  const RESSOURCES = [
+    { to: '/blog',                                    label: t('nav.blog')            },
+    { to: '/blog/investir-brvm-depuis-france',        label: t('footer.ressInvestir') },
+    { to: '/blog/brvm-vs-livret-a',                   label: t('footer.ressVsLivret') },
+    { to: '/blog/ouvrir-compte-sgi-depuis-etranger',  label: t('footer.ressOuvrir')   },
+    { to: '/blog/declarer-compte-brvm-impots-france', label: t('footer.ressDeclarer') },
+  ]
+
+  const PRODUITS = [
+    { href: LIENS.guide,       label: t('footer.prodGuideEurope') },
+    { href: LIENS.guideUemoa,  label: t('footer.prodGuideUemoa')  },
+    { href: LIENS.calculateur, label: t('footer.prodTracker')     },
+    { href: LIENS.pack,        label: t('footer.prodPack')        },
+  ]
+
   // Footer autonome : si la page ne fournit pas de gestion de modal, on gère la nôtre,
   // pour que les liens légaux soient accessibles depuis TOUTES les pages.
   const [localModal, setLocalModal] = useState(null)
@@ -53,7 +55,7 @@ export default function Footer({ onOpenModal }) {
             </a>
             <div className="footer-badges">
               <span>Paris</span>
-              <span>BRVM · 8 pays UEMOA</span>
+              <span>{t('footer.badgeBrvm')}</span>
             </div>
           </div>
 
@@ -108,7 +110,7 @@ export default function Footer({ onOpenModal }) {
         {/* Disclaimer */}
         <div className="footer-disclaimer">
           <span className="footer-disclaimer-icon">⚠</span>
-          <p>{DISCLAIMER}</p>
+          <p>{en ? t('data.disclaimer') : DISCLAIMER}</p>
         </div>
 
         {/* Barre de bas */}

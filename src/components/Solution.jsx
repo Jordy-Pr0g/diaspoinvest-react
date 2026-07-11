@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { SOLUTIONS } from '../data.js'
 const ICONS = [
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
@@ -8,20 +9,22 @@ const ICONS = [
 ]
 
 export default function Solution() {
+  const { t, i18n } = useTranslation()
+  const en = i18n.language === 'en'
+  const solutions = en ? t('data.solutions', { returnObjects: true }) : SOLUTIONS
   return (
     <section className="section solution" id="solution">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow">La méthode DiaspoInvest</span>
-          <h2>De zéro à ton premier investissement</h2>
+          <span className="eyebrow">{en ? t('data.solutionHead.eyebrow') : 'La méthode DiaspoInvest'}</span>
+          <h2>{en ? t('data.solutionHead.titre') : 'De zéro à ton premier investissement'}</h2>
           <p>
-            Un parcours clair et concret, pensé pour les débutants, sans jargon, avec des
-            chiffres réels de la BRVM.
+            {en ? t('data.solutionHead.sousTitre') : 'Un parcours clair et concret, pensé pour les débutants, sans jargon, avec des chiffres réels de la BRVM.'}
           </p>
         </div>
 
         <div className="solution-grid">
-          {SOLUTIONS.map((s, i) => (
+          {solutions.map((s, i) => (
             <div className="solution-card" key={s.titre}>
               <div className="ic" aria-hidden="true">
                 {ICONS[i]}

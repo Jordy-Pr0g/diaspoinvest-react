@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const OR = '#D4AF37'
 
 export default function NotFound() {
+  const { t } = useTranslation()
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
@@ -15,11 +17,10 @@ export default function NotFound() {
       }}>404</div>
 
       <h1 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: 12 }}>
-        Cette page n'existe pas
+        {t('pages.notFound.titre')}
       </h1>
       <p style={{ color: 'rgba(255,255,255,0.45)', maxWidth: 380, lineHeight: 1.7, marginBottom: 36 }}>
-        Peut-être que l'URL a changé, ou que le lien est cassé.
-        Pendant ce temps, le BRVM Composite continue de grimper.
+        {t('pages.notFound.texte')}
       </p>
 
       <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -27,14 +28,14 @@ export default function NotFound() {
           padding: '12px 28px', background: OR, borderRadius: 10,
           color: '#0D2B1E', fontWeight: 800, textDecoration: 'none', fontSize: '0.95rem',
         }}>
-          Retour à l'accueil
+          {t('pages.notFound.accueil')}
         </Link>
         <Link to="/blog" style={{
           padding: '12px 28px', border: `1px solid rgba(255,255,255,0.15)`,
           borderRadius: 10, color: 'rgba(255,255,255,0.7)',
           fontWeight: 600, textDecoration: 'none', fontSize: '0.95rem',
         }}>
-          Lire le blog
+          {t('pages.notFound.blog')}
         </Link>
       </div>
     </div>

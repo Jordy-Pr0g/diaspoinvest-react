@@ -81,6 +81,435 @@
     "apropos": "À propos",
     "contact": "Contact",
     "copyright": "© 2026 DiaspoInvest · Jordan DJIOKAP · Paris",
-    "disclaimerBas": "Non affilié à la BRVM ni au CREPMF · Ceci n'est pas un conseil en investissement"
+    "disclaimerBas": "Non affilié à la BRVM ni au CREPMF · Ceci n'est pas un conseil en investissement",
+    "badgeBrvm": "BRVM · 8 pays UEMOA",
+    "outilScreener": "Screener & dividendes",
+    "outilBacktest": "Backtest DCA",
+    "outilFiscal": "Calculateur fiscal",
+    "outilTous": "Tous les outils",
+    "ressInvestir": "Investir depuis la France",
+    "ressVsLivret": "BRVM vs Livret A",
+    "ressOuvrir": "Ouvrir un compte SGI",
+    "ressDeclarer": "Déclarer son compte aux impôts",
+    "prodGuideEurope": "Guide PDF Europe · 14,99 €",
+    "prodGuideUemoa": "Guide PDF UEMOA · 14,99 €",
+    "prodTracker": "Tracker Dashboard · 29,99 €",
+    "prodPack": "Pack Complet · 39,99 €"
+  },
+  "cookie": {
+    "texte": "Ce site utilise Plausible Analytics, un outil sans cookie conforme RGPD, pour mesurer l'audience de façon anonyme. Aucune donnée personnelle n'est collectée.",
+    "enSavoirPlus": "En savoir plus",
+    "accepter": "Accepter",
+    "refuser": "Refuser",
+    "aria": "Gestion des cookies"
+  },
+  "pages": {
+    "retourAccueil": "← Accueil",
+    "notFound": {
+      "titre": "Cette page n'existe pas",
+      "texte": "Peut-être que l'URL a changé, ou que le lien est cassé. Pendant ce temps, le BRVM Composite continue de grimper.",
+      "accueil": "Retour à l'accueil",
+      "blog": "Lire le blog"
+    },
+    "blogIndex": {
+      "titre": "Le blog DiaspoInvest",
+      "sousTitre": "Tout ce que tu dois savoir pour investir sur la BRVM depuis la diaspora. Des chiffres réels, pas de jargon."
+    },
+    "guides": {
+      "eyebrow": "Outils & Ressources",
+      "titre": "Tous les outils DiaspoInvest",
+      "sousTitre": "Screener, backtest, fiscalité : tout ce qu'il faut pour investir sur la BRVM depuis l'étranger.",
+      "screenerTitre": "Screener BRVM",
+      "screenerDesc": "Filtre toutes les actions cotées par rendement, secteur, pays. Identifie les meilleures opportunités en un coup d'œil.",
+      "screenerCta": "Ouvrir le screener →",
+      "backtestTitre": "Backtest DCA",
+      "backtestDesc": "Simule un investissement mensuel régulier sur n'importe quelle action BRVM depuis 1998. Données officielles réelles.",
+      "backtestCta": "Lancer un backtest →",
+      "fiscalTitre": "Calculateur Fiscal",
+      "fiscalDesc": "Calcule ton imposition réelle sur les dividendes BRVM selon ton pays de résidence. France, Belgique, Canada, UEMOA...",
+      "fiscalCta": "Calculer mon impôt →",
+      "blogTitre": "Blog & Analyses",
+      "blogDesc": "Articles sur l'investissement en BRVM, la fiscalité de la diaspora, et les stratégies DCA pour l'Afrique.",
+      "blogCta": "Lire les articles →"
+    },
+    "apropos": {
+      "eyebrow": "À propos",
+      "quote": "« Rendre la bourse africaine aussi accessible que l'investissement en Europe. »",
+      "quoteAuthor": "Jordan DJIOKAP — DiaspoInvest",
+      "contactPrefix": "Pour toute question ou retour, écris à",
+      "paragraphs": [
+        "Je suis Jordan DJIOKAP, étudiant en Finance d'Entreprise et Ingénierie Financière. Mon quotidien, c'est d'analyser des modèles d'investissement européens : valorisation d'actifs, gestion de portefeuille, ETF, produits dérivés.",
+        "Quand j'ai voulu diversifier mon propre portefeuille, j'ai cherché où investir. ETF, PEA, MSCI World, indices européens... tout pointait vers les mêmes marchés occidentaux. Alors j'ai posé une question simple : est-ce qu'il existe quelque chose lié à l'Afrique ?",
+        "La réponse m'a surpris. La BRVM, Bourse Régionale des Valeurs Mobilières, existe depuis 1998. Elle regroupe les principales entreprises de huit pays de la zone UEMOA et verse des dividendes chaque année à ses actionnaires. Le rendement moyen tourne autour de 6 % par an. Le BRVM Composite a progressé de 28,89 % en 2024 quand le CAC 40 affichait 0,92 %. Pourtant, presque personne n'en parle, même au sein de la diaspora.",
+        "Avec ma formation, j'avais les outils pour analyser ce marché. Ce qui manquait, c'étaient des ressources en français pensées pour quelqu'un qui vit hors de la zone UEMOA : comment ouvrir un compte à distance, comment déclarer les revenus aux impôts en France, quelles actions regarder en premier, comment construire une stratégie d'investissement régulier sur le long terme.",
+        "J'ai créé DiaspoInvest pour combler ce vide. Le Screener liste les 47 actions cotées avec leurs cours et rendements en temps réel. Le backtest DCA permet de simuler ce qu'aurait donné un investissement mensuel régulier sur n'importe quelle action depuis 1998. Le calculateur fiscal estime l'imposition réelle selon le pays de résidence. Le blog couvre les sujets que personne ne documente en français.",
+        "Je gère ce projet seul. Pas de conflit d'intérêt avec un courtier, une SGI ou une institution financière. Les outils en ligne sont gratuits. Les guides et le Tracker vont plus loin pour ceux qui veulent une méthode complète.",
+        "Si tu cherchais une façon d'investir au pays sans jamais trouver de réponse claire, tu es au bon endroit."
+      ]
+    },
+    "actionDetail": {
+      "back": "← Screener BRVM",
+      "chargement": "Chargement…",
+      "introuvable": "Action {{ticker}} introuvable.",
+      "retourScreener": "Retour au screener",
+      "coursCloture": "Cours de clôture",
+      "variationHebdo": "Variation hebdo",
+      "dividende": "Dividende",
+      "nonConnu": "Non connu",
+      "rendement": "Rendement",
+      "secteur": "Secteur",
+      "pays": "Pays",
+      "noteDiv": "Dividende de <0>{{div}} FCFA</0> par action (dernier exercice fiscal connu). Pour {{cours}} FCFA investis (1 action), le rendement brut est de <1>{{rendement}} %</1>. En France, ce dividende est soumis à la flat tax de 31,4 % (12,8 % IR + 18,6 % prélèvements sociaux depuis 2026).",
+      "simulerDca": "Simuler un DCA sur {{ticker}} →",
+      "voirToutes": "Voir toutes les actions",
+      "source": "Source : BRVM.org · Dividende : dernier exercice fiscal connu · Données éducatives, ne constituent pas un conseil en investissement."
+    },
+    "portefeuille": {
+      "eyebrow": "Portefeuille virtuel",
+      "titre": "Entraîne-toi avec de l'argent fictif",
+      "intro": "Tu démarres avec <b>{{montant}} FCFA virtuels</b>. Achète et vends de vraies actions de la BRVM aux cours réels, suis tes gains, sans risquer un centime. Tout reste sur ton appareil.",
+      "dateOf": "du {{date}}",
+      "dateBrvm": "(BRVM)",
+      "note": "Cours de clôture {{when}}, mis à jour chaque jour. Argent fictif, à but pédagogique. Ce n'est pas un conseil en investissement.",
+      "loading": "Chargement des cours…",
+      "valeurTotale": "Valeur totale",
+      "fcfa": "FCFA",
+      "performance": "Performance",
+      "depuisDepart": "depuis le départ",
+      "liquidites": "Liquidités",
+      "modifier": "Modifier",
+      "annuler": "Annuler",
+      "capitalPlaceholder": "Ex : 500000",
+      "capitalHint": "FCFA · réinitialise les positions",
+      "appliquer": "Appliquer",
+      "fcfaDispo": "FCFA disponibles",
+      "valeurTitres": "Valeur des titres",
+      "lignes": "{{count}} ligne(s)",
+      "ligneLabel": "ligne(s)",
+      "passerOrdre": "Passer un ordre d'achat",
+      "choisir": "Choisis une action…",
+      "quantite": "Quantité",
+      "qtyPlaceholder": "ex : 10",
+      "max": "Max",
+      "acheter": "Acheter",
+      "coursLabel": "Cours :",
+      "coutLabel": "Coût :",
+      "vide": "Ton portefeuille est vide. Choisis une action ci-dessus et passe ton premier ordre.",
+      "thAction": "Action",
+      "thQte": "Qté",
+      "thPru": "PRU",
+      "thCours": "Cours",
+      "thValeur": "Valeur",
+      "thVar": "+/-",
+      "vendre": "Vendre",
+      "repartition": "Répartition",
+      "chargerPlan": "Charger mon plan v4",
+      "reinitialiser": "Réinitialiser",
+      "exporterCsv": "Exporter CSV",
+      "explorer": "Explorer les 47 actions →",
+      "notifInsuffisant": "Liquidités insuffisantes.",
+      "notifAchete": "Acheté : {{qty}} {{sym}} à {{cours}} FCFA.",
+      "notifVendu": "Vendu : {{qty}} {{sym}} à {{cours}} FCFA.",
+      "confirmReset": "Réinitialiser ton portefeuille virtuel ?",
+      "confirmPlan": "Remplacer le portefeuille actuel par le plan v4 (5 lignes, 1 049 532 FCFA) ?",
+      "notifPlan": "Plan v4 chargé : 5 lignes + coussin de liquidités.",
+      "notifMin": "Montant minimum : 10 000 FCFA.",
+      "notifCapital": "Capital réinitialisé à {{montant}} FCFA."
+    }
+  },
+  "blogPost": {
+    "back": "← Tous les articles",
+    "noteStrong": "À noter.",
+    "notice": "Article publié le {{date}}. Les cours de bourse, taux de rendement et règles fiscales évoluent dans le temps : ces chiffres étaient exacts à la date de rédaction mais peuvent avoir changé depuis. Vérifie toujours l'information à jour auprès des sources officielles (<0>brvm.org</0>, <1>impots.gouv.fr</1>, ta SGI) avant toute décision. Contenu éducatif, qui ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.",
+    "bodyInFrench": "La traduction anglaise de cet article arrive bientôt. Voici la version française en attendant.",
+    "ctaEyebrow": "Pour aller plus loin",
+    "partager": "Partager",
+    "aLireAussi": "À lire aussi",
+    "articlePrecedent": "Article précédent",
+    "articleSuivant": "Article suivant",
+    "products": {
+      "guideEurope": {
+        "nom": "Guide PDF Diaspora",
+        "prix": "14,99 €"
+      },
+      "guideUemoa": {
+        "nom": "Guide PDF Résident",
+        "prix": "14,99 €"
+      },
+      "tracker": {
+        "nom": "Tracker Dashboard",
+        "prix": "29,99 €"
+      }
+    },
+    "pitchDefault": "Pour aller plus loin et passer à l'action sur la BRVM, étape par étape.",
+    "pitches": {
+      "investir-brvm-depuis-france": "Tu sais que c'est possible. Le Guide te montre comment ouvrir ton compte à distance et le déclarer en France, pas à pas.",
+      "investir-brvm-zone-uemoa": "Pour passer à l'action depuis ton pays : ouvrir ton compte chez une SGI locale et gérer la fiscalité UEMOA, expliqué simplement.",
+      "erreurs-debutant-brvm": "Pour éviter ces erreurs dès le départ : une méthode claire pour comprendre la bourse et bien démarrer.",
+      "indices-brvm": "Pour avoir les 47 actions regroupées par secteur et suivre ton portefeuille dans la durée.",
+      "ouvrir-compte-sgi-depuis-etranger": "Pour ouvrir ton compte sans tâtonner : les étapes à distance et la fiscalité expliquées de A à Z.",
+      "dividendes-sonatel-2025": "Pour suivre tes dividendes et projeter tes versements sur 30 ans, action par action.",
+      "brvm-vs-livret-a": "Pour chiffrer ta propre stratégie : suivi de portefeuille et simulation de tes versements sur le long terme.",
+      "fiscalite-dividendes-brvm-uemoa": "Pour tout comprendre de la fiscalité depuis ton pays, sans mauvaise surprise.",
+      "declarer-compte-brvm-impots-france": "Pour déclarer sans stress : la fiscalité française et le formulaire 3916 expliqués pas à pas.",
+      "sgi-frais-brvm": "Pour garder un œil sur tes frais et ton portefeuille mois après mois.",
+      "brvm-vs-pea-etf": "Pour investir concrètement sur la BRVM, en complément de ton PEA et de tes ETF.",
+      "analyser-action-brvm": "Pour avoir les 47 actions par secteur sous la main et suivre tes titres dans la durée.",
+      "juger-cours-action-brvm": "Pour suivre tes titres et leurs secteurs, et simuler tes versements sur 30 ans.",
+      "lire-compte-resultat": "Pour suivre tes titres par secteur et garder le fil de ton portefeuille.",
+      "bourses-africaines-panorama": "Pour te lancer concrètement sur la BRVM : comprendre, ouvrir un compte et démarrer."
+    }
+  },
+  "stickyCta": {
+    "sub": "Pack Complet · Guide + Tracker",
+    "cta": "Obtenir le Pack"
+  },
+  "leadmagnet": {
+    "eyebrow": "Newsletter gratuite",
+    "titre": "Chaque lundi, les cours BRVM dans ta boite mail",
+    "intro": "Un résumé hebdomadaire de la BRVM : cours de clôture, évolutions des actions et rappels pratiques pour les investisseurs de la diaspora.",
+    "point1": "Cours de clôture mis à jour après chaque séance",
+    "point2": "Résumé clair, sans jargon ni conseil en investissement",
+    "point3": "Infos pratiques sur la fiscalité et les démarches",
+    "disclaimer": "Contenu éducatif · Non affilié à la BRVM ni au CREPMF · Désinscription à tout moment",
+    "labelPrenom": "Ton prénom",
+    "placeholderPrenom": "Prénom",
+    "labelEmail": "Ton adresse email",
+    "placeholderEmail": "email@exemple.com",
+    "btn": "Recevoir gratuitement",
+    "btnLoading": "Inscription...",
+    "succesTitre": "Tu es inscrit.",
+    "succesTexte": "Vérifie ta boîte mail. La sélection de la semaine t'attend.",
+    "errCaptcha": "Coche d'abord la case « Je ne suis pas un robot » ci-dessus.",
+    "errEchec": "Oups, l'inscription a échoué. Réessaie dans un instant ou écris-nous : contact@diaspoinvest.fr"
+  },
+  "temoignages": {
+    "eyebrow": "Avis clients",
+    "titre": "Ce qu'ils en disent",
+    "note": "/ 5 · {{n}} avis",
+    "laisserAvis": "✏ Laisser un avis",
+    "annuler": "✕ Annuler",
+    "partageTitre": "Partage ton expérience",
+    "chargement": "Chargement des avis…",
+    "videTitre": "Sois le premier à laisser un avis",
+    "videTexte": "Ton retour aidera les prochains lecteurs à franchir le pas.",
+    "laisserMonAvis": "✏ Laisser mon avis",
+    "reponseJordan": "Réponse de Jordan",
+    "noteLabel": "Ta note *",
+    "paysLabel": "Pays *",
+    "paysPlaceholder": "Sélectionne ton pays",
+    "emailLabel": "Email *",
+    "produitLabel": "Produit acheté",
+    "produitPlaceholder": "Sélectionne un produit",
+    "avisLabel": "Ton avis *",
+    "avisHint": "(10-800 caractères)",
+    "avisPlaceholder": "Partage ton expérience sincère…",
+    "publier": "Publier mon avis",
+    "envoi": "Envoi…",
+    "merci": "Merci pour ton avis !",
+    "merciSous": "Il est maintenant visible sur le site.",
+    "alertNote": "Merci de choisir une note.",
+    "alertTexte": "Écris au moins 10 caractères.",
+    "erreurPrefix": "Erreur :",
+    "erreurSuffix": "Réessaie ou écris à contact@diaspoinvest.fr",
+    "inconnue": "Inconnue",
+    "produits": [
+      "Guide PDF Europe",
+      "Guide PDF UEMOA",
+      "Tracker Dashboard",
+      "Pack Complet Europe",
+      "Pack Complet UEMOA"
+    ]
+  },
+  "quiz": {
+    "welcome": "Bienvenue sur DiaspoInvest",
+    "welcomeSub": "3 petites questions pour te montrer ce qui te sera vraiment utile (20 secondes).",
+    "readAlso": "À lire aussi",
+    "allArticles": "Voir tous les articles →",
+    "emailDone": "✓ C'est noté, tu es inscrit. À très vite par email.",
+    "emailLabel": "Reçois nos conseils sur la bourse africaine par email (facultatif) :",
+    "emailPlaceholder": "ton@email.com",
+    "emailError": "Une erreur est survenue, réessaie.",
+    "close": "Fermer et explorer le site",
+    "legal": "DiaspoInvest · Jamais de spam · Tu peux te désinscrire quand tu veux",
+    "fermer": "Fermer",
+    "qExperience": "Tu connais déjà la bourse africaine ?",
+    "expBeginner": "Non, je découvre",
+    "expJunior": "Un peu, je débute",
+    "expAdvanced": "Oui, j'investis déjà",
+    "goalBeginner": "Qu'est-ce que tu cherches en venant ici ?",
+    "goalBeginnerLearn": "Comprendre comment tout ça marche",
+    "goalBeginnerAnalyze": "Savoir si c'est fait pour moi",
+    "goalBeginnerOptimize": "Éviter les pièges (frais, impôts)",
+    "goalJunior": "Sur quoi veux-tu progresser ?",
+    "goalJuniorLearn": "Consolider mes bases",
+    "goalJuniorAnalyze": "Apprendre à choisir mes actions",
+    "goalJuniorOptimize": "Réduire mes frais et mes impôts",
+    "goalAdvanced": "Qu'est-ce qui t'intéresse le plus ?",
+    "goalAdvancedLearn": "Approfondir l'analyse fondamentale",
+    "goalAdvancedAnalyze": "Sélectionner et valoriser des titres",
+    "goalAdvancedOptimize": "Optimiser fiscalité, frais et allocation",
+    "qLocation": "Tu vis où en ce moment ?",
+    "locUemoa": "En Afrique de l'Ouest (Côte d'Ivoire, Sénégal, Bénin…)",
+    "locAfrique": "Ailleurs en Afrique (Cameroun, Gabon, Maroc…)",
+    "locMonde": "En Europe, au Canada, ailleurs",
+    "titleBeginner": "Tu débutes ? Voici par où commencer",
+    "titleJunior": "Tu connais les bases ? Voici la suite",
+    "titleAdvanced": "Tu connais déjà ? Allons à l'essentiel",
+    "introLearn": "De quoi bien comprendre comment tout ça marche.",
+    "introAnalyze": "De quoi choisir et analyser des actions par toi-même.",
+    "introOptimize": "De quoi optimiser tes frais, ta fiscalité et ta stratégie.",
+    "items": {
+      "artUemoa": {
+        "title": "Investir sur la bourse africaine quand on vit en Afrique",
+        "text": "Le guide du résident, expliqué simplement."
+      },
+      "artImpotsUemoa": {
+        "title": "Les impôts sur tes gains, en clair",
+        "text": "Ce que tu paies vraiment selon ton pays."
+      },
+      "artDepuisEtranger": {
+        "title": "Investir sur la bourse africaine depuis l'étranger",
+        "text": "Comment ça marche, étape par étape."
+      },
+      "artOuvrir": {
+        "title": "Ouvrir ton compte à distance",
+        "text": "Les documents et les étapes, sans prendre l'avion."
+      },
+      "artVsLivret": {
+        "title": "Bourse africaine ou Livret A ?",
+        "text": "La comparaison simple, sans te noyer."
+      },
+      "artImpotsFr": {
+        "title": "Déclarer ton compte aux impôts en France",
+        "text": "Le formulaire à ne pas oublier, sans stress."
+      },
+      "artSonatel": {
+        "title": "Combien rapporte une action, concrètement",
+        "text": "L'exemple de Sonatel, chiffres à l'appui."
+      },
+      "artAnalyse": {
+        "title": "Analyser une action : les ratios qui comptent",
+        "text": "PER, BPA, payout, ROE, liquidité. La méthode pour juger une entreprise."
+      },
+      "artValo": {
+        "title": "Juger un cours : chère ou bon marché ?",
+        "text": "Valorisation, dividende durable, liquidité du titre."
+      },
+      "artCompteResultat": {
+        "title": "Lire un compte de résultat",
+        "text": "Chiffre d'affaires, marges, résultat net : décrypter une entreprise."
+      },
+      "artSgiFrais": {
+        "title": "SGI et frais : leur impact sur ton rendement",
+        "text": "Comment choisir un courtier et pourquoi les frais comptent sur 20 ans."
+      },
+      "artVsPea": {
+        "title": "BRVM, PEA ou ETF World : comment choisir",
+        "text": "Ce que la diaspora doit comprendre avant d'arbitrer."
+      },
+      "artBourses": {
+        "title": "Les bourses africaines au-delà de la BRVM",
+        "text": "Nigeria, Afrique du Sud, Maroc… le panorama du continent."
+      },
+      "toolScreener": {
+        "title": "Voir les 47 entreprises de la bourse",
+        "text": "Leurs prix et ce qu'elles versent chaque année. Gratuit."
+      },
+      "toolBacktest": {
+        "title": "Combien tu aurais gagné en investissant avant",
+        "text": "Choisis une entreprise et une somme, le calcul se fait. Gratuit."
+      },
+      "toolCalc": {
+        "title": "Estimer ce que ton épargne pourrait rapporter",
+        "text": "Mets un montant, vois le résultat. Gratuit."
+      },
+      "toolFisc": {
+        "title": "Voir ce qu'il te reste après impôts",
+        "text": "Compare selon ton pays. Gratuit."
+      },
+      "guideUemoa": {
+        "title": "Guide PDF Résident (14,99 €)",
+        "text": "Comprendre la bourse, ouvrir ton compte dans ton pays et gérer les impôts."
+      },
+      "guideEurope": {
+        "title": "Guide PDF Diaspora (14,99 €)",
+        "text": "Comprendre la bourse, ouvrir un compte à distance et déclarer en France."
+      },
+      "tracker": {
+        "title": "Tracker Dashboard (29,99 €)",
+        "text": "Les 47 actions par secteur, une projection sur 30 ans et le suivi de ton portefeuille."
+      },
+      "packUemoa": {
+        "title": "Pack Complet Résident (39,99 €)",
+        "text": "Le guide résident plus le Tracker pour suivre et projeter ton épargne."
+      },
+      "packEurope": {
+        "title": "Pack Complet Diaspora (39,99 €)",
+        "text": "Le guide diaspora plus le Tracker pour suivre et projeter ton épargne."
+      }
+    }
+  },
+  "calc": {
+    "eyebrow": "Simulateur d'investissement",
+    "titre": "Combien pourrait te rapporter ton épargne investie en bourse ?",
+    "intro": "Ce simulateur répond à 3 questions différentes. Choisis d'abord celle qui t'intéresse (étape 2 ci-dessous), puis remplis les informations demandées : le résultat apparaît automatiquement en bas.",
+    "coursUpdated": "Cours de bourse mis à jour le {{date}}",
+    "step1Title": "Étape 1 — Choisis une entreprise",
+    "step1Desc": "Cherche dans la liste ci-dessous une entreprise cotée à la bourse régionale d'Afrique de l'Ouest. Son cours (le prix d'une part de l'entreprise) et son rendement se remplissent automatiquement.",
+    "searchPlaceholder": "Rechercher une action (nom ou code)…",
+    "loading": "Chargement des cours BRVM…",
+    "error": "Données non disponibles.",
+    "groupDividende": "── Titres à dividende ──────────────",
+    "groupAutres": "── Autres titres ───────────────────",
+    "coursLabel": "Prix actuel d'une action (le « cours »)",
+    "coursDesc": "C'est le prix qu'il faut payer aujourd'hui pour acheter une seule action de cette entreprise. Rempli automatiquement, modifiable si besoin.",
+    "rendementLabel": "Rendement : ce que rapporte chaque année une action",
+    "rendementDesc": "C'est le pourcentage du prix de l'action que l'entreprise reverse chaque année à ses actionnaires, sous forme de dividende. Plus ce chiffre est élevé, plus l'action rapporte, proportionnellement à son prix.",
+    "parAn": "% par an",
+    "noDividende": "Cette entreprise n'a pas de dividende connu — entre un taux toi-même pour simuler.",
+    "step2Title": "Étape 2 — Choisis la question à laquelle tu veux une réponse",
+    "step2Desc": "Clique sur l'une des 3 cases ci-dessous. Celle que tu choisis devient le résultat que le simulateur va calculer pour toi ; les deux autres deviennent les informations que tu dois renseigner.",
+    "trioApport": "Combien investir chaque mois",
+    "trioDuree": "Pendant combien d'années",
+    "trioDivann": "Quel revenu annuel obtenir",
+    "unitFcfa": "FCFA",
+    "unitAns": "ans",
+    "unitFcfaAn": "FCFA/an",
+    "valAns": "{{n}} ans",
+    "trioHint": "La case entourée en or ci-dessus, c'est ce que le simulateur va calculer pour toi.",
+    "step3Title": "Étape 3 — Renseigne les informations demandées",
+    "step3Desc": "Tape directement un montant dans les champs ci-dessous, comme dans une calculatrice normale.",
+    "sliderApport": "Combien investis-tu chaque mois ?",
+    "sliderDuree": "Sur combien d'années ?",
+    "sliderDivann": "Quel revenu annuel de dividendes vises-tu ?",
+    "resultTitle": "Résultat",
+    "resultDesc": "Voici la réponse calculée à partir de ce que tu as choisi et rempli ci-dessus.",
+    "custom": "Personnalisé",
+    "labelDivann": "Voici le revenu annuel que tu recevrais en dividendes",
+    "unitDivann": "FCFA CHAQUE ANNÉE",
+    "contextDivann": "En investissant {{apport}} FCFA chaque mois pendant {{duree}} ans dans l'action {{nom}} (rendement brut de {{taux}}%)",
+    "labelApport": "Voici le montant à investir chaque mois",
+    "unitApport": "FCFA CHAQUE MOIS",
+    "contextApport": "Pour obtenir {{div}} FCFA de dividendes chaque année, au bout de {{duree}} ans, avec l'action {{nom}}",
+    "labelDuree": "Voici le nombre d'années qu'il te faudra",
+    "unitDureePlural": "ANNÉES",
+    "unitDureeSingular": "ANNÉE",
+    "contextDuree": "En investissant {{apport}} FCFA chaque mois dans l'action {{nom}}, pour atteindre {{div}} FCFA de dividendes par an",
+    "detailIntro": "Le détail derrière ce résultat :",
+    "kpiActions": "Nombre d'actions possédées à la fin",
+    "kpiPortef": "Valeur totale de ces actions à la fin",
+    "kpiCapital": "Total que tu auras versé au fil du temps",
+    "kpiDivCumul": "Total des dividendes reçus sur la période",
+    "ecartExpl": "Pourquoi la valeur des actions ({{portef}} FCFA) est un peu inférieure au total versé ({{capital}} FCFA) ? Deux raisons : environ <0>{{frais}} FCFA</0> sont partis en frais de courtage (0,5% par versement), et <1>{{reste}} FCFA</1> restent en attente d'achat à la fin de la simulation (on ne peut acheter que des actions entières, jamais de fraction).",
+    "livretIntro": "Pour comparer : voici ce que les mêmes versements auraient rapporté sur un Livret A à 1,5%, le placement d'épargne classique en France, sur la même durée.",
+    "livretLabel": "Épargne classique (Livret A, 1,5%)",
+    "livretSub": "d'intérêts gagnés au total",
+    "actionLabel": "Action {{sym}}",
+    "actionDefault": "choisie",
+    "actionSub": "de dividendes gagnés au total",
+    "disclaimer1": "Ce simulateur fait une projection mathématique à partir du cours et du dividende actuels, en supposant qu'ils restent stables. Ce n'est ni une garantie ni un conseil en investissement personnalisé.",
+    "disclaimerSource": "Cours de bourse du {{date}} · Sources : BRVM.org + sikafinance.com",
+    "disclaimerAffil": "DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF"
   }
 }

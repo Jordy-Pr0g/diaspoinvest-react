@@ -17,8 +17,8 @@ MODÈLE & PRIORITÉ
 
 PRODUITS (prix actuels)
 - Guide PDF (Europe ou UEMOA) : 14,99 € — produit d'entrée, pour débuter.
-- Tracker Dashboard : 19,99 € (promo, normalement 34,99 € jusqu'à fin juillet 2026) — suivi + simulation.
-- Pack Complet (Europe ou UEMOA) : 29,99 € — Guide + Tracker, meilleur rapport.
+- Tracker Dashboard : 29,99 € (promo, normalement 34,99 € jusqu'à fin juillet 2026) — suivi + simulation.
+- Pack Complet (Europe ou UEMOA) : 39,99 € — Guide + Tracker, meilleur rapport.
 - Routage : résident UEMOA → produits UEMOA ; diaspora/ailleurs → produits Europe.
 
 RÈGLES ABSOLUES DE CONTENU (non négociables)

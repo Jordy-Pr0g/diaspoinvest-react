@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ARTICLES } from '../data/articles.js'
 const OR   = '#D4AF37'
 const CARD = '#0F1A12'
 const BDR  = '#1E2E21'
 
 export default function BlogPreview() {
+  const { t, i18n } = useTranslation()
+  const en = i18n.language === 'en'
   const articles = ARTICLES.slice(0, 3)
 
   return (
@@ -14,12 +17,12 @@ export default function BlogPreview() {
           <span style={{
             fontSize: 11, letterSpacing: 2, textTransform: 'uppercase',
             color: OR, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif',
-          }}>Ressources gratuites</span>
+          }}>{en ? t('data.blogPreview.eyebrow') : 'Ressources gratuites'}</span>
           <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', marginTop: 8, marginBottom: 8 }}>
-            Nos derniers articles
+            {en ? t('data.blogPreview.titre') : 'Nos derniers articles'}
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.55)', maxWidth: 480, margin: '0 auto' }}>
-            Des chiffres réels, pas de jargon. Tout ce qu'il faut savoir pour investir sur la BRVM.
+            {en ? t('data.blogPreview.sousTitre') : "Des chiffres réels, pas de jargon. Tout ce qu'il faut savoir pour investir sur la BRVM."}
           </p>
         </div>
 
@@ -44,17 +47,17 @@ export default function BlogPreview() {
                 onMouseLeave={e => e.currentTarget.style.borderColor = BDR}
               >
                 <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>{a.date}</span>
-                  <span style={{ fontSize: 11, color: OR }}>· {a.lecture} de lecture</span>
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>{en ? (a.date_en || a.date) : a.date}</span>
+                  <span style={{ fontSize: 11, color: OR }}>· {a.lecture} {en ? t('data.blogPreview.lecture') : 'de lecture'}</span>
                 </div>
                 <h3 style={{ fontSize: '1rem', fontWeight: 700, lineHeight: 1.4, marginBottom: 10, color: '#fff', flex: 1 }}>
-                  {a.titre}
+                  {en ? (a.titre_en || a.titre) : a.titre}
                 </h3>
                 <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, margin: 0 }}>
-                  {a.description.slice(0, 110)}…
+                  {(en ? (a.description_en || a.description) : a.description).slice(0, 110)}…
                 </p>
                 <div style={{ marginTop: 16, fontSize: '0.82rem', color: OR, fontWeight: 600 }}>
-                  Lire l'article →
+                  {en ? t('data.blogPreview.lireLarticle') : "Lire l'article →"}
                 </div>
               </div>
             </Link>
@@ -71,7 +74,7 @@ export default function BlogPreview() {
               textDecoration: 'none',
             }}
           >
-            Voir tous les articles →
+            {en ? t('data.blogPreview.voirTous') : 'Voir tous les articles →'}
           </Link>
         </div>
       </div>

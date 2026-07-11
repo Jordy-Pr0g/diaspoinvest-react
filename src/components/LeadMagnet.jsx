@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const RECAPTCHA_SITE_KEY = '6Le7Dx0tAAAAACRiDmsAqfZgUkSq_OKJnflk1DsR'
 
 export default function LeadMagnet() {
+  const { t, i18n } = useTranslation()
   const [prenom, setPrenom] = useState('')
   const [email, setEmail] = useState('')
   const [statut, setStatut] = useState('idle') // idle | loading | succes | erreur | captcha
@@ -15,7 +17,7 @@ export default function LeadMagnet() {
       if (widgetIdRef.current !== null || !captchaRef.current) return
       widgetIdRef.current = window.grecaptcha.render(captchaRef.current, {
         sitekey: RECAPTCHA_SITE_KEY,
-        hl: 'fr',
+        hl: i18n.language === 'en' ? 'en' : 'fr',
       })
     }
 
@@ -28,7 +30,7 @@ export default function LeadMagnet() {
     if (!document.getElementById('recaptcha-script')) {
       const s = document.createElement('script')
       s.id = 'recaptcha-script'
-      s.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit&hl=fr'
+      s.src = `https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit&hl=${i18n.language === 'en' ? 'en' : 'fr'}`
       s.async = true
       s.defer = true
       document.body.appendChild(s)
@@ -75,18 +77,18 @@ export default function LeadMagnet() {
       <div className="container">
         <div className="leadmagnet-inner">
           <div className="lm-left">
-            <span className="eyebrow">Newsletter gratuite</span>
-            <h2>Chaque lundi, les cours BRVM dans ta boite mail</h2>
+            <span className="eyebrow">{t('leadmagnet.eyebrow')}</span>
+            <h2>{t('leadmagnet.titre')}</h2>
             <p>
-              Un résumé hebdomadaire de la BRVM : cours de clôture, évolutions des actions et rappels pratiques pour les investisseurs de la diaspora.
+              {t('leadmagnet.intro')}
             </p>
             <ul className="lm-points">
-              <li>Cours de clôture mis à jour après chaque séance</li>
-              <li>Résumé clair, sans jargon ni conseil en investissement</li>
-              <li>Infos pratiques sur la fiscalité et les démarches</li>
+              <li>{t('leadmagnet.point1')}</li>
+              <li>{t('leadmagnet.point2')}</li>
+              <li>{t('leadmagnet.point3')}</li>
             </ul>
             <p className="lm-disclaimer">
-              Contenu éducatif · Non affilié à la BRVM ni au CREPMF · Désinscription à tout moment
+              {t('leadmagnet.disclaimer')}
             </p>
           </div>
 
@@ -96,32 +98,32 @@ export default function LeadMagnet() {
                 <div className="lm-check">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="32" height="32"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
-                <h3>Tu es inscrit.</h3>
-                <p>Vérifie ta boîte mail. La sélection de la semaine t'attend.</p>
+                <h3>{t('leadmagnet.succesTitre')}</h3>
+                <p>{t('leadmagnet.succesTexte')}</p>
               </div>
             ) : (
               <form className="lm-form" onSubmit={handleSubmit}>
                 <label htmlFor="lm-prenom" className="lm-label">
-                  Ton prénom
+                  {t('leadmagnet.labelPrenom')}
                 </label>
                 <input
                   id="lm-prenom"
                   type="text"
                   required
-                  placeholder="Prénom"
+                  placeholder={t('leadmagnet.placeholderPrenom')}
                   value={prenom}
                   onChange={(e) => setPrenom(e.target.value)}
                   className="lm-input"
                   disabled={statut === 'loading'}
                 />
                 <label htmlFor="lm-email" className="lm-label" style={{ marginTop: '10px' }}>
-                  Ton adresse email
+                  {t('leadmagnet.labelEmail')}
                 </label>
                 <input
                   id="lm-email"
                   type="email"
                   required
-                  placeholder="email@exemple.com"
+                  placeholder={t('leadmagnet.placeholderEmail')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="lm-input"
@@ -133,17 +135,16 @@ export default function LeadMagnet() {
                   className="btn btn-or lm-btn"
                   disabled={statut === 'loading'}
                 >
-                  {statut === 'loading' ? 'Inscription...' : 'Recevoir gratuitement'}
+                  {statut === 'loading' ? t('leadmagnet.btnLoading') : t('leadmagnet.btn')}
                 </button>
                 {statut === 'captcha' && (
                   <p className="lm-disclaimer" role="alert">
-                    Coche d'abord la case « Je ne suis pas un robot » ci-dessus.
+                    {t('leadmagnet.errCaptcha')}
                   </p>
                 )}
                 {statut === 'erreur' && (
                   <p className="lm-disclaimer" role="alert">
-                    Oups, l'inscription a échoué. Réessaie dans un instant ou écris-nous :
-                    contact@diaspoinvest.fr
+                    {t('leadmagnet.errEchec')}
                   </p>
                 )}
               </form>
