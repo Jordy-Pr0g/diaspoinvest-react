@@ -3,7 +3,14 @@
     { "path": "/api/stats?cron=digest", "schedule": "0 8 * * *" }
   ],
   "redirects": [
-    { "source": "/dividendes", "destination": "/screener", "permanent": true }
+    { "source": "/dividendes", "destination": "/screener", "permanent": true },
+    { "source": "/tiktok", "destination": "/?src=tiktok", "permanent": false },
+    { "source": "/facebook", "destination": "/?src=facebook", "permanent": false },
+    { "source": "/fb", "destination": "/?src=facebook", "permanent": false },
+    { "source": "/linkedin", "destination": "/?src=linkedin", "permanent": false },
+    { "source": "/insta", "destination": "/?src=instagram", "permanent": false },
+    { "source": "/whatsapp", "destination": "/?src=whatsapp", "permanent": false },
+    { "source": "/youtube", "destination": "/?src=youtube", "permanent": false }
   ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
