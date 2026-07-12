@@ -68,12 +68,20 @@ async function upsertContactBrevo(email, prenom, nom, tagInfo) {
 }
 
 // stats.js stocke le revenu en centimes (cf. rev:${day} / 100 côté lecture).
-async function reporterVente(montantEuros, slug) {
+// origine = réseau d'où venait l'acheteur : le site ajoute ?sck=<source> aux
+// liens de paiement, Hotmart le renvoie dans purchase.origin.sck (whitelist
+// vérifiée côté stats.js, toute valeur inconnue est simplement ignorée).
+async function reporterVente(montantEuros, slug, origine) {
   try {
     await fetch('https://diaspoinvest.fr/api/stats', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ e: 'achat', montant: Math.round((Number(montantEuros) || 0) * 100), produit: slug || 'autre' }),
+      body: JSON.stringify({
+        e: 'achat',
+        montant: Math.round((Number(montantEuros) || 0) * 100),
+        produit: slug || 'autre',
+        origine: origine || undefined,
+      }),
     })
   } catch (e) {
     console.error('[stats] report vente échec:', e.message)
@@ -140,8 +148,9 @@ export default async function handler(req, res) {
 
   const prenom = data?.buyer?.first_name || (data?.buyer?.name || '').split(' ')[0] || 'Client'
   const nom = data?.buyer?.last_name || ''
+  const origine = String(data?.purchase?.origin?.sck || data?.purchase?.origin?.src || '').toLowerCase().trim()
   const brevoStatus = await upsertContactBrevo(email, prenom, nom, tagInfo)
-  await reporterVente(montant, tagInfo.slug)
+  await reporterVente(montant, tagInfo.slug, origine)
 
   return res.status(200).json({ ok: true, email, tag: tagInfo.tag, produit: tagInfo.nom, brevoStatus })
 }

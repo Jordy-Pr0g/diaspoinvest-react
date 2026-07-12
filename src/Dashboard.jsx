@@ -409,31 +409,61 @@ export default function Dashboard() {
                 <Card>
                   <TrafficChart data={aDays} />
                 </Card>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 14, marginTop: 14 }}>
-                  <Card>
-                    <div style={{ fontSize: 12, color: TXT3, fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }}>Sources de trafic</div>
-                    {(A.sources || []).length === 0 ? (
-                      <div style={{ fontSize: 13, color: TXT3 }}>Pas encore de source identifiée.</div>
-                    ) : (
-                      <HBars items={A.sources.slice(0, 8).map(s => ({ label: SOURCE_LABEL[s.source] || s.source, value: s.visites }))} />
-                    )}
-                  </Card>
-                  <Card>
-                    <div style={{ fontSize: 12, color: TXT3, fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }}>Pages les plus vues</div>
-                    {(A.pages || []).length === 0 ? (
-                      <div style={{ fontSize: 13, color: TXT3 }}>Pas encore de données.</div>
-                    ) : (
-                      <div style={{ fontSize: 13 }}>
-                        {A.pages.slice(0, 8).map((p, i) => (
-                          <div key={p.path} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderBottom: i < Math.min(A.pages.length, 8) - 1 ? `1px solid ${BORDER}` : 'none' }}>
-                            <span style={{ color: 'rgba(234,241,236,0.72)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: 12 }}>{p.path}</span>
-                            <span style={{ fontWeight: 700 }}>{fmtC(p.vues)}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </Card>
-                </div>
+                {/* Attribution : d'où vient chaque visiteur, et ce qu'il fait ensuite */}
+                <Card style={{ marginTop: 14 }}>
+                  <div style={{ fontSize: 12, color: TXT3, fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }}>Attribution par réseau · qui amène qui</div>
+                  {(A.attribution || []).length === 0 ? (
+                    <div style={{ fontSize: 13, color: TXT3 }}>Pas encore de source identifiée. Utilise les liens traçables (?src=) dans tes posts.</div>
+                  ) : (
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 520 }}>
+                        <thead>
+                          <tr>
+                            {['Réseau', 'Visites', 'Quiz terminés', 'Clics produit', 'Achats'].map((h, i) => (
+                              <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '6px 8px', color: TXT3, fontWeight: 700, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8, borderBottom: `1px solid ${BORDER}` }}>{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {A.attribution.map((r, idx) => {
+                            const last = idx === A.attribution.length - 1
+                            const bd = last ? 'none' : `1px solid ${BORDER}`
+                            return (
+                              <tr key={r.source}>
+                                <td style={{ padding: '9px 8px', color: 'rgba(234,241,236,0.75)', borderBottom: bd }}>{SOURCE_LABEL[r.source] || r.source}</td>
+                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 700, borderBottom: bd }}>{fmt(r.visites)}</td>
+                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 700, color: r.quiz > 0 ? TXT : TXT3, borderBottom: bd }}>{fmt(r.quiz)}</td>
+                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 700, color: r.clics > 0 ? GOLD : TXT3, borderBottom: bd }}>{fmt(r.clics)}</td>
+                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 800, color: r.achats > 0 ? UP : TXT3, borderBottom: bd }}>{fmt(r.achats)}</td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                  <div style={{ fontSize: 11, color: TXT3, marginTop: 12, lineHeight: 1.6 }}>
+                    Quiz, clics et achats sont crédités au réseau qui a amené le visiteur (mémorisé pendant sa session).
+                    L'attribution des achats passe par le paramètre sck des liens Hotmart : elle couvre les ventes faites depuis le site,
+                    à partir d'aujourd'hui. Un achat via un lien Hotmart partagé directement (hors site) compte dans le total, sans réseau.
+                  </div>
+                </Card>
+
+                <Card style={{ marginTop: 14 }}>
+                  <div style={{ fontSize: 12, color: TXT3, fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }}>Pages les plus vues</div>
+                  {(A.pages || []).length === 0 ? (
+                    <div style={{ fontSize: 13, color: TXT3 }}>Pas encore de données.</div>
+                  ) : (
+                    <div style={{ fontSize: 13 }}>
+                      {A.pages.slice(0, 8).map((p, i) => (
+                        <div key={p.path} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderBottom: i < Math.min(A.pages.length, 8) - 1 ? `1px solid ${BORDER}` : 'none' }}>
+                          <span style={{ color: 'rgba(234,241,236,0.72)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: 12 }}>{p.path}</span>
+                          <span style={{ fontWeight: 700 }}>{fmtC(p.vues)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </Card>
               </>
             )}
 

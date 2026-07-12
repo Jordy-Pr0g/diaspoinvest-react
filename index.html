@@ -70,11 +70,29 @@
           } catch (_) { return 'direct' }
         }
         try {
-          if (!sessionStorage.getItem('di_src')) {
-            sessionStorage.setItem('di_src', '1')
-            var s = classer(); if (s) post({ src: s })
+          if (!sessionStorage.getItem('di_source')) {
+            var s = classer()
+            sessionStorage.setItem('di_source', s || 'direct')
+            if (s) post({ src: s })
           }
         } catch (_) {}
+
+        // Source mémorisée pour la session : sert à attribuer chaque événement
+        // (quiz, clic produit, achat) au réseau qui a amené le visiteur.
+        function origine() {
+          try { return sessionStorage.getItem('di_source') || 'direct' } catch (_) { return 'direct' }
+        }
+
+        // Attribution des ACHATS : ajoute la source aux liens de paiement
+        // Hotmart (param sck) ; Hotmart le renvoie tel quel dans son webhook.
+        document.addEventListener('click', function (ev) {
+          try {
+            var a = ev.target && ev.target.closest ? ev.target.closest('a[href*="pay.hotmart.com"]') : null
+            if (!a) return
+            var u = new URL(a.href)
+            if (!u.searchParams.get('sck')) { u.searchParams.set('sck', origine()); a.href = u.toString() }
+          } catch (_) {}
+        }, true)
 
         // Vue de page, dédupliquée par chemin (compte aussi la navigation SPA)
         var dernier = null
@@ -95,7 +113,8 @@
         window.addEventListener('popstate', pv)
 
         // Conserve les appels d'events existants : window.plausible('quiz_termine', {...})
-        window.plausible = function (eventName) { post({ e: eventName }) }
+        // Chaque événement porte la source de session (attribution par réseau).
+        window.plausible = function (eventName) { post({ e: eventName, origine: origine() }) }
       })()
     </script>
     <!-- Données structurées (SEO) -->

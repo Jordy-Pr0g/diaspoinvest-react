@@ -13,6 +13,12 @@ const LISTES = {
 // Slugs produit autorisés (synchronisés avec OFFER_CODE_TAGS de hotmart-webhook.js).
 const PRODUITS_STATS = ['guideEurope', 'guideUemoa', 'tracker', 'packEurope', 'packUemoa', 'autre']
 
+// Sources de trafic autorisées (une seule liste pour tout le fichier).
+const SOURCES_STATS = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
+
+// Événements qui portent une attribution par source (visite → achat).
+const EVTS_ATTR = ['quiz_termine', 'clic_produit', 'achat']
+
 function kvStore() {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
@@ -82,10 +88,22 @@ async function buildAnalytics() {
     .filter(x => x.ventes > 0 || x.revenu > 0)
 
   // Sources de trafic (whitelist)
-  const SRC = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
+  const SRC = SOURCES_STATS
   const srcVals = await kvMget(store, SRC.map(s => `src:${s}:total`))
   const sources = SRC.map((s, i) => ({ source: s, visites: srcVals[i] || 0 }))
     .filter(x => x.visites > 0)
+    .sort((a, b) => b.visites - a.visites)
+
+  // Attribution par réseau : pour chaque source, les événements clés
+  // (quiz terminé, clic produit, achat) réalisés par les visiteurs venus d'elle.
+  const attrVals = await Promise.all(EVTS_ATTR.map(ev => kvMget(store, SRC.map(s => `evs:${ev}:${s}:total`))))
+  const attribution = SRC.map((s, i) => ({
+    source: s,
+    visites: srcVals[i] || 0,
+    quiz: attrVals[0][i] || 0,
+    clics: attrVals[1][i] || 0,
+    achats: attrVals[2][i] || 0,
+  })).filter(x => x.visites > 0 || x.quiz > 0 || x.clics > 0 || x.achats > 0)
     .sort((a, b) => b.visites - a.visites)
 
   // Visiteurs uniques (HyperLogLog) + pages les plus vues (sorted set)
@@ -110,6 +128,7 @@ async function buildAnalytics() {
     sources,
     pages,
     produits,
+    attribution,
     remboursements: { nombre: rembN || 0, montant: (rembMt || 0) / 100 },
   }
 }
@@ -164,10 +183,11 @@ async function track(req, res) {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
     // Remet à zéro tout ce qui touche aux VENTES (CA, compteurs produit,
-    // remboursements, y compris les clés JOURNALIÈRES qui alimentent le
-    // « CA du mois ») sans toucher aux visites/sources/pages.
+    // remboursements, attribution des achats, y compris les clés JOURNALIÈRES
+    // qui alimentent le « CA du mois ») sans toucher aux visites/sources/pages.
     const keys = ['rev:total', 'ev:achat:total', 'remb:total', 'rembmt:total']
     PRODUITS_STATS.forEach(p => keys.push(`vp:${p}:total`, `rp:${p}:total`))
+    SOURCES_STATS.forEach(s => keys.push(`evs:achat:${s}:total`))
     for (let i = 0; i < 60; i++) {
       const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
       keys.push(`rev:${d}`, `ev:achat:${d}`)
@@ -186,9 +206,11 @@ async function track(req, res) {
   if (body && body.reset === true) {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
-    const SRC = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
-    const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total', 'uv:total', 'pages']
+    const SRC = SOURCES_STATS
+    const keys = ['pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total', 'uv:total', 'pages', 'remb:total', 'rembmt:total']
     SRC.forEach(s => keys.push(`src:${s}:total`))
+    PRODUITS_STATS.forEach(p => keys.push(`vp:${p}:total`, `rp:${p}:total`))
+    EVTS_ATTR.forEach(ev => SRC.forEach(s => keys.push(`evs:${ev}:${s}:total`)))
     for (let i = 0; i < 60; i++) {
       const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
       keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`, `rev:${d}`, `uv:${d}`)
@@ -207,9 +229,8 @@ async function track(req, res) {
   const day = new Date().toISOString().slice(0, 10)
 
   // Source de trafic (whitelist pour éviter toute clé parasite)
-  const SOURCES = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
   if (body && body.src) {
-    const src = SOURCES.includes(String(body.src)) ? String(body.src) : null
+    const src = SOURCES_STATS.includes(String(body.src)) ? String(body.src) : null
     if (src) {
       try {
         await Promise.all([`src:${src}:total`, `src:${src}:${day}`].map(k =>
@@ -232,6 +253,9 @@ async function track(req, res) {
 
   // Ventilation par produit (uniquement pour les achats, slug whitelisté)
   const produit = e === 'achat' && PRODUITS_STATS.includes(String(body.produit)) ? String(body.produit) : null
+
+  // Attribution par réseau : quiz/clic/achat portent la source de session
+  const origine = EVTS_ATTR.includes(e) && SOURCES_STATS.includes(String(body.origine)) ? String(body.origine) : null
 
   // Identifiant visiteur anonyme (haché, jamais stocké en clair) : IP + UA
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
@@ -256,6 +280,8 @@ async function track(req, res) {
         fetch(`${store.url}/incr/${encodeURIComponent(`vp:${produit}:total`)}`, { headers: { Authorization: `Bearer ${store.token}` } }),
         ...(montant > 0 ? [fetch(`${store.url}/incrby/${encodeURIComponent(`rp:${produit}:total`)}/${montant}`, { headers: { Authorization: `Bearer ${store.token}` } })] : []),
       ] : []),
+      // Attribution : l'événement est crédité au réseau d'origine du visiteur
+      ...(origine ? [fetch(`${store.url}/incr/${encodeURIComponent(`evs:${e}:${origine}:total`)}`, { headers: { Authorization: `Bearer ${store.token}` } })] : []),
       // Visiteur unique (HyperLogLog : total + du jour)
       fetch(`${store.url}/pfadd/uv:total/${vid}`, { headers: { Authorization: `Bearer ${store.token}` } }),
       fetch(`${store.url}/pfadd/${encodeURIComponent('uv:' + day)}/${vid}`, { headers: { Authorization: `Bearer ${store.token}` } }),
