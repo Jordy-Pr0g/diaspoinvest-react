@@ -163,11 +163,15 @@ async function track(req, res) {
   if (body && body.fixRevenuAZero === true) {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
-    const day = new Date().toISOString().slice(0, 10)
     // Remet à zéro tout ce qui touche aux VENTES (CA, compteurs produit,
-    // remboursements) sans toucher aux visites/sources/pages.
-    const keys = ['rev:total', 'rev:' + day, 'ev:achat:total', 'remb:total', 'rembmt:total']
+    // remboursements, y compris les clés JOURNALIÈRES qui alimentent le
+    // « CA du mois ») sans toucher aux visites/sources/pages.
+    const keys = ['rev:total', 'ev:achat:total', 'remb:total', 'rembmt:total']
     PRODUITS_STATS.forEach(p => keys.push(`vp:${p}:total`, `rp:${p}:total`))
+    for (let i = 0; i < 60; i++) {
+      const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
+      keys.push(`rev:${d}`, `ev:achat:${d}`)
+    }
     try {
       await fetch(`${store.url}/pipeline`, {
         method: 'POST',
