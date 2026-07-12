@@ -291,6 +291,20 @@ export default function Dashboard() {
     } catch { /* ignore */ }
   }
 
+  // Corrige uniquement le CA (sans toucher aux visites/sources) — utile après
+  // un faux remboursement de test Hotmart qui a fait passer le CA en négatif.
+  async function corrigerRevenu() {
+    if (!window.confirm('Remettre le chiffre d\'affaires et le nombre de ventes à zéro (sans toucher aux visites) ?')) return
+    try {
+      await fetch('/api/stats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-cockpit-secret': secret },
+        body: JSON.stringify({ fixRevenuAZero: true }),
+      })
+      charger()
+    } catch { /* ignore */ }
+  }
+
   async function chargerHisto(t) {
     setHisto(null)
     try {
@@ -410,6 +424,15 @@ export default function Dashboard() {
                   <GoalBar value={caMois} goal={OBJECTIF_CA_MOIS} label={`Objectif du mois`} />
                 </div>
               )}
+              {A?.disponible && caMois < 0 && (
+                <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 12, color: '#FF6B6B' }}>CA négatif détecté (probablement un test de remboursement Hotmart).</span>
+                  <button onClick={corrigerRevenu}
+                    style={{ background: 'transparent', border: '1px solid rgba(255,107,107,0.5)', color: '#FF6B6B', borderRadius: 8, padding: '4px 10px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    Corriger le CA
+                  </button>
+                </div>
+              )}
             </Card>
 
             {/* Métriques d'entrée (audience) */}
@@ -435,8 +458,8 @@ export default function Dashboard() {
             <SectionTitle>Boucle de conversion</SectionTitle>
             <Card>
               <div style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.75)' }}>
-                Chaque vente Gumroad ajoute l'acheteur à la liste <b style={{ color: '#fff' }}>Acheteurs</b> ({fmt(getAbo(6))}) et envoie un event « achat » à Plausible.
-                Le ratio <b style={{ color: GOLD }}>quiz terminé → achat</b> se lira dans la zone Plausible ci-dessous une fois branchée.
+                Chaque vente Hotmart ajoute l'acheteur à la liste <b style={{ color: '#fff' }}>Acheteurs</b> ({fmt(getAbo(6))}) et enregistre la vente ci-dessous.
+                Le ratio <b style={{ color: GOLD }}>quiz terminé → achat</b> se lit dans la section Visites & conversions.
               </div>
             </Card>
 

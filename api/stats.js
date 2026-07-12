@@ -112,21 +112,47 @@ async function track(req, res) {
   // Remboursement/chargeback (protégé par la clé, appelé serveur-à-serveur par
   // hotmart-webhook.js) : retire la vente du dashboard au lieu de la laisser
   // gonfler artificiellement le chiffre d'affaires affiché.
+  // Lecture puis écriture (au lieu d'un simple incrby négatif) pour ne JAMAIS
+  // laisser un compteur passer sous zéro (ex : un test Hotmart envoie un faux
+  // remboursement sans vente réelle correspondante derrière).
   if (body && body.e === 'remboursement') {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
     const montant = Math.max(0, Math.round(Number(body.montant) || 0))
     const day = new Date().toISOString().slice(0, 10)
+    const decrementFloor0 = async (key, amount) => {
+      try {
+        const r = await fetch(`${store.url}/get/${encodeURIComponent(key)}`, { headers: { Authorization: `Bearer ${store.token}` } })
+        const d = await r.json().catch(() => ({}))
+        const actuel = Number(d.result) || 0
+        const nouveau = Math.max(0, actuel - amount)
+        await fetch(`${store.url}/set/${encodeURIComponent(key)}/${nouveau}`, { headers: { Authorization: `Bearer ${store.token}` } })
+      } catch { /* silencieux */ }
+    }
     try {
       await Promise.all([
-        fetch(`${store.url}/incrby/${encodeURIComponent('ev:achat:total')}/-1`, { headers: { Authorization: `Bearer ${store.token}` } }),
-        ...(montant > 0 ? [
-          fetch(`${store.url}/incrby/${encodeURIComponent('rev:total')}/-${montant}`, { headers: { Authorization: `Bearer ${store.token}` } }),
-          fetch(`${store.url}/incrby/${encodeURIComponent('rev:' + day)}/-${montant}`, { headers: { Authorization: `Bearer ${store.token}` } }),
-        ] : []),
+        decrementFloor0('ev:achat:total', 1),
+        ...(montant > 0 ? [decrementFloor0('rev:total', montant), decrementFloor0('rev:' + day, montant)] : []),
       ])
     } catch { /* silencieux */ }
     return res.status(200).json({ ok: true, remboursement: true })
+  }
+
+  // Correction ciblée du CA (protégé par la clé) : remet uniquement le
+  // chiffre d'affaires à zéro, SANS toucher aux visites/sources/pages.
+  // Utile après un compteur faussé par de faux remboursements de test.
+  if (body && body.fixRevenuAZero === true) {
+    const secret = process.env.COCKPIT_SECRET
+    if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
+    const day = new Date().toISOString().slice(0, 10)
+    try {
+      await Promise.all([
+        fetch(`${store.url}/set/${encodeURIComponent('rev:total')}/0`, { headers: { Authorization: `Bearer ${store.token}` } }),
+        fetch(`${store.url}/set/${encodeURIComponent('rev:' + day)}/0`, { headers: { Authorization: `Bearer ${store.token}` } }),
+        fetch(`${store.url}/set/${encodeURIComponent('ev:achat:total')}/0`, { headers: { Authorization: `Bearer ${store.token}` } }),
+      ])
+    } catch { /* silencieux */ }
+    return res.status(200).json({ ok: true, fixRevenuAZero: true })
   }
 
   // Reset admin (protégé par la clé) : remet à zéro totaux + 60 derniers jours.
