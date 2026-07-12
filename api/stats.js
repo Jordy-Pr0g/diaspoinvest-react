@@ -10,6 +10,9 @@ const LISTES = {
   6: 'Acheteurs',
 }
 
+// Slugs produit autorisés (synchronisés avec OFFER_CODE_TAGS de hotmart-webhook.js).
+const PRODUITS_STATS = ['guideEurope', 'guideUemoa', 'tracker', 'packEurope', 'packUemoa', 'autre']
+
 function kvStore() {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
@@ -63,10 +66,20 @@ async function buildAnalytics() {
   ])
   dates.forEach((d, i) => jours.push({ date: d, pv: pvJour[i] || 0, achat: achJour[i] || 0, revenu: (revJour[i] || 0) / 100 }))
 
-  const [pvTotal, quiz, achat, clic, revTotal] = await kvMget(store, [
+  const [pvTotal, quiz, achat, clic, revTotal, rembN, rembMt] = await kvMget(store, [
     'pv:total', 'ev:quiz_termine:total', 'ev:achat:total', 'ev:clic_produit:total', 'rev:total',
+    'remb:total', 'rembmt:total',
   ])
   const ratio = quiz > 0 ? (achat / quiz) * 100 : null
+
+  // Ventes et CA par produit (alimentés par le webhook Hotmart)
+  const [vpVals, rpVals] = await Promise.all([
+    kvMget(store, PRODUITS_STATS.map(p => `vp:${p}:total`)),
+    kvMget(store, PRODUITS_STATS.map(p => `rp:${p}:total`)),
+  ])
+  const produits = PRODUITS_STATS
+    .map((p, i) => ({ produit: p, ventes: vpVals[i] || 0, revenu: (rpVals[i] || 0) / 100 }))
+    .filter(x => x.ventes > 0 || x.revenu > 0)
 
   // Sources de trafic (whitelist)
   const SRC = ['direct', 'google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'autre']
@@ -96,6 +109,8 @@ async function buildAnalytics() {
     ratio,
     sources,
     pages,
+    produits,
+    remboursements: { nombre: rembN || 0, montant: (rembMt || 0) / 100 },
   }
 }
 
@@ -133,6 +148,10 @@ async function track(req, res) {
       await Promise.all([
         decrementFloor0('ev:achat:total', 1),
         ...(montant > 0 ? [decrementFloor0('rev:total', montant), decrementFloor0('rev:' + day, montant)] : []),
+        // Compteurs cumulatifs dédiés : les remboursements restent visibles
+        // à part dans le dashboard, pas seulement soustraits du CA.
+        fetch(`${store.url}/incr/${encodeURIComponent('remb:total')}`, { headers: { Authorization: `Bearer ${store.token}` } }),
+        ...(montant > 0 ? [fetch(`${store.url}/incrby/${encodeURIComponent('rembmt:total')}/${montant}`, { headers: { Authorization: `Bearer ${store.token}` } })] : []),
       ])
     } catch { /* silencieux */ }
     return res.status(200).json({ ok: true, remboursement: true })
@@ -145,12 +164,16 @@ async function track(req, res) {
     const secret = process.env.COCKPIT_SECRET
     if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
     const day = new Date().toISOString().slice(0, 10)
+    // Remet à zéro tout ce qui touche aux VENTES (CA, compteurs produit,
+    // remboursements) sans toucher aux visites/sources/pages.
+    const keys = ['rev:total', 'rev:' + day, 'ev:achat:total', 'remb:total', 'rembmt:total']
+    PRODUITS_STATS.forEach(p => keys.push(`vp:${p}:total`, `rp:${p}:total`))
     try {
-      await Promise.all([
-        fetch(`${store.url}/set/${encodeURIComponent('rev:total')}/0`, { headers: { Authorization: `Bearer ${store.token}` } }),
-        fetch(`${store.url}/set/${encodeURIComponent('rev:' + day)}/0`, { headers: { Authorization: `Bearer ${store.token}` } }),
-        fetch(`${store.url}/set/${encodeURIComponent('ev:achat:total')}/0`, { headers: { Authorization: `Bearer ${store.token}` } }),
-      ])
+      await fetch(`${store.url}/pipeline`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${store.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(keys.map(k => ['DEL', k])),
+      })
     } catch { /* silencieux */ }
     return res.status(200).json({ ok: true, fixRevenuAZero: true })
   }
@@ -203,6 +226,9 @@ async function track(req, res) {
   const keys = e ? [`ev:${e}:${day}`, `ev:${e}:total`] : [`pv:${day}`, `pv:total`]
   const montant = Math.max(0, Math.round(Number(body.montant) || 0))
 
+  // Ventilation par produit (uniquement pour les achats, slug whitelisté)
+  const produit = e === 'achat' && PRODUITS_STATS.includes(String(body.produit)) ? String(body.produit) : null
+
   // Identifiant visiteur anonyme (haché, jamais stocké en clair) : IP + UA
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
   const vid = crypto.createHash('sha256').update(`${ip}|${ua}`).digest('hex').slice(0, 20)
@@ -221,6 +247,11 @@ async function track(req, res) {
       ...(montant > 0 ? [`rev:${day}`, 'rev:total'].map(k =>
         fetch(`${store.url}/incrby/${encodeURIComponent(k)}/${montant}`, { headers: { Authorization: `Bearer ${store.token}` } })
       ) : []),
+      // Compteurs par produit : nombre de ventes + CA (centimes)
+      ...(produit ? [
+        fetch(`${store.url}/incr/${encodeURIComponent(`vp:${produit}:total`)}`, { headers: { Authorization: `Bearer ${store.token}` } }),
+        ...(montant > 0 ? [fetch(`${store.url}/incrby/${encodeURIComponent(`rp:${produit}:total`)}/${montant}`, { headers: { Authorization: `Bearer ${store.token}` } })] : []),
+      ] : []),
       // Visiteur unique (HyperLogLog : total + du jour)
       fetch(`${store.url}/pfadd/uv:total/${vid}`, { headers: { Authorization: `Bearer ${store.token}` } }),
       fetch(`${store.url}/pfadd/${encodeURIComponent('uv:' + day)}/${vid}`, { headers: { Authorization: `Bearer ${store.token}` } }),

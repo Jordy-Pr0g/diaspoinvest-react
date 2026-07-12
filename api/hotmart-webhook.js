@@ -25,12 +25,14 @@
 
 const BREVO_LIST_ACHETEURS = 6 // "Acheteurs DiaspoInvest"
 
+// slug = identifiant stable envoyé à api/stats pour la ventilation par produit
+// (whitelist côté stats.js, doit rester synchronisé avec PRODUITS_STATS là-bas).
 const OFFER_CODE_TAGS = {
-  F106625297S: { tag: 'ACHETEUR_GUIDE', nom: 'Guide PDF Europe' },
-  S106627946N: { tag: 'ACHETEUR_GUIDE', nom: 'Guide PDF UEMOA' },
-  I106628667V: { tag: 'ACHETEUR_TRACKER', nom: 'Tracker Dashboard' },
-  B106692769D: { tag: 'ACHETEUR_PACK', nom: 'Pack Complet Europe' },
-  O106693011E: { tag: 'ACHETEUR_PACK', nom: 'Pack Complet UEMOA' },
+  F106625297S: { tag: 'ACHETEUR_GUIDE', nom: 'Guide PDF Europe', slug: 'guideEurope' },
+  S106627946N: { tag: 'ACHETEUR_GUIDE', nom: 'Guide PDF UEMOA', slug: 'guideUemoa' },
+  I106628667V: { tag: 'ACHETEUR_TRACKER', nom: 'Tracker Dashboard', slug: 'tracker' },
+  B106692769D: { tag: 'ACHETEUR_PACK', nom: 'Pack Complet Europe', slug: 'packEurope' },
+  O106693011E: { tag: 'ACHETEUR_PACK', nom: 'Pack Complet UEMOA', slug: 'packUemoa' },
 }
 
 function tagInfoFromPayload(data) {
@@ -39,10 +41,11 @@ function tagInfoFromPayload(data) {
 
   // Secours : devine à partir du nom du produit tel qu'enregistré sur Hotmart.
   const nom = (data?.product?.name || '').toLowerCase()
-  if (nom.includes('pack')) return { tag: 'ACHETEUR_PACK', nom: data.product.name }
-  if (nom.includes('tracker') || nom.includes('dashboard')) return { tag: 'ACHETEUR_TRACKER', nom: data.product.name }
-  if (nom.includes('guide')) return { tag: 'ACHETEUR_GUIDE', nom: data.product.name }
-  return { tag: 'ACHETEUR_INCONNU', nom: data?.product?.name || 'Produit inconnu' }
+  const uemoa = nom.includes('uemoa') || nom.includes('ouest')
+  if (nom.includes('pack')) return { tag: 'ACHETEUR_PACK', nom: data.product.name, slug: uemoa ? 'packUemoa' : 'packEurope' }
+  if (nom.includes('tracker') || nom.includes('dashboard')) return { tag: 'ACHETEUR_TRACKER', nom: data.product.name, slug: 'tracker' }
+  if (nom.includes('guide')) return { tag: 'ACHETEUR_GUIDE', nom: data.product.name, slug: uemoa ? 'guideUemoa' : 'guideEurope' }
+  return { tag: 'ACHETEUR_INCONNU', nom: data?.product?.name || 'Produit inconnu', slug: 'autre' }
 }
 
 async function upsertContactBrevo(email, prenom, nom, tagInfo) {
@@ -65,12 +68,12 @@ async function upsertContactBrevo(email, prenom, nom, tagInfo) {
 }
 
 // stats.js stocke le revenu en centimes (cf. rev:${day} / 100 côté lecture).
-async function reporterVente(montantEuros) {
+async function reporterVente(montantEuros, slug) {
   try {
     await fetch('https://diaspoinvest.fr/api/stats', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ e: 'achat', montant: Math.round((Number(montantEuros) || 0) * 100) }),
+      body: JSON.stringify({ e: 'achat', montant: Math.round((Number(montantEuros) || 0) * 100), produit: slug || 'autre' }),
     })
   } catch (e) {
     console.error('[stats] report vente échec:', e.message)
@@ -127,6 +130,8 @@ export default async function handler(req, res) {
 
   if (!email) return res.status(200).json({ ok: false, error: 'email manquant, ignoré' })
 
+  const tagInfo = tagInfoFromPayload(data)
+
   if (REMBOURSEMENTS.includes(evenement)) {
     await reporterRemboursement(montant)
     await marquerRembourseBrevo(email)
@@ -135,9 +140,8 @@ export default async function handler(req, res) {
 
   const prenom = data?.buyer?.first_name || (data?.buyer?.name || '').split(' ')[0] || 'Client'
   const nom = data?.buyer?.last_name || ''
-  const tagInfo = tagInfoFromPayload(data)
   const brevoStatus = await upsertContactBrevo(email, prenom, nom, tagInfo)
-  await reporterVente(montant)
+  await reporterVente(montant, tagInfo.slug)
 
   return res.status(200).json({ ok: true, email, tag: tagInfo.tag, produit: tagInfo.nom, brevoStatus })
 }
