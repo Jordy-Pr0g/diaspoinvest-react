@@ -42,9 +42,17 @@
           } catch (_) {}
         }
 
-        // Source du visiteur (une seule fois par session, sur la 1re page)
+        // Source du visiteur (une seule fois par session, sur la 1re page).
+        // Priorité au paramètre ?src= des liens traçables (les applis mobiles
+        // Facebook/LinkedIn n'envoient souvent pas de referrer), puis referrer.
         function classer() {
           try {
+            var q = new URLSearchParams(location.search).get('src')
+            if (q) {
+              q = q.toLowerCase()
+              var connus = ['google', 'bing', 'tiktok', 'instagram', 'facebook', 'linkedin', 'youtube', 'twitter', 'whatsapp']
+              return connus.indexOf(q) > -1 ? q : 'autre'
+            }
             var r = document.referrer
             if (!r) return 'direct'
             var h = new URL(r).hostname.replace(/^www\./, '')
