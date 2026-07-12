@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+﻿import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
@@ -159,7 +159,7 @@ export default function Screener() {
       <Navbar />
       <main style={{
         minHeight: '100vh',
-        background: 'linear-gradient(160deg, #0D1525 0%, #131E30 50%, #0F1929 100%)',
+        background: 'linear-gradient(160deg, #0A1F17 0%, #0E2A1F 50%, #0C241B 100%)',
         paddingTop: 80,
       }}>
         <style>{`
@@ -218,10 +218,10 @@ export default function Screener() {
           .chip.active {
             background: ${OR};
             border-color: ${OR};
-            color: #0B1120;
+            color: #081C15;
           }
           .scr-select { color: #fff; }
-          .scr-select option { background: #131E30; color: #F1F5F9; }
+          .scr-select option { background: #0E2A1F; color: #F1F5F9; }
           @media(max-width:768px){
             .action-card { grid-template-columns: 1fr; gap: 10px; }
           }

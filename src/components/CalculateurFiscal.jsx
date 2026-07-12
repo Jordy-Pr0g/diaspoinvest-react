@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 
 const EUR_FCFA = 655.957
 
@@ -216,7 +216,7 @@ export default function CalculateurFiscal() {
 
   return (
     <section className="section" id="fiscalite" style={{
-      background: 'linear-gradient(160deg, #0B1120 0%, #111827 50%, #0D1117 100%)',
+      background: 'linear-gradient(160deg, #081C15 0%, #0E2A1F 50%, #06140E 100%)',
       position: 'relative', overflow: 'hidden',
     }}>
       <div style={{

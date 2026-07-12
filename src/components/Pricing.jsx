@@ -60,7 +60,7 @@ export default function Pricing() {
               {p.populaire && <div className="plan-tag">{t('pricing.leplusComplet')}</div>}
               {img && (
                 <div className="plan-img-wrap">
-                  <img src={img} alt={nom} className="plan-img" loading="lazy" />
+                  <img src={img} alt={nom} className="plan-img" decoding="async" />
                 </div>
               )}
               <h3>{nom}</h3>

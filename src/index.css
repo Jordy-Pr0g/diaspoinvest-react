@@ -4,19 +4,23 @@
    ============================================================ */
 
 :root {
-  /* Navy design system — légèrement adouci, moins de noir pur */
-  --bg:       #0D1525;
-  --bg-2:     #131E30;
+  /* ── Rampe de fond : vert profond (charte DiaspoInvest #0D2B1E + or) ──
+     Une seule famille de teintes, du plus sombre au plus clair.
+     Remplace l'ancien design system bleu marine. */
+  --bg-deep:  #06140E;   /* footer, pricing : le plus sombre */
+  --bg:       #0A1F17;   /* fond dominant du site */
+  --bg-2:     #0E2A1F;   /* sections légèrement relevées (stats, histoire…) */
+  --bg-3:     #123024;   /* cartes / surfaces hautes */
   --bg-card:  rgba(255,255,255,0.045);
   --border:   rgba(255,255,255,0.09);
-  --text:     #E8EEF6;
-  --text-2:   rgba(232,238,246,0.55);
+  --text:     #EAF1EC;
+  --text-2:   rgba(234,241,236,0.55);
   --gold:     #C9A84C;
   --gold-2:   #E8C46A;
   --green-acc:#2ECC8B;
 
   /* Compat aliases (utilisés dans App.css) */
-  --vert:       #0d3b2e;
+  --vert:       #0D2B1E;
   --vert-clair: #1a5c45;
   --or:         #C9A84C;
   --or-clair:   #E8C46A;
@@ -24,7 +28,7 @@
   --blanc:      #ffffff;
   --texte:      #1c2620;
   --texte-doux: #4a5a52;
-  --bordure:    rgba(13, 59, 46, 0.12);
+  --bordure:    rgba(13, 43, 30, 0.12);
 
   /* Typo */
   --display: 'Playfair Display', Georgia, serif;

@@ -5,14 +5,19 @@ import { LIENS } from '../data.js'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
-  const NAV = [
+  // Outils regroupés dans un menu déroulant pour désencombrer la navbar
+  const TOOLS = [
     { to: '/screener',  label: t('nav.screener')  },
     { to: '/portefeuille', label: t('nav.portefeuille') },
     { to: '/backtest',  label: t('nav.backtest')  },
     { to: '/fiscalite', label: t('nav.fiscalite') },
+  ]
+  const TOP = [
     { to: '/blog',      label: t('nav.blog')      },
     { to: '/a-propos',  label: t('nav.apropos')  },
   ]
+  // Liste à plat pour le tiroir mobile
+  const NAV = [...TOOLS, ...TOP]
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
@@ -60,7 +65,28 @@ export default function Navbar() {
               onMouseLeave={e => { e.currentTarget.style.color = location.pathname === '/' ? activeColor : linkColor }}>
               {t('nav.accueil')}
             </Link>
-            {NAV.map(({ to, label }) => (
+
+            <div className="nav-dropdown">
+              <button type="button" className="nav-dropdown-trigger"
+                aria-haspopup="true"
+                style={{
+                  color: TOOLS.some(({ to }) => isActive(to)) ? activeColor : linkColor,
+                  fontWeight: TOOLS.some(({ to }) => isActive(to)) ? 700 : 500,
+                }}>
+                {t('nav.outils')} <span className="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div className="nav-dropdown-menu">
+                {TOOLS.map(({ to, label }) => (
+                  <Link key={to} to={to}
+                    className="nav-dropdown-item"
+                    style={{ color: isActive(to) ? activeColor : 'rgba(234,241,236,0.85)' }}>
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {TOP.map(({ to, label }) => (
               <Link key={to} to={to}
                 style={{
                   color: isActive(to) ? activeColor : linkColor,

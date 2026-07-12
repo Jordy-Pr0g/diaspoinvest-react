@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 import Navbar from '../components/Navbar.jsx'
@@ -68,7 +68,7 @@ export default function ActionDetail() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0D1525 0%, #131E30 100%)', paddingTop: 80 }}>
+      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0A1F17 0%, #0E2A1F 100%)', paddingTop: 80 }}>
         <div style={{ maxWidth: 800, margin: '0 auto', padding: '32px 20px 80px' }}>
 
           <Link to="/screener" style={{ fontSize: 13, color: GRIS, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 28 }}>

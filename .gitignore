@@ -31,3 +31,5 @@ claude.md
 # Produits payants et outils internes - NE JAMAIS PUBLIER
 produits/
 .claude/
+
+.vercel

@@ -322,7 +322,7 @@ export default function Temoignages() {
 
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 36 }}>
-          <div>
+          <div data-sr>
             <span className="eyebrow">{t('temoignages.eyebrow')}</span>
             <h2 style={{ marginTop: 6, marginBottom: 6 }}>{t('temoignages.titre')}</h2>
             {nb > 0 && (

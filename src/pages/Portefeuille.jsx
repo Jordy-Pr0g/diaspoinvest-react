@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+﻿import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 import Navbar from '../components/Navbar.jsx'
@@ -178,7 +178,7 @@ export default function Portefeuille() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0D1525 0%, #131E30 100%)', paddingTop: 80, color: '#fff', fontFamily: 'DM Sans, system-ui, sans-serif' }}>
+      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0A1F17 0%, #0E2A1F 100%)', paddingTop: 80, color: '#fff', fontFamily: 'DM Sans, system-ui, sans-serif' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto', padding: '40px 20px 90px' }}>
 
           <Link to="/" style={{ fontSize: 13, color: GRIS, marginBottom: 24, display: 'inline-block' }}>{t('pages.retourAccueil')}</Link>
@@ -228,7 +228,7 @@ export default function Portefeuille() {
                       />
                       <div style={{ fontSize: 10, color: GRIS, marginBottom: 8 }}>{t('pages.portefeuille.capitalHint')}</div>
                       <button onClick={appliquerCapital}
-                        style={{ background: OR, color: '#0D1525', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 800, fontSize: 13, cursor: 'pointer', width: '100%' }}>
+                        style={{ background: OR, color: '#0A1F17', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 800, fontSize: 13, cursor: 'pointer', width: '100%' }}>
                         {t('pages.portefeuille.appliquer')}
                       </button>
                     </div>
@@ -269,7 +269,7 @@ export default function Portefeuille() {
                       <button onClick={() => setQty(String(Math.floor(port.cash / coursSel)))}
                         style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BDR}`, color: GRIS, borderRadius: 10, padding: '11px 14px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>{t('pages.portefeuille.max')}</button>
                       <button onClick={acheter} disabled={nQty <= 0 || coutEstime > port.cash}
-                        style={{ background: OR, color: '#0D1525', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 800, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit', opacity: (nQty <= 0 || coutEstime > port.cash) ? 0.5 : 1 }}>{t('pages.portefeuille.acheter')}</button>
+                        style={{ background: OR, color: '#0A1F17', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 800, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit', opacity: (nQty <= 0 || coutEstime > port.cash) ? 0.5 : 1 }}>{t('pages.portefeuille.acheter')}</button>
                       <div style={{ fontSize: 13, color: GRIS, flexBasis: '100%' }}>
                         {t('pages.portefeuille.coursLabel')} <b style={{ color: '#fff' }}>{fmt(coursSel)} {t('pages.portefeuille.fcfa')}</b>{nQty > 0 && <> · {t('pages.portefeuille.coutLabel')} <b style={{ color: coutEstime > port.cash ? RED : OR }}>{fmt(coutEstime)} {t('pages.portefeuille.fcfa')}</b></>}
                       </div>

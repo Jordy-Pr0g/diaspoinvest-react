@@ -76,7 +76,7 @@ export default function LeadMagnet() {
     <section className="section leadmagnet" id="leadmagnet">
       <div className="container">
         <div className="leadmagnet-inner">
-          <div className="lm-left">
+          <div className="lm-left" data-sr>
             <span className="eyebrow">{t('leadmagnet.eyebrow')}</span>
             <h2>{t('leadmagnet.titre')}</h2>
             <p>
@@ -92,7 +92,7 @@ export default function LeadMagnet() {
             </p>
           </div>
 
-          <div className="lm-right">
+          <div className="lm-right" data-sr>
             {statut === 'succes' ? (
               <div className="lm-succes">
                 <div className="lm-check">

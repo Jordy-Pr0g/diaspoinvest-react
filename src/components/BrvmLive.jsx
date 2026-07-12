@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+﻿import { useEffect, useState, useRef } from 'react'
 import { LIENS } from '../data.js'
 
 const DIV_CONNUS = {
@@ -251,7 +251,7 @@ export default function BrvmLive() {
 
         {/* Ticker */}
         {ticker.length > 0 && (
-          <div style={{ overflow:'hidden', background:'#060E09', border:`1px solid ${BDR}`, borderRadius:10, padding:'8px 0', marginBottom:24 }}>
+          <div style={{ overflow:'hidden', background:'#06140E', border:`1px solid ${BDR}`, borderRadius:10, padding:'8px 0', marginBottom:24 }}>
             <div ref={tickerRef} className="tk-track">
               {ticker.map((t, i) => (
                 <span key={i} style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'2px 18px', whiteSpace:'nowrap', borderRight:`1px solid ${BDR}` }}>

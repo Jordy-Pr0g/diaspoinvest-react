@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 
 /* ── Données dividendes (FCFA/action, dernier exercice fiscal) ── */
@@ -35,7 +35,7 @@ const DIVIDENDES = {
 const OR    = '#C9A84C'
 const VERT  = '#0D3B2E'
 const VERT3 = '#2ECC8B'
-const BG    = '#060E09'
+const BG    = '#06140E'
 const CARD  = '#0F1A12'
 const BDR   = '#1E2E21'
 const GRIS  = 'rgba(255,255,255,0.4)'

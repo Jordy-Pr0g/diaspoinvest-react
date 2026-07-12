@@ -8,7 +8,7 @@ export default function Histoire() {
       <div className="container">
         <div className="histoire-inner">
 
-          <div className="histoire-visuel">
+          <div className="histoire-visuel" data-sr>
             <div className="histoire-avatar">
               <div className="ha-initiales">JD</div>
             </div>
@@ -18,7 +18,7 @@ export default function Histoire() {
             </div>
           </div>
 
-          <div className="histoire-texte">
+          <div className="histoire-texte" data-sr>
             <span className="eyebrow">{t('histoire.eyebrow')}</span>
             <h2>{t('histoire.titre')}</h2>
 

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const OR = '#D4AF37'
@@ -9,7 +9,7 @@ export default function NotFound() {
     <div style={{
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      background: '#060E09', color: '#fff', textAlign: 'center', padding: '0 24px',
+      background: '#06140E', color: '#fff', textAlign: 'center', padding: '0 24px',
     }}>
       <div style={{
         fontFamily: 'DM Mono, monospace', fontSize: '6rem', fontWeight: 900,

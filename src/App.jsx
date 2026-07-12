@@ -8,6 +8,7 @@ import Footer from './components/Footer.jsx'
 import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
 import SegmentQuiz from './components/SegmentQuiz.jsx'
+import { initScrollReveal } from './scrollReveal.js'
 
 const Probleme    = lazy(() => import('./components/Probleme.jsx'))
 const Histoire    = lazy(() => import('./components/Histoire.jsx'))
@@ -30,6 +31,8 @@ const NotFound    = lazy(() => import('./pages/NotFound.jsx'))
 function LandingPage() {
   const [modal, setModal] = useState(null)
   const [showQuiz, setShowQuiz] = useState(true)
+
+  useEffect(() => initScrollReveal(), [])
 
   return (
     <>

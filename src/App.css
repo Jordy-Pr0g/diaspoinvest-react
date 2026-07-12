@@ -2,6 +2,32 @@
    DiaspoInvest — Styles des composants
    ============================================================ */
 
+/* ── Apparition au scroll (module scrollReveal.js) ──────────────
+   Anime des éléments fins avec cascade. .sr = état caché,
+   .sr-in = état révélé. Courbe douce type « ease-out expo ». */
+.sr {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--sr-i, 0) * 70ms);
+  will-change: opacity, transform;
+}
+
+.sr.sr-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sr {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 
 /* ---------- Navbar ---------- */
 .navbar {
@@ -13,7 +39,7 @@
 }
 
 .navbar.scrolled {
-  background: rgba(11,17,32,0.96);
+  background: rgba(9,26,19,0.96);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 8px 32px -16px rgba(0,0,0,0.4);
@@ -60,6 +86,93 @@
 }
 
 .nav-links a:hover {
+  color: var(--or) !important;
+}
+
+/* ── Menu déroulant « Outils » ──────────────────────────────── */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.nav-dropdown-trigger:hover {
+  color: var(--or) !important;
+}
+
+.nav-caret {
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-dropdown:hover .nav-caret,
+.nav-dropdown:focus-within .nav-caret {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 190px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: rgba(9, 26, 19, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  box-shadow: 0 18px 44px -20px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+}
+
+/* Zone tampon pour ne pas perdre le survol entre le bouton et le menu */
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(6px);
+}
+
+.nav-dropdown-item {
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-dropdown-item:hover {
+  background: rgba(201, 168, 76, 0.12);
   color: var(--or) !important;
 }
 
@@ -130,7 +243,7 @@
   top: 64px;
   left: 0;
   right: 0;
-  background: rgba(11,17,32,0.98);
+  background: rgba(9,26,19,0.98);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   z-index: 49;
@@ -179,7 +292,7 @@
   height: auto;
   background:
     radial-gradient(900px 500px at 70% -5%, rgba(201,168,76,0.07), transparent 60%),
-    linear-gradient(160deg, #0D1525 0%, #111E34 60%, #131E30 100%);
+    linear-gradient(160deg, #0A1F17 0%, #123024 60%, #0E2A1F 100%);
   color: #F1F5F9;
   padding: 160px 0 100px;
   overflow: hidden;
@@ -308,10 +421,8 @@
 
 /* ---------- Stats ---------- */
 .stats {
-  background: #111827;
+  background: #0E2A1F;
   padding: 56px 0;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .stats-grid {
@@ -342,7 +453,7 @@
 
 /* ---------- Probleme ---------- */
 .probleme {
-  background: #0B1120;
+  background: #081C15;
 }
 
 .probleme-grid {
@@ -516,7 +627,7 @@ input[type='range']::-moz-range-thumb {
    Couvre tous les <select> du site (Screener, Backtest, Portefeuille, Calculateur, Temoignages). */
 select option,
 select optgroup {
-  background-color: #131E30;
+  background-color: #0E2A1F;
   color: #F1F5F9;
 }
 
@@ -617,7 +728,7 @@ select optgroup {
 
 /* ---------- Pricing ---------- */
 .pricing {
-  background: #060E09;
+  background: #06140E;
 }
 
 .pricing .section-head h2,
@@ -831,7 +942,7 @@ select optgroup {
 
 /* ---------- FAQ ---------- */
 .faq {
-  background: #0D1525;
+  background: #0A1F17;
   border-top: 1px solid rgba(255,255,255,0.06);
 }
 
@@ -904,7 +1015,7 @@ select optgroup {
 
 /* ---------- Footer ---------- */
 .footer {
-  background: #070C18;
+  background: #06140E;
   color: rgba(241,245,249,0.65);
   padding: 72px 0 32px;
   border-top: 1px solid rgba(255,255,255,0.06);
@@ -1051,7 +1162,7 @@ select optgroup {
 
 /* ---------- À propos ---------- */
 .apropos {
-  background: #101729;
+  background: #0D271D;
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -1263,7 +1374,7 @@ select optgroup {
    ============================================================ */
 
 .histoire {
-  background: #111827;
+  background: #0E2A1F;
   color: #F1F5F9;
   border-top: 1px solid rgba(255,255,255,0.06);
 }
@@ -1415,7 +1526,7 @@ select optgroup {
    ============================================================ */
 
 .leadmagnet {
-  background: #111827;
+  background: #0E2A1F;
   border-top: 1px solid rgba(255,255,255,0.06);
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
@@ -1450,7 +1561,7 @@ select optgroup {
   align-items: flex-start;
   gap: 10px;
   font-size: 0.95rem;
-  color: var(--texte);
+  color: rgba(234,241,236,0.85);
 }
 
 .lm-points li::before {
@@ -1470,8 +1581,7 @@ select optgroup {
 
 .lm-disclaimer {
   font-size: 0.78rem;
-  color: var(--texte-doux);
-  opacity: 0.7;
+  color: rgba(234,241,236,0.5);
 }
 
 .lm-right {
@@ -1528,20 +1638,20 @@ select optgroup {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(13, 59, 46, 0.08);
+  background: rgba(46, 204, 139, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--vert);
+  color: var(--green-acc);
 }
 
 .lm-succes h3 {
   font-size: 1.3rem;
-  color: var(--vert);
+  color: #EAF1EC;
 }
 
 .lm-succes p {
-  color: var(--texte-doux);
+  color: rgba(234,241,236,0.65);
   font-size: 0.95rem;
 }
 
@@ -1562,7 +1672,7 @@ select optgroup {
   left: 0;
   right: 0;
   z-index: 200;
-  background: #0F1929;
+  background: #0C241B;
   border-top: 1px solid rgba(201,168,76,0.25);
   padding: 16px 24px;
 }
@@ -1676,7 +1786,7 @@ select optgroup {
   padding-top: 120px;
   padding-bottom: 80px;
   min-height: 100vh;
-  background: linear-gradient(160deg, #0B1120 0%, #111827 100%);
+  background: linear-gradient(160deg, #081C15 0%, #0E2A1F 100%);
 }
 
 .blog-header {
@@ -1764,7 +1874,7 @@ select optgroup {
   padding-top: 120px;
   padding-bottom: 80px;
   min-height: 100vh;
-  background: linear-gradient(160deg, #0B1120 0%, #111827 100%);
+  background: linear-gradient(160deg, #081C15 0%, #0E2A1F 100%);
 }
 
 .blog-post-back {
@@ -1918,7 +2028,7 @@ select optgroup {
 .blog-cta-btn {
   flex: 0 0 auto;
   background: var(--or);
-  color: #0D1525;
+  color: #0A1F17;
   font-weight: 800;
   font-size: 14px;
   padding: 13px 22px;

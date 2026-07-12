@@ -1,4 +1,4 @@
-import Navbar from '../components/Navbar.jsx'
+﻿import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +19,7 @@ export default function APropos() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0D1525 0%, #131E30 100%)', paddingTop: 80 }}>
+      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0A1F17 0%, #0E2A1F 100%)', paddingTop: 80 }}>
         <div style={{ maxWidth: 780, margin: '0 auto', padding: '56px 24px 96px' }}>
 
           <Link to="/" style={{ fontSize: 13, color: GRIS, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}>

@@ -11,7 +11,7 @@ export default function Probleme() {
     <section className="section probleme" id="probleme" style={{ padding: '120px 0' }}>
       <div className="container">
 
-        <div style={{ maxWidth: 640, marginBottom: 80 }}>
+        <div data-sr style={{ maxWidth: 640, marginBottom: 80 }}>
           <span className="eyebrow">{t('probleme.eyebrow')}</span>
           <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', lineHeight: 1.08, marginTop: 12, marginBottom: 0 }}>
             {t('probleme.titre')}
@@ -20,7 +20,7 @@ export default function Probleme() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
           {POINTS.map((p, i) => (
-            <div key={i} style={{
+            <div key={i} data-sr style={{
               display: 'grid',
               gridTemplateColumns: '1fr 2fr',
               gap: '48px',

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react'
+﻿import { useEffect, useState, useCallback, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
@@ -77,8 +77,8 @@ function MiniChart({ courbe }) {
         {hovered !== null && (
           <>
             <line x1={hx} y1={PAD_TOP} x2={hx} y2={H - PAD} stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="3,3" />
-            <circle cx={hx} cy={yScale(courbe[hovered].valeur)} r="5" fill={OR} stroke="#0B1120" strokeWidth="2" />
-            <circle cx={hx} cy={yScale(courbe[hovered].investi)} r="4" fill="rgba(255,255,255,0.4)" stroke="#0B1120" strokeWidth="2" />
+            <circle cx={hx} cy={yScale(courbe[hovered].valeur)} r="5" fill={OR} stroke="#081C15" strokeWidth="2" />
+            <circle cx={hx} cy={yScale(courbe[hovered].investi)} r="4" fill="rgba(255,255,255,0.4)" stroke="#081C15" strokeWidth="2" />
           </>
         )}
         <g transform={`translate(${PAD},${H - 6})`}>
@@ -220,7 +220,7 @@ export default function Backtest() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0D1525 0%, #131E30 50%, #0F1929 100%)', paddingTop: 80 }}>
+      <main style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0A1F17 0%, #0E2A1F 50%, #0C241B 100%)', paddingTop: 80 }}>
         <div className="container" style={{ maxWidth: 780, margin: '0 auto', padding: '32px 20px 60px' }}>
 
           {/* En-tête */}

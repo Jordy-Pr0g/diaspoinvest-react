@@ -1,6 +1,7 @@
 {
   "nav": {
     "accueil": "Home",
+    "outils": "Tools",
     "screener": "Screener",
     "portefeuille": "Portfolio",
     "backtest": "Backtest",

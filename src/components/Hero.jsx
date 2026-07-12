@@ -36,11 +36,6 @@ export default function Hero() {
             <span className="hsb-val hsb-red" style={{ fontSize: '2rem' }}>+0,92 %</span>
             <span className="hsb-lbl">{t('hero.statCac')}</span>
           </div>
-          <div className="hsb-sep">·</div>
-          <div className="hsb-item">
-            <span className="hsb-val" style={{ fontSize: '2rem', color: '#C9A84C' }}>6 %</span>
-            <span className="hsb-lbl">{t('hero.statDividende')}</span>
-          </div>
         </div>
 
       </div>

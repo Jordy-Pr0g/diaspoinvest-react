@@ -19,7 +19,7 @@ export default function Stats() {
           margin: '0 auto',
         }}>
           {items.map((s, i) => (
-            <div key={s.label} style={{
+            <div key={s.label} data-sr style={{
               textAlign: 'center',
               padding: '8px 24px',
               borderRight: i < items.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
