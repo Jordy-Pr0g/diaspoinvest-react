@@ -1,5 +1,5 @@
 // Vercel serverless function — ajoute un contact à la liste #7 (Intéressés) après segmentation J+16
-const BREVO_API_KEY = process.env.BREVO_API_KEY
+const BREVO_API_KEY = (process.env.BREVO_API_KEY || '').trim()
 const LIST_INTERESSES = 7
 
 const ALLOWED_ORIGINS = [
