@@ -178,7 +178,7 @@ export const SOLUTIONS = [
 export const FAQ_ITEMS = [
   {
     q: "Et si ça ne me convient pas ?",
-    r: "Satisfait ou remboursé, sans condition, pendant 14 jours. Tu envoies un email à contact@diaspoinvest.fr et tu es remboursé dans les 48 h. Aucune question posée.",
+    r: "Satisfait ou remboursé, sans condition, pendant 15 jours. Tu envoies un email à contact@diaspoinvest.fr et tu es remboursé dans les 48 h. Aucune question posée.",
   },
   {
     q: "Je ne connais rien à la bourse, c'est fait pour moi ?",

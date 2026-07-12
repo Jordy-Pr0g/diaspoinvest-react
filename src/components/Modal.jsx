@@ -197,7 +197,7 @@ const CONTENU = {
 
         <h4>Commande et livraison</h4>
         <p>
-          Les achats s'effectuent sur Gumroad. Le paiement est exigible à la commande. Après
+          Les achats s'effectuent sur Hotmart. Le paiement est exigible à la commande. Après
           confirmation, le produit est livré immédiatement par email à l'adresse fournie lors
           de la commande.
         </p>
@@ -210,7 +210,8 @@ const CONTENU = {
         </p>
         <p>
           Cependant, DiaspoInvest offre une garantie commerciale "satisfait ou remboursé"
-          de 14 jours à compter de la date d'achat. Pour en bénéficier, contactez
+          de 15 jours à compter de la date d'achat (garantie appliquée par la plateforme
+          de paiement Hotmart). Pour en bénéficier, contactez
           contact@diaspoinvest.fr avec votre preuve d'achat.
         </p>
 

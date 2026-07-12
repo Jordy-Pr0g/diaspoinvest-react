@@ -103,16 +103,25 @@ export default function Navbar() {
         </nav>
 
         <div className="nav-cta" style={{ display:'flex', alignItems:'center', gap:14 }}>
-          <button
-            onClick={() => i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr')}
-            aria-label="Switch language"
-            style={{
-              background:'transparent', border:'1px solid rgba(241,245,249,0.25)', borderRadius:8,
-              color:'rgba(241,245,249,0.75)', fontSize:'0.8rem', fontWeight:700, padding:'6px 10px',
-              cursor:'pointer', letterSpacing:0.5,
-            }}>
-            {i18n.language === 'fr' ? 'EN' : 'FR'}
-          </button>
+          <div role="group" aria-label="Langue / Language"
+            style={{ display:'flex', border:'1px solid rgba(241,245,249,0.25)', borderRadius:8, overflow:'hidden' }}>
+            {['fr', 'en'].map(lng => {
+              const actif = (i18n.language || 'fr').startsWith(lng)
+              return (
+                <button key={lng}
+                  onClick={() => i18n.changeLanguage(lng)}
+                  aria-pressed={actif}
+                  style={{
+                    background: actif ? '#C9A84C' : 'transparent', border:'none',
+                    color: actif ? '#0D2B1E' : 'rgba(241,245,249,0.6)',
+                    fontSize:'0.8rem', fontWeight:700, padding:'6px 10px',
+                    cursor:'pointer', letterSpacing:0.5,
+                  }}>
+                  {lng.toUpperCase()}
+                </button>
+              )
+            })}
+          </div>
           <a className="btn btn-or" href={LIENS.pack} target="_blank" rel="noreferrer"
             style={{ padding: '10px 20px', fontSize: '0.88rem' }}>
             {t('nav.pack')}
@@ -135,15 +144,25 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <button
-            onClick={() => i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr')}
-            style={{
-              background:'transparent', border:'1px solid rgba(241,245,249,0.25)', borderRadius:8,
-              color:'rgba(241,245,249,0.75)', fontSize:'0.85rem', fontWeight:700, padding:'8px 12px',
-              cursor:'pointer', letterSpacing:0.5, marginTop:8, alignSelf:'flex-start',
-            }}>
-            {i18n.language === 'fr' ? 'English' : 'Français'}
-          </button>
+          <div role="group" aria-label="Langue / Language"
+            style={{ display:'flex', border:'1px solid rgba(241,245,249,0.25)', borderRadius:8, overflow:'hidden', marginTop:8, alignSelf:'flex-start' }}>
+            {[['fr', 'Français'], ['en', 'English']].map(([lng, label]) => {
+              const actif = (i18n.language || 'fr').startsWith(lng)
+              return (
+                <button key={lng}
+                  onClick={() => i18n.changeLanguage(lng)}
+                  aria-pressed={actif}
+                  style={{
+                    background: actif ? '#C9A84C' : 'transparent', border:'none',
+                    color: actif ? '#0D2B1E' : 'rgba(241,245,249,0.6)',
+                    fontSize:'0.85rem', fontWeight:700, padding:'8px 14px',
+                    cursor:'pointer', letterSpacing:0.5,
+                  }}>
+                  {label}
+                </button>
+              )
+            })}
+          </div>
           <a className="btn btn-or mobile-drawer-cta" href={LIENS.pack}
             target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
             {t('nav.voirPack')}

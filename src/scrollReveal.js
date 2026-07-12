@@ -12,9 +12,9 @@
 // Blocs animés : soit balisés `data-sr`, soit des classes stables déjà présentes.
 const SELECTOR = '[data-sr], .section-head, .plan, .faq-item, .solution-card'
 // Ligne de déclenchement, en proportion de la hauteur d'écran.
-// 0.88 → l'élément s'anime quand son haut a franchi 88 % de l'écran,
-// c.-à-d. peu après être entré par le bas. Jamais « bien plus tard ».
-const TRIGGER = 0.88
+// 0.80 → l'élément s'anime quand son haut a franchi 80 % de l'écran :
+// il est déjà nettement entré, l'apparition se voit sans être en retard.
+const TRIGGER = 0.80
 
 export function initScrollReveal() {
   const canAnimate = typeof requestAnimationFrame !== 'undefined'
