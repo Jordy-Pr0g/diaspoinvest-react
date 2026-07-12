@@ -109,6 +109,26 @@ async function track(req, res) {
   let body = req.body || {}
   if (typeof body === 'string') { try { body = JSON.parse(body) } catch { body = {} } }
 
+  // Remboursement/chargeback (protégé par la clé, appelé serveur-à-serveur par
+  // hotmart-webhook.js) : retire la vente du dashboard au lieu de la laisser
+  // gonfler artificiellement le chiffre d'affaires affiché.
+  if (body && body.e === 'remboursement') {
+    const secret = process.env.COCKPIT_SECRET
+    if (secret && (req.headers['x-cockpit-secret'] || '') !== secret) return res.status(403).json({ ok: false })
+    const montant = Math.max(0, Math.round(Number(body.montant) || 0))
+    const day = new Date().toISOString().slice(0, 10)
+    try {
+      await Promise.all([
+        fetch(`${store.url}/incrby/${encodeURIComponent('ev:achat:total')}/-1`, { headers: { Authorization: `Bearer ${store.token}` } }),
+        ...(montant > 0 ? [
+          fetch(`${store.url}/incrby/${encodeURIComponent('rev:total')}/-${montant}`, { headers: { Authorization: `Bearer ${store.token}` } }),
+          fetch(`${store.url}/incrby/${encodeURIComponent('rev:' + day)}/-${montant}`, { headers: { Authorization: `Bearer ${store.token}` } }),
+        ] : []),
+      ])
+    } catch { /* silencieux */ }
+    return res.status(200).json({ ok: true, remboursement: true })
+  }
+
   // Reset admin (protégé par la clé) : remet à zéro totaux + 60 derniers jours.
   if (body && body.reset === true) {
     const secret = process.env.COCKPIT_SECRET
