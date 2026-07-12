@@ -46,7 +46,7 @@ function tagInfoFromPayload(data) {
 }
 
 async function upsertContactBrevo(email, prenom, nom, tagInfo) {
-  const apiKey = process.env.BREVO_API_KEY
+  const apiKey = (process.env.BREVO_API_KEY || '').trim()
   const res = await fetch('https://api.brevo.com/v3/contacts', {
     method: 'POST',
     headers: { accept: 'application/json', 'content-type': 'application/json', 'api-key': apiKey },
@@ -80,7 +80,7 @@ async function reporterVente(montantEuros) {
 // Remboursement/chargeback : retire la vente du dashboard (endpoint protégé
 // côté stats.js par COCKPIT_SECRET, appel serveur-à-serveur uniquement).
 async function reporterRemboursement(montantEuros) {
-  const secret = process.env.COCKPIT_SECRET
+  const secret = (process.env.COCKPIT_SECRET || '').trim()
   try {
     await fetch('https://diaspoinvest.fr/api/stats', {
       method: 'POST',
@@ -93,7 +93,7 @@ async function reporterRemboursement(montantEuros) {
 }
 
 async function marquerRembourseBrevo(email) {
-  const apiKey = process.env.BREVO_API_KEY
+  const apiKey = (process.env.BREVO_API_KEY || '').trim()
   try {
     await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
