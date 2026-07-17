@@ -27,9 +27,9 @@ Sommaire
 
 ## C'est quoi une SGI exactement ?
 
-Une SGI (Société de Gestion et d'Intermédiation) est ton intermédiaire officiel entre toi et le marché BRVM. Elle est agréée par le CREPMF, le régulateur officiel de la bourse, l'équivalent de l'AMF française pour la zone UEMOA.
+Une SGI (Société de Gestion et d'Intermédiation) est ton intermédiaire officiel entre toi et le marché BRVM. Elle est agréée par l'AMF-UMOA (anciennement CREPMF), le régulateur officiel de la bourse, l'équivalent de l'AMF française pour la zone UEMOA.
 
-Sans SGI agréée CREPMF, tu ne peux pas acheter une seule action sur la BRVM.
+Sans SGI agréée AMF-UMOA, tu ne peux pas acheter une seule action sur la BRVM.
 
 La SGI reçoit tes ordres d'achat et de vente, les transmet à la BRVM, conserve tes titres, et crédite tes dividendes sur ton compte. Elle ne prend aucune décision à ta place. Chaque ordre nécessite ton instruction explicite.
 
@@ -131,9 +131,9 @@ Tes actions sont inscrites au dépositaire central de la BRVM. Elles ne font pas
 **La SGI peut-elle vendre mes actions sans mon accord ?**
 Non. Chaque ordre d'achat ou de vente nécessite ton instruction explicite. La SGI ne peut pas agir sur ton portefeuille sans ta demande, sauf si tu as signé un mandat de gestion discrétionnaire, ce qui est un document séparé que tu n'es pas obligé de signer.
 
-**Comment savoir si une SGI est vraiment agréée CREPMF ?**
+**Comment savoir si une SGI est vraiment agréée AMF-UMOA ?**
 La liste officielle de toutes les SGI agréées est disponible sur brvm.org, rubrique "Intervenants". Vérifie toujours qu'une SGI y figure avant d'envoyer quoi que ce soit. Une SGI non agréée signifie que tes fonds ne sont pas protégés.
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Vérifie toujours les informations directement auprès de la SGI choisie et sur brvm.org.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Vérifie toujours les informations directement auprès de la SGI choisie et sur brvm.org.

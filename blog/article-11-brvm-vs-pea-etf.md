@@ -69,6 +69,6 @@ Pour estimer ce que pourrait donner une poche BRVM dans ton allocation, utilise 
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Les règles fiscales et les performances évoluent : vérifie les informations à jour auprès des sources officielles avant toute décision. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Les règles fiscales et les performances évoluent : vérifie les informations à jour auprès des sources officielles avant toute décision. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
 
 Sources : economie.gouv.fr, service-public.fr, brvm.org, documentation MSCI, juin 2026.

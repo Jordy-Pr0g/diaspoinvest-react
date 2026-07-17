@@ -84,6 +84,6 @@ Pour t'exercer concrètement : compare les 47 actions par rendement et secteur s
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Vérifie les chiffres dans les publications officielles avant toute décision. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Vérifie les chiffres dans les publications officielles avant toute décision. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
 
 Sources : brvm.org, sikafinance.com, fluxbourse.com, juin 2026.

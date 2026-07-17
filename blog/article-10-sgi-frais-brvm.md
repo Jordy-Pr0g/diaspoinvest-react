@@ -15,9 +15,9 @@ Sommaire
 
 ## C'est quoi une SGI
 
-Une SGI (Société de Gestion et d'Intermédiation) est ton courtier sur la BRVM. C'est l'intermédiaire obligatoire : seule une SGI agréée par le CREPMF, le régulateur du marché, peut détenir ton compte-titres et passer tes ordres. Sans SGI, tu ne peux acheter aucune action.
+Une SGI (Société de Gestion et d'Intermédiation) est ton courtier sur la BRVM. C'est l'intermédiaire obligatoire : seule une SGI agréée par l'AMF-UMOA (anciennement CREPMF), le régulateur du marché, peut détenir ton compte-titres et passer tes ordres. Sans SGI, tu ne peux acheter aucune action.
 
-Il en existe plusieurs dans chaque pays de l'UEMOA. Leurs tarifs sont libres, mais ils sont homologués par le CREPMF et chaque SGI doit te les communiquer à l'ouverture du compte.
+Il en existe plusieurs dans chaque pays de l'UEMOA. Leurs tarifs sont libres, mais ils sont homologués par l'AMF-UMOA et chaque SGI doit te les communiquer à l'ouverture du compte.
 
 ---
 
@@ -79,7 +79,7 @@ Une SGI un peu plus chère mais qui te répond vite et te donne un bon outil de 
 
 ## Où trouver la liste officielle
 
-Avant tout, vérifie que la SGI est bien agréée par le CREPMF. La liste officielle des courtiers est publique :
+Avant tout, vérifie que la SGI est bien agréée par l'AMF-UMOA. La liste officielle des courtiers est publique :
 
 - La liste des SGI sur [brvm.org](https://www.brvm.org/fr/intervenants/sgi/tous) (source officielle).
 - Le détail des frais applicables sur [brvm.org](https://www.brvm.org/fr/node/312).
@@ -91,6 +91,6 @@ Pour un comparatif détaillé des 5 critères qui comptent (frais, minimum d'ouv
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF, et ne recommande aucune SGI. Les tarifs évoluent : vérifie toujours les frais exacts directement auprès de la SGI et sur les sources officielles avant toute décision. Investir comporte un risque de perte en capital.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA, et ne recommande aucune SGI. Les tarifs évoluent : vérifie toujours les frais exacts directement auprès de la SGI et sur les sources officielles avant toute décision. Investir comporte un risque de perte en capital.
 
 Sources : brvm.org, sikafinance.com, fluxbourse.com, juin 2026.

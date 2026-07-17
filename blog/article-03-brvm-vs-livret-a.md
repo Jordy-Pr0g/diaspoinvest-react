@@ -113,7 +113,7 @@ Le Livret A resterait plafonné à 22 950 EUR et sans potentiel de plus-value. L
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.
 
 Données BRVM : brvm.org, sikafinance.com, juin 2026. Données Livret A : economie.gouv.fr, février 2026.
 

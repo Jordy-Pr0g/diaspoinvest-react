@@ -164,7 +164,7 @@ C'est la plus connue et l'une des plus liquides. Ce n'est pas nécessairement la
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les dividendes passés ne préjugent pas des dividendes futurs. Les simulations sont des projections mathématiques illustratives.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les dividendes passés ne préjugent pas des dividendes futurs. Les simulations sont des projections mathématiques illustratives.
 
 Données : brvm.org, sikafinance.com, 19 juin 2026.
 

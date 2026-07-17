@@ -61,4 +61,4 @@ Pour une méthode complète et pas à pas, le Guide DiaspoInvest (14,99 €) rep
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.

@@ -153,4 +153,4 @@ Ton statut de résident fiscal change à la date de départ. La partie de l'ann�
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil fiscal. Vérifie toujours les informations avec un professionnel agréé dans ton pays. Sources : impots.gouv.fr, bofip.impots.gouv.fr, BCEAO.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil fiscal. Vérifie toujours les informations avec un professionnel agréé dans ton pays. Sources : impots.gouv.fr, bofip.impots.gouv.fr, BCEAO.

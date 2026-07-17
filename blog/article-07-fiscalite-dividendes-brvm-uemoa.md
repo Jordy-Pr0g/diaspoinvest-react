@@ -101,6 +101,6 @@ L'exonération des plus-values de cession de valeurs mobilières est la règle d
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil fiscal ou en investissement personnalisé. Vérifie toujours ta situation auprès de l'administration fiscale de ton pays. Investir comporte un risque de perte en capital.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil fiscal ou en investissement personnalisé. Vérifie toujours ta situation auprès de l'administration fiscale de ton pays. Investir comporte un risque de perte en capital.
 
 Sources : Directive 02/2010/CM/UEMOA, sikafinance.com, brvm.org, juin 2026.

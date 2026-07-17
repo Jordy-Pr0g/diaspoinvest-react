@@ -78,6 +78,6 @@ Cet article sera mis à jour au fil des annonces de la saison. Les dates et mont
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Les dates et montants proviennent des avis officiels et des annonces publiques à la date de rédaction et peuvent changer : vérifie toujours l'avis officiel sur brvm.org avant toute décision. Investir comporte un risque de perte en capital.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Les dates et montants proviennent des avis officiels et des annonces publiques à la date de rédaction et peuvent changer : vérifie toujours l'avis officiel sur brvm.org avant toute décision. Investir comporte un risque de perte en capital.
 
 *Sources : brvm.org (avis officiels de paiement de dividendes), sikafinance.com/marches/dividendes, richbourse.com (calendrier des dividendes 2026), juillet 2026.*

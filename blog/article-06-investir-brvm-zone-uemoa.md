@@ -48,7 +48,7 @@ Ensuite, le prix d'une action peut monter avec le temps. Si tu revends plus cher
 
 ## La BRVM, la bourse de l'Afrique de l'Ouest
 
-La BRVM est la bourse commune à huit pays d'Afrique de l'Ouest : Côte d'Ivoire, Sénégal, Burkina Faso, Mali, Bénin, Guinée-Bissau, Niger et Togo. Elle existe depuis 1998 et un organisme officiel, le CREPMF, la surveille depuis 1996.
+La BRVM est la bourse commune à huit pays d'Afrique de l'Ouest : Côte d'Ivoire, Sénégal, Burkina Faso, Mali, Bénin, Guinée-Bissau, Niger et Togo. Elle existe depuis 1998 et un organisme officiel, l'AMF-UMOA (le CREPMF jusqu'en 2022), la surveille depuis 1996.
 
 Les entreprises cotées, tu les connais déjà : Sonatel (le réseau Orange au Sénégal), Orange Côte d'Ivoire, Ecobank, la SGBCI, BOA. Au total, 47 entreprises. Beaucoup versent un dividende chaque année. En moyenne, cela représente autour de 6 % par an, c'est-à-dire qu'en plaçant 100 000 FCFA, tu peux recevoir environ 6 000 FCFA de dividendes dans l'année. Ce chiffre change d'une entreprise à l'autre.
 
@@ -114,7 +114,7 @@ Cela dépend de la SGI et de ton dossier. Un dossier complet est traité plus vi
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Vérifie toujours les informations à jour auprès des sources officielles et de ta SGI. Investir comporte un risque de perte en capital.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Vérifie toujours les informations à jour auprès des sources officielles et de ta SGI. Investir comporte un risque de perte en capital.
 
 Données de marché : brvm.org, sikafinance.com, juin 2026.
 

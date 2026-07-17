@@ -55,7 +55,7 @@ La diaspora africaine a été brûlée trop souvent. Des investissements WhatsAp
 
 Tu as le droit d'être méfiant. C'est même une bonne réaction.
 
-La BRVM est régulée par le CREPMF depuis 1996. Le CREPMF est l'équivalent exact de l'AMF française pour la zone UEMOA. Il surveille les sociétés cotées, agrée les intermédiaires, et les investisseurs ont un recours juridique en cas de problème.
+La BRVM est régulée par l'AMF-UMOA (anciennement CREPMF) depuis 1996. L'AMF-UMOA est l'équivalent exact de l'AMF française pour la zone UEMOA. Il surveille les sociétés cotées, agrée les intermédiaires, et les investisseurs ont un recours juridique en cas de problème.
 
 Les cours sont publiés en temps réel sur brvm.org. Pas de prix secret. Pas de "ton agent te donnera le cours". Le cours de chaque action est public, vérifiable à la seconde.
 
@@ -114,7 +114,7 @@ Voici les étapes réelles. Pas de jargon. Pas d'étape cachée.
 
 ### Étape 1 : choisir une SGI
 
-Une SGI (Société de Gestion et d'Intermédiation) est ton courtier agréé sur la BRVM. C'est l'intermédiaire obligatoire entre toi et le marché. Sans SGI agréée CREPMF, tu ne peux pas acheter une seule action.
+Une SGI (Société de Gestion et d'Intermédiation) est ton courtier agréé sur la BRVM. C'est l'intermédiaire obligatoire entre toi et le marché. Sans SGI agréée AMF-UMOA, tu ne peux pas acheter une seule action.
 
 Plusieurs SGI acceptent les non-résidents UEMOA et permettent une ouverture entièrement à distance. Parmi celles qui fonctionnent pour la diaspora en Europe : BOA Capital Securities, BNI Securities, Bridge Securities, BSIC Capital.
 
@@ -181,7 +181,7 @@ Une action Sonatel coûte environ 43 EUR. Il n'y a pas de minimum légal. En pra
 Une fois par an, généralement entre avril et juin. Ils sont crédités automatiquement en FCFA sur ton compte SGI. Tu peux ensuite les virer vers ton compte français ou les réinvestir. Si tu achètes en juillet 2026, ton premier dividende arrive vers avril-juin 2027.
 
 **La BRVM peut-elle fermer du jour au lendemain ?**
-Non. La BRVM est une institution réglementée par le CREPMF depuis 1996, fonctionnant sous accord entre 8 États souverains. Ce n'est pas une plateforme privée qui peut disparaître.
+Non. La BRVM est une institution réglementée par l'AMF-UMOA depuis 1996, fonctionnant sous accord entre 8 États souverains. Ce n'est pas une plateforme privée qui peut disparaître.
 
 **Peut-on perdre tout son capital sur la BRVM ?**
 Investir en bourse comporte un risque de perte en capital. Entre 2022 et 2023, Sonatel a perdu environ 18 % de sa valeur. Les investisseurs qui ont continué leur DCA ont acheté moins cher et sont aujourd'hui à profit. Ceux qui ont vendu en panique ont cristallisé une perte. L'horizon minimum recommandé est 5 ans.
@@ -194,7 +194,7 @@ Oui. L'obligation du formulaire 3916 s'applique dès que le compte existe, actif
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.
 
 Données de marché : brvm.org, sikafinance.com, 19 juin 2026.
 

@@ -61,6 +61,6 @@ Pour explorer les 47 actions une par une plutôt que l'indice, le [Screener Dias
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. La composition des indices évolue : vérifie les données à jour sur brvm.org. Investir comporte un risque de perte en capital.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. La composition des indices évolue : vérifie les données à jour sur brvm.org. Investir comporte un risque de perte en capital.
 
 Source : brvm.org, juin 2026.

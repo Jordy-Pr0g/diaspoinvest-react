@@ -137,7 +137,7 @@ Vivo Energy · 7,30%
 Accessible depuis la France · Taux fixe euro/FCFA
 
 **LÉGENDE :**
-Quatre actions africaines, quatre rendements supérieurs au Livret A. La BRVM est une bourse régulée, accessible depuis la France, avec un taux de change fixe euro-FCFA depuis 1945. Guide éducatif indépendant — non affilié à la BRVM ni au CREPMF.
+Quatre actions africaines, quatre rendements supérieurs au Livret A. La BRVM est une bourse régulée, accessible depuis la France, avec un taux de change fixe euro-FCFA depuis 1945. Guide éducatif indépendant — non affilié à la BRVM ni à l'AMF-UMOA.
 
 **HASHTAGS :** #BRVM #SGBCI #InvestirAfrique #DiasporaAfricaine #DiaspoInvest
 

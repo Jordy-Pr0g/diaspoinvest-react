@@ -92,6 +92,6 @@ Pour relier tout ça à des actions concrètes, le [Screener DiaspoInvest](https
 
 ---
 
-Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Les chiffres d'une société doivent être lus dans ses publications officielles, qui évoluent à chaque exercice. Investir comporte un risque de perte en capital.
+Contenu éducatif. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Les chiffres d'une société doivent être lus dans ses publications officielles, qui évoluent à chaque exercice. Investir comporte un risque de perte en capital.
 
 Sources : rapports annuels des sociétés cotées (brvm.org), juin 2026.
