@@ -1,7 +1,8 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 
-/* ── Données dividendes (FCFA/action, dernier exercice fiscal) ── */
+/* ── Données dividendes (FCFA/action, dernier exercice fiscal) ──
+   Repli local si l'API dividendes ne répond pas. ── */
 const DIVIDENDES = {
   SNTS:  { div:1740, nom:'Sonatel' },
   ORAC:  { div:720,  nom:'Orange CI' },
@@ -33,9 +34,7 @@ const DIVIDENDES = {
 }
 
 const OR    = '#C9A84C'
-const VERT  = '#0D3B2E'
 const VERT3 = '#2ECC8B'
-const BG    = '#06140E'
 const CARD  = '#0F1A12'
 const BDR   = '#1E2E21'
 const GRIS  = 'rgba(255,255,255,0.4)'
@@ -100,7 +99,7 @@ export default function Calculateur() {
   const [cours,       setCours]       = useState(28400)
   const [taux,        setTaux]        = useState(6.13)
   const [locked,      setLocked]      = useState('divann')
-  const [vals,        setVals]        = useState({ apport:30000, duree:10, divann:219356 })
+  const [vals,        setVals]        = useState({ apport:30000, duree:10, divann:220000 })
 
   /* ── Fetch données BRVM (cours + dividendes en direct) ── */
   useEffect(() => {
@@ -115,7 +114,6 @@ export default function Calculateur() {
           const loc = i18n.language === 'en' ? 'en-GB' : 'fr-FR'
           setDateData(d.toLocaleDateString(loc, {day:'numeric',month:'long',year:'numeric'}))
         }
-        // Dividendes en direct si disponibles, sinon repli sur le tableau codé en dur
         const divMap = {}
         if (divData?.societes?.length) {
           divData.societes.forEach(s => { divMap[s.symbole] = s.montant_retenu })
@@ -145,7 +143,6 @@ export default function Calculateur() {
       .catch(() => setLoadState('error'))
   }, [])
 
-  /* ── Filtrage recherche ── */
   const filtered = titres.filter(t => {
     if (!search.trim()) return true
     const q=search.toLowerCase()
@@ -157,13 +154,12 @@ export default function Calculateur() {
     if (!cours || cours<=0) return {}
     const a=vals.apport, d=vals.duree, dv=vals.divann
     const nom = selTitre?.symbole || t('calc.custom')
-    let r, label, unit, context, mainVal, apDisplay=a, dDisplay=d, dvDisplay=dv
+    let r, label, unit, context, mainVal, apDisplay=a, dDisplay=d
 
     if (locked==='divann') {
       r=simForward(a,d,taux,cours)
       mainVal=r.divAnn; label=t('calc.labelDivann'); unit=t('calc.unitDivann')
       context=t('calc.contextDivann', { apport:fmtFull(a), duree:d, nom, taux:taux.toFixed(2) })
-      dvDisplay=r.divAnn
     } else if (locked==='apport') {
       const ap=simInverse_apport(dv,d,taux,cours)
       r=simForward(ap,d,taux,cours)
@@ -185,9 +181,9 @@ export default function Calculateur() {
     }
   })()
 
-  function onTitreChange(t) {
-    setSelTitre(t); setSearch('')
-    if (t) { setCours(t.cours); if(t.taux) setTaux(t.taux) }
+  function onTitreChange(titre) {
+    setSelTitre(titre); setSearch('')
+    if (titre) { setCours(titre.cours); if(titre.taux) setTaux(titre.taux) }
   }
 
   function onCoursChange(v) {
@@ -195,283 +191,244 @@ export default function Calculateur() {
     if (selTitre?.dividende) setTaux((selTitre.dividende/c)*100)
   }
 
-  function setLock(key) { setLocked(key) }
-
   function updateVal(key, v) { setVals(prev=>({...prev,[key]:parseFloat(v)})) }
 
   const SLIDERS = {
-    apport: { min:5000,  max:500000, step:5000, label:t('calc.sliderApport'), unit:t('calc.unitFcfa') },
-    duree:  { min:1,     max:30,     step:1,    label:t('calc.sliderDuree'),  unit:t('calc.unitAns')  },
-    divann: { min:10000, max:2000000,step:5000, label:t('calc.sliderDivann'), unit:t('calc.unitFcfaAn') },
+    apport: { min:5000,  max:500000,  step:5000, label:t('calc.sliderApport'), fmt:v=>`${fmtFull(v)} ${t('calc.unitFcfa')}` },
+    duree:  { min:1,     max:30,      step:1,    label:t('calc.sliderDuree'),  fmt:v=>t('calc.valAns', { n:v }) },
+    divann: { min:10000, max:2000000, step:10000,label:t('calc.sliderDivann'), fmt:v=>`${fmtShort(v)} ${t('calc.unitFcfaAn')}` },
   }
 
-  /* ── Styles ── */
-  const card  = { background:CARD, border:`1px solid ${BDR}`, borderRadius:14 }
+  const MODES = [
+    { key:'divann', label:t('calc.trioDivann') },
+    { key:'apport', label:t('calc.trioApport') },
+    { key:'duree',  label:t('calc.trioDuree')  },
+  ]
+
   const input = { width:'100%', background:CARD, border:`1px solid ${BDR}`, borderRadius:12,
-                  padding:'12px 16px', color:'#fff', fontFamily:'Space Grotesk,sans-serif',
+                  padding:'11px 14px', color:'#fff', fontFamily:'inherit',
                   fontSize:14, outline:'none', boxSizing:'border-box' }
 
   return (
-    <section className="section calculateur" id="calculateur">
+    <section className="section calculateur" id="calculateur" style={{ padding:'90px 0' }}>
       <style>{`
-        .calc-trio { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:20px; }
-        .trio-card { background:${CARD}; border:1.5px solid ${BDR}; border-radius:14px; padding:14px 10px;
-          text-align:center; cursor:pointer; transition:all .25s; position:relative; user-select:none; }
-        .trio-card.locked { border-color:${OR}; background:rgba(201,168,76,0.08); }
-        .trio-card.locked::before { content:'▶'; position:absolute; top:-10px; left:50%;
-          transform:translateX(-50%); font-size:13px; color:${OR}; }
-        .trio-lbl { font-size:9px; text-transform:uppercase; letter-spacing:1px; color:${GRIS}; margin-bottom:6px; font-weight:600; }
-        .trio-val { font-family:'DM Mono',monospace; font-size:18px; font-weight:900; color:#fff; line-height:1; }
-        .trio-card.locked .trio-val, .trio-card.locked .trio-lbl { color:${OR}; }
-        .trio-unit { font-size:9px; color:${GRIS}; margin-top:4px; font-family:'DM Mono',monospace; }
-        .cmp-grid { display:flex; gap:10px; margin-bottom:20px; }
-        .cmp { flex:1; border-radius:14px; padding:16px 12px; text-align:center; }
-        .cmp.bad  { background:rgba(229,62,62,0.08); border:1px solid rgba(229,62,62,0.25); }
-        .cmp.good { background:rgba(46,204,139,0.08); border:1px solid rgba(46,204,139,0.4); }
-        .kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
-        .kpi-card { background:${CARD}; border:1px solid ${BDR}; border-radius:14px; padding:14px; text-align:center; }
-        @media(max-width:600px){.calc-trio{grid-template-columns:1fr 1fr;}.cmp-grid{flex-direction:column;}}
+        .c2-shell { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+        .c2-panel { background:${CARD}; border:1px solid ${BDR}; border-radius:18px; padding:22px 20px; }
+        .c2-sticky { position:sticky; top:92px; }
+        .c2-lbl { font-size:11px; font-weight:700; color:rgba(255,255,255,0.5); text-transform:uppercase;
+          letter-spacing:1px; margin-bottom:10px; display:block; }
+        .c2-pills { display:flex; gap:8px; flex-wrap:wrap; }
+        .c2-pill { flex:1; min-width:130px; padding:12px 10px; border-radius:12px; border:1.5px solid ${BDR};
+          background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:600;
+          cursor:pointer; text-align:center; transition:all .2s; font-family:inherit; line-height:1.35; }
+        .c2-pill.on { border-color:${OR}; background:rgba(201,168,76,0.1); color:${OR}; font-weight:700; }
+        .c2-field { margin-top:18px; }
+        .c2-field-head { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:8px; }
+        .c2-field-q { font-size:13.5px; color:rgba(255,255,255,0.8); font-weight:600; line-height:1.4; }
+        .c2-field-v { font-family:'DM Mono',monospace; font-size:16px; font-weight:900; color:${OR}; white-space:nowrap; }
+        .c2-range { width:100%; -webkit-appearance:none; appearance:none; height:6px; border-radius:999px;
+          background:rgba(255,255,255,0.12); outline:none; }
+        .c2-range::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:22px; height:22px;
+          border-radius:50%; background:${OR}; border:3px solid #0D2B1E; cursor:pointer;
+          box-shadow:0 0 0 4px rgba(201,168,76,0.25); }
+        .c2-range::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:${OR};
+          border:3px solid #0D2B1E; cursor:pointer; }
+        .c2-details { margin-top:18px; border-top:1px solid ${BDR}; padding-top:14px; }
+        .c2-details summary { cursor:pointer; font-size:12.5px; color:rgba(255,255,255,0.55); list-style:none;
+          display:flex; justify-content:space-between; align-items:center; gap:8px; }
+        .c2-details summary::-webkit-details-marker { display:none; }
+        .c2-kpis { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+        .c2-kpi { background:rgba(255,255,255,0.03); border:1px solid ${BDR}; border-radius:12px;
+          padding:12px 10px; text-align:center; }
+        .c2-cmp { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+        .c2-cmp > div { border-radius:12px; padding:12px 10px; text-align:center; }
+        @media(max-width:860px){ .c2-shell{grid-template-columns:1fr;} .c2-sticky{position:static;} }
       `}</style>
 
-      <div className="container" style={{ maxWidth:520, margin:'0 auto' }}>
-        <div className="section-head">
+      <div className="container" style={{ maxWidth:1020, margin:'0 auto' }}>
+        <div className="section-head" style={{ marginBottom:40 }}>
           <span className="eyebrow" style={{ color:'#E8C46A' }}>{t('calc.eyebrow')}</span>
           <h2>{t('calc.titre')}</h2>
           <p style={{ color:'rgba(255,248,231,0.7)', fontSize:14, lineHeight:1.6 }}>
-            {t('calc.intro')}
+            {t('calc.introCourt')}
             {dateData && <span style={{ display:'block', color:'rgba(255,255,255,0.35)', marginTop:6, fontSize:12 }}>{t('calc.coursUpdated', { date: dateData })}</span>}
           </p>
         </div>
 
-        <div style={{ ...card, padding:'14px 18px', marginBottom:16, borderColor:'rgba(201,168,76,0.25)' }}>
-          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
-            {t('calc.step1Title')}
-          </div>
-          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
-            {t('calc.step1Desc')}
-          </div>
-        </div>
+        <div className="c2-shell">
 
-        {/* Sélection titre */}
-        <div style={{ marginBottom:16, position:'relative' }}>
-          <input
-            type="text" placeholder={t('calc.searchPlaceholder')}
-            value={search} onChange={e=>setSearch(e.target.value)}
-            style={{ ...input, borderRadius:'12px 12px 0 0', borderBottom:`1px solid rgba(255,255,255,0.04)` }}
-          />
-          {loadState==='loading' && (
-            <div style={{ ...card, padding:'12px 16px', borderRadius:'0 0 12px 12px', color:GRIS, fontSize:13 }}>
-              {t('calc.loading')}
-            </div>
-          )}
-          {loadState==='error' && (
-            <div style={{ ...card, padding:'12px 16px', borderRadius:'0 0 12px 12px', color:'#FF7676', fontSize:13 }}>
-              {t('calc.error')}
-            </div>
-          )}
-          {loadState==='ok' && (
-            <select
-              style={{ ...input, borderRadius:'0 0 12px 12px', marginTop:0, appearance:'none',
-                backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
-                backgroundRepeat:'no-repeat', backgroundPosition:'right 14px center', paddingRight:40 }}
-              value={selTitre?.symbole||''}
-              onChange={e=>{
-                const t=filtered.find(x=>x.symbole===e.target.value)||titres.find(x=>x.symbole===e.target.value)
-                if(t) onTitreChange(t)
-              }}
-            >
-              {(search ? filtered : titres).filter(t=>t.hasDividende).length>0 && (
-                <optgroup label={t('calc.groupDividende')}>
-                  {(search ? filtered : titres).filter(t=>t.hasDividende).map(t=>(
-                    <option key={t.symbole} value={t.symbole} style={{background:'#0D3B2E'}}>
-                      {t.symbole} — {shortNom(t.nom)} · {t.taux.toFixed(2).replace('.',',')}%
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-              {(search ? filtered : titres).filter(t=>!t.hasDividende).length>0 && (
-                <optgroup label={t('calc.groupAutres')}>
-                  {(search ? filtered : titres).filter(t=>!t.hasDividende).map(t=>(
-                    <option key={t.symbole} value={t.symbole} style={{background:'#0D3B2E'}}>
-                      {t.symbole} — {shortNom(t.nom)} · {fmtFull(t.cours)} FCFA
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-            </select>
-          )}
-        </div>
+          {/* ── Colonne réglages ── */}
+          <div className="c2-panel">
 
-        {/* Cours */}
-        <div style={{ ...card, padding:'16px 18px', marginBottom:8 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
-            <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1 }}>{t('calc.coursLabel')}</span>
-            <span style={{ fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR }}>{fmtFull(cours)} FCFA</span>
-          </div>
-          <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', marginBottom:10, lineHeight:1.5 }}>
-            {t('calc.coursDesc')}
-          </div>
-          <input type="number" value={cours} min="1" step="50" onChange={e=>onCoursChange(e.target.value)}
-            style={{ width:'100%', background:'#161616', border:'1px solid #2a2a2a', borderRadius:10,
-              padding:'12px 14px', color:'#fff', fontFamily:'DM Mono,monospace', fontSize:20, fontWeight:700, outline:'none' }} />
-        </div>
-
-        {/* Taux */}
-        <div style={{ ...card, padding:'16px 18px', marginBottom:24 }}>
-          <div style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
-            {t('calc.rendementLabel')}
-          </div>
-          <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', marginBottom:10, lineHeight:1.5 }}>
-            {t('calc.rendementDesc')}
-          </div>
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <input type="number" min="0.5" max="20" step="0.01" value={taux}
-              onChange={e=>setTaux(parseFloat(e.target.value)||0)}
-              style={{ ...input, fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR, textAlign:'center', maxWidth:140 }} />
-            <span style={{ fontFamily:'DM Mono,monospace', fontSize:14, color:'rgba(255,255,255,0.4)' }}>{t('calc.parAn')}</span>
-          </div>
-          {selTitre && !selTitre.hasDividende && (
-            <div style={{ fontSize:11, color:'rgba(201,168,76,0.6)', marginTop:8 }}>{t('calc.noDividende')}</div>
-          )}
-        </div>
-
-        <div style={{ ...card, padding:'14px 18px', marginBottom:14, borderColor:'rgba(201,168,76,0.25)' }}>
-          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
-            {t('calc.step2Title')}
-          </div>
-          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
-            {t('calc.step2Desc')}
-          </div>
-        </div>
-
-        {/* Trio */}
-        <div className="calc-trio">
-          {[
-            { key:'apport', label:t('calc.trioApport'), unit:t('calc.unitFcfa'), val:fmtShort(vals.apport) },
-            { key:'duree',  label:t('calc.trioDuree'),  unit:t('calc.unitAns'),  val:t('calc.valAns', { n: vals.duree }) },
-            { key:'divann', label:t('calc.trioDivann'), unit:t('calc.unitFcfaAn'), val:result ? fmtShort(locked==='divann'?result.divAnn:vals.divann) : '—' },
-          ].map(({key,label,unit,val})=>(
-            <div key={key} className={`trio-card${locked===key?' locked':''}`} onClick={()=>setLock(key)}>
-              <div className="trio-lbl">{label}</div>
-              <div className="trio-val">{val}</div>
-              <div className="trio-unit">{unit}</div>
-            </div>
-          ))}
-        </div>
-        <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', textAlign:'center', marginTop:-10, marginBottom:20, lineHeight:1.5 }}>
-          {t('calc.trioHint')}
-        </div>
-
-        <div style={{ ...card, padding:'14px 18px', marginBottom:14, borderColor:'rgba(201,168,76,0.25)' }}>
-          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
-            {t('calc.step3Title')}
-          </div>
-          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
-            {t('calc.step3Desc')}
-          </div>
-        </div>
-
-        {/* Champs des variables non-locked */}
-        <div style={{ display:'flex', flexDirection:'column', gap:16, marginBottom:20 }}>
-          {Object.entries(SLIDERS).filter(([k])=>k!==locked).map(([key,s])=>(
-            <div key={key} style={{ ...card, padding:'16px 18px' }}>
-              <div style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.7)', textTransform:'uppercase', letterSpacing:1, marginBottom:10 }}>
-                {s.label}
-              </div>
-              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-                <input type="number" min={s.min} max={s.max} step={s.step} value={vals[key]}
-                  onChange={e=>updateVal(key,e.target.value)}
-                  style={{ ...input, fontFamily:'DM Mono,monospace', fontSize:18, fontWeight:900, color:OR, textAlign:'center', maxWidth:180 }} />
-                <span style={{ fontFamily:'DM Mono,monospace', fontSize:13, color:'rgba(255,255,255,0.4)' }}>{s.unit}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ ...card, padding:'14px 18px', marginBottom:14, borderColor:'rgba(201,168,76,0.25)' }}>
-          <div style={{ fontSize:12, fontWeight:700, color:OR, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>
-            {t('calc.resultTitle')}
-          </div>
-          <div style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>
-            {t('calc.resultDesc')}
-          </div>
-        </div>
-
-        {/* Résultat principal */}
-        {result && (
-          <div style={{ background:'linear-gradient(135deg,#0D3B2E,#061A10)', border:'1.5px solid rgba(201,168,76,0.3)',
-            borderRadius:20, padding:'28px 24px', textAlign:'center', marginBottom:16, position:'relative', overflow:'hidden' }}>
-            <div style={{ position:'absolute', top:0, left:0, right:0, height:2,
-              background:'linear-gradient(90deg,transparent,#C9A84C,transparent)' }} />
-            <div style={{ fontSize:12, color:GRIS, textTransform:'uppercase', letterSpacing:1.5, marginBottom:12 }}>{resLabel}</div>
-            <div style={{ fontFamily:'DM Mono,monospace', fontSize:56, fontWeight:900, color:OR,
-              lineHeight:1, letterSpacing:-2, textShadow:'0 0 30px rgba(201,168,76,0.4)' }}>
-              {fmtFull(resVal)}
-            </div>
-            <div style={{ fontSize:14, color:'rgba(201,168,76,0.6)', fontFamily:'DM Mono,monospace', fontWeight:700, marginTop:6, letterSpacing:2 }}>
-              {resUnit}
-            </div>
-            <div style={{ fontSize:13, color:'rgba(255,255,255,0.45)', marginTop:16, lineHeight:1.6,
-              borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:14 }}>
-              {resContext}
-            </div>
-          </div>
-        )}
-
-        {/* KPIs */}
-        {result && (
-          <>
-            <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', textAlign:'center', marginBottom:12, lineHeight:1.6 }}>
-              {t('calc.detailIntro')}
-            </div>
-            <div className="kpi-grid">
-              {[
-                { val:kpis.actions,   label:t('calc.kpiActions'),  fmt:v=>Math.round(v).toLocaleString('fr-FR') },
-                { val:kpis.portef,    label:t('calc.kpiPortef'),   fmt:fmtShort },
-                { val:kpis.capital,   label:t('calc.kpiCapital'),  fmt:fmtShort },
-                { val:kpis.divCumul,  label:t('calc.kpiDivCumul'), fmt:fmtShort },
-              ].map(({val,label,fmt})=>(
-                <div key={label} className="kpi-card">
-                  <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:VERT3, display:'block', lineHeight:1 }}>{fmt(val)}</span>
-                  <span style={{ fontSize:10, color:GRIS, letterSpacing:0.3, marginTop:6, display:'block', lineHeight:1.4 }}>{label}</span>
-                </div>
+            {/* 1. La question */}
+            <span className="c2-lbl">{t('calc.modeLabel')}</span>
+            <div className="c2-pills" role="group" aria-label={t('calc.modeLabel')}>
+              {MODES.map(m=>(
+                <button key={m.key} className={`c2-pill${locked===m.key?' on':''}`}
+                  aria-pressed={locked===m.key} onClick={()=>setLocked(m.key)}>
+                  {m.label}
+                </button>
               ))}
             </div>
-            <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', textAlign:'center', marginTop:14, lineHeight:1.7 }}>
-              <Trans
-                i18nKey="calc.ecartExpl"
-                values={{ portef:fmtShort(kpis.portef), capital:fmtShort(kpis.capital), frais:fmtShort(kpis.fraisCumul), reste:fmtShort(kpis.reste) }}
-                components={[<strong style={{color:'rgba(255,255,255,0.5)'}} />, <strong style={{color:'rgba(255,255,255,0.5)'}} />]}
+
+            {/* 2. L'entreprise */}
+            <div className="c2-field">
+              <span className="c2-lbl">{t('calc.entrepriseLabel')}</span>
+              <input
+                type="text" placeholder={t('calc.searchPlaceholder')}
+                value={search} onChange={e=>setSearch(e.target.value)}
+                style={{ ...input, borderRadius:'12px 12px 0 0', borderBottom:'1px solid rgba(255,255,255,0.04)' }}
               />
+              {loadState==='loading' && (
+                <div style={{ ...input, borderRadius:'0 0 12px 12px', color:GRIS, fontSize:13 }}>{t('calc.loading')}</div>
+              )}
+              {loadState==='error' && (
+                <div style={{ ...input, borderRadius:'0 0 12px 12px', color:'#FF7676', fontSize:13 }}>{t('calc.error')}</div>
+              )}
+              {loadState==='ok' && (
+                <select
+                  style={{ ...input, borderRadius:'0 0 12px 12px', appearance:'none',
+                    backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+                    backgroundRepeat:'no-repeat', backgroundPosition:'right 14px center', paddingRight:40 }}
+                  value={selTitre?.symbole||''}
+                  onChange={e=>{
+                    const x=filtered.find(x=>x.symbole===e.target.value)||titres.find(x=>x.symbole===e.target.value)
+                    if(x) onTitreChange(x)
+                  }}
+                >
+                  {(search ? filtered : titres).filter(x=>x.hasDividende).length>0 && (
+                    <optgroup label={t('calc.groupDividende')}>
+                      {(search ? filtered : titres).filter(x=>x.hasDividende).map(x=>(
+                        <option key={x.symbole} value={x.symbole} style={{background:'#0D3B2E'}}>
+                          {x.symbole} — {shortNom(x.nom)} · {x.taux.toFixed(2).replace('.',',')}%
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                  {(search ? filtered : titres).filter(x=>!x.hasDividende).length>0 && (
+                    <optgroup label={t('calc.groupAutres')}>
+                      {(search ? filtered : titres).filter(x=>!x.hasDividende).map(x=>(
+                        <option key={x.symbole} value={x.symbole} style={{background:'#0D3B2E'}}>
+                          {x.symbole} — {shortNom(x.nom)} · {fmtFull(x.cours)} FCFA
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                </select>
+              )}
             </div>
-          </>
-        )}
 
-        {/* Comparaison Livret A vs BRVM */}
-        {result && (
-          <>
-            <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', textAlign:'center', margin:'20px 0 12px', lineHeight:1.6 }}>
-              {t('calc.livretIntro')}
-            </div>
-            <div className="cmp-grid">
-              <div className="cmp bad">
-                <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:'#FF7676', display:'block', marginBottom:8 }}>{t('calc.livretLabel')}</span>
-                <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:'#FF7676', display:'block' }}>{fmtShort(livret)}</span>
-                <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>{t('calc.livretSub')}</span>
+            {/* 3. Les deux curseurs (les infos à renseigner) */}
+            {Object.entries(SLIDERS).filter(([k])=>k!==locked).map(([key,s])=>(
+              <div key={key} className="c2-field">
+                <div className="c2-field-head">
+                  <span className="c2-field-q">{s.label}</span>
+                  <span className="c2-field-v">{s.fmt(vals[key])}</span>
+                </div>
+                <input type="range" className="c2-range" min={s.min} max={s.max} step={s.step}
+                  value={vals[key]} onChange={e=>updateVal(key,e.target.value)} aria-label={s.label} />
               </div>
-              <div className="cmp good">
-                <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:VERT3, display:'block', marginBottom:8 }}>{t('calc.actionLabel', { sym: selTitre?.symbole || t('calc.actionDefault') })}</span>
-                <span style={{ fontFamily:'DM Mono,monospace', fontSize:22, fontWeight:900, color:VERT3, display:'block' }}>{fmtShort(kpis.divCumul)}</span>
-                <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>{t('calc.actionSub')}</span>
-              </div>
-            </div>
-          </>
-        )}
+            ))}
 
-        <div style={{ textAlign:'center', fontSize:11, color:'rgba(255,255,255,0.25)', lineHeight:1.8, marginTop:20 }}>
-          {t('calc.disclaimer1')}<br/>
-          {dateData && <>{t('calc.disclaimerSource', { date: dateData })}<br/></>}
-          {t('calc.disclaimerAffil')}
+            {/* 4. Cours & rendement (auto, repliés) */}
+            <details className="c2-details">
+              <summary>
+                <span>{t('calc.autoLabel')}</span>
+                <span style={{ fontFamily:'DM Mono,monospace', fontWeight:700, color:OR, fontSize:13 }}>
+                  {fmtFull(cours)} FCFA · {taux.toFixed(2).replace('.',',')}% <span style={{ color:GRIS, fontWeight:400 }}>▾</span>
+                </span>
+              </summary>
+              <div style={{ marginTop:14 }}>
+                <div style={{ fontSize:12, color:'rgba(255,255,255,0.45)', lineHeight:1.6, marginBottom:12 }}>
+                  {t('calc.autoDesc')}
+                </div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+                  <div>
+                    <span className="c2-lbl" style={{ marginBottom:6 }}>{t('calc.coursCourt')}</span>
+                    <input type="number" value={Math.round(cours)} min="1" step="50" onChange={e=>onCoursChange(e.target.value)}
+                      style={{ ...input, fontFamily:'DM Mono,monospace', fontWeight:700 }} />
+                  </div>
+                  <div>
+                    <span className="c2-lbl" style={{ marginBottom:6 }}>{t('calc.rendementCourt')}</span>
+                    <input type="number" min="0.5" max="20" step="0.01" value={Number(taux.toFixed(2))}
+                      onChange={e=>setTaux(parseFloat(e.target.value)||0)}
+                      style={{ ...input, fontFamily:'DM Mono,monospace', fontWeight:700 }} />
+                  </div>
+                </div>
+                {selTitre && !selTitre.hasDividende && (
+                  <div style={{ fontSize:11, color:'rgba(201,168,76,0.6)', marginTop:8 }}>{t('calc.noDividende')}</div>
+                )}
+              </div>
+            </details>
+          </div>
+
+          {/* ── Colonne résultat ── */}
+          <div className="c2-sticky">
+            {result && (
+              <div style={{ background:'linear-gradient(135deg,#0D3B2E,#061A10)', border:'1.5px solid rgba(201,168,76,0.3)',
+                borderRadius:18, padding:'26px 22px', textAlign:'center', position:'relative', overflow:'hidden' }}>
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:2,
+                  background:'linear-gradient(90deg,transparent,#C9A84C,transparent)' }} />
+                <div style={{ fontSize:12, color:GRIS, textTransform:'uppercase', letterSpacing:1.5, marginBottom:10 }}>{resLabel}</div>
+                <div style={{ fontFamily:'DM Mono,monospace', fontSize:46, fontWeight:900, color:OR,
+                  lineHeight:1, letterSpacing:-1, textShadow:'0 0 30px rgba(201,168,76,0.4)' }}>
+                  {fmtFull(resVal)}
+                </div>
+                <div style={{ fontSize:13, color:'rgba(201,168,76,0.6)', fontFamily:'DM Mono,monospace', fontWeight:700, marginTop:6, letterSpacing:2 }}>
+                  {resUnit}
+                </div>
+                <div style={{ fontSize:12.5, color:'rgba(255,255,255,0.5)', marginTop:14, lineHeight:1.6,
+                  borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:12 }}>
+                  {resContext}
+                </div>
+              </div>
+            )}
+
+            {result && (
+              <>
+                <div className="c2-kpis">
+                  {[
+                    { val:kpis.actions,   label:t('calc.kpiActions'),  fmt:v=>Math.round(v).toLocaleString('fr-FR') },
+                    { val:kpis.portef,    label:t('calc.kpiPortef'),   fmt:fmtShort },
+                    { val:kpis.capital,   label:t('calc.kpiCapital'),  fmt:fmtShort },
+                    { val:kpis.divCumul,  label:t('calc.kpiDivCumul'), fmt:fmtShort },
+                  ].map(({val,label,fmt})=>(
+                    <div key={label} className="c2-kpi">
+                      <span style={{ fontFamily:'DM Mono,monospace', fontSize:19, fontWeight:900, color:VERT3, display:'block', lineHeight:1 }}>{fmt(val)}</span>
+                      <span style={{ fontSize:10, color:GRIS, letterSpacing:0.3, marginTop:6, display:'block', lineHeight:1.4 }}>{label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="c2-cmp">
+                  <div style={{ background:'rgba(229,62,62,0.08)', border:'1px solid rgba(229,62,62,0.25)' }}>
+                    <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:'#FF7676', display:'block', marginBottom:6 }}>{t('calc.livretLabel')}</span>
+                    <span style={{ fontFamily:'DM Mono,monospace', fontSize:19, fontWeight:900, color:'#FF7676', display:'block' }}>{fmtShort(livret)}</span>
+                    <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>{t('calc.livretSub')}</span>
+                  </div>
+                  <div style={{ background:'rgba(46,204,139,0.08)', border:'1px solid rgba(46,204,139,0.4)' }}>
+                    <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:1, color:VERT3, display:'block', marginBottom:6 }}>{t('calc.actionLabel', { sym: selTitre?.symbole || t('calc.actionDefault') })}</span>
+                    <span style={{ fontFamily:'DM Mono,monospace', fontSize:19, fontWeight:900, color:VERT3, display:'block' }}>{fmtShort(kpis.divCumul)}</span>
+                    <span style={{ fontSize:10, color:GRIS, marginTop:4, display:'block' }}>{t('calc.actionSub')}</span>
+                  </div>
+                </div>
+
+                <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', textAlign:'center', marginTop:12, lineHeight:1.7 }}>
+                  <Trans
+                    i18nKey="calc.ecartExpl"
+                    values={{ portef:fmtShort(kpis.portef), capital:fmtShort(kpis.capital), frais:fmtShort(kpis.fraisCumul), reste:fmtShort(kpis.reste) }}
+                    components={[<strong style={{color:'rgba(255,255,255,0.5)'}} />, <strong style={{color:'rgba(255,255,255,0.5)'}} />]}
+                  />
+                </div>
+              </>
+            )}
+
+            <div style={{ textAlign:'center', fontSize:10.5, color:'rgba(255,255,255,0.25)', lineHeight:1.7, marginTop:14 }}>
+              {t('calc.disclaimer1')}
+              {dateData && <> {t('calc.disclaimerSource', { date: dateData })}</>}
+              {' '}{t('calc.disclaimerAffil')}
+            </div>
+          </div>
         </div>
       </div>
     </section>
