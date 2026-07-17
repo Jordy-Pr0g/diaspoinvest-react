@@ -69,6 +69,11 @@ export default function Pricing() {
                 {p.prixBarre && <s style={{ opacity: 0.45, fontSize: '0.75em', marginRight: 6 }}>{p.prixBarre}</s>}
                 {p.prix}
               </div>
+              {p.prixTTC && (
+                <div className="plan-price-ttc" style={{ fontSize: '0.72rem', opacity: 0.55, marginTop: -6, marginBottom: 4 }}>
+                  {en ? `${p.prixTTC.replace(' TTC', '')} incl. VAT` : `soit ${p.prixTTC} (TVA incluse)`}
+                </div>
+              )}
 
               <ul>
                 {points.map((pt) => (

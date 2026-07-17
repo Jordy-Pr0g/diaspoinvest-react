@@ -33,6 +33,7 @@ export const PRODUITS = [
     nom: "Guide PDF Europe",
     sousTitre: "Investir depuis la France",
     prix: "14,99 €",
+    prixTTC: "15,81 € TTC",
     lien: LIENS.guide,
     populaire: false,
     points: [
@@ -48,6 +49,7 @@ export const PRODUITS = [
     nom: "Pack Complet Europe",
     sousTitre: "Guide + Tracker Dashboard",
     prix: "39,99 €",
+    prixTTC: "42,19 € TTC",
     lien: LIENS.pack,
     populaire: true,
     points: [
@@ -64,6 +66,7 @@ export const PRODUITS = [
     sousTitre: "13 onglets · Excel",
     prix: "29,99 €",
     prixBarre: "34,99 €",
+    prixTTC: "31,64 € TTC",
     lien: LIENS.calculateur,
     populaire: false,
     points: [
@@ -82,6 +85,7 @@ export const PRODUITS_UEMOA = [
     nom: "Guide PDF UEMOA",
     sousTitre: "Investir depuis la zone UEMOA",
     prix: "14,99 €",
+    prixTTC: "15,81 € TTC",
     lien: LIENS.guideUemoa,
     populaire: false,
     points: [
@@ -98,6 +102,7 @@ export const PRODUITS_UEMOA = [
     sousTitre: "13 onglets · Excel",
     prix: "29,99 €",
     prixBarre: "34,99 €",
+    prixTTC: "31,64 € TTC",
     lien: LIENS.calculateur,
     populaire: false,
     points: [
@@ -112,6 +117,7 @@ export const PRODUITS_UEMOA = [
     nom: "Pack Complet UEMOA",
     sousTitre: "Guide UEMOA + Tracker Dashboard",
     prix: "39,99 €",
+    prixTTC: "42,19 € TTC",
     lien: LIENS.packUemoa,
     populaire: true,
     points: [
