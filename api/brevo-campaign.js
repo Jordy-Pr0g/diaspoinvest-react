@@ -157,7 +157,7 @@ function textToHtml(text, chartImg = '') {
     <!-- Footer légal -->
     <div style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee;">
       <p style="margin:0 0 8px;font-size:11px;color:#aaa;font-family:Arial,sans-serif;line-height:1.6;text-align:center;">
-        DiaspoInvest est un projet &eacute;ducatif ind&eacute;pendant, non affili&eacute; &agrave; la BRVM ni au CREPMF.<br>
+        DiaspoInvest est un projet &eacute;ducatif ind&eacute;pendant, non affili&eacute; &agrave; la BRVM ni &agrave; l'AMF-UMOA.<br>
         Ce contenu ne constitue pas un conseil en investissement. Investir comporte un risque de perte en capital.
       </p>
       <p style="margin:8px 0 0;font-size:11px;color:#ccc;font-family:Arial,sans-serif;text-align:center;">

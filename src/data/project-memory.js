@@ -31,7 +31,7 @@ CHIFFRES CLÉS VÉRIFIÉS (juin 2026)
 - Flat tax France (PFU) : 31,4 % (12,8 % IR + 18,6 % PS depuis 2026), dividendes ET plus-values.
 - IRVM dividendes UEMOA, retenu à la source : Côte d'Ivoire 10 %, Sénégal 10 %, Burkina 12,5 %, Mali 7 %, Togo 7 %, Bénin 5 %. Plus-values exonérées en UEMOA.
 - Livret A : 1,5 % (depuis fév. 2026). BRVM Composite 2024 : +28,89 % (vs CAC 40 +0,92 %).
-- BRVM : créée 1998, CREPMF depuis 1996, 8 pays UEMOA, 47 actions, 1 € = 655,957 FCFA (fixe).
+- BRVM : créée 1998, régulateur AMF-UMOA (ex-CREPMF) depuis 1996, 8 pays UEMOA, 47 actions, 1 € = 655,957 FCFA (fixe).
 
 CE QUI EXISTE DÉJÀ (état du produit, juin 2026)
 - Site en ligne (Vercel, auto-deploy sur push). Landing + blog (15 articles) + pages légales (mentions, CGU, CGV, confidentialité).

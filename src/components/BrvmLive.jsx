@@ -427,7 +427,7 @@ export default function BrvmLive() {
             Les informations proviennent de sources tierces (brvm.org, sikafinance.com) et peuvent comporter des délais ou inexactitudes.
             Les performances passées ne préjugent pas des performances futures. Investir en bourse comporte un risque de perte en capital.
             DiaspoInvest n'est pas un prestataire de services d'investissement agréé. Avant tout investissement, consultez un conseiller financier qualifié.
-            DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF.
+            DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA.
           </p>
         </div>
       </div>

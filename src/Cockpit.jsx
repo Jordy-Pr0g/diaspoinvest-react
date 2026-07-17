@@ -196,7 +196,7 @@ function buildBrvmData(json) {
 const LEGAL_RULES = `
 COUVERTURE JURIDIQUE (OBLIGATOIRE dans tout contenu public — newsletter, TikTok, page de vente, analyse) :
 1. Terminer chaque contenu par ce disclaimer (adapter le format au support, ne jamais l'omettre) :
-"DiaspoInvest est un projet éducatif indépendant, non affilié à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement personnalisé. Tout investissement en bourse comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures."
+"DiaspoInvest est un projet éducatif indépendant, non affilié à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement personnalisé. Tout investissement en bourse comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures."
 2. Formulations toujours GÉNÉRALES et éducatives : jamais "tu devrais acheter X", jamais de recommandation personnalisée, jamais de rendement promis ou garanti.
 3. Parler au passé ou au présent vérifiable ("Sonatel a versé", "le rendement actuel est de") — jamais au futur prédictif ("va rapporter", "tu gagneras").
 4. Sur TikTok/format court : au minimum la mention "Contenu éducatif — pas un conseil en investissement" à l'écran ou en légende.`
@@ -214,7 +214,7 @@ DIFFÉRENCIATION : Approche structurée, en français, par quelqu'un qui vit la 
 
 TON : Chaud, direct, fraternel. Comme un ami qui s'y connaît. Première personne, "tu". Jamais condescendant, jamais guru, jamais vendeur agressif.
 
-LIGNES ROUGES : Jamais conseiller en investissement. Jamais de recommandation personnalisée. Jamais de promesse de rendement. Jamais affilié BRVM/CREPMF. Jordan n'est pas "fondateur".
+LIGNES ROUGES : Jamais conseiller en investissement. Jamais de recommandation personnalisée. Jamais de promesse de rendement. Jamais affilié BRVM/AMF-UMOA. Jordan n'est pas "fondateur".
 
 VISION : Devenir la référence francophone incontournable sur la BRVM. Communauté établie. Pour Jordan : aboutissement personnel, compétences finance pour sa carrière.
 

@@ -82,7 +82,7 @@
     "apropos": "About",
     "contact": "Contact",
     "copyright": "© 2026 DiaspoInvest · Jordan DJIOKAP · Paris",
-    "disclaimerBas": "Not affiliated with the BRVM or the CREPMF · This is not investment advice",
+    "disclaimerBas": "Not affiliated with the BRVM or the AMF-UMOA · This is not investment advice",
     "badgeBrvm": "BRVM · 8 UEMOA countries",
     "outilScreener": "Screener & dividends",
     "outilBacktest": "DCA backtest",
@@ -299,7 +299,7 @@
     "point1": "Closing prices updated after each trading session",
     "point2": "A clear summary, no jargon and no investment advice",
     "point3": "Practical info on taxation and the steps to take",
-    "disclaimer": "Educational content · Not affiliated with the BRVM or the CREPMF · Unsubscribe anytime",
+    "disclaimer": "Educational content · Not affiliated with the BRVM or the AMF-UMOA · Unsubscribe anytime",
     "labelPrenom": "Your first name",
     "placeholderPrenom": "First name",
     "labelEmail": "Your email address",
@@ -545,11 +545,11 @@
     "actionSub": "in dividends earned in total",
     "disclaimer1": "This simulator makes a mathematical projection from the current price and dividend, assuming they stay stable. It is neither a guarantee nor personalized investment advice.",
     "disclaimerSource": "Stock prices as of {{date}} · Sources: BRVM.org + sikafinance.com",
-    "disclaimerAffil": "DiaspoInvest is not affiliated with the BRVM or the CREPMF"
+    "disclaimerAffil": "DiaspoInvest is not affiliated with the BRVM or the AMF-UMOA"
   },
   "data": {
     "avertTitre": "Legal disclaimer",
-    "disclaimer": "Independent educational guide, not affiliated with the BRVM or the CREPMF. This content does not constitute investment advice. Prices, yields and tax rules change over time: always check up-to-date data with official sources (brvm.org, impots.gouv.fr, your broker) before any decision. Investing carries a risk of capital loss.",
+    "disclaimer": "Independent educational guide, not affiliated with the BRVM or the AMF-UMOA. This content does not constitute investment advice. Prices, yields and tax rules change over time: always check up-to-date data with official sources (brvm.org, impots.gouv.fr, your broker) before any decision. Investing carries a risk of capital loss.",
     "solutionHead": {
       "eyebrow": "The DiaspoInvest method",
       "titre": "From zero to your first investment",

@@ -222,4 +222,4 @@ export const SLOGAN =
   "Ces chiffres ne vont pas changer parce que tu n'as pas encore ouvert ton compte."
 
 export const DISCLAIMER =
-  "Guide éducatif indépendant, non affilié à la BRVM ni au CREPMF. Ce contenu ne constitue pas un conseil en investissement. Les cours, rendements et règles fiscales évoluent dans le temps : vérifie toujours les données à jour auprès des sources officielles (brvm.org, impots.gouv.fr, ta SGI) avant toute décision. Investir comporte un risque de perte en capital."
+  "Guide éducatif indépendant, non affilié à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Les cours, rendements et règles fiscales évoluent dans le temps : vérifie toujours les données à jour auprès des sources officielles (brvm.org, impots.gouv.fr, ta SGI) avant toute décision. Investir comporte un risque de perte en capital."

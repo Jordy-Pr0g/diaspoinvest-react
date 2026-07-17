@@ -1,0 +1,37 @@
+# DiaspoInvest
+
+> Guide éducatif indépendant pour apprendre à investir sur la BRVM (Bourse Régionale des Valeurs Mobilières, zone UEMOA, 8 pays d'Afrique de l'Ouest), destiné à la diaspora africaine dans le monde et aux résidents UEMOA. Contenu pédagogique uniquement : ne constitue pas un conseil en investissement personnalisé. DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA (régulateur régional).
+
+Créé par Jordan Djiokap. Les données de marché (cours, indices, dividendes) sont récupérées automatiquement depuis brvm.org et sikafinance.com et évoluent quotidiennement : vérifie toujours les chiffres à jour avant toute décision.
+
+## Outils
+
+- [Screener BRVM](https://diaspoinvest.fr/screener): liste des actions cotées avec cours, ratios et calendrier des dividendes
+- [Backtest](https://diaspoinvest.fr/backtest): simulateur d'investissement programmé (DCA) sur données réelles
+- [Portefeuille virtuel](https://diaspoinvest.fr/portefeuille): suivi d'un portefeuille fictif aux cours réels
+- [Calculateur fiscal et de rendement](https://diaspoinvest.fr/calculateur.html)
+- [Guide fiscalité](https://diaspoinvest.fr/fiscalite): flat tax française, IRVM, formulaire 3916
+
+## Blog
+
+- [Comment choisir sa SGI pour investir sur la BRVM](https://diaspoinvest.fr/blog/choisir-sa-sgi-comparatif)
+- [Calendrier des dividendes BRVM 2026](https://diaspoinvest.fr/blog/calendrier-dividendes-brvm-2026)
+- [5 erreurs fréquentes quand on débute sur la BRVM](https://diaspoinvest.fr/blog/erreurs-debutant-brvm)
+- [Comprendre les indices de la BRVM](https://diaspoinvest.fr/blog/indices-brvm)
+- [Comment investir sur la BRVM depuis la France](https://diaspoinvest.fr/blog/investir-brvm-depuis-france)
+- [Investir sur la BRVM en zone UEMOA](https://diaspoinvest.fr/blog/investir-brvm-zone-uemoa)
+- [Fiscalité BRVM en zone UEMOA](https://diaspoinvest.fr/blog/fiscalite-dividendes-brvm-uemoa)
+- [SGI et frais : l'effet réel sur ton rendement](https://diaspoinvest.fr/blog/sgi-frais-brvm)
+- [BRVM, PEA ou ETF World](https://diaspoinvest.fr/blog/brvm-vs-pea-etf)
+- [Lire un compte de résultat](https://diaspoinvest.fr/blog/lire-compte-resultat)
+- [Les bourses africaines au-delà de la BRVM](https://diaspoinvest.fr/blog/bourses-africaines-panorama)
+- [Comment analyser une action de la BRVM](https://diaspoinvest.fr/blog/analyser-action-brvm)
+- [Juger un cours : action chère ou bon marché ?](https://diaspoinvest.fr/blog/juger-cours-action-brvm)
+- [Dividendes Sonatel 2025](https://diaspoinvest.fr/blog/dividendes-sonatel-2025)
+- [BRVM vs Livret A](https://diaspoinvest.fr/blog/brvm-vs-livret-a)
+- [Ouvrir un compte SGI depuis l'étranger](https://diaspoinvest.fr/blog/ouvrir-compte-sgi-depuis-etranger)
+- [Déclarer un compte BRVM aux impôts français](https://diaspoinvest.fr/blog/declarer-compte-brvm-impots-france)
+
+## Optional
+
+- [Sitemap](https://diaspoinvest.fr/sitemap.xml)

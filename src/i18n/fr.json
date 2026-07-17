@@ -82,7 +82,7 @@
     "apropos": "À propos",
     "contact": "Contact",
     "copyright": "© 2026 DiaspoInvest · Jordan DJIOKAP · Paris",
-    "disclaimerBas": "Non affilié à la BRVM ni au CREPMF · Ceci n'est pas un conseil en investissement",
+    "disclaimerBas": "Non affilié à la BRVM ni à l'AMF-UMOA · Ceci n'est pas un conseil en investissement",
     "badgeBrvm": "BRVM · 8 pays UEMOA",
     "outilScreener": "Screener & dividendes",
     "outilBacktest": "Backtest DCA",
@@ -272,7 +272,7 @@
     "point1": "Cours de clôture mis à jour après chaque séance",
     "point2": "Résumé clair, sans jargon ni conseil en investissement",
     "point3": "Infos pratiques sur la fiscalité et les démarches",
-    "disclaimer": "Contenu éducatif · Non affilié à la BRVM ni au CREPMF · Désinscription à tout moment",
+    "disclaimer": "Contenu éducatif · Non affilié à la BRVM ni à l'AMF-UMOA · Désinscription à tout moment",
     "labelPrenom": "Ton prénom",
     "placeholderPrenom": "Prénom",
     "labelEmail": "Ton adresse email",
@@ -518,6 +518,6 @@
     "actionSub": "de dividendes gagnés au total",
     "disclaimer1": "Ce simulateur fait une projection mathématique à partir du cours et du dividende actuels, en supposant qu'ils restent stables. Ce n'est ni une garantie ni un conseil en investissement personnalisé.",
     "disclaimerSource": "Cours de bourse du {{date}} · Sources : BRVM.org + sikafinance.com",
-    "disclaimerAffil": "DiaspoInvest n'est affilié ni à la BRVM ni au CREPMF"
+    "disclaimerAffil": "DiaspoInvest n'est affilié ni à la BRVM ni à l'AMF-UMOA"
   }
 }

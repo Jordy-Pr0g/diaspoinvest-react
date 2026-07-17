@@ -26,7 +26,7 @@ const CONTENU = {
 
         <h4>Indépendance</h4>
         <p>
-          DiaspoInvest n'est ni affilié, ni partenaire, ni mandaté par la BRVM ou le CREPMF.
+          DiaspoInvest n'est ni affilié, ni partenaire, ni mandaté par la BRVM ou l'AMF-UMOA.
           La BRVM n'est citée qu'à titre de référence factuelle. Aucun logo ni élément
           d'identité officielle de la BRVM n'est utilisé.
         </p>
