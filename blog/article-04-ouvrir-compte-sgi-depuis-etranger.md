@@ -1,4 +1,4 @@
-Réponse rapide : Oui, tu peux ouvrir un compte SGI depuis la France, la Belgique, le Canada ou n'importe où dans le monde, entièrement à distance, sans te déplacer. Tu envoies tes documents par email, tu signes le formulaire en ligne, et tu vires tes premiers fonds via Wise. Délai moyen : 5 à 10 jours ouvrables pour un dossier complet.
+Réponse rapide : Oui, tu peux ouvrir un compte SGI depuis la France, la Belgique, le Canada ou n'importe où dans le monde, entièrement à distance, sans te déplacer. Tu envoies tes documents par email, tu signes le formulaire en ligne, et tu vires tes premiers fonds par virement bancaire international (SWIFT). Le délai dépend surtout de la réactivité de la SGI : compte deux à six semaines pour un dossier complet.
 
 ---
 
@@ -70,15 +70,18 @@ Prépare les 4 documents avant d'envoyer. Un dossier incomplet peut traîner 3 �
 
 ## Comment virer de l'argent sans payer 3 % de frais
 
-C'est un détail que beaucoup ignorent et qui coûte cher sur le long terme.
+Un compte SGI est un compte bancaire : le compte espèces de la SGI. On l'alimente donc par un virement bancaire international, sur le circuit SWIFT, depuis ta banque européenne.
 
-| Solution | Frais EUR-FCFA | Délai réception | Recommandation |
-|----------|---------------|-----------------|----------------|
-| Wise | 0,3 % à 0,5 % | 1 à 3 jours ouvrables | Recommandé |
-| Revolut | 0,3 % à 0,8 % | 1 à 3 jours ouvrables | Recommandé |
-| Banque traditionnelle | 2 % à 3 % | 3 à 5 jours ouvrables | A éviter pour le DCA |
+Attention à un piège fréquent : Wise et Revolut, souvent cités pour l'Afrique, versent en général vers du mobile money (Orange Money, Wave), pas vers un compte bancaire en zone UEMOA. Ils sont parfaits pour envoyer de l'argent à des proches, mais ils ne servent pas à alimenter une SGI. Confirme toujours avec ta SGI le moyen qu'elle accepte avant d'envoyer tes fonds.
 
-Sur un DCA de 100 EUR par mois pendant 10 ans, utiliser ta banque classique plutôt que Wise représente 240 à 360 EUR de frais supplémentaires pour exactement le même résultat.
+Sur un virement SWIFT, un réglage change ce qui arrive vraiment :
+
+| Option SWIFT | Ce qui se passe |
+|--------------|-----------------|
+| OUR | Tous les frais à ta charge au départ. Le montant arrive complet, au centime près. |
+| SHA | Frais partagés. Des banques intermédiaires prélèvent au passage, le montant arrive amputé, souvent de 10 à 30 EUR. |
+
+Choisis l'option OUR pour que le montant prévu arrive intact, et privilégie une SGI adossée à un groupe bancaire présent dans ta zone : le virement est plus fluide et moins coûteux.
 
 ---
 
@@ -92,7 +95,7 @@ Voici la timeline réelle, sans étape cachée :
 | J3 | Préparer et envoyer ton dossier complet (4 documents) |
 | J7 | Relance si pas de réponse, noter la date d'envoi |
 | J10 | Compte validé, réception de tes identifiants |
-| J12 | Installer Wise, faire un premier virement de test |
+| J12 | Faire un premier virement bancaire SWIFT (option OUR) de test |
 | J14 | Fonds disponibles sur ton compte SGI |
 | J30 | Premier ordre passé, actions créditées |
 

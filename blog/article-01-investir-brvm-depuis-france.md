@@ -128,7 +128,7 @@ Délai moyen : 5 à 10 jours ouvrables pour un dossier complet. Un document flou
 
 Tu vires des euros depuis ta banque française. La SGI convertit en FCFA au taux fixe.
 
-Un détail important sur les frais : les banques classiques prennent 2 à 3 % sur les virements internationaux. Wise ou Revolut font la même chose pour 0,3 à 0,5 %. Sur un DCA mensuel sur 10 ans, la différence représente plusieurs centaines d'euros gaspillés.
+Un détail important : le compte SGI est un compte bancaire, tu l'alimentes par virement SWIFT depuis ta banque. Choisis l'option OUR pour que le montant arrive complet, sans être amputé par les banques intermédiaires. À noter : Wise et Revolut, souvent cités pour l'Afrique, versent vers du mobile money et non vers un compte bancaire en zone UEMOA, ils ne conviennent donc pas pour alimenter ta SGI.
 
 ### Étape 4 : passer ton premier ordre
 
@@ -172,7 +172,7 @@ Et si tu veux une méthode complète pour passer à l'action sans tâtonner, le 
 Oui. N'importe quel résident fiscal français peut investir sur la BRVM, quelle que soit sa nationalité. La seule condition est d'avoir une pièce d'identité valide et un compte bancaire européen.
 
 **Faut-il se déplacer en Afrique pour ouvrir un compte SGI ?**
-Non. Les SGI qui acceptent les non-résidents proposent une ouverture entièrement à distance par email. Tu envoies tes documents scannés, tu signes le formulaire en ligne, et tu vires tes premiers fonds via Wise. Tout depuis Paris.
+Non. Les SGI qui acceptent les non-résidents proposent une ouverture entièrement à distance par email. Tu envoies tes documents scannés, tu signes le formulaire en ligne, et tu vires tes premiers fonds par virement SWIFT. Tout depuis Paris.
 
 **Combien faut-il pour commencer à investir sur la BRVM ?**
 Une action Sonatel coûte environ 43 EUR. Il n'y a pas de minimum légal. En pratique, la fourchette réaliste pour commencer est de 30 à 75 EUR par mois.

@@ -7,7 +7,7 @@
     "dev": "vite",
     "prebuild": "node scripts/gen-project-state.js && node scripts/gen-sitemap.js",
     "predev": "node scripts/gen-project-state.js",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender-blog.js",
     "preview": "vite preview"
   },
   "dependencies": {

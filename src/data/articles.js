@@ -78,9 +78,9 @@ export const ARTICLES = [
   },
   {
     slug: 'sgi-frais-brvm',
-    titre: 'SGI et frais : ce que les coûts font vraiment à ton rendement',
+    titre: 'Frais des SGI sur la BRVM : combien tu paies vraiment (courtage, droits de garde)',
     description: 'Le rôle des SGI, les frais à connaître (courtage, droits de garde, frais annexes) et pourquoi un petit écart de frais change tout sur 20 ans. Sans recommander de SGI : où trouver la liste officielle.',
-    titre_en: 'Brokers and fees: what costs really do to your returns',
+    titre_en: 'BRVM broker (SGI) fees: how much you really pay (brokerage, custody)',
     description_en: 'The role of brokers (SGI), the fees to know (brokerage, custody, extra charges) and why a small fee gap changes everything over 20 years. Without recommending a broker: where to find the official list.',
     date: '24 juin 2026',
     date_en: 'June 24, 2026',
@@ -166,9 +166,9 @@ export const ARTICLES = [
   },
   {
     slug: 'ouvrir-compte-sgi-depuis-etranger',
-    titre: 'Ouvrir un compte SGI depuis l\'étranger : le guide pas à pas pour la diaspora',
+    titre: 'Ouvrir un compte BRVM depuis l\'étranger : le guide pas à pas, 100 % à distance',
     description: 'Tout se fait à distance, sans prendre l\'avion. Documents requis, SGI qui acceptent les non-résidents, frais de virement, et plan 30 jours pour ton premier ordre.',
-    titre_en: 'Opening a broker (SGI) account from abroad: the step-by-step guide for the diaspora',
+    titre_en: 'Opening a BRVM account from abroad: the step-by-step guide, 100% remote',
     description_en: 'Everything is done remotely, without taking a flight. Required documents, brokers that accept non-residents, transfer fees, and a 30-day plan for your first order.',
     date: '9 juin 2026',
     date_en: 'June 9, 2026',
