@@ -69,7 +69,7 @@ export default function NewsletterInline() {
         <div style={{ textAlign: 'center' }}>
           <h3 style={{ color: '#fff', margin: '0 0 8px', fontSize: '1.15rem' }}>{t('leadmagnet.succesTitre')}</h3>
           <p style={{ color: 'rgba(232,238,246,0.7)', margin: '0 0 14px', fontSize: 14 }}>{t('leadmagnet.succesTexte')}</p>
-          <a className="btn btn-or" href="/guide-7-erreurs-brvm.pdf" download style={{ display: 'inline-block' }}>
+          <a className="btn btn-or" href="/DiaspoInvest-7-erreurs-BRVM.pdf" download style={{ display: 'inline-block' }}>
             {t('leadmagnet.telecharger')}
           </a>
         </div>

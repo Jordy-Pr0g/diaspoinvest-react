@@ -300,7 +300,7 @@ export default function Calculateur() {
                     <optgroup label={t('calc.groupDividende')}>
                       {(search ? filtered : titres).filter(x=>x.hasDividende).map(x=>(
                         <option key={x.symbole} value={x.symbole} style={{background:'#0D3B2E'}}>
-                          {x.symbole} — {shortNom(x.nom)} · {x.taux.toFixed(2).replace('.',',')}%
+                          {x.symbole} · {shortNom(x.nom)} · {x.taux.toFixed(2).replace('.',',')}%
                         </option>
                       ))}
                     </optgroup>
@@ -309,7 +309,7 @@ export default function Calculateur() {
                     <optgroup label={t('calc.groupAutres')}>
                       {(search ? filtered : titres).filter(x=>!x.hasDividende).map(x=>(
                         <option key={x.symbole} value={x.symbole} style={{background:'#0D3B2E'}}>
-                          {x.symbole} — {shortNom(x.nom)} · {fmtFull(x.cours)} FCFA
+                          {x.symbole} · {shortNom(x.nom)} · {fmtFull(x.cours)} FCFA
                         </option>
                       ))}
                     </optgroup>
