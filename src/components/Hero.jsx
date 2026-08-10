@@ -18,12 +18,12 @@ export default function Hero() {
         </p>
 
         <div className="hero-cta">
-          <Link className="btn btn-or" to="/screener">
+          <a className="btn btn-or" href="#leadmagnet">
+            {t('hero.ctaNewsletter')}
+          </a>
+          <Link className="btn btn-ghost" to="/screener" style={{ color: '#F1F5F9', borderColor: 'rgba(241,245,249,0.3)' }}>
             {t('hero.ctaScreener')}
           </Link>
-          <a className="btn btn-ghost" href="#pricing" style={{ color: '#F1F5F9', borderColor: 'rgba(241,245,249,0.3)' }}>
-            {t('hero.ctaProduits')}
-          </a>
         </div>
 
         <div className="hero-stat-bar" style={{ marginTop: 48 }}>

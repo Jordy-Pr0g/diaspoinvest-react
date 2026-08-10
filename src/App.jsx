@@ -43,11 +43,11 @@ function LandingPage() {
         <Stats />
         <Suspense fallback={null}>
           <Probleme />
+          <LeadMagnet />
           <Histoire />
           <Calculateur />
           <Temoignages />
           <FAQ />
-          <LeadMagnet />
           <Pricing />
         </Suspense>
       </main>

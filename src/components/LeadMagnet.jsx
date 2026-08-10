@@ -100,6 +100,9 @@ export default function LeadMagnet() {
                 </div>
                 <h3>{t('leadmagnet.succesTitre')}</h3>
                 <p>{t('leadmagnet.succesTexte')}</p>
+                <a className="btn btn-or" href="/guide-7-erreurs-brvm.pdf" download style={{ marginTop: '16px', display: 'inline-block' }}>
+                  {t('leadmagnet.telecharger')}
+                </a>
               </div>
             ) : (
               <form className="lm-form" onSubmit={handleSubmit}>

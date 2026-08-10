@@ -19,6 +19,7 @@
     "lead": "DiaspoInvest teaches you how to invest on the BRVM from France or from Africa — pick your stocks, simulate your returns, and stay fully compliant when declaring your account.",
     "ctaScreener": "Explore the Screener",
     "ctaProduits": "See the products",
+    "ctaNewsletter": "Get the free guide",
     "statBrvm": "BRVM Composite 2024",
     "statCac": "CAC 40 2024",
     "statDividende": "average BRVM dividend"
@@ -292,10 +293,15 @@
     "sub": "Complete Pack · Guide + Tracker",
     "cta": "Get the Pack"
   },
+  "newsletterInline": {
+    "eyebrow": "Free guide",
+    "titre": "Enjoyed this article?",
+    "intro": "Get the free guide to the 7 mistakes to avoid on the BRVM, plus the Monday recap. In plain language."
+  },
   "leadmagnet": {
-    "eyebrow": "Free newsletter",
-    "titre": "Every Monday, the BRVM week in your inbox",
-    "intro": "A clear recap of the BRVM week: what moved, the number to remember, and the dividends coming up. Made for the diaspora who want to follow their money back home, without jargon.",
+    "eyebrow": "Free guide + newsletter",
+    "titre": "The 7 costly mistakes on the BRVM",
+    "intro": "Get the free guide right away, then the BRVM recap every Monday. In plain language.",
     "point1": "The closing prices of the biggest movers",
     "point2": "A simple explanation in every issue, no jargon and no investment advice",
     "point3": "The calendar of upcoming dividends",
@@ -304,10 +310,11 @@
     "placeholderPrenom": "First name",
     "labelEmail": "Your email address",
     "placeholderEmail": "email@example.com",
-    "btn": "Subscribe for free",
+    "btn": "Get the free guide",
+    "telecharger": "Download the guide (PDF)",
     "btnLoading": "Subscribing...",
-    "succesTitre": "You're subscribed.",
-    "succesTexte": "Check your inbox. This week's selection is waiting for you.",
+    "succesTitre": "You're in.",
+    "succesTexte": "Download your guide below. And watch your inbox: the Monday recap is on its way.",
     "errCaptcha": "Please tick the \"I'm not a robot\" box above first.",
     "errEchec": "Oops, the sign-up failed. Try again in a moment or write to us: contact@diaspoinvest.fr"
   },

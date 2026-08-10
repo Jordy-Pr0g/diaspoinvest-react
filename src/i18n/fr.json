@@ -19,6 +19,7 @@
     "lead": "DiaspoInvest t'apprend à investir sur la BRVM depuis la France ou le continent — choisir tes actions, simuler ton rendement, déclarer en toute légalité.",
     "ctaScreener": "Explorer le Screener",
     "ctaProduits": "Voir les produits",
+    "ctaNewsletter": "Reçois le guide gratuit",
     "statBrvm": "BRVM Composite 2024",
     "statCac": "CAC 40 2024",
     "statDividende": "dividende moyen BRVM"
@@ -265,10 +266,15 @@
     "sub": "Pack Complet · Guide + Tracker",
     "cta": "Obtenir le Pack"
   },
+  "newsletterInline": {
+    "eyebrow": "Guide gratuit",
+    "titre": "Tu as aimé cet article ?",
+    "intro": "Reçois le guide des 7 erreurs à éviter sur la BRVM (gratuit) et le point du lundi. En clair, sans jargon."
+  },
   "leadmagnet": {
-    "eyebrow": "Newsletter gratuite",
-    "titre": "Chaque lundi, la BRVM résumée dans ta boite mail",
-    "intro": "Un point clair sur la semaine BRVM : ce qui a bougé, le chiffre à retenir et les dividendes qui arrivent. Pensé pour la diaspora qui veut suivre son argent au pays, sans jargon.",
+    "eyebrow": "Guide gratuit + newsletter",
+    "titre": "Les 7 erreurs qui coûtent cher sur la BRVM",
+    "intro": "Reçois le guide gratuit tout de suite, puis le point BRVM chaque lundi. En clair, sans jargon.",
     "point1": "Les cours de clôture des valeurs qui ont le plus bougé",
     "point2": "Une explication simple à chaque envoi, sans jargon ni conseil en investissement",
     "point3": "Le calendrier des dividendes à venir",
@@ -277,10 +283,11 @@
     "placeholderPrenom": "Prénom",
     "labelEmail": "Ton adresse email",
     "placeholderEmail": "email@exemple.com",
-    "btn": "Recevoir gratuitement",
+    "btn": "Recevoir le guide gratuit",
+    "telecharger": "Télécharger le guide (PDF)",
     "btnLoading": "Inscription...",
-    "succesTitre": "Tu es inscrit.",
-    "succesTexte": "Vérifie ta boîte mail. La sélection de la semaine t'attend.",
+    "succesTitre": "C'est bon, tu es inscrit.",
+    "succesTexte": "Télécharge ton guide ci-dessous. Et surveille ta boîte mail : le point du lundi arrive.",
     "errCaptcha": "Coche d'abord la case « Je ne suis pas un robot » ci-dessus.",
     "errEchec": "Oups, l'inscription a échoué. Réessaie dans un instant ou écris-nous : contact@diaspoinvest.fr"
   },

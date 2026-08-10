@@ -5,6 +5,7 @@ import { marked } from 'marked'
 import { ARTICLES } from '../data/articles.js'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
+import NewsletterInline from '../components/NewsletterInline.jsx'
 
 const OR = '#C9A84C'
 
@@ -333,6 +334,7 @@ export default function BlogPost() {
           })()}
 
           <ShareButtons titre={titre} slug={slug} />
+          <NewsletterInline />
           <ArticlesLies currentSlug={slug} />
 
           <div className="blog-post-nav" style={{ marginTop: 40 }}>
