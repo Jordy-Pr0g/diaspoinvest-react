@@ -11,18 +11,11 @@ export default function Stats() {
   return (
     <section className="stats">
       <div className="container">
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '0',
-          maxWidth: 860,
-          margin: '0 auto',
-        }}>
-          {items.map((s, i) => (
-            <div key={s.label} data-sr style={{
+        <div className="stats-3" style={{ maxWidth: 860, margin: '0 auto' }}>
+          {items.map((s) => (
+            <div key={s.label} data-sr className="stat-3" style={{
               textAlign: 'center',
               padding: '8px 24px',
-              borderRight: i < items.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
             }}>
               <div style={{
                 fontFamily: 'Playfair Display, serif',

@@ -102,7 +102,7 @@ export default function Navbar() {
           </div>
         </nav>
 
-        <div className="nav-cta" style={{ display:'flex', alignItems:'center', gap:14 }}>
+        <div className="nav-cta" style={{ alignItems:'center', gap:14 }}>
           <div role="group" aria-label="Langue / Language"
             style={{ display:'flex', border:'1px solid rgba(241,245,249,0.25)', borderRadius:8, overflow:'hidden' }}>
             {['fr', 'en'].map(lng => {
