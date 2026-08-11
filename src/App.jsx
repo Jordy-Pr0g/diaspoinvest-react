@@ -2,6 +2,7 @@ import { useState, lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 import Hero from './components/Hero.jsx'
 import Stats from './components/Stats.jsx'
 import Footer from './components/Footer.jsx'
@@ -61,6 +62,7 @@ function LandingPage() {
 export default function App() {
   return (
     <Suspense fallback={null}>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/blog" element={<BlogIndex />} />

@@ -55,9 +55,7 @@ export const PRODUITS = [
     points: [
       "Le Guide PDF Diaspora Europe complet",
       "Le Tracker Dashboard (13 onglets)",
-      "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
-      "6 mois de mises à jour cours incluses",
-      "Meilleur rapport qualité-prix",
+      "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",      "Meilleur rapport qualité-prix",
     ],
   },
   {
@@ -72,9 +70,7 @@ export const PRODUITS = [
     points: [
       "47 actions BRVM par secteur",
       "Simulateur DCA sur 30 ans + fiscalité France / UEMOA",
-      "Suivi de portefeuille personnel",
-      "6 mois de mises à jour cours incluses",
-    ],
+      "Suivi de portefeuille personnel",    ],
   },
 ]
 
@@ -108,9 +104,7 @@ export const PRODUITS_UEMOA = [
     points: [
       "47 actions BRVM par secteur",
       "Simulateur DCA sur 30 ans avec fiscalité UEMOA",
-      "Suivi de portefeuille personnel",
-      "6 mois de mises à jour cours incluses",
-    ],
+      "Suivi de portefeuille personnel",    ],
   },
   {
     id: "packUemoa",
@@ -123,9 +117,7 @@ export const PRODUITS_UEMOA = [
     points: [
       "Le Guide PDF Résident UEMOA complet",
       "Le Tracker Dashboard (13 onglets)",
-      "Fiscalité UEMOA pays par pays",
-      "6 mois de mises à jour cours incluses",
-      "Meilleur rapport qualité-prix",
+      "Fiscalité UEMOA pays par pays",      "Meilleur rapport qualité-prix",
     ],
   },
 ]

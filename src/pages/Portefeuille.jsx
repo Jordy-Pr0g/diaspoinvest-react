@@ -74,7 +74,7 @@ export default function Portefeuille() {
   const [capitalInput, setCapitalInput] = useState('')
 
   useMeta({
-    title: 'Portefeuille virtuel BRVM — DiaspoInvest',
+    title: 'Portefeuille virtuel BRVM · DiaspoInvest',
     description: 'Simule ton portefeuille BRVM sans risque. Ajoute des actions, suis tes plus/moins-values et visualise ton allocation par secteur.',
     url: 'https://diaspoinvest.fr/portefeuille',
   })
@@ -90,7 +90,7 @@ export default function Portefeuille() {
         setLoading(false)
       })
       .catch(() => setLoading(false))
-    return () => { document.title = 'DiaspoInvest — Investir sur la bourse africaine' }
+    return () => { document.title = 'DiaspoInvest · Investir sur la bourse africaine' }
   }, [])
 
   const sauver = (p) => { setPort(p); try { localStorage.setItem(KEY, JSON.stringify(p)) } catch { /* */ } }

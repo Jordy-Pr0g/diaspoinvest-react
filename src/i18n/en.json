@@ -7,6 +7,7 @@
     "backtest": "Backtest",
     "fiscalite": "Taxation",
     "blog": "Blog",
+    "produits": "Products",
     "apropos": "About",
     "pack": "Pack",
     "voirPack": "See the Pack",
@@ -652,9 +653,7 @@
         "points": [
           "The full Europe Diaspora PDF Guide",
           "The Tracker Dashboard (13 tabs)",
-          "30-year DCA simulator + France / UEMOA taxation",
-          "6 months of price updates included",
-          "Best value for money"
+          "30-year DCA simulator + France / UEMOA taxation",          "Best value for money"
         ]
       },
       "calculateur": {
@@ -663,8 +662,7 @@
         "points": [
           "47 BRVM stocks by sector",
           "30-year DCA simulator + France / UEMOA taxation",
-          "Personal portfolio tracking",
-          "6 months of price updates included"
+          "Personal portfolio tracking"
         ]
       },
       "guideUemoa": {
@@ -684,8 +682,7 @@
         "points": [
           "47 BRVM stocks by sector",
           "30-year DCA simulator with UEMOA taxation",
-          "Personal portfolio tracking",
-          "6 months of price updates included"
+          "Personal portfolio tracking"
         ]
       },
       "packUemoa": {
@@ -694,9 +691,7 @@
         "points": [
           "The full UEMOA Resident PDF Guide",
           "The Tracker Dashboard (13 tabs)",
-          "UEMOA taxation country by country",
-          "6 months of price updates included",
-          "Best value for money"
+          "UEMOA taxation country by country",          "Best value for money"
         ]
       }
     }

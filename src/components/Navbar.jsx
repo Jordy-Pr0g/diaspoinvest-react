@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { LIENS } from '../data.js'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
@@ -14,6 +13,7 @@ export default function Navbar() {
   ]
   const TOP = [
     { to: '/blog',      label: t('nav.blog')      },
+    { to: '/#pricing',  label: t('nav.produits')  },
     { to: '/a-propos',  label: t('nav.apropos')  },
   ]
   // Liste à plat pour le tiroir mobile
@@ -122,10 +122,10 @@ export default function Navbar() {
               )
             })}
           </div>
-          <a className="btn btn-or" href={LIENS.pack} target="_blank" rel="noreferrer"
+          <Link className="btn btn-or" to="/#pricing"
             style={{ padding: '10px 20px', fontSize: '0.88rem' }}>
             {t('nav.pack')}
-          </a>
+          </Link>
         </div>
 
         <button className="hamburger" aria-label={open ? t('nav.fermer') : t('nav.menu')}
@@ -163,10 +163,10 @@ export default function Navbar() {
               )
             })}
           </div>
-          <a className="btn btn-or mobile-drawer-cta" href={LIENS.pack}
-            target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+          <Link className="btn btn-or mobile-drawer-cta" to="/#pricing"
+            onClick={() => setOpen(false)}>
             {t('nav.voirPack')}
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

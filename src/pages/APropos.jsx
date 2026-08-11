@@ -11,7 +11,7 @@ export default function APropos() {
   const { t } = useTranslation()
   const paragraphs = t('pages.apropos.paragraphs', { returnObjects: true })
   useMeta({
-    title: 'À propos — DiaspoInvest par Jordan Djiokap',
+    title: 'À propos · DiaspoInvest par Jordan Djiokap',
     description: 'DiaspoInvest est un projet éducatif indépendant créé par Jordan Djiokap, étudiant en Finance à l\'INSEEC Paris, pour aider la diaspora africaine à investir sur la BRVM.',
     url: 'https://diaspoinvest.fr/a-propos',
   })

@@ -132,7 +132,7 @@ export default function Backtest() {
   const mainMeta = getMeta(mainSym)
 
   useMeta({
-    title: `Backtest DCA ${mainSym} — Simulateur BRVM | DiaspoInvest`,
+    title: `Backtest DCA ${mainSym} · Simulateur BRVM | DiaspoInvest`,
     description: `Simule un investissement mensuel régulier sur ${mainSym} depuis 1998. Compare plusieurs actions BRVM en DCA.`,
     url: `https://diaspoinvest.fr/backtest?ticker=${mainSym}`,
   })

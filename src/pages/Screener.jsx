@@ -58,7 +58,7 @@ export default function Screener() {
   const [sortBy,        setSortBy]        = useState('rendement_desc')
 
   useMeta({
-    title: 'Screener BRVM — Cours et dividendes en temps réel | DiaspoInvest',
+    title: 'Screener BRVM · Cours et dividendes en temps réel | DiaspoInvest',
     description: 'Consulte les cours, dividendes, rendements et dates de détachement des 47 actions cotées sur la BRVM. Données croisées entre BRVM.org, Sikafinance et Fluxbourse. Filtre par secteur, pays et rendement.',
     url: 'https://diaspoinvest.fr/screener',
   })
@@ -106,7 +106,7 @@ export default function Screener() {
         setLoading(false)
       })
       .catch(() => setLoading(false))
-    return () => { document.title = 'DiaspoInvest — Investir sur la bourse africaine' }
+    return () => { document.title = 'DiaspoInvest · Investir sur la bourse africaine' }
   }, [])
 
   const filtered = useMemo(() => {

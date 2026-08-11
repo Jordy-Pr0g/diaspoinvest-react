@@ -17,7 +17,7 @@ export default function Guides() {
     { to: '/blog',      titre: t('pages.guides.blogTitre'),     desc: t('pages.guides.blogDesc'),     cta: t('pages.guides.blogCta')     },
   ]
   useMeta({
-    title: 'Outils gratuits BRVM — Screener, Backtest, Fiscalité | DiaspoInvest',
+    title: 'Outils gratuits BRVM · Screener, Backtest, Fiscalité | DiaspoInvest',
     description: 'Tous les outils gratuits pour investir sur la BRVM : screener temps réel, simulateur DCA, calculateur fiscal et articles éducatifs.',
     url: 'https://diaspoinvest.fr/guides',
   })

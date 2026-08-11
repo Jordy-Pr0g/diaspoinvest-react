@@ -36,7 +36,7 @@ export default function ActionDetail() {
   const trPays = c => t(`meta.pays.${c}`, { defaultValue: PAYS_LABEL[c] || c })
 
   useMeta({
-    title: `${ticker} — Cours, dividende et rendement BRVM | DiaspoInvest`,
+    title: `${ticker} · Cours, dividende et rendement BRVM | DiaspoInvest`,
     description: `Cours en temps réel, rendement et dividende de ${ticker} sur la BRVM. Secteur ${meta.secteur}, ${PAYS_LABEL[meta.pays] || meta.pays}. Simulation DCA disponible.`,
     url: `https://diaspoinvest.fr/screener/${ticker}`,
   })
