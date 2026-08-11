@@ -136,6 +136,12 @@ export default function ActionDetail() {
                   {t('pages.actionDetail.simulerDca', { ticker })}
                 </Link>
                 <Link
+                  to="/fiscalite"
+                  style={{ background: CARD, color: '#F1F5F9', fontWeight: 600, fontSize: 14, padding: '12px 24px', borderRadius: 12, textDecoration: 'none', display: 'inline-block', border: `1px solid ${BDR}` }}
+                >
+                  {t('pages.actionDetail.estimerImpot')}
+                </Link>
+                <Link
                   to="/screener"
                   style={{ background: CARD, color: '#F1F5F9', fontWeight: 600, fontSize: 14, padding: '12px 24px', borderRadius: 12, textDecoration: 'none', display: 'inline-block', border: `1px solid ${BDR}` }}
                 >

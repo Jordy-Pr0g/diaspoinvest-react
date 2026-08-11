@@ -162,7 +162,8 @@
       "rendement": "Rendement",
       "secteur": "Secteur",
       "pays": "Pays",
-      "noteDiv": "Dividende de <0>{{div}} FCFA</0> par action (dernier exercice fiscal connu). Pour {{cours}} FCFA investis (1 action), le rendement brut est de <1>{{rendement}} %</1>. En France, ce dividende est soumis à la flat tax de 31,4 % (12,8 % IR + 18,6 % prélèvements sociaux depuis 2026).",
+      "noteDiv": "Dividende de <0>{{div}} FCFA</0> par action (dernier exercice fiscal connu). Pour {{cours}} FCFA investis (1 action), le rendement brut est de <1>{{rendement}} %</1>. Montant brut : la fiscalité dépend de ton pays de résidence.",
+      "estimerImpot": "Estime ton impôt selon ton pays →",
       "simulerDca": "Simuler un DCA sur {{ticker}} →",
       "voirToutes": "Voir toutes les actions",
       "source": "Source : BRVM.org · Dividende : dernier exercice fiscal connu · Données éducatives, ne constituent pas un conseil en investissement."
