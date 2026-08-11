@@ -361,19 +361,19 @@ export default function Backtest() {
                 <div style={{ fontSize: 12, color: GRIS, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 8 }}>
                   {fmt(lignes[0].apport)} FCFA/mois dans {mainSym} depuis {new Date(debut).getFullYear()} · {mainResult.nbMois} mois
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 20, marginBottom: 20 }}>
                   <div>
                     <div style={{ fontSize: 11, color: GRIS, marginBottom: 4 }}>Valeur aujourd'hui</div>
-                    <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 32, fontWeight: 900, color: OR, lineHeight: 1 }}>{fmt(mainResult.valeurFinale)}</div>
+                    <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 'clamp(18px, 6.5vw, 32px)', fontWeight: 900, color: OR, lineHeight: 1 }}>{fmt(mainResult.valeurFinale)}</div>
                     <div style={{ fontSize: 11, color: GRIS, fontFamily: 'DM Mono,monospace', marginTop: 4 }}>FCFA</div>
                   </div>
                   <div>
                     <div style={{ fontSize: 11, color: GRIS, marginBottom: 4 }}>Capital investi</div>
-                    <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 32, fontWeight: 900, color: 'rgba(255,255,255,0.7)', lineHeight: 1 }}>{fmt(mainResult.capitalInvesti)}</div>
+                    <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 'clamp(18px, 6.5vw, 32px)', fontWeight: 900, color: 'rgba(255,255,255,0.7)', lineHeight: 1 }}>{fmt(mainResult.capitalInvesti)}</div>
                     <div style={{ fontSize: 11, color: GRIS, fontFamily: 'DM Mono,monospace', marginTop: 4 }}>FCFA</div>
                   </div>
                 </div>
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
                   <div>
                     <div style={{ fontSize: 11, color: GRIS, marginBottom: 4 }}>Plus-value</div>
                     <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 22, fontWeight: 900, color: mainResult.plusValue >= 0 ? VERT3 : RED }}>
@@ -382,7 +382,7 @@ export default function Backtest() {
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: 11, color: GRIS, marginBottom: 4 }}>Performance</div>
-                    <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 28, fontWeight: 900, color: mainResult.performance >= 0 ? VERT3 : RED }}>
+                    <div style={{ fontFamily: 'DM Mono,monospace', fontSize: 'clamp(20px, 6vw, 28px)', fontWeight: 900, color: mainResult.performance >= 0 ? VERT3 : RED }}>
                       {fmtPct(mainResult.performance)}
                     </div>
                   </div>
@@ -390,7 +390,7 @@ export default function Backtest() {
               </div>
 
               {/* KPIs secondaires */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 10, marginBottom: 16 }}>
                 {[
                   { label: 'Titres accumulés', val: `${mainResult.actions.toLocaleString('fr-FR')} titres` },
                   { label: 'Durée', val: `${mainResult.nbMois} mois` },
