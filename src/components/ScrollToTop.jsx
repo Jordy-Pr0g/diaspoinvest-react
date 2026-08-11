@@ -10,15 +10,23 @@ export default function ScrollToTop() {
   useEffect(() => {
     if (hash) {
       // Va jusqu'à l'ancre (ex : #pricing). Le contenu peut être chargé en
-      // différé (lazy), donc on tente tout de suite puis après un court délai.
+      // différé (lazy) : on réessaie jusqu'à ce que l'élément existe, puis on
+      // retire l'ancre de l'URL pour que les rechargements repartent du haut.
       const id = hash.replace('#', '')
+      let tries = 0
+      const timers = []
       const go = () => {
         const el = document.getElementById(id)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' })
+          window.history.replaceState(null, '', pathname)
+        } else if (tries < 10) {
+          tries += 1
+          timers.push(setTimeout(go, 150))
+        }
       }
       go()
-      const t = setTimeout(go, 350)
-      return () => clearTimeout(t)
+      return () => timers.forEach(clearTimeout)
     }
     window.scrollTo(0, 0)
   }, [pathname, hash])

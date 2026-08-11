@@ -2,8 +2,12 @@
    DiaspoInvest — Styles des composants
    ============================================================ */
 
-/* Garde-fou : jamais de scroll horizontal (mobile) */
-html, body { overflow-x: hidden; max-width: 100%; }
+/* Garde-fou : jamais de scroll horizontal (mobile).
+   - clip (et non hidden) : ne transforme pas le body en conteneur de scroll
+     (hidden forcerait overflow-y a auto et casserait window.scrollTo/scrollIntoView).
+   - sur body uniquement (pas html) : un clip/hidden sur la racine peut bloquer
+     tout le scroll vertical de la page (propagation au viewport). */
+body { overflow-x: clip; }
 
 /* ── Apparition au scroll (module scrollReveal.js) ──────────────
    Anime des éléments fins avec cascade. .sr = état caché,
