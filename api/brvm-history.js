@@ -38,8 +38,10 @@ export default async function handler(req, res) {
   const ticker = (req.query.ticker || '').toUpperCase().replace(/[^A-Z0-9]/g, '')
   if (!ticker) return res.status(400).json({ error: 'Paramètre ticker manquant' })
 
+  const period = ['daily', 'weekly', 'monthly'].includes(req.query.period) ? req.query.period : 'monthly'
+
   try {
-    const url = `${BASE_URL}/${ticker}/${ticker}.monthly.csv`
+    const url = `${BASE_URL}/${ticker}/${ticker}.${period}.csv`
     const r = await fetch(url, { headers: { 'User-Agent': 'DiaspoInvest/1.0' } })
 
     if (!r.ok) {

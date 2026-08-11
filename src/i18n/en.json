@@ -157,6 +157,8 @@
       "retourScreener": "Back to the screener",
       "coursCloture": "Closing price",
       "variationHebdo": "Weekly change",
+      "variationJour": "Daily change",
+      "volume": "Daily volume",
       "dividende": "Dividend",
       "nonConnu": "Not known",
       "rendement": "Yield",

@@ -28,6 +28,7 @@ export default function ActionDetail() {
   const ticker = symbole?.toUpperCase() || ''
   const [action, setAction] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [varHebdo, setVarHebdo] = useState(null)
   const meta = getMeta(ticker)
   const lc = meta.label ? LABEL_COLORS[meta.label] : null
   // Traductions des métadonnées partagées (EN via namespace meta.*, repli FR par defaultValue)
@@ -54,11 +55,30 @@ export default function ActionDetail() {
       .catch(() => setLoading(false))
   }, [ticker])
 
+  // Variation hebdo : calculée sur l'historique hebdomadaire réel (clôture de la
+  // dernière semaine vs la précédente). Aucune donnée inventée : si indisponible, reste null (« — »).
+  useEffect(() => {
+    setVarHebdo(null)
+    fetch(`/api/brvm-history?ticker=${ticker}&period=weekly`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        const rows = d?.data
+        if (Array.isArray(rows) && rows.length >= 2) {
+          const last = rows[rows.length - 1].close
+          const prev = rows[rows.length - 2].close
+          if (last && prev) setVarHebdo(((last - prev) / prev) * 100)
+        }
+      })
+      .catch(() => {})
+  }, [ticker])
+
   const rendement = action && meta.dividende ? (meta.dividende / action.cours_cloture) * 100 : null
 
   const kpis = action ? [
     { label: t('pages.actionDetail.coursCloture'), val: `${fmt(action.cours_cloture)} FCFA`, color: '#F1F5F9' },
-    { label: t('pages.actionDetail.variationHebdo'), val: action.variation_hebdo != null ? `${action.variation_hebdo >= 0 ? '+' : ''}${action.variation_hebdo.toFixed(2).replace('.', ',')} %` : '—', color: action.variation_hebdo > 0 ? VERT : action.variation_hebdo < 0 ? RED : GRIS },
+    { label: t('pages.actionDetail.variationJour'), val: action.variation_pct != null ? `${action.variation_pct >= 0 ? '+' : ''}${action.variation_pct.toFixed(2).replace('.', ',')} %` : '—', color: action.variation_pct > 0 ? VERT : action.variation_pct < 0 ? RED : GRIS },
+    { label: t('pages.actionDetail.variationHebdo'), val: varHebdo != null ? `${varHebdo >= 0 ? '+' : ''}${varHebdo.toFixed(2).replace('.', ',')} %` : '—', color: varHebdo > 0 ? VERT : varHebdo < 0 ? RED : GRIS },
+    { label: t('pages.actionDetail.volume'), val: action.volume != null ? `${Math.round(action.volume).toLocaleString('fr-FR')} titres` : '—', color: '#F1F5F9' },
     { label: t('pages.actionDetail.dividende'), val: meta.dividende ? `${fmt(meta.dividende)} FCFA` : t('pages.actionDetail.nonConnu'), color: meta.dividende ? VERT : GRIS },
     { label: t('pages.actionDetail.rendement'), val: rendement ? `${rendement.toFixed(2).replace('.', ',')} %` : '—', color: rendement ? OR : GRIS },
     { label: t('pages.actionDetail.secteur'), val: trSect(meta.secteur), color: '#F1F5F9' },
