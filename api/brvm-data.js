@@ -21,18 +21,11 @@ const DATASETS = {
   dividendes: 'dividendes_latest.json',
 }
 
-const ALLOWED_ORIGINS = [
-  'https://diaspoinvest.fr',
-  'https://www.diaspoinvest.fr',
-]
-
 export default async function handler(req, res) {
-  const origin = req.headers.origin || ''
-  if (ALLOWED_ORIGINS.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
-  }
+  // Donnees publiques de marche (read-only) : CORS ouvert -> lisibles depuis n'importe quel
+  // outil, y compris un dashboard local (file://, origin "null"). Aucune donnee sensible ici.
+  res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS')
-  res.setHeader('Vary', 'Origin')
 
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
