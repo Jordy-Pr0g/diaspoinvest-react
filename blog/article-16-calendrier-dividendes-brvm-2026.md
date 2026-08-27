@@ -6,6 +6,8 @@ Chaque année entre avril et juillet, les entreprises cotées à la BRVM versent
 
 Cet article te donne le calendrier 2026 tel qu'il est connu à ce jour, t'explique la mécanique complète (vote, détachement, paiement), et te montre pourquoi acheter une action juste avant son dividende est rarement une bonne idée.
 
+**À jour en continu :** pour voir les prochains détachements, les montants et les rendements sur le dernier cours, société par société, consulte notre [calendrier interactif des dividendes BRVM](/dividendes). Les données y sont recoupées entre plusieurs sources et rafraîchies chaque jour.
+
 ## Comment fonctionne un dividende à la BRVM ?
 
 Trois étapes, dans cet ordre :
@@ -18,7 +20,7 @@ Trois étapes, dans cet ordre :
 
 ## Le calendrier 2026 : ce qui est connu à ce jour
 
-Les montants ci-dessous proviennent des avis officiels publiés par la BRVM et des annonces des sociétés, relayés par Sikafinance et Richbourse. Ils sont exacts à la date de mise à jour de cet article, mais vérifie toujours l'avis officiel avant toute décision.
+Les montants ci-dessous proviennent des avis officiels publiés par la BRVM et des annonces des sociétés, relayés par Sikafinance et Richbourse. Ils sont exacts à la date de mise à jour de cet article, mais vérifie toujours l'avis officiel avant toute décision. Pour la version tenue à jour en continu, ouvre le [calendrier interactif des dividendes](/dividendes).
 
 ### Dividendes déjà versés en 2026
 

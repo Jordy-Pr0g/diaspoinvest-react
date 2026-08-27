@@ -178,7 +178,8 @@ export default function Dividendes() {
               )}
             </div>
             <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, lineHeight: 1.6, marginTop: 16, maxWidth: 680 }}>
-              Le jour du <strong style={{ color: '#F1F5F9' }}>détachement</strong>, l'action se met à coter sans le dividende : son cours baisse mécaniquement du montant versé. Pour toucher le dividende, il faut détenir le titre <strong style={{ color: '#F1F5F9' }}>avant</strong> cette date.
+              Le jour du <strong style={{ color: '#F1F5F9' }}>détachement</strong>, l'action se met à coter sans le dividende : son cours baisse mécaniquement du montant versé. Pour toucher le dividende, il faut détenir le titre <strong style={{ color: '#F1F5F9' }}>avant</strong> cette date.{' '}
+              <Link to="/blog/calendrier-dividendes-brvm-2026" style={{ color: OR, fontWeight: 700 }}>Comment ça marche en détail →</Link>
             </p>
           </div>
 
