@@ -9,6 +9,7 @@ export default function Navbar() {
     { to: '/screener',  label: t('nav.screener')  },
     { to: '/portefeuille', label: t('nav.portefeuille') },
     { to: '/backtest',  label: t('nav.backtest')  },
+    { to: '/dividendes', label: t('nav.dividendes') },
     { to: '/fiscalite', label: t('nav.fiscalite') },
   ]
   const TOP = [

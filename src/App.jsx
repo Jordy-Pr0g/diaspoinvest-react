@@ -26,6 +26,7 @@ const Portefeuille = lazy(() => import('./pages/Portefeuille.jsx'))
 const Backtest    = lazy(() => import('./pages/Backtest.jsx'))
 const Guides      = lazy(() => import('./pages/Guides.jsx'))
 const Fiscalite   = lazy(() => import('./pages/Fiscalite.jsx'))
+const Dividendes  = lazy(() => import('./pages/Dividendes.jsx'))
 const ActionDetail = lazy(() => import('./pages/ActionDetail.jsx'))
 const NotFound    = lazy(() => import('./pages/NotFound.jsx'))
 
@@ -73,6 +74,7 @@ export default function App() {
         <Route path="/backtest" element={<Backtest />} />
         <Route path="/guides" element={<Guides />} />
         <Route path="/fiscalite" element={<Fiscalite />} />
+        <Route path="/dividendes" element={<Dividendes />} />
         <Route path="/a-propos" element={<APropos />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
