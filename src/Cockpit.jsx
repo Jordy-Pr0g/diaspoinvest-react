@@ -442,7 +442,7 @@ FORMAT DE SORTIE (texte brut, pas de markdown — dossier éducatif 450-700 mots
 OBJET : [annonce le sujet avec curiosité, max 60 car.]
 PREHEADER : [prolonge l'objet, max 90 car.]
 ---
-Salut, c'est Jordan.
+[Salutation d'ouverture, courte, sur sa propre ligne : « Bonjour, c'est Jordan. » OU « Salut, c'est Jordan. » (alterne d'une lettre à l'autre pour varier)]
 
 [Ouverture : une question ou une idée reçue qui revient souvent chez les lecteurs, posée simplement. 2-3 phrases qui donnent envie de comprendre.]
 

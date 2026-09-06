@@ -83,15 +83,25 @@ function renderBody(text, chartImg = '') {
     if (sondageMatch) {
       const parts = sondageMatch[1].split('|').map(s => s.trim()).filter(Boolean)
       const question = parts.shift() || 'Et toi, où en es-tu ?'
-      const buttons = parts.slice(0, 4).map(o => {
-        const mailto = `mailto:contact@diaspoinvest.fr?subject=${encodeURIComponent('Sondage newsletter')}&body=${encodeURIComponent(o)}`
-        return `<a href="${mailto}" style="display:inline-block;margin:6px 8px 0 0;background:#ffffff;border:1px solid #C9A84C;color:#0D2B1E;font-weight:700;font-size:14px;padding:11px 18px;border-radius:8px;text-decoration:none;font-family:Arial,sans-serif;">${esc(o)} &rarr;</a>`
+      const lettres = ['A', 'B', 'C', 'D']
+      const buttons = parts.slice(0, 4).map((o, i) => {
+        const L = lettres[i]
+        const mailto = `mailto:contact@diaspoinvest.fr?subject=${encodeURIComponent('Sondage newsletter')}&body=${encodeURIComponent(`${L} (${o})`)}`
+        return `<a href="${mailto}" style="display:block;text-decoration:none;margin:0 0 10px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:separate;">
+            <tr>
+              <td style="width:38px;background:#0D2B1E;color:#C9A84C;font-weight:bold;text-align:center;padding:13px 0;border-radius:8px 0 0 8px;font-family:Arial,sans-serif;font-size:16px;">${L}</td>
+              <td style="background:#ffffff;border:1px solid #ece7d8;border-left:none;padding:13px 14px;border-radius:0 8px 8px 0;color:#2d2d2d;font-size:15px;font-family:Arial,sans-serif;">${esc(o)}</td>
+            </tr>
+          </table>
+        </a>`
       }).join('')
       html += `
         <div style="margin:34px 0;padding:24px;background:#f6f4ec;border:1px solid #ece7d8;border-radius:12px;">
-          <p style="margin:0 0 14px;font-size:17px;font-weight:700;color:#0D2B1E;font-family:Georgia,serif;line-height:1.5;">${esc(question)}</p>
-          <div>${buttons}</div>
-          <p style="margin:16px 0 0;font-size:12px;color:#999;font-family:Arial,sans-serif;">Clique, ça ouvre ta messagerie. Un mot suffit, je lis chaque réponse.</p>
+          <div style="color:#0D2B1E;font-size:13px;font-weight:700;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;margin:0 0 10px;">La question de la semaine</div>
+          <p style="margin:0 0 18px;font-size:17px;font-weight:700;color:#0D2B1E;font-family:Georgia,serif;line-height:1.5;">${esc(question)}</p>
+          ${buttons}
+          <p style="margin:16px 0 0;font-size:12px;color:#999;font-family:Arial,sans-serif;">Un clic ouvre ta réponse déjà pré-remplie, il ne reste qu'à l'envoyer. Je lis chaque réponse.</p>
         </div>`
       continue
     }

@@ -10,7 +10,7 @@
 
 ---
 
-Salut,
+Salut, c'est Jordan.
 
 Cette semaine, un membre de la communauté m'a écrit : *« Jordan, j'ai 50 € par mois à mettre
 de côté. Livret A ou BRVM ? »* J'ai voulu lui répondre en deux lignes. J'ai fini par y passer
