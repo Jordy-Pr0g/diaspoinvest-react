@@ -2,6 +2,11 @@
 // Données BRVM factuelles (Juin 2026). Référence éducative uniquement.
 // Non affilié à la BRVM ni à l'Autorité des Marchés Financiers de l'UMOA (AMF-UMOA, ex-CREPMF).
 
+// Interrupteur global des ventes.
+// false = site 100% educatif : produits masques, aucun paiement, aucune reference d'achat.
+// Repasser a true (une seule ligne) le jour ou le statut permet de vendre (APS).
+export const VENTES_ACTIVES = false
+
 export const LIENS = {
   guide:      "https://pay.hotmart.com/F106625297S", // Guide PDF Europe
   guideUemoa: "https://pay.hotmart.com/S106627946N", // Guide PDF UEMOA
@@ -175,12 +180,8 @@ export const SOLUTIONS = [
 
 export const FAQ_ITEMS = [
   {
-    q: "Et si ça ne me convient pas ?",
-    r: "Satisfait ou remboursé, sans condition, pendant 15 jours. Tu envoies un email à contact@diaspoinvest.fr et tu es remboursé dans les 48 h. Aucune question posée.",
-  },
-  {
     q: "Je ne connais rien à la bourse, c'est fait pour moi ?",
-    r: "Oui, c'est exactement pour toi. Le guide part de zéro : qu'est-ce que la BRVM, comment ouvrir un compte depuis la diaspora, quelles actions regarder en premier. Tout est expliqué en langage simple, sans jargon financier.",
+    r: "Oui, c'est exactement pour toi. Le contenu part de zéro : qu'est-ce que la BRVM, comment ouvrir un compte depuis la diaspora, quelles actions regarder en premier. Tout est expliqué en langage simple, sans jargon financier.",
   },
   {
     q: "Combien faut-il minimum pour commencer à investir sur la BRVM ?",
@@ -188,23 +189,23 @@ export const FAQ_ITEMS = [
   },
   {
     q: "Comment envoyer de l'argent depuis la France pour investir ?",
-    r: "Tu passes par un virement bancaire international SWIFT vers le compte de ta SGI, ou via des services comme Wave, Orange Money ou Wise selon la SGI choisie. Le guide détaille les options les moins chères et les plus rapides pour la diaspora.",
+    r: "Tu passes par un virement bancaire international SWIFT vers le compte de ta SGI, ou via des services comme Wave, Orange Money ou Wise selon la SGI choisie. Nos ressources détaillent les options les moins chères et les plus rapides pour la diaspora.",
   },
   {
     q: "Quelle SGI recommandes-tu pour la diaspora ?",
-    r: "Je ne recommande pas de SGI en particulier car ce n'est pas un conseil en investissement. Le guide compare les critères à vérifier (accès digital, frais, support diaspora) pour que tu fasses ton propre choix en connaissance de cause.",
+    r: "Je ne recommande pas de SGI en particulier car ce n'est pas un conseil en investissement. Nos ressources comparent les critères à vérifier (accès digital, frais, support diaspora) pour que tu fasses ton propre choix en connaissance de cause.",
   },
   {
     q: "Puis-je investir depuis la France (ou l'étranger) ?",
-    r: "Oui. Certaines SGI proposent un accès 100 % digital adapté à la diaspora. Le guide t'explique les étapes d'ouverture de compte et, surtout, comment déclarer ce compte en France pour être en règle.",
+    r: "Oui. Certaines SGI proposent un accès 100 % digital adapté à la diaspora. Nos ressources t'expliquent les étapes d'ouverture de compte et, surtout, comment déclarer ce compte en France pour être en règle.",
   },
   {
     q: "Faut-il déclarer mon compte aux impôts français ?",
-    r: "Oui, c'est obligatoire. Un compte détenu à l'étranger se déclare via le formulaire 3916, sous peine d'une amende de 1 500 € par an. Les dividendes sont imposés au PFU (Flat Tax) de 31,4 %. Le guide détaille toute la démarche.",
+    r: "Oui, c'est obligatoire. Un compte détenu à l'étranger se déclare via le formulaire 3916, sous peine d'une amende de 1 500 € par an. Les dividendes sont imposés au PFU (Flat Tax) de 31,4 %. Nos ressources détaillent toute la démarche.",
   },
   {
     q: "Les plus-values sont-elles imposées en France ?",
-    r: "Oui, les plus-values réalisées à la vente d'actions BRVM sont imposables en France au taux de 31,4 % (Flat Tax, depuis 2026). En revanche, elles sont exonérées d'impôt dans la zone UEMOA. Le guide explique comment les déclarer correctement via le formulaire 2074.",
+    r: "Oui, les plus-values réalisées à la vente d'actions BRVM sont imposables en France au taux de 31,4 % (Flat Tax, depuis 2026). En revanche, elles sont exonérées d'impôt dans la zone UEMOA. Nos ressources expliquent comment les déclarer correctement via le formulaire 2074.",
   },
   {
     q: "Les chiffres sont-ils à jour ?",
@@ -218,6 +219,91 @@ export const FAQ_ITEMS = [
 
 export const SLOGAN =
   "Ces chiffres ne vont pas changer parce que tu n'as pas encore ouvert ton compte."
+
+// Section "Ressources gratuites" (affichee quand VENTES_ACTIVES = false).
+// Meme structure de cartes que les produits, mais 100% gratuit et sans achat.
+// href commencant par "/" = route interne ; sinon = ancre sur la landing.
+export const RESSOURCES = [
+  {
+    id: "guide",
+    badge: "Gratuit",
+    nom: "Le guide offert",
+    sousTitre: "Les 7 erreurs qui coûtent cher sur la BRVM",
+    href: "#leadmagnet",
+    cta: "Reçois le guide",
+    populaire: true,
+    points: [
+      "Les pièges classiques du débutant",
+      "Comment ouvrir un compte chez une SGI",
+      "Reçu par email, tout de suite",
+    ],
+  },
+  {
+    id: "screener",
+    badge: "Gratuit",
+    nom: "Le Screener BRVM",
+    sousTitre: "47 actions analysées par secteur",
+    href: "/screener",
+    cta: "Explorer le screener",
+    points: [
+      "Cours, dividendes et rendements",
+      "Filtres par secteur et par pays",
+      "Données mises à jour chaque jour de bourse",
+    ],
+  },
+  {
+    id: "simulateur",
+    badge: "Gratuit",
+    nom: "Le simulateur DCA",
+    sousTitre: "Projette ton épargne sur 30 ans",
+    href: "/backtest",
+    cta: "Lancer le simulateur",
+    points: [
+      "Combien tes versements pourraient rapporter",
+      "Croissance du cours et des dividendes séparées",
+      "Comparé au Livret A",
+    ],
+  },
+  {
+    id: "dividendes",
+    badge: "Gratuit",
+    nom: "Le calendrier des dividendes",
+    sousTitre: "Les prochains détachements BRVM",
+    href: "/dividendes",
+    cta: "Voir le calendrier",
+    points: [
+      "Qui verse, quand, combien",
+      "Rendement par action",
+      "Comprendre la date de détachement",
+    ],
+  },
+  {
+    id: "fiscalite",
+    badge: "Gratuit",
+    nom: "Le guide fiscalité",
+    sousTitre: "Déclarer proprement en France et en UEMOA",
+    href: "/fiscalite",
+    cta: "Comprendre la fiscalité",
+    points: [
+      "Formulaire 3916 (compte à l'étranger)",
+      "Flat Tax 31,4 % expliquée",
+      "Plus-values France / UEMOA",
+    ],
+  },
+  {
+    id: "blog",
+    badge: "Gratuit",
+    nom: "Le blog & le point du lundi",
+    sousTitre: "Comprendre le marché, sans jargon",
+    href: "/blog",
+    cta: "Lire les articles",
+    points: [
+      "Des articles pédagogiques réguliers",
+      "Le marché BRVM décrypté simplement",
+      "La newsletter chaque lundi",
+    ],
+  },
+]
 
 export const DISCLAIMER =
   "Guide éducatif indépendant, non affilié à la BRVM ni à l'AMF-UMOA. Ce contenu ne constitue pas un conseil en investissement. Les cours, rendements et règles fiscales évoluent dans le temps : vérifie toujours les données à jour auprès des sources officielles (brvm.org, impots.gouv.fr, ta SGI) avant toute décision. Investir comporte un risque de perte en capital."

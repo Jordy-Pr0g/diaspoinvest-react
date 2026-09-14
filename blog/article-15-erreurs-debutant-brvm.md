@@ -55,7 +55,7 @@ Personne ne sait prédire le marché à court terme. La méthode qui évite ce p
 
 Diversifie, garde une épargne de sécurité, ne vends pas dans la panique, surveille les frais et la fiscalité, et investis régulièrement plutôt que d'attendre le moment parfait. Ces cinq principes évitent la majorité des erreurs de débutant.
 
-Pour une méthode complète et pas à pas, le Guide DiaspoInvest (14,99 €) reprend tout depuis le début.
+Pour une méthode pas à pas, reçois le guide gratuit qui reprend tout depuis le début.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

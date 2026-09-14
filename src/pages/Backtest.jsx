@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { getMeta } from '../data/brvm-meta.js'
+import { VENTES_ACTIVES } from '../data.js'
 import { useMeta } from '../hooks/useMeta.js'
 
 const OR    = '#C9A84C'
@@ -466,16 +467,31 @@ export default function Backtest() {
                 </div>
               )}
 
-              {/* CTA Tracker */}
+              {/* CTA : Tracker si ventes actives, sinon guide gratuit + newsletter */}
               <div style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 14, padding: '18px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Prêt à investir pour de vrai ?</div>
-                  <div style={{ fontSize: 12, color: GRIS }}>Le Tracker Dashboard te permet de suivre ton portefeuille réel et simuler ton DCA.</div>
-                </div>
-                <a href="https://pay.hotmart.com/I106628667V" target="_blank" rel="noreferrer"
-                  style={{ background: OR, color: '#0D2B1E', fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 10, whiteSpace: 'nowrap', textDecoration: 'none' }}>
-                  Voir le Tracker →
-                </a>
+                {VENTES_ACTIVES ? (
+                  <>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Prêt à investir pour de vrai ?</div>
+                      <div style={{ fontSize: 12, color: GRIS }}>Le Tracker Dashboard te permet de suivre ton portefeuille réel et simuler ton DCA.</div>
+                    </div>
+                    <a href="https://pay.hotmart.com/I106628667V" target="_blank" rel="noreferrer"
+                      style={{ background: OR, color: '#0D2B1E', fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 10, whiteSpace: 'nowrap', textDecoration: 'none' }}>
+                      Voir le Tracker →
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Envie d'aller plus loin ?</div>
+                      <div style={{ fontSize: 12, color: GRIS }}>Reçois le guide gratuit et le point du lundi pour suivre le marché BRVM chaque semaine.</div>
+                    </div>
+                    <a href="/#leadmagnet"
+                      style={{ background: OR, color: '#0D2B1E', fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 10, whiteSpace: 'nowrap', textDecoration: 'none' }}>
+                      Reçois le guide →
+                    </a>
+                  </>
+                )}
               </div>
             </>
           )}

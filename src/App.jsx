@@ -10,6 +10,7 @@ import StickyCTA from './components/StickyCTA.jsx'
 import Modal from './components/Modal.jsx'
 import SegmentQuiz from './components/SegmentQuiz.jsx'
 import { initScrollReveal } from './scrollReveal.js'
+import { VENTES_ACTIVES } from './data.js'
 
 const Probleme    = lazy(() => import('./components/Probleme.jsx'))
 const Histoire    = lazy(() => import('./components/Histoire.jsx'))
@@ -18,6 +19,7 @@ const Temoignages = lazy(() => import('./components/Temoignages.jsx'))
 const FAQ         = lazy(() => import('./components/FAQ.jsx'))
 const LeadMagnet  = lazy(() => import('./components/LeadMagnet.jsx'))
 const Pricing     = lazy(() => import('./components/Pricing.jsx'))
+const Ressources  = lazy(() => import('./components/Ressources.jsx'))
 const APropos     = lazy(() => import('./pages/APropos.jsx'))
 const BlogIndex   = lazy(() => import('./pages/BlogIndex.jsx'))
 const BlogPost    = lazy(() => import('./pages/BlogPost.jsx'))
@@ -38,7 +40,7 @@ function LandingPage() {
 
   return (
     <>
-      {showQuiz && <SegmentQuiz onComplete={() => setShowQuiz(false)} />}
+      {VENTES_ACTIVES && showQuiz && <SegmentQuiz onComplete={() => setShowQuiz(false)} />}
       <Navbar />
       <main>
         <Hero />
@@ -50,11 +52,11 @@ function LandingPage() {
           <Calculateur />
           <Temoignages />
           <FAQ />
-          <Pricing />
+          {VENTES_ACTIVES ? <Pricing /> : <Ressources />}
         </Suspense>
       </main>
       <Footer onOpenModal={setModal} />
-      <StickyCTA />
+      {VENTES_ACTIVES && <StickyCTA />}
       <Modal type={modal} onClose={() => setModal(null)} />
     </>
   )

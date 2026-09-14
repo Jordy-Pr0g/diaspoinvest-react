@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { marked } from 'marked'
 import { ARTICLES } from '../data/articles.js'
+import { VENTES_ACTIVES } from '../data.js'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import NewsletterInline from '../components/NewsletterInline.jsx'
@@ -311,6 +312,18 @@ export default function BlogPost() {
           />
 
           {(() => {
+            // Ventes en pause : CTA produit remplace par un CTA gratuit (guide + newsletter).
+            if (!VENTES_ACTIVES) {
+              return (
+                <a href="/#leadmagnet" className="blog-cta">
+                  <div className="blog-cta-text">
+                    <span className="blog-cta-eyebrow">{t('blogPost.ctaGratuitEyebrow', 'Ressource gratuite')}</span>
+                    <span className="blog-cta-pitch">{t('blogPost.ctaGratuitPitch', 'Reçois le guide gratuit et le point du lundi pour investir sur la BRVM, en clair et en toute légalité.')}</span>
+                  </div>
+                  <span className="blog-cta-btn">{t('blogPost.ctaGratuitBtn', 'Reçois le guide gratuit →')}</span>
+                </a>
+              )
+            }
             const pkey = CTA_PRODUCT_BY_SLUG[slug] || 'guideEurope'
             const nom = t(`blogPost.products.${pkey}.nom`)
             const prix = t(`blogPost.products.${pkey}.prix`)

@@ -160,7 +160,7 @@ Tu comprends maintenant ce qu'est la BRVM, pourquoi ça intéresse la diaspora, 
 
 Avant d'acheter quoi que ce soit, tu peux déjà utiliser les outils gratuits du site : regarde les 47 entreprises cotées et ce qu'elles versent sur le [Screener](https://diaspoinvest.fr/screener), et vois combien tu aurais gagné en investissant plus tôt avec le [Backtest](https://diaspoinvest.fr/backtest).
 
-Et si tu veux une méthode complète pour passer à l'action sans tâtonner, le Guide DiaspoInvest (14,99 €) reprend tout pas à pas : comprendre la BRVM, ouvrir un compte chez une SGI à distance, déclarer ton compte en France (formulaire 3916) et la fiscalité française expliquée simplement. Format PDF, accès immédiat.
+Et si tu veux une méthode pas à pas pour passer à l'action sans tâtonner, reçois le guide gratuit : comprendre la BRVM, ouvrir un compte chez une SGI à distance, déclarer ton compte en France (formulaire 3916) et la fiscalité française expliquée simplement.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

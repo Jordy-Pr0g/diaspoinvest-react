@@ -111,7 +111,7 @@ Certains investisseurs ont ouvert leur compte dans une SGI avec de mauvais déla
 
 Il ne remplace pas non plus le [comparatif des 5 critères pour choisir sa SGI](/blog/choisir-sa-sgi-comparatif) : frais réels, minimum d'ouverture, et le piège XOF/XAF si tu vis en Afrique hors zone UEMOA.
 
-Le Guide DiaspoInvest (14,99 €) t'accompagne pas à pas : comprendre la bourse, ouvrir un compte chez une SGI à distance, et la fiscalité expliquée simplement. Format PDF, accès immédiat.
+Le guide gratuit t'accompagne pas à pas : comprendre la bourse, ouvrir un compte chez une SGI à distance, et la fiscalité expliquée simplement.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

@@ -106,7 +106,7 @@ Sans la convention fiscale, tu paierais deux fois : 10 % en CI et 31,4 % en Fran
 
 Avec la convention fiscale bilatérale France/Côte d'Ivoire, le mécanisme d'imputation permet de déduire l'IRVM ivoirien (10 %) de ta flat tax française (31,4 %). Tu paies donc effectivement 31,4 % au total, pas 41,4 %.
 
-Ce mécanisme s'applique sous conditions et nécessite de le déclarer correctement. Le Guide DiaspoInvest détaille exactement comment procéder et quels justificatifs conserver.
+Ce mécanisme s'applique sous conditions et nécessite de le déclarer correctement. Le guide gratuit détaille exactement comment procéder et quels justificatifs conserver.
 
 ---
 
@@ -128,7 +128,7 @@ La convention fiscale France/CI dans le détail, les conditions exactes d'applic
 
 Tu peux déjà voir ce qu'il te resterait après impôts selon ton pays avec le [calculateur de fiscalité gratuit](https://diaspoinvest.fr/fiscalite).
 
-Et pour la démarche complète, le Guide DiaspoInvest (14,99 €) explique la fiscalité française pas à pas et comment déclarer ton compte (formulaire 3916). Format PDF, accès immédiat.
+Et pour la démarche complète, le guide gratuit explique la fiscalité française pas à pas et comment déclarer ton compte (formulaire 3916).
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

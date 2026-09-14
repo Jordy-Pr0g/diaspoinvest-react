@@ -12,8 +12,16 @@
     "apropos": "À propos",
     "pack": "Pack",
     "voirPack": "Voir le Pack",
+    "ressources": "Ressources",
+    "guideGratuit": "Guide gratuit",
     "menu": "Menu",
     "fermer": "Fermer"
+  },
+  "ressources": {
+    "eyebrow": "Tout est gratuit",
+    "titre": "Les ressources DiaspoInvest",
+    "sous": "Apprends, simule, suis le marché. Aucun compte, aucun paiement.",
+    "populaire": "Commence ici"
   },
   "hero": {
     "titrePart1": "Fais travailler ton épargne sur la",

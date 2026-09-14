@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { VENTES_ACTIVES } from '../data.js'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
+  // Quand les ventes sont en pause : le point d'entree principal devient les
+  // ressources gratuites / la capture email, jamais un produit.
+  const ctaTo = VENTES_ACTIVES ? '/#pricing' : '/#leadmagnet'
   // Outils regroupés dans un menu déroulant pour désencombrer la navbar
   const TOOLS = [
     { to: '/screener',  label: t('nav.screener')  },
@@ -14,7 +18,9 @@ export default function Navbar() {
   ]
   const TOP = [
     { to: '/blog',      label: t('nav.blog')      },
-    { to: '/#pricing',  label: t('nav.produits')  },
+    VENTES_ACTIVES
+      ? { to: '/#pricing',     label: t('nav.produits') }
+      : { to: '/#ressources',  label: t('nav.ressources', 'Ressources') },
     { to: '/a-propos',  label: t('nav.apropos')  },
   ]
   // Liste à plat pour le tiroir mobile
@@ -123,9 +129,9 @@ export default function Navbar() {
               )
             })}
           </div>
-          <Link className="btn btn-or" to="/#pricing"
+          <Link className="btn btn-or" to={ctaTo}
             style={{ padding: '10px 20px', fontSize: '0.88rem' }}>
-            {t('nav.pack')}
+            {VENTES_ACTIVES ? t('nav.pack') : t('nav.guideGratuit', 'Guide gratuit')}
           </Link>
         </div>
 
@@ -164,9 +170,9 @@ export default function Navbar() {
               )
             })}
           </div>
-          <Link className="btn btn-or mobile-drawer-cta" to="/#pricing"
+          <Link className="btn btn-or mobile-drawer-cta" to={ctaTo}
             onClick={() => setOpen(false)}>
-            {t('nav.voirPack')}
+            {VENTES_ACTIVES ? t('nav.voirPack') : t('nav.guideGratuit', 'Guide gratuit')}
           </Link>
         </nav>
       </div>
