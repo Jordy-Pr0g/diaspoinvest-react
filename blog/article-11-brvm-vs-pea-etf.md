@@ -63,7 +63,7 @@ Pour un résident français, une approche cohérente ressemble souvent à ça : 
 
 L'idée n'est pas de choisir un camp, mais de savoir pourquoi tu détiens chaque ligne.
 
-Pour estimer ce que pourrait donner une poche BRVM dans ton allocation, utilise le [simulateur gratuit](https://diaspoinvest.fr/#calculateur). Et pour comprendre comment investir concrètement sur la BRVM depuis l'étranger et la déclarer, le Guide DiaspoInvest (14,99 €) détaille la marche à suivre.
+Pour estimer ce que pourrait donner une poche BRVM dans ton allocation, utilise le [simulateur gratuit](https://diaspoinvest.fr/#calculateur). Et pour comprendre comment investir concrètement sur la BRVM depuis l'étranger et la déclarer, le guide gratuit détaille la marche à suivre.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

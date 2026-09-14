@@ -170,7 +170,7 @@ Choisis-la comme un associé de long terme, pas comme un simple guichet administ
 
 Prends le temps de comparer les cinq critères, teste la réactivité par un email avant d'ouvrir ton compte, et exige toujours les deux chiffres qui comptent réellement : le courtage et la conservation.
 
-Pour aller plus loin une fois ta SGI choisie, le Guide DiaspoInvest explique comment ouvrir ton compte et démarrer, et le Tracker t'aide à suivre ton portefeuille et tes frais dans la durée.
+Pour aller plus loin une fois ta SGI choisie, le guide gratuit explique comment ouvrir ton compte et démarrer, et le point du lundi t'aide à suivre le marché dans la durée.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

@@ -14,7 +14,7 @@ const CONTENU = {
         <p>
           DiaspoInvest est édité par une personne physique indépendante. Le site ne traite
           aucun paiement directement : les éventuels produits sont vendus via la plateforme
-          Gumroad, qui agit comme vendeur de référence (« merchant of record »).
+          Hotmart, qui agit comme vendeur de référence (« merchant of record »).
         </p>
 
         <h4>Objet</h4>
@@ -174,8 +174,8 @@ const CONTENU = {
         <h4>Édition et vente</h4>
         <p>
           Les produits sont conçus et édités par Jordan DJIOKAP (DiaspoInvest), France.
-          Les ventes sont opérées via la plateforme Gumroad (Gumroad, Inc.), qui agit en
-          qualité de vendeur de référence (« merchant of record ») : c'est Gumroad qui conclut
+          Les ventes sont opérées via la plateforme Hotmart, qui agit en
+          qualité de vendeur de référence (« merchant of record ») : c'est Hotmart qui conclut
           la transaction avec l'acheteur et qui collecte puis reverse les taxes applicables.
           DiaspoInvest fournit le contenu, n'encaisse pas directement les paiements et ne
           stocke aucune donnée bancaire. Contact : contact@diaspoinvest.fr
@@ -190,7 +190,7 @@ const CONTENU = {
 
         <h4>Prix et taxes</h4>
         <p>
-          Les prix sont affichés en euros. En tant que vendeur de référence, Gumroad calcule,
+          Les prix sont affichés en euros. En tant que vendeur de référence, Hotmart calcule,
           collecte et reverse la TVA ou la taxe applicable selon le pays de l'acheteur. Les
           prix peuvent être modifiés à tout moment, sans effet sur les commandes déjà confirmées.
         </p>

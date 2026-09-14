@@ -91,7 +91,7 @@ La BRVM sert à l'épargne long terme. Tout ce dont tu n'auras pas besoin avant 
 
 Exemple : tu épargnes 500 EUR par mois. 200 EUR vont sur le Livret A jusqu'à atteindre 6 mois de dépenses. 300 EUR vont en DCA sur la BRVM dès maintenant. Une fois ton matelas de sécurité constitué, tu bascules davantage vers la BRVM.
 
-Pour chiffrer ta propre situation, le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) projette tes versements en quelques minutes. Et si tu veux la méthode complète pour comprendre la bourse et passer à l'action, le Guide DiaspoInvest (14,99 €) t'explique tout pas à pas.
+Pour chiffrer ta propre situation, le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) projette tes versements en quelques minutes. Et si tu veux la méthode pour comprendre la bourse et passer à l'action, reçois le guide gratuit qui t'explique tout pas à pas.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 

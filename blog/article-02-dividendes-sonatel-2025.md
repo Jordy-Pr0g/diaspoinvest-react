@@ -139,7 +139,7 @@ Et la convention fiscale France/CI peut changer ton calcul. Si ta SGI est en Cô
 
 Avant d'acheter quoi que ce soit, teste avec tes propres chiffres : le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) estime ce que ton épargne pourrait rapporter, et le [Backtest](https://diaspoinvest.fr/backtest) montre ce que tu aurais gagné en investissant plus tôt.
 
-Et pour aller plus loin, le Guide DiaspoInvest explique comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité, étape par étape. Le Tracker, lui, suit ton portefeuille et projette tes versements sur 30 ans.
+Et pour aller plus loin, le guide gratuit explique comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité, étape par étape. Le [simulateur gratuit](https://diaspoinvest.fr/#calculateur), lui, projette tes versements sur 30 ans.
 
 [Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
 
@@ -157,7 +157,7 @@ Non. Tu dois simplement les détenir à la date de détachement du dividende, an
 Non, pas automatiquement. Tu reçois tes dividendes en FCFA sur ton compte SGI et tu décides toi-même de les réinvestir en passant un nouvel ordre d'achat, ou de les transférer vers ton compte bancaire.
 
 **Sonatel est-elle la meilleure action de la BRVM ?**
-C'est la plus connue et l'une des plus liquides. Ce n'est pas nécessairement la meilleure selon tous les critères. Le Guide DiaspoInvest compare les principales actions à dividende pour t'aider à choisir selon ta situation.
+C'est la plus connue et l'une des plus liquides. Ce n'est pas nécessairement la meilleure selon tous les critères. Le [Screener](https://diaspoinvest.fr/screener) compare les principales actions à dividende pour t'aider à te faire ton avis selon ta situation.
 
 **Que se passe-t-il si Sonatel réduit son dividende l'année prochaine ?**
 Ça arrive, comme en 2022. Le cours peut baisser temporairement, le dividende peut être réduit. Mais si tu continues ton DCA, tu achètes des actions moins chères. Les investisseurs qui ont maintenu leur position en 2022 ont bénéficié de l'augmentation de +16 % du dividende en 2024. L'horizon long terme change tout.

@@ -12,8 +12,16 @@
     "apropos": "About",
     "pack": "Pack",
     "voirPack": "See the Pack",
+    "ressources": "Resources",
+    "guideGratuit": "Free guide",
     "menu": "Menu",
     "fermer": "Close"
+  },
+  "ressources": {
+    "eyebrow": "Everything is free",
+    "titre": "DiaspoInvest resources",
+    "sous": "Learn, simulate, follow the market. No account, no payment.",
+    "populaire": "Start here"
   },
   "hero": {
     "titrePart1": "Put your savings to work on the",

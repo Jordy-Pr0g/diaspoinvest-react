@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LIENS, DISCLAIMER } from '../data.js'
+import { LIENS, DISCLAIMER, VENTES_ACTIVES } from '../data.js'
 import Modal from './Modal.jsx'
 
 export default function Footer({ onOpenModal }) {
@@ -69,17 +69,19 @@ export default function Footer({ onOpenModal }) {
             </ul>
           </div>
 
-          {/* Colonne 3 — Produits */}
-          <div>
-            <h4 className="footer-h4">{t('footer.produits')}</h4>
-            <ul className="footer-ul">
-              {PRODUITS.map(p => (
-                <li key={p.href}>
-                  <a href={p.href} target="_blank" rel="noreferrer">{p.label}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Colonne 3 — Produits (masquee quand les ventes sont en pause) */}
+          {VENTES_ACTIVES && (
+            <div>
+              <h4 className="footer-h4">{t('footer.produits')}</h4>
+              <ul className="footer-ul">
+                {PRODUITS.map(p => (
+                  <li key={p.href}>
+                    <a href={p.href} target="_blank" rel="noreferrer">{p.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Colonne 4 — Ressources */}
           <div>
