@@ -84,7 +84,7 @@ Et si tu revends un jour tes actions Sonatel plus cher que ton prix d'achat ? La
 
 Tu peux déjà voir ce qu'il te reste après impôts avec le [calculateur gratuit](https://diaspoinvest.fr/fiscalite), et projeter tes versements sur 30 ans avec le [simulateur gratuit](https://diaspoinvest.fr/#calculateur). Le guide gratuit explique, lui, comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

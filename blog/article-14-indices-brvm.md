@@ -57,7 +57,7 @@ Aucun indice n'est un conseil d'achat : ce sont des repères. Le détail et la c
 
 Pour explorer les 47 actions une par une plutôt que l'indice, le [Screener DiaspoInvest](https://diaspoinvest.fr/screener) les liste avec leurs cours et rendements.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

@@ -91,7 +91,7 @@ Ne te fie jamais à un chiffre non sourcé. Pour les fondamentaux d'une sociét�
 
 Et pour t'entraîner sans inventer : le [Screener DiaspoInvest](https://diaspoinvest.fr/screener) liste les 47 actions avec leurs cours et rendements, et le [Backtest](https://diaspoinvest.fr/backtest) te montre ce qu'aurait donné une stratégie passée sur cours réels. Et pour ne rien rater, reçois le point du lundi qui décrypte le marché chaque semaine.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

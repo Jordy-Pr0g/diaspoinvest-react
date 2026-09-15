@@ -87,7 +87,7 @@ Avant tout, vérifie que la SGI est bien agréée par l'AMF-UMOA. La liste offic
 
 Pour un comparatif détaillé des 5 critères qui comptent (frais, minimum d'ouverture, ouverture à distance, plateforme, réactivité) et la décomposition complète d'un ordre, lis [comment choisir sa SGI](/blog/choisir-sa-sgi-comparatif). Pour aller plus loin une fois ta SGI choisie, le guide gratuit explique comment ouvrir ton compte et démarrer, et le point du lundi t'aide à suivre le marché dans la durée.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

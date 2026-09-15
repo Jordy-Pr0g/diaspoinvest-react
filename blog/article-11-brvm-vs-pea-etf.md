@@ -65,7 +65,7 @@ L'idée n'est pas de choisir un camp, mais de savoir pourquoi tu détiens chaque
 
 Pour estimer ce que pourrait donner une poche BRVM dans ton allocation, utilise le [simulateur gratuit](https://diaspoinvest.fr/#calculateur). Et pour comprendre comment investir concrètement sur la BRVM depuis l'étranger et la déclarer, le guide gratuit détaille la marche à suivre.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

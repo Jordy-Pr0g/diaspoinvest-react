@@ -57,7 +57,7 @@ Diversifie, garde une épargne de sécurité, ne vends pas dans la panique, surv
 
 Pour une méthode pas à pas, reçois le guide gratuit qui reprend tout depuis le début.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

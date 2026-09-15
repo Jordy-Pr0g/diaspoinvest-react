@@ -88,7 +88,7 @@ Les comptes de résultat et bilans des sociétés cotées sont publics. Tu les t
 
 Pour relier tout ça à des actions concrètes, le [Screener DiaspoInvest](https://diaspoinvest.fr/screener) liste les 47 sociétés par secteur, et le [Backtest](https://diaspoinvest.fr/backtest) te montre ce qu'aurait donné une stratégie passée sur cours réels.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 
