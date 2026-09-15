@@ -1,3 +1,5 @@
+> [OBSOLETE] - mode educatif, ventes en pause (14/09/2026). Ce brouillon date de l'ere produits/Gumroad et ne reflete plus le site. Les emails de bienvenue actifs (100% gratuits) sont dans marketing/brevo-template-j*.html. Ne pas reutiliser les pitchs produits ci-dessous.
+
 # Email de bienvenue — Newsletter DiaspoInvest
 > À configurer dans Brevo : Automatisations → Welcome email → déclencheur "contact ajouté à la liste Newsletter DiaspoInvest"
 
@@ -36,7 +38,7 @@ Bienvenue dans la communauté DiaspoInvest. Tu viens de rejoindre des membres de
 
 ---
 
-P.S. Tu veux prendre de l'avance ? Le **DiaspoInvest Tracker Dashboard** te montre, chiffres à l'appui, ce que 25 000 FCFA/mois investis à la BRVM deviennent en 10, 20 ou 30 ans. [Découvrir l'outil →](https://diaspoinvest.fr/#pricing)
+P.S. Tu veux prendre de l'avance ? Le **DiaspoInvest Tracker Dashboard** te montre, chiffres à l'appui, ce que 25 000 FCFA/mois investis à la BRVM deviennent en 10, 20 ou 30 ans. [Découvrir l'outil →](https://diaspoinvest.fr/#ressources)
 
 ---
 
