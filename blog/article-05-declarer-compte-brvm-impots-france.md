@@ -130,7 +130,7 @@ Tu peux déjà voir ce qu'il te resterait après impôts selon ton pays avec le 
 
 Et pour la démarche complète, le guide gratuit explique la fiscalité française pas à pas et comment déclarer ton compte (formulaire 3916).
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

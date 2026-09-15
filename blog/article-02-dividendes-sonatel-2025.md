@@ -141,7 +141,7 @@ Avant d'acheter quoi que ce soit, teste avec tes propres chiffres : le [simulate
 
 Et pour aller plus loin, le guide gratuit explique comment comprendre la bourse, ouvrir ton compte et gérer la fiscalité, étape par étape. Le [simulateur gratuit](https://diaspoinvest.fr/#calculateur), lui, projette tes versements sur 30 ans.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

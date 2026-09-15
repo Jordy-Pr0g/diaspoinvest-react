@@ -113,7 +113,7 @@ Il ne remplace pas non plus le [comparatif des 5 critères pour choisir sa SGI](
 
 Le guide gratuit t'accompagne pas à pas : comprendre la bourse, ouvrir un compte chez une SGI à distance, et la fiscalité expliquée simplement.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

@@ -162,7 +162,7 @@ Avant d'acheter quoi que ce soit, tu peux déjà utiliser les outils gratuits du
 
 Et si tu veux une méthode pas à pas pour passer à l'action sans tâtonner, reçois le guide gratuit : comprendre la BRVM, ouvrir un compte chez une SGI à distance, déclarer ton compte en France (formulaire 3916) et la fiscalité française expliquée simplement.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

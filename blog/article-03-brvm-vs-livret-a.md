@@ -93,7 +93,7 @@ Exemple : tu épargnes 500 EUR par mois. 200 EUR vont sur le Livret A jusqu'à a
 
 Pour chiffrer ta propre situation, le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) projette tes versements en quelques minutes. Et si tu veux la méthode pour comprendre la bourse et passer à l'action, reçois le guide gratuit qui t'explique tout pas à pas.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

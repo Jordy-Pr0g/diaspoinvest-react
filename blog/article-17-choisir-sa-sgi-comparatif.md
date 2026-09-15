@@ -172,7 +172,7 @@ Prends le temps de comparer les cinq critères, teste la réactivité par un ema
 
 Pour aller plus loin une fois ta SGI choisie, le guide gratuit explique comment ouvrir ton compte et démarrer, et le point du lundi t'aide à suivre le marché dans la durée.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

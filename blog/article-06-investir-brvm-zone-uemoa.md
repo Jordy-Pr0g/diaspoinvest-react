@@ -94,7 +94,7 @@ Regarde les 47 entreprises et ce qu'elles versent chaque année avec le [Screene
 
 Si tu vis en zone UEMOA et que tu veux une méthode pas à pas, le guide gratuit explique comment comprendre la bourse, ouvrir ton compte dans ton pays et gérer les impôts. Et où que tu sois, le [simulateur gratuit](https://diaspoinvest.fr/#calculateur) te permet de projeter tes versements sur 30 ans.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

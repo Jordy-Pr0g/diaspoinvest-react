@@ -80,7 +80,7 @@ Aucune décision sans chiffres vérifiés. Les fondamentaux et les volumes sont 
 
 Pour t'exercer concrètement : compare les 47 actions par rendement et secteur sur le [Screener](https://diaspoinvest.fr/screener), et teste une stratégie passée sur cours réels avec le [Backtest](https://diaspoinvest.fr/backtest). Et pour projeter tes versements sur 30 ans, essaie le [simulateur gratuit](https://diaspoinvest.fr/#calculateur).
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 

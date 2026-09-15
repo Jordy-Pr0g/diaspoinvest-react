@@ -60,7 +60,7 @@ Quel que soit ton cas, applique les mêmes principes : vérifie les chiffres aux
 
 Pour la BRVM en particulier, le [Screener](https://diaspoinvest.fr/screener) et le [Backtest](https://diaspoinvest.fr/backtest) gratuits te permettent d'explorer le marché avant de te lancer.
 
-[Voir les offres DiaspoInvest →](https://diaspoinvest.fr/#pricing)
+[Découvre les ressources gratuites →](https://diaspoinvest.fr/#ressources)
 
 ---
 
