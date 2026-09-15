@@ -1,3 +1,5 @@
+> [OBSOLETE] - mode educatif, ventes en pause (14/09/2026). Ce brouillon date de l'ere produits/Gumroad et ne reflete plus le site. Les emails de bienvenue actifs (100% gratuits) sont dans marketing/brevo-template-j*.html. Ne pas reutiliser les pitchs produits ci-dessous.
+
 # Séquence newsletter de nurturing — 6 semaines
 
 But : transformer un inscrit (souvent issu du quiz) en client, sans le brusquer. Un email par semaine, cycle de 6, puis relance par la newsletter régulière.
@@ -63,7 +65,7 @@ La vérité, c'est que ça tient en quelques étapes claires. Le Guide DiaspoInv
 
 Ce n'est pas un pavé théorique. C'est ce qu'il te faut pour passer à l'action sans tâtonner.
 
-[Découvrir le Guide → https://diaspoinvest.fr/#pricing]
+[Découvrir le Guide → https://diaspoinvest.fr/#ressources]
 
 À très vite,
 Jordan, DiaspoInvest
@@ -81,7 +83,7 @@ Prenons du concret. Sonatel a versé 1 740 FCFA de dividende par action. Tu ne f
 
 Le souci quand on commence, c'est de suivre tout ça : combien tu touches, où en est ton portefeuille, ce que ça projette sur le long terme. C'est exactement ce que fait le Tracker Dashboard : tes 47 actions par secteur, le suivi de ton portefeuille, et une projection sur 30 ans.
 
-[Voir le Tracker → https://diaspoinvest.fr/#pricing]
+[Voir le Tracker → https://diaspoinvest.fr/#ressources]
 
 À très vite,
 Jordan, DiaspoInvest
@@ -119,7 +121,7 @@ On attend tous "le bon moment". Le souci, c'est qu'il n'arrive jamais, et les mo
 
 Le Pack Complet réunit le Guide et le Tracker : tout pour comprendre, ouvrir ton compte et suivre ton épargne, au même endroit. C'est le meilleur rapport pour démarrer sérieusement.
 
-[Voir le Pack Complet → https://diaspoinvest.fr/#pricing]
+[Voir le Pack Complet → https://diaspoinvest.fr/#ressources]
 
 Si tu as la moindre question avant de te lancer, réponds simplement à cet email. Je lis tout.
 

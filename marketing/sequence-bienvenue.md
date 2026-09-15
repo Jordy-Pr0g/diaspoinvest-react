@@ -1,3 +1,5 @@
+> [OBSOLETE] - mode educatif, ventes en pause (14/09/2026). Ce brouillon date de l'ere produits/Gumroad et ne reflete plus le site. Les emails de bienvenue actifs (100% gratuits) sont dans marketing/brevo-template-j*.html. Ne pas reutiliser les pitchs produits ci-dessous.
+
 # Séquence de bienvenue — DiaspoInvest (nurturing)
 
 > But : transformer un nouvel abonné en client du Tracker Dashboard, sans forcer.
@@ -5,7 +7,7 @@
 > Voix : Jordan, fondateur (1re personne, « tu »). Règles : aucun tiret long, un seul
 > CTA par email, footer légal en bas, jamais de promesse de gain.
 >
-> ⚠️ Les liens produit pointent vers https://diaspoinvest.fr/#pricing en attendant les
+> ⚠️ Les liens produit pointent vers https://diaspoinvest.fr/#ressources en attendant les
 > liens Gumroad. À remplacer dès que les produits Gumroad existent.
 >
 > Rythme conseillé : J+0 (bienvenue, déjà en place), J+2, J+4, J+7.
@@ -43,7 +45,7 @@ En attendant lundi, 3 choses à savoir :
 À lundi,
 Jordan, fondateur DiaspoInvest
 
-P.S. Tu veux prendre de l'avance ? Le DiaspoInvest Tracker Dashboard te montre, chiffres à l'appui, ce que 25 000 FCFA par mois investis à la BRVM deviennent en 10, 20 ou 30 ans. [Découvrir l'outil](https://diaspoinvest.fr/#pricing)
+P.S. Tu veux prendre de l'avance ? Le DiaspoInvest Tracker Dashboard te montre, chiffres à l'appui, ce que 25 000 FCFA par mois investis à la BRVM deviennent en 10, 20 ou 30 ans. [Découvrir l'outil](https://diaspoinvest.fr/#ressources)
 
 ---
 
@@ -70,7 +72,7 @@ Le vrai problème, ce n'est pas de choisir. C'est qu'on choisit à l'aveugle : p
 
 C'est exactement pour ça que j'ai construit le Tracker Dashboard. Tu entres ton apport mensuel, ton horizon, ton pays de résidence, et il te montre tes 30 prochaines années, mois par mois, dividendes compris, fiscalité déduite.
 
-[Faire mon propre calcul](https://diaspoinvest.fr/#pricing)
+[Faire mon propre calcul](https://diaspoinvest.fr/#ressources)
 
 À très vite,
 Jordan, fondateur DiaspoInvest
@@ -100,7 +102,7 @@ Et avant même d'ouvrir un compte, le plus utile, c'est de savoir ce que tu vise
 
 Le Tracker Dashboard te fait faire cet exercice en 15 minutes, avant de mettre le moindre euro. Tu arrives chez la SGI en sachant exactement ce que tu fais.
 
-[Préparer mon plan avant d'ouvrir un compte](https://diaspoinvest.fr/#pricing)
+[Préparer mon plan avant d'ouvrir un compte](https://diaspoinvest.fr/#ressources)
 
 À très vite,
 Jordan, fondateur DiaspoInvest
@@ -122,7 +124,7 @@ C'est tout ce que fait le Tracker Dashboard. Tu entres tes chiffres, il te montr
 
 Le calcul que j'ai fait en une soirée pour un membre de la communauté, tu le fais pour toi en 2 minutes.
 
-[Découvrir le Tracker Dashboard](https://diaspoinvest.fr/#pricing)
+[Découvrir le Tracker Dashboard](https://diaspoinvest.fr/#ressources)
 
 Et si tu débutes complètement, le Pack ajoute le Guide de la Bourse africaine pour quelques euros de plus : tu as l'outil et le mode d'emploi.
 
@@ -156,4 +158,4 @@ Jordan, fondateur DiaspoInvest
 9. **Relire**, envoyer un test à toi-même, puis **activer**.
 
 > Quand les produits Gumroad existeront : remplacer les 4 liens
-> `https://diaspoinvest.fr/#pricing` par les vrais liens Gumroad (Tracker et Pack).
+> `https://diaspoinvest.fr/#ressources` par les vrais liens Gumroad (Tracker et Pack).
