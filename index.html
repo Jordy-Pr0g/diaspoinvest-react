@@ -203,7 +203,27 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Contenu statique de repli : visible par les moteurs de recherche et les
+           IA sans JavaScript (la landing est une SPA). React (createRoot) remplace
+           ce contenu au montage. Sert le SEO/GEO de la page d'accueil et evite un
+           ecran vide pendant le chargement. Uniquement des faits reels et du gratuit. -->
+      <main style="max-width:820px;margin:0 auto;padding:32px 20px;font-family:system-ui,Arial,sans-serif;color:#eaf1ec;background:#0D2B1E;line-height:1.6">
+        <h1>Investir sur la BRVM, la bourse africaine, depuis la France ou le continent</h1>
+        <p>DiaspoInvest est un projet educatif independant qui t'apprend a investir sur la Bourse Regionale des Valeurs Mobilieres (BRVM), la bourse commune aux 8 pays de la zone UEMOA en Afrique de l'Ouest. Choisir tes actions, simuler ton rendement en dividendes, ouvrir un compte chez une SGI et declarer en toute legalite : tout est explique simplement, sans jargon, et gratuitement.</p>
+        <h2>Ressources gratuites</h2>
+        <ul>
+          <li><a href="/screener">Screener BRVM</a> : les actions cotees analysees par secteur, avec cours et rendements.</li>
+          <li><a href="/backtest">Simulateur DCA</a> : projette ton epargne investie sur le long terme.</li>
+          <li><a href="/dividendes">Calendrier des dividendes</a> : les prochains detachements de la BRVM.</li>
+          <li><a href="/fiscalite">Guide fiscalite</a> : flat tax francaise, formulaire 3916, fiscalite en zone UEMOA.</li>
+          <li><a href="/blog">Blog</a> : des articles pedagogiques pour comprendre le marche.</li>
+          <li><a href="/a-propos">A propos</a> : l'histoire de DiaspoInvest.</li>
+        </ul>
+        <p><a href="/#leadmagnet">Recois le guide gratuit et la newsletter du lundi</a>.</p>
+        <p style="font-size:13px;opacity:.7">Contenu educatif, ni conseil en investissement ni demarchage. Investir comporte un risque de perte en capital. DiaspoInvest n'est affilie ni a la BRVM ni a l'AMF-UMOA.</p>
+      </main>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
