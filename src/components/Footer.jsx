@@ -99,7 +99,7 @@ export default function Footer({ onOpenModal }) {
             <ul className="footer-ul">
               <li><button className="linklike" onClick={() => open('mentions')}>{t('footer.mentionsLegales')}</button></li>
               <li><button className="linklike" onClick={() => open('cgu')}>CGU</button></li>
-              <li><button className="linklike" onClick={() => open('cgv')}>CGV</button></li>
+              {VENTES_ACTIVES && <li><button className="linklike" onClick={() => open('cgv')}>CGV</button></li>}
               <li><button className="linklike" onClick={() => open('confidentialite')}>{t('footer.confidentialite')}</button></li>
               <li><Link to="/a-propos">{t('footer.apropos')}</Link></li>
               <li><a href="#faq">FAQ</a></li>

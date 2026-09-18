@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { VENTES_ACTIVES } from '../data.js'
 
 const CONTENU = {
   mentions: {
@@ -11,11 +12,19 @@ const CONTENU = {
           étudiant en Finance d'Entreprise et Ingénierie Financière, Paris (France).
         </p>
         <p>Contact : contact@diaspoinvest.fr</p>
-        <p>
-          DiaspoInvest est édité par une personne physique indépendante. Le site ne traite
-          aucun paiement directement : les éventuels produits sont vendus via la plateforme
-          Hotmart, qui agit comme vendeur de référence (« merchant of record »).
-        </p>
+        {VENTES_ACTIVES ? (
+          <p>
+            DiaspoInvest est édité par une personne physique indépendante. Le site ne traite
+            aucun paiement directement : les éventuels produits sont vendus via la plateforme
+            Hotmart, qui agit comme vendeur de référence (« merchant of record »).
+          </p>
+        ) : (
+          <p>
+            DiaspoInvest est édité par une personne physique indépendante. Le site est
+            actuellement 100 % éducatif et gratuit : il ne commercialise aucun produit et ne
+            traite aucun paiement.
+          </p>
+        )}
 
         <h4>Objet</h4>
         <p>
@@ -128,11 +137,15 @@ const CONTENU = {
           Aucune donnée n'est collectée à votre insu.
         </p>
 
-        <h4>Paiements</h4>
-        <p>
-          Les achats sont traités exclusivement par Gumroad (Gumroad, Inc.).
-          DiaspoInvest ne stocke aucune donnée bancaire ou de carte de paiement.
-        </p>
+        {VENTES_ACTIVES && (
+          <>
+            <h4>Paiements</h4>
+            <p>
+              Les achats sont traités exclusivement par la plateforme Hotmart.
+              DiaspoInvest ne stocke aucune donnée bancaire ou de carte de paiement.
+            </p>
+          </>
+        )}
 
         <h4>Email marketing</h4>
         <p>
@@ -253,6 +266,8 @@ export default function Modal({ type, onClose }) {
   }, [type, onClose])
 
   if (!type) return null
+  // Ventes en pause : pas de Conditions Générales de Vente (aucun produit commercialise).
+  if (type === 'cgv' && !VENTES_ACTIVES) return null
   const data = CONTENU[type]
   if (!data) return null
 
