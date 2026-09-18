@@ -2,7 +2,7 @@ import { LIENS } from '../data.js'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-export default function Hero() {
+export default function Hero({ onOpenQuiz }) {
   const { t } = useTranslation()
   return (
     <section className="hero" id="top">
@@ -25,6 +25,17 @@ export default function Hero() {
             {t('hero.ctaScreener')}
           </Link>
         </div>
+
+        {onOpenQuiz && (
+          <button type="button" onClick={onOpenQuiz}
+            style={{
+              marginTop: 20, background: 'none', border: 'none', padding: 0,
+              color: '#C9A84C', font: 'inherit', fontSize: '0.95rem',
+              textDecoration: 'underline', textUnderlineOffset: 4, cursor: 'pointer',
+            }}>
+            {t('hero.ctaQuiz', 'Pas sûr par où commencer ? Fais le point en 3 questions')}
+          </button>
+        )}
 
         <div className="hero-stat-bar" style={{ marginTop: 48 }}>
           <div className="hsb-item">
