@@ -40,7 +40,7 @@ function LandingPage() {
 
   return (
     <>
-      {VENTES_ACTIVES && showQuiz && <SegmentQuiz onComplete={() => setShowQuiz(false)} />}
+      {showQuiz && <SegmentQuiz onComplete={() => setShowQuiz(false)} />}
       <Navbar />
       <main>
         <Hero />
