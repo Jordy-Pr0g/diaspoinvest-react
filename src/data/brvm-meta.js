@@ -109,6 +109,7 @@ export function getMeta(symbole) {
 export const SUSPENSIONS = {
   SCRC: { date: '2026-09-16', motif: "Absence de publication d'une information importante susceptible d'influencer le cours" },
   SICC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication des resultats T1 et S1 2026' },
+  SEMC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication des resultats T1 et S1 2026' },
 }
 
 // Fusionne le socle statique avec le flux auto, symbole par symbole.
