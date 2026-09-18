@@ -86,7 +86,7 @@ export const META = {
   BNBC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
   LNBB:  { pays: 'BJ', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
   PRSC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
-  SCRC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+  SCRC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: null },
 
   // Autres / Industrie
   ETIT:  { pays: 'TG', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
@@ -98,4 +98,21 @@ export const META = {
 
 export function getMeta(symbole) {
   return META[symbole] || { pays: '?', secteur: 'Autres', label: null, dividende: null }
+}
+
+// Titres suspendus de cotation par la BRVM.
+// Socle statique de repli (source : avis BRVM) ; le flux auto
+// /api/brvm-data?dataset=suspensions (genere depuis les communiques scrapes)
+// vient completer et ecraser cette liste des que la CtA d'automation publie.
+// Un titre suspendu ne peut etre ni achete ni vendu : on l'affiche comme tel
+// et on retire tout cadrage "investissable" (rendement, CTA).
+export const SUSPENSIONS = {
+  SCRC: { date: '2026-09-16', motif: "Absence de publication d'une information importante susceptible d'influencer le cours" },
+  SICC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication des resultats T1 et S1 2026' },
+}
+
+// Fusionne le socle statique avec le flux auto (le flux est prioritaire).
+// `flux` = objet { SYMBOLE: { date, motif } } issu de l'API suspensions.
+export function mergeSuspensions(flux) {
+  return { ...SUSPENSIONS, ...(flux || {}) }
 }
