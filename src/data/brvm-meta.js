@@ -107,9 +107,9 @@ export function getMeta(symbole) {
 // Un titre suspendu ne peut etre ni achete ni vendu : on l'affiche comme tel
 // et on retire tout cadrage "investissable" (rendement, CTA).
 export const SUSPENSIONS = {
-  SCRC: { date: '2026-09-16', motif: "Absence de publication d'une information importante susceptible d'influencer le cours" },
-  SICC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication des resultats T1 et S1 2026' },
-  SEMC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication des resultats T1 et S1 2026' },
+  SCRC: { date: '2026-09-16', motif: "Absence de publication d'une information importante susceptible d'influencer le cours (mesure de precaution au titre de l'Instruction II-C de la BRVM)" },
+  SICC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication : resultats du 1er trimestre et du 1er semestre 2026 non publies' },
+  SEMC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication : resultats du 1er trimestre et du 1er semestre 2026 non publies' },
 }
 
 // Fusionne le socle statique avec le flux auto, symbole par symbole.
