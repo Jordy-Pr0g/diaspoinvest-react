@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { VENTES_ACTIVES } from '../data.js'
 
 // Événement analytics Plausible (sans cookie). Silencieux si bloqué.
 const fireEvent = (name, props) => {
@@ -220,7 +221,19 @@ export default function SegmentQuiz({ onComplete }) {
     : answers.location === 'afrique' ? 'afrique'
     : 'monde'
   const questions = [Q_EXPERIENCE, GOAL_QUESTION[answers.experience || 'beginner'], Q_LOCATION]
-  const items = pickItems(I, TRACK, track, experience, goal)
+  let items = pickItems(I, TRACK, track, experience, goal)
+  // Ventes en pause (mode educatif) : on retire les cartes produit et on complete
+  // avec des ressources gratuites pour toujours proposer 3 recommandations.
+  if (!VENTES_ACTIVES) {
+    const free = items.filter((it) => !it.product)
+    const seen = new Set(free.map((f) => f.title))
+    const fillers = [...(EXTRAS[track] || []), I.toolScreener, I.toolBacktest, I.toolFisc, I.artBourses]
+    for (const f of fillers) {
+      if (free.length >= 3) break
+      if (f && !seen.has(f.title)) { free.push(f); seen.add(f.title) }
+    }
+    items = free.slice(0, 3)
+  }
   const mainTitles = new Set(items.map((i) => i.title))
   const extras = (EXTRAS[track] || []).filter((x) => !mainTitles.has(x.title)).slice(0, 3)
 

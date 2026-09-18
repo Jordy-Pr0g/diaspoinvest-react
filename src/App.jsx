@@ -34,16 +34,28 @@ const NotFound    = lazy(() => import('./pages/NotFound.jsx'))
 
 function LandingPage() {
   const [modal, setModal] = useState(null)
-  const [showQuiz, setShowQuiz] = useState(true)
+  const [showQuiz, setShowQuiz] = useState(false)
 
-  useEffect(() => initScrollReveal(), [])
+  useEffect(() => {
+    initScrollReveal()
+    // Ouverture auto une seule fois par visiteur (memorise). Rouvrable via le Hero.
+    let vu = false
+    try { vu = localStorage.getItem('diaspo_quiz_vu') === '1' } catch { /* stockage indispo */ }
+    if (!vu) setShowQuiz(true)
+  }, [])
+
+  const closeQuiz = () => {
+    setShowQuiz(false)
+    try { localStorage.setItem('diaspo_quiz_vu', '1') } catch { /* stockage indispo */ }
+  }
+  const openQuiz = () => setShowQuiz(true)
 
   return (
     <>
-      {VENTES_ACTIVES && showQuiz && <SegmentQuiz onComplete={() => setShowQuiz(false)} />}
+      {showQuiz && <SegmentQuiz onComplete={closeQuiz} />}
       <Navbar />
       <main>
-        <Hero />
+        <Hero onOpenQuiz={openQuiz} />
         <Stats />
         <Suspense fallback={null}>
           <Probleme />
