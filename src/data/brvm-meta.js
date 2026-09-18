@@ -111,8 +111,15 @@ export const SUSPENSIONS = {
   SICC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication des resultats T1 et S1 2026' },
 }
 
-// Fusionne le socle statique avec le flux auto (le flux est prioritaire).
-// `flux` = objet { SYMBOLE: { date, motif } } issu de l'API suspensions.
+// Fusionne le socle statique avec le flux auto, symbole par symbole.
+// Le flux (communiqués BRVM scrapés) fait autorité sur la présence et la date,
+// mais on garde les champs du socle qu'il n'a pas (ex : motif détaillé rédigé),
+// et un titre présent dans le flux mais absent du socle apparaît quand même.
+// `flux` = objet { SYMBOLE: { date, motif?, ... } } issu de l'API suspensions.
 export function mergeSuspensions(flux) {
-  return { ...SUSPENSIONS, ...(flux || {}) }
+  const out = { ...SUSPENSIONS }
+  for (const [sym, info] of Object.entries(flux || {})) {
+    out[sym] = { ...(SUSPENSIONS[sym] || {}), ...info }
+  }
+  return out
 }
