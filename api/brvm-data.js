@@ -19,6 +19,7 @@ const RAW_BASE =
 const DATASETS = {
   default: 'brvm_latest.json',
   dividendes: 'dividendes_latest.json',
+  suspensions: 'suspensions_latest.json',
 }
 
 export default async function handler(req, res) {
@@ -31,7 +32,9 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
   try {
-    const ds = req.query?.dataset === 'dividendes' ? 'dividendes' : 'default'
+    const ds = Object.prototype.hasOwnProperty.call(DATASETS, req.query?.dataset)
+      ? req.query.dataset
+      : 'default'
     const RAW_URL = RAW_BASE + DATASETS[ds]
 
     const token = (process.env.GITHUB_TOKEN || '').replace(/^﻿/, '').trim()

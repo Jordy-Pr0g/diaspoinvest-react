@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
-import { getMeta, SECTEURS, PAYS_LABEL } from '../data/brvm-meta.js'
+import { getMeta, SECTEURS, PAYS_LABEL, mergeSuspensions } from '../data/brvm-meta.js'
 import { useMeta } from '../hooks/useMeta.js'
 
 const OR    = '#C9A84C'
@@ -18,6 +18,8 @@ const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(2).replace('.', ',') + ' %'
 // "16/07/2026" -> AAAAMMJJ triable ; sinon null (ex : "A préciser")
 const dateKey = s => { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ''); return m ? Number(m[3] + m[2] + m[1]) : null }
 const estDate = s => dateKey(s) != null
+// "2026-09-16" (ISO) -> "16 septembre 2026" ; renvoie l'entrée telle quelle si non parsable.
+const fmtDateFr = s => { const d = new Date(s); return isNaN(d) ? s : d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) }
 const todayKey = () => Number(new Date().toISOString().slice(0, 10).replace(/-/g, ''))
 // Rang pour le tri "prochains détachements" : à venir d'abord (plus proche en tête),
 // puis les passés (plus récent d'abord), puis les sans date.
@@ -67,8 +69,9 @@ export default function Screener() {
     Promise.all([
       fetch('/api/brvm-data').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/brvm-data?dataset=dividendes').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/api/brvm-data?dataset=suspensions').then(r => r.ok ? r.json() : null).catch(() => null),
     ])
-      .then(([data, div]) => {
+      .then(([data, div, susp]) => {
         if (!data?.actions) { setLoading(false); return }
         if (data.genere_le) {
           const d = new Date(data.genere_le)
@@ -77,6 +80,8 @@ export default function Screener() {
         // Dividendes croisés multi-sources, indexés par symbole (dates + fiabilité).
         const divBySym = {}
         ;(div?.societes || []).forEach(s => { if (s.symbole) divBySym[s.symbole] = s })
+        // Suspensions : socle statique + flux auto (communiqués BRVM scrapés).
+        const suspBySym = mergeSuspensions(susp?.suspensions)
 
         const enriched = data.actions
           .filter(a => a.cours_cloture > 0)
@@ -100,6 +105,7 @@ export default function Screener() {
               dateEx:       estDate(d?.date_ex) ? d.date_ex : null,
               datePaiement: d?.date_paiement || null,
               officiel:     d?.concordance === 'CONFIRME_OFFICIEL',
+              suspendu:     suspBySym[a.symbole] || null,
             }
           })
         setActions(enriched)
@@ -370,7 +376,19 @@ export default function Screener() {
                             ✓ officiel
                           </span>
                         )}
+                        {a.suspendu && (
+                          <span title={a.suspendu.motif || 'Titre suspendu de cotation par la BRVM'}
+                            style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                            background: 'rgba(220,60,60,0.14)', border: '1px solid rgba(220,60,60,0.4)', color: RED }}>
+                            ⏸ Suspendu
+                          </span>
+                        )}
                       </div>
+                      {a.suspendu && (
+                        <div style={{ fontSize: 10.5, color: RED, marginTop: 8, lineHeight: 1.4 }}>
+                          Suspendu de cotation par la BRVM{a.suspendu.date ? ` depuis le ${fmtDateFr(a.suspendu.date)}` : ''} — ni achat ni vente possibles. Le cours affiché est le dernier avant suspension.
+                        </div>
+                      )}
                     </div>
 
                     {/* Colonne centre : données clés */}
