@@ -135,9 +135,10 @@ export default function Calculateur() {
         sansDiv.sort((a,b)=>a.symbole.localeCompare(b.symbole))
         const all=[...avecDiv,...sansDiv]
         setTitres(all)
-        const snts=all.find(t=>t.symbole==='SNTS')
-        if (snts) { setSelTitre(snts); setCours(snts.cours); setTaux(snts.taux) }
-        else if (all[0]) { setSelTitre(all[0]); setCours(all[0].cours); if(all[0].taux) setTaux(all[0].taux) }
+        // Titre par défaut : SNTS si son dividende est connu, sinon le meilleur rendement
+        // (taux null = pas de dividende → ne jamais le passer à setTaux, sinon crash toFixed)
+        const def=all.find(t=>t.symbole==='SNTS'&&t.hasDividende) || avecDiv[0] || all[0]
+        if (def) { setSelTitre(def); setCours(def.cours); if(def.taux!=null) setTaux(def.taux) }
         setLoadState('ok')
       })
       .catch(() => setLoadState('error'))
