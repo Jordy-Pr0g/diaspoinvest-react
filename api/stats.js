@@ -363,7 +363,8 @@ export default async function handler(req, res) {
   const headers = { 'api-key': apiKey, accept: 'application/json' }
 
   try {
-    // Toutes les listes en un appel (totalSubscribers fourni par Brevo)
+    // Toutes les listes en un appel. Brevo a déprécié totalSubscribers (renvoie 0 depuis
+    // novembre 2026) : le nombre d'abonnés est dans uniqueSubscribers.
     const r = await fetch('https://api.brevo.com/v3/contacts/lists?limit=50&offset=0', { headers })
     if (!r.ok) {
       const err = await r.json().catch(() => ({}))
@@ -371,7 +372,7 @@ export default async function handler(req, res) {
     }
     const data = await r.json()
     const byId = {}
-    for (const l of data.lists || []) byId[l.id] = l.totalSubscribers || 0
+    for (const l of data.lists || []) byId[l.id] = l.uniqueSubscribers ?? l.totalSubscribers ?? 0
 
     const listes = Object.entries(LISTES).map(([id, nom]) => ({
       id: Number(id),
