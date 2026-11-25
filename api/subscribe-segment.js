@@ -5,6 +5,8 @@
 // Attributs volontairement préfixés QUIZ_ pour ne PAS écraser l'attribut SEGMENT
 // utilisé par /api/segment.js (automations existantes).
 
+import { compterInscription } from '../lib/inscriptions.js'
+
 const LISTE_NEWSLETTER = 3 // "Newsletter DiaspoInvest"
 
 const ALLOWED_ORIGINS = [
@@ -29,7 +31,7 @@ export default async function handler(req, res) {
     return res.status(403).json({ success: false, error: 'Forbidden' })
   }
 
-  const { email, experience, goal, location } = req.body || {}
+  const { email, experience, goal, location, origine } = req.body || {}
   if (!isValidEmail(email)) {
     return res.status(400).json({ success: false, error: 'Email invalide' })
   }
@@ -61,6 +63,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ success: false, error: data.message || 'Erreur Brevo' })
       }
     }
+    await compterInscription(req, { nouveau: r.status === 201, formulaire: 'quiz', origine })
   } catch {
     return res.status(502).json({ success: false, error: 'Brevo injoignable.' })
   }

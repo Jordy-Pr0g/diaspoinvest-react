@@ -46,7 +46,7 @@ export default function NewsletterInline() {
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, captchaToken: token }),
+        body: JSON.stringify({ email, captchaToken: token, formulaire: 'article', origine: (() => { try { return sessionStorage.getItem('di_source') || 'direct' } catch { return 'direct' } })() }),
       })
       if (res.ok) {
         setStatut('succes')
