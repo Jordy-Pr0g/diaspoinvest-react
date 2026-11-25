@@ -318,6 +318,13 @@ export default function Dashboard() {
   const cDel = somme(camp, 'delivres'), cOuv = somme(camp, 'ouvertures'), cClic = somme(camp, 'clics'), cDes = somme(camp, 'desinscriptions')
   const tauxOuv = cDel > 0 ? (cOuv / cDel) * 100 : null
   const derniere = CAMP[0]
+  // Avant le 30/11/2026, le HTML des newsletters auto ne contenait pas le pixel d'ouverture
+  // Brevo (fragment sans <body>) : seules les ouvertures liées à un clic étaient comptées.
+  const DEBUT_PIXEL = '2026-11-30'
+  const sansPixel = camp.some(c => c.date && c.date.slice(0, 10) < DEBUT_PIXEL)
+  const campPixel = camp.filter(c => c.date && c.date.slice(0, 10) >= DEBUT_PIXEL)
+  const delPixel = somme(campPixel, 'delivres')
+  const tauxPixel = delPixel > 0 ? (somme(campPixel, 'ouvertures') / delPixel) * 100 : null
 
   // Ventes (bloc replié tant que VENTES_ACTIVES = false)
   const clients = getAbo(6)
@@ -425,18 +432,27 @@ export default function Dashboard() {
               <>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14, marginBottom: 14 }}>
                   <Kpi label={`Taux d'ouverture · ${camp.length} dernières`} value={tauxOuv == null ? '—' : `${tauxOuv.toFixed(1)} %`} accent
-                    sub={`${fmt(cOuv)} ouvertures uniques / ${fmt(cDel)} emails délivrés`} />
+                    sub={sansPixel ? `sous-estimé : pixel absent avant le 30/11 (${fmt(cOuv)} / ${fmt(cDel)})` : `${fmt(cOuv)} ouvertures uniques / ${fmt(cDel)} emails délivrés`} />
                   <Kpi label="Taux de clic" value={pc(cClic, cDel)} sub={`${fmt(cClic)} clics uniques`} />
                   <Kpi label="Désinscriptions" value={fmt(cDes)} sub={`sur les ${camp.length} dernières newsletters`} />
                   <Kpi label="Dernière newsletter" value={derniere ? `${fmt(derniere.ouvertures)} / ${fmt(derniere.delivres)}` : '—'}
                     sub={derniere?.date ? `ouvertures, envoyée le ${new Date(derniere.date).toLocaleDateString('fr-FR')}` : ''} />
                 </div>
-                {tauxOuv != null && tauxOuv < 15 && (
+                {sansPixel && (
+                  <Card style={{ marginBottom: 14, borderColor: 'rgba(201,168,76,0.4)', background: 'rgba(201,168,76,0.06)' }}>
+                    <div style={{ fontSize: 13, color: TXT, lineHeight: 1.7 }}>
+                      <b style={{ color: GOLD }}>Ouvertures sous-estimées.</b> Les newsletters envoyées avant le 30/11/2026 ne contenaient pas le pixel
+                      de suivi de Brevo : seules les ouvertures suivies d'un clic étaient comptées. Le taux affiché pour ces envois ne reflète donc pas la lecture réelle.
+                      Vérifié le 25/11/2026 : elles arrivent bien en boîte de réception et l'authentification du domaine (SPF, DKIM, DMARC) est valide.
+                      En attendant des envois mesurés, fie-toi aux clics.
+                    </div>
+                  </Card>
+                )}
+                {tauxPixel != null && tauxPixel < 15 && (
                   <Card style={{ marginBottom: 14, borderColor: 'rgba(229,72,77,0.4)', background: 'rgba(229,72,77,0.06)' }}>
                     <div style={{ fontSize: 13, color: TXT, lineHeight: 1.7 }}>
-                      <b style={{ color: DOWN }}>Ouvertures très faibles.</b> Les emails sont délivrés, mais presque personne ne les ouvre : ils arrivent
-                      probablement en spam ou dans l'onglet Promotions. Priorité : authentifier le domaine diaspoinvest.fr dans Brevo (enregistrements
-                      SPF, DKIM et DMARC à ajouter chez OVH). Certaines messageries bloquent aussi le comptage des ouvertures : le taux réel peut être un peu plus haut.
+                      <b style={{ color: DOWN }}>Ouvertures faibles sur les envois mesurés ({tauxPixel.toFixed(1)} %).</b> Vérifie où arrive la newsletter
+                      chez quelques abonnés (onglet Promotions, spam) et l'attrait de l'objet. Certaines messageries bloquent le comptage : le taux réel peut être un peu plus haut.
                     </div>
                   </Card>
                 )}
