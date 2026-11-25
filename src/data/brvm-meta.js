@@ -101,26 +101,27 @@ export function getMeta(symbole) {
 }
 
 // Titres suspendus de cotation par la BRVM.
-// Socle statique de repli (source : avis BRVM) ; le flux auto
-// /api/brvm-data?dataset=suspensions (genere depuis les communiques scrapes)
-// vient completer et ecraser cette liste des que la CtA d'automation publie.
-// Un titre suspendu ne peut etre ni achete ni vendu : on l'affiche comme tel
-// et on retire tout cadrage "investissable" (rendement, CTA).
+// Source qui fait autorité : le flux /api/brvm-data?dataset=suspensions, lu chaque jour
+// dans le Bulletin Officiel de la Cote (mention « SP ») par le dépôt d'automation.
+// Ce socle statique (avis BRVM du 16/09/2026) sert seulement à :
+//  - donner la date officielle et le motif détaillé d'une suspension que le flux confirme ;
+//  - servir de repli si le flux est injoignable.
+// Sucrivoire (SCRC), suspendue le 16/09/2026, recote depuis fin septembre : retirée.
+// Un titre suspendu ne peut etre ni achete ni vendu : on l'affiche comme tel.
 export const SUSPENSIONS = {
-  SCRC: { date: '2026-09-16', motif: "Absence de publication d'une information importante susceptible d'influencer le cours (mesure de precaution au titre de l'Instruction II-C de la BRVM)" },
   SICC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication : resultats du 1er trimestre et du 1er semestre 2026 non publies' },
   SEMC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication : resultats du 1er trimestre et du 1er semestre 2026 non publies' },
 }
 
-// Fusionne le socle statique avec le flux auto, symbole par symbole.
-// Le flux (communiqués BRVM scrapés) fait autorité sur la présence et la date,
-// mais on garde les champs du socle qu'il n'a pas (ex : motif détaillé rédigé),
-// et un titre présent dans le flux mais absent du socle apparaît quand même.
-// `flux` = objet { SYMBOLE: { date, motif?, ... } } issu de l'API suspensions.
+// `flux` = objet { SYMBOLE: { constate_le, cours } } issu de l'API, ou null si injoignable.
+// Flux disponible : seuls les titres qu'il liste sont suspendus (une suspension levée
+// disparaît), enrichis de la date et du motif du socle quand on les a.
+// Flux injoignable : repli sur le socle.
 export function mergeSuspensions(flux) {
-  const out = { ...SUSPENSIONS }
-  for (const [sym, info] of Object.entries(flux || {})) {
-    out[sym] = { ...(SUSPENSIONS[sym] || {}), ...info }
+  if (!flux || typeof flux !== 'object') return { ...SUSPENSIONS }
+  const out = {}
+  for (const [sym, info] of Object.entries(flux)) {
+    out[sym] = { ...info, ...(SUSPENSIONS[sym] || {}) }
   }
   return out
 }

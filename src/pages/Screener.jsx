@@ -386,7 +386,7 @@ export default function Screener() {
                       </div>
                       {a.suspendu && (
                         <div style={{ fontSize: 10.5, color: RED, marginTop: 8, lineHeight: 1.4 }}>
-                          Suspendu de cotation par la BRVM{a.suspendu.date ? ` depuis le ${fmtDateFr(a.suspendu.date)}` : ''} — ni achat ni vente possibles. Le cours affiché est le dernier avant suspension.
+                          Suspendu de cotation par la BRVM{a.suspendu.date ? ` depuis le ${fmtDateFr(a.suspendu.date)}` : ''}. Ni achat ni vente possibles. Le cours affiché est le dernier avant suspension.
                         </div>
                       )}
                     </div>
