@@ -57,7 +57,7 @@ export default function LeadMagnet() {
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, prenom, captchaToken: token }),
+        body: JSON.stringify({ email, prenom, captchaToken: token, formulaire: 'guide', origine: (() => { try { return sessionStorage.getItem('di_source') || 'direct' } catch { return 'direct' } })() }),
       })
 
       if (res.ok) {

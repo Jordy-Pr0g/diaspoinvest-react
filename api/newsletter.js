@@ -4,6 +4,8 @@
 // Avantages : fiable, documenté, et le navigateur ne parle qu'à notre domaine
 // (les bloqueurs de pub ne voient jamais Brevo).
 
+import { compterInscription } from '../lib/inscriptions.js'
+
 const LISTE_NEWSLETTER = 3 // "Newsletter DiaspoInvest"
 
 const ALLOWED_ORIGINS = [
@@ -28,7 +30,7 @@ export default async function handler(req, res) {
     return res.status(403).json({ success: false, error: 'Forbidden' })
   }
 
-  const { email, prenom, captchaToken } = req.body || {}
+  const { email, prenom, captchaToken, origine, formulaire } = req.body || {}
   if (!email || !captchaToken) {
     return res.status(400).json({ success: false, error: 'email et captchaToken requis' })
   }
@@ -84,12 +86,14 @@ export default async function handler(req, res) {
 
     // 201 = créé, 204 = mis à jour : succès dans les deux cas
     if (brevoRes.status === 201 || brevoRes.status === 204) {
+      await compterInscription(req, { nouveau: brevoRes.status === 201, formulaire, origine })
       return res.status(200).json({ success: true })
     }
 
     const data = await brevoRes.json().catch(() => ({}))
     // "Contact already exist" → on considère que c'est OK (déjà abonné)
     if (data.code === 'duplicate_parameter') {
+      await compterInscription(req, { nouveau: false, formulaire, origine })
       return res.status(200).json({ success: true, already: true })
     }
     return res.status(400).json({ success: false, error: data.message || 'Erreur Brevo' })

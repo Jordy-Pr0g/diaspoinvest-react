@@ -785,7 +785,7 @@ async function submitCapture() {
     const res = await fetch('/api/newsletter', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, prenom, captchaToken: 'calculateur' }),
+      body: JSON.stringify({ email, prenom, captchaToken: 'calculateur', formulaire: 'calculateur', origine: (function () { try { return sessionStorage.getItem('di_source') || 'direct' } catch (e) { return 'direct' } })() }),
     });
     document.getElementById('ec-form-wrap').style.display = 'none';
     document.getElementById('ec-succes').style.display = 'block';

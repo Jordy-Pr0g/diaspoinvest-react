@@ -106,11 +106,32 @@ async function buildAnalytics() {
   })).filter(x => x.visites > 0 || x.quiz > 0 || x.clics > 0 || x.achats > 0)
     .sort((a, b) => b.visites - a.visites)
 
+  // Inscriptions newsletter (compteurs posés par lib/inscriptions.js depuis le 25/11/2026)
+  const FORMS = ['guide', 'article', 'quiz', 'calculateur', 'autre']
+  const [insJour, insnJour, insTot, insSrc, insForm] = await Promise.all([
+    kvMget(store, dates.map(d => `ins:${d}`)),
+    kvMget(store, dates.map(d => `insn:${d}`)),
+    kvMget(store, ['ins:total', 'insn:total']),
+    kvMget(store, SRC.map(s => `ins:src:${s}:total`)),
+    kvMget(store, FORMS.map(f => `ins:form:${f}:total`)),
+  ])
+  dates.forEach((d, i) => { jours[i].ins = insJour[i] || 0; jours[i].insn = insnJour[i] || 0 })
+  attribution.forEach(a => { a.inscriptions = insSrc[SRC.indexOf(a.source)] || 0 })
+  SRC.forEach((s, i) => {
+    if ((insSrc[i] || 0) > 0 && !attribution.find(a => a.source === s)) attribution.push({ source: s, visites: 0, quiz: 0, clics: 0, achats: 0, inscriptions: insSrc[i] })
+  })
+  const inscriptions = {
+    total: insTot[0] || 0,
+    nouveaux: insTot[1] || 0,
+    formulaires: FORMS.map((f, i) => ({ formulaire: f, n: insForm[i] || 0 })).filter(x => x.n > 0),
+  }
+
   // Visiteurs uniques (HyperLogLog) + pages les plus vues (sorted set)
   const piped = await kvPipeline(store, [
     ['PFCOUNT', 'uv:total'],
     ...dates.map(d => ['PFCOUNT', `uv:${d}`]),
     ['ZREVRANGE', 'pages', '0', '9', 'WITHSCORES'],
+    ['ZREVRANGE', 'ins:pages', '0', '9', 'WITHSCORES'],
   ])
   const uvTotal = Number(piped[0] || 0)
   dates.forEach((d, i) => { jours[i].uniques = Number(piped[1 + i] || 0) })
@@ -118,6 +139,9 @@ async function buildAnalytics() {
   const pagesRaw = piped[1 + dates.length] || []
   const pages = []
   for (let i = 0; i < pagesRaw.length; i += 2) pages.push({ path: pagesRaw[i], vues: Number(pagesRaw[i + 1]) })
+  const insPagesRaw = piped[2 + dates.length] || []
+  inscriptions.pages = []
+  for (let i = 0; i < insPagesRaw.length; i += 2) inscriptions.pages.push({ path: insPagesRaw[i], n: Number(insPagesRaw[i + 1]) })
 
   return {
     disponible: true,
@@ -129,8 +153,72 @@ async function buildAnalytics() {
     pages,
     produits,
     attribution,
+    inscriptions,
     remboursements: { nombre: rembN || 0, montant: (rembMt || 0) / 100 },
   }
+}
+
+// Audience email côté Brevo : croissance de la liste Newsletter et engagement des campagnes.
+// Aucune adresse email n'est renvoyée au navigateur : seulement des dates et des compteurs.
+async function audienceBrevo(headers) {
+  const out = { croissance: null, campagnes: [] }
+  try {
+    let contacts = []
+    for (let offset = 0; offset < 2000; offset += 500) {
+      const r = await fetch(`https://api.brevo.com/v3/contacts/lists/3/contacts?limit=500&offset=${offset}&sort=asc`, { headers })
+      if (!r.ok) break
+      const d = await r.json()
+      const c = d.contacts || []
+      contacts = contacts.concat(c.map(x => ({ cree: String(x.createdAt || '').slice(0, 10), bloque: !!x.emailBlacklisted })))
+      if (c.length < 500) break
+    }
+    if (contacts.length) {
+      const jour = (n) => new Date(Date.now() - n * 86400000).toISOString().slice(0, 10)
+      const mois = new Date().toISOString().slice(0, 7)
+      const dPrec = new Date(); dPrec.setUTCDate(1); dPrec.setUTCMonth(dPrec.getUTCMonth() - 1)
+      const moisPrec = dPrec.toISOString().slice(0, 7)
+      const courbe = []
+      for (let i = 89; i >= 0; i--) {
+        const d = jour(i)
+        courbe.push({ date: d, total: contacts.filter(c => c.cree && c.cree <= d).length })
+      }
+      out.croissance = {
+        total: contacts.length,
+        actifs: contacts.filter(c => !c.bloque).length,
+        desinscrits: contacts.filter(c => c.bloque).length,
+        nouveaux7: contacts.filter(c => c.cree > jour(7)).length,
+        nouveaux30: contacts.filter(c => c.cree > jour(30)).length,
+        nouveauxMois: contacts.filter(c => c.cree.startsWith(mois)).length,
+        nouveauxMoisPrec: contacts.filter(c => c.cree.startsWith(moisPrec)).length,
+        premier: contacts.map(c => c.cree).filter(Boolean).sort()[0] || null,
+        courbe,
+      }
+    }
+  } catch { /* best-effort */ }
+  try {
+    const r = await fetch('https://api.brevo.com/v3/emailCampaigns?status=sent&limit=15&sort=desc&statistics=globalStats&excludeHtmlContent=true', { headers })
+    if (r.ok) {
+      const d = await r.json()
+      out.campagnes = (d.campaigns || [])
+        .filter(c => (c.recipients?.lists || []).includes(3))
+        .slice(0, 10)
+        .map(c => {
+          const g = c.statistics?.globalStats || {}
+          return {
+            id: c.id,
+            objet: c.subject || c.name,
+            date: c.sentDate || c.scheduledAt || null,
+            delivres: g.delivered || 0,
+            ouvertures: g.uniqueViews || 0,
+            ouverturesApple: g.appleMppOpens || 0,
+            clics: g.uniqueClicks || 0,
+            desinscriptions: g.unsubscriptions || 0,
+            rebonds: (g.hardBounces || 0) + (g.softBounces || 0),
+          }
+        })
+    }
+  } catch { /* best-effort */ }
+  return out
 }
 
 // POST = enregistre une vue de page (corps vide) ou un event (corps {e:"..."}).
@@ -211,8 +299,12 @@ async function track(req, res) {
     SRC.forEach(s => keys.push(`src:${s}:total`))
     PRODUITS_STATS.forEach(p => keys.push(`vp:${p}:total`, `rp:${p}:total`))
     EVTS_ATTR.forEach(ev => SRC.forEach(s => keys.push(`evs:${ev}:${s}:total`)))
+    keys.push('ins:total', 'insn:total', 'ins:pages')
+    SRC.forEach(s => keys.push(`ins:src:${s}:total`))
+    ;['guide', 'article', 'quiz', 'calculateur', 'autre'].forEach(f => keys.push(`ins:form:${f}:total`))
     for (let i = 0; i < 60; i++) {
       const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10)
+      keys.push(`ins:${d}`, `insn:${d}`)
       keys.push(`pv:${d}`, `ev:quiz_termine:${d}`, `ev:achat:${d}`, `ev:clic_produit:${d}`, `rev:${d}`, `uv:${d}`)
       SRC.forEach(s => keys.push(`src:${s}:${d}`))
     }
@@ -301,22 +393,29 @@ async function sendDigest(res) {
 
   const j = a.jours || []
   const s7 = (key) => j.slice(-7).reduce((s, d) => s + (d[key] || 0), 0)
-  const vues7 = s7('pv'), uniques7 = a.uniques7 || 0, ventes7 = s7('achat'), ca7 = s7('revenu')
+  const vues7 = s7('pv'), uniques7 = a.uniques7 || 0, ins7 = s7('ins')
   const topSource = (a.sources || [])[0]
   const topPage = (a.pages || [])[0]
-  const euro = (n) => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
+  // Pilotage recentré sur l'audience (ventes en pause) : abonnés + dernière newsletter
+  const headers = { 'api-key': apiKey, accept: 'application/json' }
+  const aud = await audienceBrevo(headers).catch(() => ({}))
+  const cr = aud.croissance || {}
+  const derniere = (aud.campagnes || [])[0]
+  const ligne = (k, v, fin) => `<tr><td style="padding:8px 0;${fin ? '' : 'border-bottom:1px solid #eee'}">${k}</td><td style="text-align:right;font-weight:700">${v}</td></tr>`
 
   const html = `
     <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#1a2740">
       <h2 style="color:#0D1525">Ta semaine DiaspoInvest</h2>
       <p style="color:#555">Résumé des 7 derniers jours (${new Date().toLocaleDateString('fr-FR')}).</p>
       <table style="width:100%;border-collapse:collapse;font-size:15px">
-        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">👀 Vues de page</td><td style="text-align:right;font-weight:700">${vues7}</td></tr>
-        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">🧍 Visiteurs uniques</td><td style="text-align:right;font-weight:700">${uniques7}</td></tr>
-        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">🛒 Ventes</td><td style="text-align:right;font-weight:700">${ventes7}</td></tr>
-        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">💶 Chiffre d'affaires</td><td style="text-align:right;font-weight:700">${euro(ca7)}</td></tr>
-        <tr><td style="padding:8px 0;border-bottom:1px solid #eee">🔗 Source n°1</td><td style="text-align:right;font-weight:700">${topSource ? topSource.source : '—'}</td></tr>
-        <tr><td style="padding:8px 0">📄 Page la plus vue</td><td style="text-align:right;font-weight:700">${topPage ? topPage.path : '—'}</td></tr>
+        ${ligne('Abonnés newsletter', cr.actifs ?? '?')}
+        ${ligne('Nouveaux abonnés (7 jours)', cr.nouveaux7 ?? '?')}
+        ${ligne('Inscriptions via le site (7 jours)', ins7)}
+        ${ligne('Visiteurs uniques', uniques7)}
+        ${ligne('Vues de page', vues7)}
+        ${ligne('Dernière newsletter : ouvertures', derniere ? `${derniere.ouvertures} sur ${derniere.delivres}` : '?')}
+        ${ligne('Source n°1', topSource ? topSource.source : '?')}
+        ${ligne('Page la plus vue', topPage ? topPage.path : '?', true)}
       </table>
       <p style="margin-top:24px"><a href="https://diaspoinvest.fr/dashboard.html" style="background:#C9A84C;color:#0D1525;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700">Ouvrir le tableau de bord</a></p>
     </div>`
@@ -328,7 +427,7 @@ async function sendDigest(res) {
       body: JSON.stringify({
         sender: { name: 'DiaspoInvest Pilotage', email: 'contact@diaspoinvest.fr' },
         to: [{ email: 'djiokapjordan@gmail.com' }],
-        subject: `Ta semaine DiaspoInvest — ${ventes7} vente(s), ${euro(ca7)}`,
+        subject: `Ta semaine DiaspoInvest : ${cr.actifs ?? '?'} abonnés, ${cr.nouveaux7 ?? 0} nouveau(x)`,
         htmlContent: html,
       }),
     })
@@ -387,12 +486,12 @@ export default async function handler(req, res) {
       if (rc.ok) { const dc = await rc.json(); totalContacts = dc.count ?? null }
     } catch { /* best-effort */ }
 
-    const analytics = await buildAnalytics()
+    const [analytics, audience] = await Promise.all([buildAnalytics(), audienceBrevo(headers)])
 
     res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate=300')
     return res.status(200).json({
       genere_le: new Date().toISOString(),
-      brevo: { listes, totalContacts },
+      brevo: { listes, totalContacts, ...audience },
       analytics,
     })
   } catch (e) {
