@@ -193,6 +193,7 @@ export default function SegmentQuiz({ onComplete }) {
           experience: answers.experience,
           goal: answers.goal,
           location: answers.location,
+          origine: (() => { try { return sessionStorage.getItem('di_source') || 'direct' } catch { return 'direct' } })(),
         }),
       })
       setSent(r.ok ? 'ok' : 'error')

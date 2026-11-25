@@ -1,10 +1,11 @@
 /**
  * DiaspoInvest — API route Vercel
- * Récupère l'historique mensuel d'une action BRVM depuis le repo public Fredysessie/brvm-data-public
- * Usage : /api/brvm-history?ticker=SNTS
+ * Récupère l'historique d'une action BRVM depuis notre propre dépôt Jordy-Pr0g/brvm-data
+ * (reconstruit depuis les snapshots quotidiens du scraper ; l'ancienne source tierce
+ *  Fredysessie/brvm-data-public a disparu). Usage : /api/brvm-history?ticker=SNTS
  */
 
-const BASE_URL = 'https://raw.githubusercontent.com/Fredysessie/brvm-data-public/main/data'
+const BASE_URL = 'https://raw.githubusercontent.com/Jordy-Pr0g/brvm-data/master/data'
 
 const ALLOWED_ORIGINS = [
   'https://diaspoinvest.fr',

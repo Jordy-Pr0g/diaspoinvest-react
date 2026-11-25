@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react'
+import { VENTES_ACTIVES } from './data.js'
 
 // ── Tableau de bord de pilotage DiaspoInvest ──
-// Un seul objectif : piloter le BUSINESS (ventes, trafic, conversion, audience).
-// Structure (leviers en haut, résultats détaillés en dessous) :
-//   1. CA du mois (étoile polaire) + objectif
-//   2. Ventes par produit (Hotmart, ventilées)
-//   3. Remboursements (à part, jamais fondus dans le CA)
-//   4. Trafic & acquisition (courbe 30 j, sources, pages)
-//   5. Entonnoir de conversion
-//   6. Audience Brevo
-// Les cours BRVM n'ont pas leur place ici (ce n'est pas une métrique de
-// pilotage) : ils vivent sur le Screener public.
+// Recentré sur l'AUDIENCE le 25/11/2026 (site en mode éducatif, ventes en pause) :
+//   1. Étoile polaire : abonnés newsletter (Brevo) + croissance 90 j
+//   2. Engagement des newsletters (ouvertures, clics, désinscriptions)
+//   3. Recrutement d'abonnés sur le site (inscriptions par formulaire, page, réseau)
+//   4. Trafic & acquisition (courbe 30 j, attribution par réseau, pages)
+//   5. Listes Brevo
+//   6. Ventes : bloc replié tant que VENTES_ACTIVES = false (src/data.js)
+// Les cours BRVM n'ont pas leur place ici : ils vivent sur le Screener public.
 // Accès : même clé que le Cockpit (COCKPIT_SECRET / di_cockpit_secret).
 
 // Palette DiaspoInvest — rampe verte + or (cf. src/index.css)
@@ -189,6 +188,59 @@ function TrafficChart({ data }) {
   )
 }
 
+// Courbe de croissance des abonnés (cumul, 90 jours)
+function GrowthChart({ data }) {
+  const [hover, setHover] = useState(null)
+  if (!data || data.length < 2) return <div style={{ color: TXT3, fontSize: 13 }}>Pas encore assez de données.</div>
+  const W = 640, H = 100, PT = 10, PB = 6
+  const vals = data.map(d => d.total)
+  const min = Math.min(...vals), max = Math.max(min + 1, ...vals)
+  const x = (i) => (i / (data.length - 1)) * W
+  const y = (v) => PT + (1 - (v - min) / (max - min)) * (H - PT - PB)
+  const line = data.map((d, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(d.total).toFixed(1)}`).join(' ')
+  function onMove(e) {
+    const rect = e.currentTarget.getBoundingClientRect()
+    setHover(Math.round(Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width)) * (data.length - 1)))
+  }
+  const pt = hover != null ? data[hover] : null
+  const f = hover != null ? hover / (data.length - 1) : 0
+  return (
+    <div style={{ position: 'relative', cursor: 'crosshair' }} onMouseMove={onMove} onMouseLeave={() => setHover(null)} onTouchStart={onMove} onTouchMove={onMove}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }} preserveAspectRatio="none">
+        <path d={`${line} L${W},${H} L0,${H} Z`} fill="rgba(46,204,139,0.12)" />
+        <path d={line} fill="none" stroke={UP} strokeWidth="2.2" strokeLinejoin="round" />
+        {pt && <circle cx={x(hover)} cy={y(pt.total)} r="4.5" fill="#fff" stroke={UP} strokeWidth="2" />}
+      </svg>
+      {pt && (
+        <div style={{ position: 'absolute', top: -4, left: `${f * 100}%`, transform: `translateX(${f > 0.8 ? '-100%' : f < 0.2 ? '0' : '-50%'})`, background: BG2, border: `1px solid ${BORDER}`, borderRadius: 8, padding: '6px 10px', fontSize: 12, whiteSpace: 'nowrap', pointerEvents: 'none' }}>
+          <div style={{ color: TXT2 }}>{pt.date}</div>
+          <div style={{ fontWeight: 800, fontSize: 14 }}>{fmt(pt.total)} contacts</div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Tableau({ cols, rows, minWidth = 520 }) {
+  return (
+    <div style={{ overflowX: 'auto' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth }}>
+        <thead><tr>{cols.map((h, i) => (
+          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '6px 8px', color: TXT3, fontWeight: 700, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8, borderBottom: `1px solid ${BORDER}` }}>{h}</th>
+        ))}</tr></thead>
+        <tbody>{rows.map((r, idx) => (
+          <tr key={idx}>{r.map((c, i) => (
+            <td key={i} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '9px 8px', fontWeight: i === 0 ? 400 : 700, color: i === 0 ? 'rgba(234,241,236,0.75)' : TXT, borderBottom: idx === rows.length - 1 ? 'none' : `1px solid ${BORDER}` }}>{c}</td>
+          ))}</tr>
+        ))}</tbody>
+      </table>
+    </div>
+  )
+}
+
+const FORM_LABEL = { guide: 'Guide offert (accueil)', article: 'Encart newsletter des articles', quiz: 'Quiz d\'accueil', calculateur: 'Calculateur', autre: 'Autre' }
+const pc = (n, d) => (d > 0 ? `${((n / d) * 100).toFixed(1)} %` : '—')
+
 export default function Dashboard() {
   const [secret, setSecret] = useState(() => localStorage.getItem('di_cockpit_secret') || '')
   const [stats, setStats] = useState(null)
@@ -246,20 +298,45 @@ export default function Dashboard() {
   // ── Dérivés ──
   const listes = stats?.brevo?.listes || []
   const getAbo = (id) => listes.find(l => l.id === id)?.abonnes || 0
+  const CR = stats?.brevo?.croissance || null
+  const CAMP = stats?.brevo?.campagnes || []
 
   const A = stats?.analytics
   const aDays = A?.jours || []
-  const visites7 = aDays.slice(-7).reduce((s, d) => s + (d.pv || 0), 0)
-  const visitesPrev7 = aDays.slice(-14, -7).reduce((s, d) => s + (d.pv || 0), 0)
+  const somme = (arr, k) => arr.reduce((t, d) => t + (d[k] || 0), 0)
+  const visites7 = somme(aDays.slice(-7), 'pv')
+  const visitesPrev7 = somme(aDays.slice(-14, -7), 'pv')
   const delta7 = visitesPrev7 > 0 ? ((visites7 - visitesPrev7) / visitesPrev7) * 100 : (visites7 > 0 ? 100 : null)
+  const uniques = A?.totaux?.uniques || 0
+  const INS = A?.inscriptions || { total: 0, nouveaux: 0, formulaires: [], pages: [] }
+  const ins7 = somme(aDays.slice(-7), 'ins')
+  const ins30 = somme(aDays, 'ins')
+  const abonnes = CR?.actifs ?? getAbo(3)
+
+  // Engagement : moyenne des dernières newsletters envoyées à la liste #3
+  const camp = CAMP.slice(0, 8)
+  const cDel = somme(camp, 'delivres'), cOuv = somme(camp, 'ouvertures'), cClic = somme(camp, 'clics'), cDes = somme(camp, 'desinscriptions')
+  const tauxOuv = cDel > 0 ? (cOuv / cDel) * 100 : null
+  const derniere = CAMP[0]
+  // Avant le 30/11/2026, le HTML des newsletters auto ne contenait pas le pixel d'ouverture
+  // Brevo (fragment sans <body>) : seules les ouvertures liées à un clic étaient comptées.
+  const DEBUT_PIXEL = '2026-11-30'
+  const sansPixel = camp.some(c => c.date && c.date.slice(0, 10) < DEBUT_PIXEL)
+  const campPixel = camp.filter(c => c.date && c.date.slice(0, 10) >= DEBUT_PIXEL)
+  const delPixel = somme(campPixel, 'delivres')
+  const tauxPixel = delPixel > 0 ? (somme(campPixel, 'ouvertures') / delPixel) * 100 : null
+
+  // Ventes (bloc replié tant que VENTES_ACTIVES = false)
   const clients = getAbo(6)
   const moisPrefix = new Date().toISOString().slice(0, 7)
   const caMois = aDays.filter(j => j.date.startsWith(moisPrefix)).reduce((s, j) => s + (j.revenu || 0), 0)
   const achatsMois = aDays.filter(j => j.date.startsWith(moisPrefix)).reduce((s, j) => s + (j.achat || 0), 0)
   const produits = A?.produits || []
   const remb = A?.remboursements || { nombre: 0, montant: 0 }
-  const uniques = A?.totaux?.uniques || 0
   const rpv = uniques > 0 && A?.totaux?.revenu > 0 ? A.totaux.revenu / uniques : null
+
+  const petitBouton = { background: 'transparent', border: `1px solid ${BORDER}`, color: TXT3, borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }
+  const sousTitre = { fontSize: 12, color: TXT3, fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }
 
   return (
     <div style={{ minHeight: '100vh', background: BG, color: TXT, fontFamily: 'DM Sans, system-ui, sans-serif' }}>
@@ -270,7 +347,7 @@ export default function Dashboard() {
           <div>
             <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>Tableau de bord <span style={{ color: GOLD }}>DiaspoInvest</span></h1>
             <p style={{ margin: '6px 0 0', fontSize: 13, color: TXT3 }}>
-              Pilotage business{stats?.genere_le ? ` · données à jour le ${new Date(stats.genere_le).toLocaleString('fr-FR')}` : ''}
+              Pilotage de l'audience{stats?.genere_le ? ` · données à jour le ${new Date(stats.genere_le).toLocaleString('fr-FR')}` : ''}
             </p>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -286,11 +363,12 @@ export default function Dashboard() {
         </div>
 
         {/* Exclusion de mes propres visites (cet appareil) */}
-        <div style={{ marginTop: 12 }}>
+        <div style={{ marginTop: 12, display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
           <button onClick={toggleAdmin}
             style={{ background: admin ? 'rgba(46,204,139,0.1)' : 'transparent', border: `1px solid ${admin ? 'rgba(46,204,139,0.4)' : BORDER}`, color: admin ? UP : TXT2, borderRadius: 8, padding: '7px 12px', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', minHeight: 40 }}>
             {admin ? '✓ Mes visites sur cet appareil sont exclues du comptage' : 'M\'exclure du comptage (cet appareil)'}
           </button>
+          {!VENTES_ACTIVES && <span style={{ fontSize: 12, color: TXT3 }}>Mode éducatif : ventes en pause, le pilotage suit l'audience.</span>}
         </div>
 
         {erreur && (
@@ -317,81 +395,122 @@ export default function Dashboard() {
 
         {stats && (
           <>
-            {/* ── 1. Étoile polaire : le CA du mois ── */}
+            {/* ── 1. Étoile polaire : les abonnés newsletter ── */}
             <Card style={{ marginTop: 24, background: 'linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.03))', borderColor: 'rgba(201,168,76,0.4)' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
                 <div>
-                  <div style={{ fontSize: 12, color: GOLD, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>⭐ Étoile polaire · CA du mois</div>
-                  <div style={{ fontSize: 52, fontWeight: 800, lineHeight: 1, marginTop: 8, color: caMois < 0 ? DOWN : TXT }}>{A?.disponible ? eur(caMois) : '—'}</div>
+                  <div style={{ fontSize: 12, color: GOLD, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>⭐ Étoile polaire · Abonnés newsletter</div>
+                  <div style={{ fontSize: 52, fontWeight: 800, lineHeight: 1, marginTop: 8 }}>{fmt(abonnes)}</div>
                   <div style={{ fontSize: 13, color: TXT2, marginTop: 6 }}>
-                    {A?.disponible ? `${fmt(achatsMois)} vente(s) ce mois · ${fmt(clients)} client(s) au total` : 'En attente des premières ventes'}
+                    {CR ? <>+{fmt(CR.nouveauxMois)} ce mois · <span style={{ color: TXT3 }}>mois précédent : +{fmt(CR.nouveauxMoisPrec)}</span></> : 'liste #3 Brevo'}
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
-                  <div>
-                    <div style={{ fontSize: 11, color: TXT3, fontWeight: 600 }}>CA total (net)</div>
-                    <div style={{ fontSize: 24, fontWeight: 800, marginTop: 2 }}>{A?.disponible ? eur(A.totaux.revenu) : '—'}</div>
+                {CR && (
+                  <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
+                    {[['Nouveaux · 7 j', CR.nouveaux7], ['Nouveaux · 30 j', CR.nouveaux30], ['Désinscrits', CR.desinscrits]].map(([l, v]) => (
+                      <div key={l}>
+                        <div style={{ fontSize: 11, color: TXT3, fontWeight: 600 }}>{l}</div>
+                        <div style={{ fontSize: 24, fontWeight: 800, marginTop: 2 }}>{fmt(v)}</div>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <div style={{ fontSize: 11, color: TXT3, fontWeight: 600 }}>Revenu / visiteur</div>
-                    <div style={{ fontSize: 24, fontWeight: 800, marginTop: 2 }}>{rpv != null ? eur(rpv) : '—'}</div>
-                  </div>
-                </div>
+                )}
               </div>
-              {A?.disponible && (
+              {CR?.courbe && (
                 <div style={{ marginTop: 18 }}>
-                  <GoalBar value={caMois} goal={OBJECTIF_CA_MOIS} label="Objectif du mois" />
-                </div>
-              )}
-              {A?.disponible && caMois < 0 && (
-                <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 12, color: DOWN }}>CA négatif détecté (probablement un test de remboursement Hotmart).</span>
-                  <button onClick={corrigerVentes}
-                    style={{ background: 'transparent', border: '1px solid rgba(229,72,77,0.5)', color: DOWN, borderRadius: 8, padding: '4px 10px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
-                    Corriger les compteurs de ventes
-                  </button>
+                  <div style={{ fontSize: 11, color: TXT3, marginBottom: 6 }}>Contacts de la liste Newsletter sur 90 jours (date de création du contact dans Brevo)</div>
+                  <GrowthChart data={CR.courbe} />
                 </div>
               )}
             </Card>
 
-            {/* ── 2. Ventes par produit ── */}
-            <SectionTitle
-              right={A?.disponible && (produits.length > 0 || remb.nombre > 0) ? (
-                <button onClick={corrigerVentes}
-                  style={{ background: 'transparent', border: `1px solid ${BORDER}`, color: TXT3, borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
-                  Remettre les ventes à zéro
-                </button>
-              ) : null}>
-              Ventes par produit
-            </SectionTitle>
-            <Card>
-              {produits.length === 0 ? (
-                <div style={{ fontSize: 14, color: TXT2, lineHeight: 1.7 }}>
-                  Aucune vente enregistrée pour l'instant. Chaque achat Hotmart apparaîtra ici,
-                  ventilé par produit (guides, tracker, packs), dès la première vente réelle.
+            {/* ── 2. Engagement des newsletters ── */}
+            <SectionTitle>Engagement des newsletters</SectionTitle>
+            {CAMP.length === 0 ? (
+              <Card><div style={{ fontSize: 14, color: TXT2 }}>Aucune newsletter envoyée à la liste #3 trouvée dans Brevo.</div></Card>
+            ) : (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14, marginBottom: 14 }}>
+                  <Kpi label={`Taux d'ouverture · ${camp.length} dernières`} value={tauxOuv == null ? '—' : `${tauxOuv.toFixed(1)} %`} accent
+                    sub={sansPixel ? `sous-estimé : pixel absent avant le 30/11 (${fmt(cOuv)} / ${fmt(cDel)})` : `${fmt(cOuv)} ouvertures uniques / ${fmt(cDel)} emails délivrés`} />
+                  <Kpi label="Taux de clic" value={pc(cClic, cDel)} sub={`${fmt(cClic)} clics uniques`} />
+                  <Kpi label="Désinscriptions" value={fmt(cDes)} sub={`sur les ${camp.length} dernières newsletters`} />
+                  <Kpi label="Dernière newsletter" value={derniere ? `${fmt(derniere.ouvertures)} / ${fmt(derniere.delivres)}` : '—'}
+                    sub={derniere?.date ? `ouvertures, envoyée le ${new Date(derniere.date).toLocaleDateString('fr-FR')}` : ''} />
                 </div>
-              ) : (
-                <HBars items={produits
-                  .slice()
-                  .sort((a, b) => b.revenu - a.revenu)
-                  .map(p => ({
-                    label: PRODUIT_LABELS[p.produit] || p.produit,
-                    value: p.revenu,
-                    display: `${fmt(p.ventes)} vente(s) · ${eur(p.revenu)}`,
-                  }))} />
-              )}
-            </Card>
+                {sansPixel && (
+                  <Card style={{ marginBottom: 14, borderColor: 'rgba(201,168,76,0.4)', background: 'rgba(201,168,76,0.06)' }}>
+                    <div style={{ fontSize: 13, color: TXT, lineHeight: 1.7 }}>
+                      <b style={{ color: GOLD }}>Ouvertures sous-estimées.</b> Les newsletters envoyées avant le 30/11/2026 ne contenaient pas le pixel
+                      de suivi de Brevo : seules les ouvertures suivies d'un clic étaient comptées. Le taux affiché pour ces envois ne reflète donc pas la lecture réelle.
+                      Vérifié le 25/11/2026 : elles arrivent bien en boîte de réception et l'authentification du domaine (SPF, DKIM, DMARC) est valide.
+                      En attendant des envois mesurés, fie-toi aux clics.
+                    </div>
+                  </Card>
+                )}
+                {tauxPixel != null && tauxPixel < 15 && (
+                  <Card style={{ marginBottom: 14, borderColor: 'rgba(229,72,77,0.4)', background: 'rgba(229,72,77,0.06)' }}>
+                    <div style={{ fontSize: 13, color: TXT, lineHeight: 1.7 }}>
+                      <b style={{ color: DOWN }}>Ouvertures faibles sur les envois mesurés ({tauxPixel.toFixed(1)} %).</b> Vérifie où arrive la newsletter
+                      chez quelques abonnés (onglet Promotions, spam) et l'attrait de l'objet. Certaines messageries bloquent le comptage : le taux réel peut être un peu plus haut.
+                    </div>
+                  </Card>
+                )}
+                <Card>
+                  <Tableau cols={['Newsletter', 'Envoyée le', 'Délivrés', 'Ouvertures', 'Clics', 'Désinscr.', 'Rebonds']} minWidth={680}
+                    rows={CAMP.map(c => [
+                      <span title={c.objet} style={{ display: 'inline-block', maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>{c.objet}</span>,
+                      c.date ? new Date(c.date).toLocaleDateString('fr-FR') : '—',
+                      fmt(c.delivres),
+                      <span style={{ color: c.ouvertures > 0 ? UP : TXT3 }}>{fmt(c.ouvertures)} · {pc(c.ouvertures, c.delivres)}</span>,
+                      <span style={{ color: c.clics > 0 ? GOLD : TXT3 }}>{fmt(c.clics)}</span>,
+                      <span style={{ color: c.desinscriptions > 0 ? DOWN : TXT3 }}>{fmt(c.desinscriptions)}</span>,
+                      <span style={{ color: c.rebonds > 0 ? DOWN : TXT3 }}>{fmt(c.rebonds)}</span>,
+                    ])} />
+                </Card>
+              </>
+            )}
 
-            {/* ── 3. Remboursements (à part) ── */}
-            <SectionTitle>Remboursements</SectionTitle>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
-              <Kpi label="Remboursements (nombre)" value={fmt(remb.nombre)} sub="cumul depuis le lancement" />
-              <Kpi label="Montant remboursé" value={eur(remb.montant)} sub="déjà déduit du CA net" />
-              <Kpi label="Taux de remboursement" value={A?.totaux?.achat + remb.nombre > 0 ? `${((remb.nombre / (A.totaux.achat + remb.nombre)) * 100).toFixed(1)} %` : '—'} sub="remboursés / ventes totales" />
-            </div>
+            {/* ── 3. Recrutement d'abonnés sur le site ── */}
+            <SectionTitle>Recrutement d'abonnés sur le site</SectionTitle>
+            {!A?.disponible ? (
+              <Card style={{ borderStyle: 'dashed' }}><div style={{ fontSize: 14, color: TXT2 }}>Stockage KV / Upstash non configuré.</div></Card>
+            ) : (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14, marginBottom: 14 }}>
+                  <Kpi label="Inscriptions · 7 j" value={fmt(ins7)} accent sub={`${pc(ins7, A.uniques7 || 0)} des visiteurs uniques`} />
+                  <Kpi label="Inscriptions · 30 j" value={fmt(ins30)} />
+                  <Kpi label="Depuis le début du comptage" value={fmt(INS.total)} sub={`dont ${fmt(INS.nouveaux)} nouveaux contacts`} />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 14 }}>
+                  <Card>
+                    <div style={sousTitre}>Par formulaire</div>
+                    {INS.formulaires.length === 0
+                      ? <div style={{ fontSize: 13, color: TXT3 }}>Aucune inscription comptée pour l'instant.</div>
+                      : <HBars color={UP} items={INS.formulaires.slice().sort((a, b) => b.n - a.n).map(f => ({ label: FORM_LABEL[f.formulaire] || f.formulaire, value: f.n }))} />}
+                  </Card>
+                  <Card>
+                    <div style={sousTitre}>Pages qui recrutent</div>
+                    {(INS.pages || []).length === 0
+                      ? <div style={{ fontSize: 13, color: TXT3 }}>Aucune inscription comptée pour l'instant.</div>
+                      : INS.pages.slice(0, 8).map((p, i) => (
+                        <div key={p.path} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', fontSize: 13, borderBottom: i < Math.min(INS.pages.length, 8) - 1 ? `1px solid ${BORDER}` : 'none' }}>
+                          <span style={{ color: 'rgba(234,241,236,0.72)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: 12 }}>{p.path}</span>
+                          <span style={{ fontWeight: 700 }}>{fmt(p.n)}</span>
+                        </div>
+                      ))}
+                  </Card>
+                </div>
+                <div style={{ fontSize: 11, color: TXT3, marginTop: 10 }}>
+                  Inscriptions comptées depuis le 25/11/2026 (guide offert, encart des articles, quiz, calculateur). Rien de personnel n'est stocké : seulement des compteurs.
+                </div>
+              </>
+            )}
 
             {/* ── 4. Trafic & acquisition ── */}
-            <SectionTitle>Trafic & acquisition · 30 jours</SectionTitle>
+            <SectionTitle right={A?.disponible && A.totaux.pv > 0 ? <button onClick={resetCompteurs} style={petitBouton}>Tout remettre à zéro</button> : null}>
+              Trafic & acquisition · 30 jours
+            </SectionTitle>
             {!A?.disponible ? (
               <Card style={{ borderStyle: 'dashed' }}>
                 <div style={{ fontSize: 14, color: TXT2, lineHeight: 1.7 }}>
@@ -404,53 +523,33 @@ export default function Dashboard() {
                   <Kpi label="Visites · 7 j" value={fmtC(visites7)} accent
                     sub={delta7 != null ? <span style={{ color: couleur(delta7) }}>{pct(delta7)} vs 7 j précédents</span> : 'première semaine'} />
                   <Kpi label="Visiteurs uniques · 7 j" value={fmtC(A.uniques7 || 0)} />
+                  <Kpi label="Quiz terminés" value={fmtC(A.totaux.quiz_termine)} sub={`${pc(A.totaux.quiz_termine, uniques)} des visiteurs uniques`} />
                   <Kpi label="Vues totales" value={fmtC(A.totaux.pv)} sub={`${fmtC(uniques)} visiteurs uniques`} />
                 </div>
                 <Card>
                   <TrafficChart data={aDays} />
                 </Card>
-                {/* Attribution : d'où vient chaque visiteur, et ce qu'il fait ensuite */}
                 <Card style={{ marginTop: 14 }}>
-                  <div style={{ fontSize: 12, color: TXT3, fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }}>Attribution par réseau · qui amène qui</div>
+                  <div style={sousTitre}>Attribution par réseau · qui amène qui</div>
                   {(A.attribution || []).length === 0 ? (
                     <div style={{ fontSize: 13, color: TXT3 }}>Pas encore de source identifiée. Utilise les liens traçables (?src=) dans tes posts.</div>
                   ) : (
-                    <div style={{ overflowX: 'auto' }}>
-                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 520 }}>
-                        <thead>
-                          <tr>
-                            {['Réseau', 'Visites', 'Quiz terminés', 'Clics produit', 'Achats'].map((h, i) => (
-                              <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '6px 8px', color: TXT3, fontWeight: 700, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8, borderBottom: `1px solid ${BORDER}` }}>{h}</th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {A.attribution.map((r, idx) => {
-                            const last = idx === A.attribution.length - 1
-                            const bd = last ? 'none' : `1px solid ${BORDER}`
-                            return (
-                              <tr key={r.source}>
-                                <td style={{ padding: '9px 8px', color: 'rgba(234,241,236,0.75)', borderBottom: bd }}>{SOURCE_LABEL[r.source] || r.source}</td>
-                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 700, borderBottom: bd }}>{fmt(r.visites)}</td>
-                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 700, color: r.quiz > 0 ? TXT : TXT3, borderBottom: bd }}>{fmt(r.quiz)}</td>
-                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 700, color: r.clics > 0 ? GOLD : TXT3, borderBottom: bd }}>{fmt(r.clics)}</td>
-                                <td style={{ textAlign: 'right', padding: '9px 8px', fontWeight: 800, color: r.achats > 0 ? UP : TXT3, borderBottom: bd }}>{fmt(r.achats)}</td>
-                              </tr>
-                            )
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
+                    <Tableau cols={['Réseau', 'Visites', 'Quiz terminés', 'Inscriptions', 'Taux d\'inscription']}
+                      rows={A.attribution.map(r => [
+                        SOURCE_LABEL[r.source] || r.source,
+                        fmt(r.visites),
+                        <span style={{ color: r.quiz > 0 ? TXT : TXT3 }}>{fmt(r.quiz)}</span>,
+                        <span style={{ color: r.inscriptions > 0 ? UP : TXT3 }}>{fmt(r.inscriptions || 0)}</span>,
+                        <span style={{ color: TXT2 }}>{pc(r.inscriptions || 0, r.visites)}</span>,
+                      ])} />
                   )}
                   <div style={{ fontSize: 11, color: TXT3, marginTop: 12, lineHeight: 1.6 }}>
-                    Quiz, clics et achats sont crédités au réseau qui a amené le visiteur (mémorisé pendant sa session).
-                    L'attribution des achats passe par le paramètre sck des liens Hotmart : elle couvre les ventes faites depuis le site,
-                    à partir d'aujourd'hui. Un achat via un lien Hotmart partagé directement (hors site) compte dans le total, sans réseau.
+                    Quiz et inscriptions sont crédités au réseau qui a amené le visiteur (mémorisé pendant sa session). Les visites et quiz sont cumulés
+                    depuis le lancement, les inscriptions depuis le 25/11/2026 : le taux d'inscription devient fiable avec le temps.
                   </div>
                 </Card>
-
                 <Card style={{ marginTop: 14 }}>
-                  <div style={{ fontSize: 12, color: TXT3, fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }}>Pages les plus vues</div>
+                  <div style={sousTitre}>Pages les plus vues</div>
                   {(A.pages || []).length === 0 ? (
                     <div style={{ fontSize: 13, color: TXT3 }}>Pas encore de données.</div>
                   ) : (
@@ -467,40 +566,47 @@ export default function Dashboard() {
               </>
             )}
 
-            {/* ── 5. Entonnoir de conversion ── */}
-            {A?.disponible && (
-              <>
-                <SectionTitle
-                  right={(A.totaux.pv > 0) ? (
-                    <button onClick={resetCompteurs}
-                      style={{ background: 'transparent', border: `1px solid ${BORDER}`, color: TXT3, borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
-                      Tout remettre à zéro
-                    </button>
-                  ) : null}>
-                  Entonnoir de conversion
-                </SectionTitle>
-                <Card>
-                  <Funnel steps={[
-                    { label: 'Visiteurs uniques', value: uniques },
-                    { label: 'Quiz terminé', value: A.totaux.quiz_termine },
-                    { label: 'Clic vers un produit', value: A.totaux.clic_produit },
-                    { label: 'Achats', value: A.totaux.achat },
-                  ]} />
-                  <div style={{ fontSize: 12, color: TXT3, marginTop: 4 }}>
-                    Chaque vente Hotmart ajoute l'acheteur à la liste Brevo « Acheteurs » et s'enregistre ici automatiquement.
-                  </div>
-                </Card>
-              </>
-            )}
-
-            {/* ── 6. Audience Brevo ── */}
-            <SectionTitle>Audience email · Brevo</SectionTitle>
+            {/* ── 5. Listes Brevo ── */}
+            <SectionTitle>Listes Brevo</SectionTitle>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14 }}>
               <Kpi label="Newsletter" value={fmt(getAbo(3))} sub="liste #3 · séquence bienvenue active" />
               <Kpi label="Intéressés" value={fmt(getAbo(7))} sub="liste #7 · segmentés J+16" />
-              <Kpi label="Acheteurs" value={fmt(getAbo(6))} sub="liste #6 · tagués par produit" accent />
+              <Kpi label="Acheteurs" value={fmt(getAbo(6))} sub="liste #6 (contacts de test possibles)" />
               <Kpi label="Contacts au total" value={fmt(stats.brevo?.totalContacts)} sub="tous segments confondus" />
             </div>
+
+            {/* ── 6. Ventes (repliées tant que VENTES_ACTIVES = false) ── */}
+            <details open={VENTES_ACTIVES} style={{ marginTop: 38 }}>
+              <summary style={{ cursor: 'pointer', fontSize: 13, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: 'rgba(234,241,236,0.7)' }}>
+                Ventes{!VENTES_ACTIVES ? ' · en pause (mode éducatif)' : ''}
+              </summary>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginTop: 16 }}>
+                <Kpi label="CA du mois" value={A?.disponible ? eur(caMois) : '—'} sub={`${fmt(achatsMois)} vente(s) ce mois`} />
+                <Kpi label="CA total (net)" value={A?.disponible ? eur(A.totaux.revenu) : '—'} sub={`revenu / visiteur : ${rpv != null ? eur(rpv) : '—'}`} />
+                <Kpi label="Clients" value={fmt(clients)} sub="liste Brevo Acheteurs" />
+                <Kpi label="Remboursements" value={fmt(remb.nombre)} sub={`${eur(remb.montant)} déjà déduits du CA`} />
+              </div>
+              {A?.disponible && (
+                <Card style={{ marginTop: 14 }}>
+                  <GoalBar value={caMois} goal={OBJECTIF_CA_MOIS} label="Objectif de CA du mois" />
+                  <div style={{ marginTop: 16 }}>
+                    {produits.length === 0
+                      ? <div style={{ fontSize: 13, color: TXT3 }}>Aucune vente enregistrée.</div>
+                      : <HBars items={produits.slice().sort((a, b) => b.revenu - a.revenu).map(p => ({ label: PRODUIT_LABELS[p.produit] || p.produit, value: p.revenu, display: `${fmt(p.ventes)} vente(s) · ${eur(p.revenu)}` }))} />}
+                  </div>
+                  <div style={{ marginTop: 10 }}>
+                    <Funnel steps={[
+                      { label: 'Visiteurs uniques', value: uniques },
+                      { label: 'Clic vers un produit', value: A.totaux.clic_produit },
+                      { label: 'Achats', value: A.totaux.achat },
+                    ]} />
+                  </div>
+                  {(produits.length > 0 || remb.nombre > 0 || caMois < 0) && (
+                    <button onClick={corrigerVentes} style={{ ...petitBouton, marginTop: 8 }}>Remettre les ventes à zéro</button>
+                  )}
+                </Card>
+              )}
+            </details>
           </>
         )}
       </div>
