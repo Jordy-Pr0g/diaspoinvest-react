@@ -86,7 +86,7 @@ export const META = {
   BNBC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
   LNBB:  { pays: 'BJ', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
   PRSC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
-  SCRC:  { pays: 'CI', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
+  SCRC:  { pays: 'CI', secteur: 'Agro-industrie',         label: LABELS.STABLE,     dividende: null },
 
   // Autres / Industrie
   ETIT:  { pays: 'TG', secteur: 'Banque',                 label: LABELS.STABLE,     dividende: null },
@@ -98,4 +98,30 @@ export const META = {
 
 export function getMeta(symbole) {
   return META[symbole] || { pays: '?', secteur: 'Autres', label: null, dividende: null }
+}
+
+// Titres suspendus de cotation par la BRVM.
+// Source qui fait autorité : le flux /api/brvm-data?dataset=suspensions, lu chaque jour
+// dans le Bulletin Officiel de la Cote (mention « SP ») par le dépôt d'automation.
+// Ce socle statique (avis BRVM du 16/09/2026) sert seulement à :
+//  - donner la date officielle et le motif détaillé d'une suspension que le flux confirme ;
+//  - servir de repli si le flux est injoignable.
+// Sucrivoire (SCRC), suspendue le 16/09/2026, recote depuis fin septembre : retirée.
+// Un titre suspendu ne peut etre ni achete ni vendu : on l'affiche comme tel.
+export const SUSPENSIONS = {
+  SICC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication : resultats du 1er trimestre et du 1er semestre 2026 non publies' },
+  SEMC: { date: '2026-09-16', motif: 'Manquement aux obligations de publication : resultats du 1er trimestre et du 1er semestre 2026 non publies' },
+}
+
+// `flux` = objet { SYMBOLE: { constate_le, cours } } issu de l'API, ou null si injoignable.
+// Flux disponible : seuls les titres qu'il liste sont suspendus (une suspension levée
+// disparaît), enrichis de la date et du motif du socle quand on les a.
+// Flux injoignable : repli sur le socle.
+export function mergeSuspensions(flux) {
+  if (!flux || typeof flux !== 'object') return { ...SUSPENSIONS }
+  const out = {}
+  for (const [sym, info] of Object.entries(flux)) {
+    out[sym] = { ...info, ...(SUSPENSIONS[sym] || {}) }
+  }
+  return out
 }

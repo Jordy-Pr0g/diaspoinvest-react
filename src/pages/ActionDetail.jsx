@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
-import { getMeta, PAYS_LABEL } from '../data/brvm-meta.js'
+import { getMeta, PAYS_LABEL, mergeSuspensions } from '../data/brvm-meta.js'
 import { useMeta } from '../hooks/useMeta.js'
 
 const OR   = '#C9A84C'
@@ -29,7 +29,9 @@ export default function ActionDetail() {
   const [action, setAction] = useState(null)
   const [loading, setLoading] = useState(true)
   const [varHebdo, setVarHebdo] = useState(null)
+  const [suspensions, setSuspensions] = useState(() => mergeSuspensions(null))
   const meta = getMeta(ticker)
+  const suspendu = suspensions[ticker] || null
   const lc = meta.label ? LABEL_COLORS[meta.label] : null
   // Traductions des métadonnées partagées (EN via namespace meta.*, repli FR par defaultValue)
   const trSect = s => t(`meta.secteurs.${s}`, { defaultValue: s })
@@ -54,6 +56,14 @@ export default function ActionDetail() {
       })
       .catch(() => setLoading(false))
   }, [ticker])
+
+  // Suspensions de cotation : socle statique + flux auto (communiqués BRVM scrapés).
+  useEffect(() => {
+    fetch('/api/brvm-data?dataset=suspensions')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => setSuspensions(mergeSuspensions(d?.suspensions)))
+      .catch(() => {})
+  }, [])
 
   // Variation hebdo : calculée sur l'historique hebdomadaire réel (clôture de la
   // dernière semaine vs la précédente). Aucune donnée inventée : si indisponible, reste null (« — »).
@@ -94,6 +104,14 @@ export default function ActionDetail() {
           <Link to="/screener" style={{ fontSize: 13, color: GRIS, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 28 }}>
             {t('pages.actionDetail.back')}
           </Link>
+
+          {suspendu && (
+            <div style={{ background: 'rgba(220,60,60,0.1)', border: '1px solid rgba(220,60,60,0.4)', borderRadius: 12, padding: '14px 18px', marginBottom: 24, color: '#FFC9C9', fontSize: 13.5, lineHeight: 1.5 }}>
+              <strong style={{ color: RED }}>⏸ Titre suspendu de cotation par la BRVM{suspendu.date ? ` depuis le ${new Date(suspendu.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}.</strong>
+              {' '}Ce titre ne peut être ni acheté ni vendu tant que la suspension est en vigueur. Les chiffres ci-dessous (cours, rendement) reflètent la dernière séance avant suspension et ne sont donnés qu'à titre informatif.
+              {suspendu.motif ? ` Motif : ${suspendu.motif.toLowerCase()}.` : ''}
+            </div>
+          )}
 
           {loading ? (
             <div style={{ color: GRIS, padding: 40 }}>{t('pages.actionDetail.chargement')}</div>
